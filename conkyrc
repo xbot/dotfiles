@@ -1,0 +1,243 @@
+own_window yes
+own_window_transparent yes
+own_window_colour black
+own_window_type normal
+#own_window_type desktop
+#own_window_type override
+#own_window_hints below
+
+# Use double buffering (reduces flicker, may not work for everyone)
+double_buffer yes
+
+# set to yes if you want Conky to be forked in the background
+background no
+
+cpu_avg_samples 2
+net_avg_samples 2
+
+out_to_console no
+
+use_xft yes
+xftfont DejaVu Sans YuanTi Mono:size=8
+xftalpha 0.8
+
+# mail spool
+mail_spool $MAIL
+
+# Update interval in seconds
+update_interval 1
+
+# Minimum size of text area
+#minimum_size 280 5
+maximum_width 350
+
+# Draw shades?
+draw_shades no
+
+# Draw outlines?
+draw_outline no
+
+# Draw borders around text
+draw_borders no
+
+# Stippled borders?
+stippled_borders 10
+
+# border margins
+border_margin 4
+
+# border width
+border_width 1
+
+# Default colors and also border colors
+default_color lightgrey
+default_shade_color white
+default_outline_color white
+
+# Text alignment, other possible values are commented
+#alignment top_left
+#minimum_size 10 10
+gap_x 10
+gap_y 10
+alignment top_right
+#alignment bottom_left
+#alignment bottom_right
+
+# Gap between borders of screen and text
+
+# Add spaces to keep things from moving about?  This only affects certain objects.
+use_spacer none
+
+# Subtract file system buffers from used memory?
+no_buffers yes
+
+# set to yes if you want all text to be in uppercase
+uppercase no
+
+mpd_host 127.0.0.1
+mpd_port 6600
+
+# boinc (seti) dir
+# seti_dir /opt/seti
+
+# Possible variables to be used:
+#
+#      Variable         Arguments                  Description                
+#  acpiacadapter                     ACPI ac adapter state.                   
+#  acpifan                           ACPI fan state                           
+#  acpitemp                          ACPI temperature.                        
+#  adt746xcpu                        CPU temperature from therm_adt746x       
+#  adt746xfan                        Fan speed from therm_adt746x             
+#  battery           (num)           Remaining capasity in ACPI or APM        
+#                                    battery. ACPI battery number can be      
+#                                    given as argument (default is BAT0).     
+#  buffers                           Amount of memory buffered                
+#  cached                            Amount of memory cached                  
+#  color             (color)         Change drawing color to color            
+#  cpu                               CPU usage in percents                    
+#  cpubar            (height)        Bar that shows CPU usage, height is      
+#                                    bar's height in pixels                   
+#  downspeed         net             Download speed in kilobytes              
+#  downspeedf        net             Download speed in kilobytes with one     
+#                                    decimal                                  
+#  exec              shell command   Executes a shell command and displays    
+#                                    the output in torsmo. warning: this      
+#                                    takes a lot more resources than other    
+#                                    variables. I'd recommend coding wanted   
+#                                    behaviour in C and posting a patch :-).  
+#  execi             interval, shell Same as exec but with specific interval. 
+#                    command         Interval can't be less than              
+#                                    update_interval in configuration.        
+#  fs_bar            (height), (fs)  Bar that shows how much space is used on 
+#                                    a file system. height is the height in   
+#                                    pixels. fs is any file on that file      
+#                                    system.                                  
+#  fs_free           (fs)            Free space on a file system available    
+#                                    for users.                               
+#  fs_free_perc      (fs)            Free percentage of space on a file       
+#                                    system available for users.              
+#  fs_size           (fs)            File system size                         
+#  fs_used           (fs)            File system used space                   
+#  hr                (height)        Horizontal line, height is the height in 
+#                                    pixels                                   
+#  i2c               (dev), type, n  I2C sensor from sysfs (Linux 2.6). dev   
+#                                    may be omitted if you have only one I2C  
+#                                    device. type is either in (or vol)       
+#                                    meaning voltage, fan meaning fan or temp 
+#                                    meaning temperature. n is number of the  
+#                                    sensor. See /sys/bus/i2c/devices/ on     
+#                                    your local computer.                     
+#  kernel                            Kernel version                           
+#  loadavg           (1), (2), (3)   System load average, 1 is for past 1     
+#                                    minute, 2 for past 5 minutes and 3 for   
+#                                    past 15 minutes.                         
+#  machine                           Machine, i686 for example                
+#  mails                             Mail count in mail spool. You can use    
+#                                    program like fetchmail to get mails from 
+#                                    some server using your favourite         
+#                                    protocol. See also new_mails.            
+#  mem                               Amount of memory in use                  
+#  membar            (height)        Bar that shows amount of memory in use   
+#  memmax                            Total amount of memory                   
+#  memperc                           Percentage of memory in use              
+#  new_mails                         Unread mail count in mail spool.         
+#  nodename                          Hostname                                 
+#  outlinecolor      (color)         Change outline color                     
+#  pre_exec          shell command   Executes a shell command one time before 
+#                                    torsmo displays anything and puts output 
+#                                    as text.                                 
+#  processes                         Total processes (sleeping and running)   
+#  running_processes                 Running processes (not sleeping),        
+#                                    requires Linux 2.6                       
+#  shadecolor        (color)         Change shading color                     
+#  stippled_hr       (space),        Stippled (dashed) horizontal line        
+#                    (height)        
+#  swapbar           (height)        Bar that shows amount of swap in use     
+#  swap                              Amount of swap in use                    
+#  swapmax                           Total amount of swap                     
+#  swapperc                          Percentage of swap in use                
+#  sysname                           System name, Linux for example           
+#  time              (format)        Local time, see man strftime to get more 
+#                                    information about format                 
+#  totaldown         net             Total download, overflows at 4 GB on     
+#                                    Linux with 32-bit arch and there doesn't 
+#                                    seem to be a way to know how many times  
+#                                    it has already done that before torsmo   
+#                                    has started.                             
+#  totalup           net             Total upload, this one too, may overflow 
+#  updates                           Number of updates (for debugging)        
+#  upspeed           net             Upload speed in kilobytes                
+#  upspeedf          net             Upload speed in kilobytes with one       
+#                                    decimal                                  
+#  uptime                            Uptime                                   
+#  uptime_short                      Uptime in a shorter format               
+#
+#  seti_prog                         Seti@home current progress
+#  seti_progbar      (height)        Seti@home current progress bar
+#  seti_credit                       Seti@hoome total user credit
+
+
+# variable is given either in format $variable or in ${variable}. Latter
+# allows characters right after the variable and must be used in network
+# stuff because of an argument
+#${font Dungeon:style=Bold:pixelsize=10}I can change the font as well
+#${font Verdana:size=10}as many times as I choose
+#${font Perry:size=10}Including UTF-8,
+#${font Luxi Mono:size=10}justo como este texto que o google traduz fêz o português
+# stuff after 'TEXT' will be formatted on screen
+#${font Grunge:size=12}${time %a  %b  %d}${alignr -25}${time %k:%M}
+
+# MPD配置方案
+#${font DejaVu Sans YuanTi Mono:style=Bold:pixelsize=12}${color #88aadd}${alignc}$mpd_status $mpd_elapsed-$mpd_length
+#${color #88aadd}$mpd_bar
+#${color #88aadd}${alignc}$mpd_smart
+
+#$sysname
+
+TEXT
+${font DejaVu Sans YuanTi Mono:style=Bold:size=12}${alignc}${color lightgrey}${time %b%d日 星期%a %p%l:%M:%S}
+${font DejaVu Sans YuanTi Mono:style=Bold:size=10}${alignc}${color #ddaa00}${exec whoami}${color darkgrey} @ ${color green}$nodename ${color darkgrey}armed ${color darkred}$kernel
+${font DejaVu Sans YuanTi Mono:style=Bold:size=11}${alignc}${color #88aadd}${head ~/.motto 1}${font DejaVu Sans YuanTi Mono:style=Bold:size=8}${color #88aadd}$stippled_hr
+${color lightgrey}Uptime:$color $uptime ${color lightgrey}- Load:$color $loadavg
+${color lightgrey}CPU Avg : ${acpitemp}°C - ${cpu cpu0}% ${color #5000a0}${cpubar cpu0}
+${color black}${cpugraph cpu0 25,300 000000 5000a0}
+${color lightgrey}Core1 : ${execi 8 sensors | grep -A 1 'Core0' | cut -c13-16 | sed '/^$/d'} - ${cpu cpu1}% ${color #5000a0}${cpubar cpu1}
+${color lightgrey}Core2 : ${execi 8 sensors | grep -A 1 'Core1' | cut -c13-16 | sed '/^$/d'} - ${cpu cpu2}% ${color #5000a0}${cpubar cpu2}
+${color black}${cpugraph cpu1 25,149 000000 5000a0}${alignr}${color black}${cpugraph cpu2 25,149 000000 5000a0}
+${color lightgrey}Disk IO:${color}${alignr}${diskio}/s
+${color black}${diskiograph 25,300 5000a0 000000}
+${color lightgrey}RAM Usage:$color $mem/$memmax - $memperc% ${color #88aadd}$membar
+${color lightgrey}Swap Usage:$color $swap/$swapmax - $swapperc% ${color #88aadd}${swapbar}
+${color #88aadd}$stippled_hr${if_up eth0}
+${color lightgrey}Lan: $alignr${color snow}${addr eth0}
+${color lightgrey}Dn:${color #8844ee} ${downspeed eth0} k/s${alignr}${color lightgrey}Up:${color #22ccff} ${upspeed eth0} k/s
+${color black}${downspeedgraph eth0 25,149 ff0000 0000ff}${alignr}${color black}${upspeedgraph eth0 25,149 0000ff ff0000}${endif}${if_up wlan0}
+${color lightgrey}Wireless: $alignr${color snow}${addr wlan0}${if_up ppp0} / ${color #ddaa00}${addr ppp0}${endif}
+${color lightgrey}Dn:${color #8844ee} ${downspeed wlan0} k/s${alignr}${color lightgrey}Up:${color #22ccff} ${upspeed wlan0} k/s
+${color black}${downspeedgraph wlan0 25,149 ff0000 0000ff}${alignr}${color black}${upspeedgraph wlan0 25,149 0000ff ff0000}${endif}${if_up vpn_0}
+${color lightgrey}VPN: $alignr${color snow}${addr vpn_0}
+${color lightgrey}Dn:${color #8844ee} ${downspeed vpn_0} k/s${alignr}${color lightgrey}Up:${color #22ccff} ${upspeed vpn_0} k/s
+${color black}${downspeedgraph vpn_0 25,149 ff0000 0000ff}${alignr}${color black}${upspeedgraph vpn_0 25,149 0000ff ff0000}${endif}
+${color #88aadd}$stippled_hr
+${color lightgrey}File systems:
+${color lightgrey} /${alignr}${fs_free /}/${fs_size /} ${color #000000}${fs_bar 6,100 /}
+${color lightgrey} /home${alignr}${fs_free /home}/${fs_size /home} ${color #000000}${fs_bar 6,100 /home}${if_mounted /media/Buffalo}
+${color lightgrey} Buffalo${alignr}${fs_free /media/Buffalo}/${fs_size /media/Buffalo} ${color #000000}${fs_bar 6,100 /media/Buffalo}${endif}${if_mounted /media/sdb1}
+${color lightgrey} PortableDisk${alignr}${fs_free /media/sdb1}/${fs_size /media/sdb1} ${color #000000}${fs_bar 6,100 /media/sdb1}${endif}
+${color #88aadd}$stippled_hr
+${color lightgrey}Processes :$color $processes  ${color grey}Running :$color $running_processes
+${color}CPU usage $alignr PID     CPU%   MEM%
+${color #ddaa00} ${top name 1}$alignr${top pid 1}    ${top cpu 1}    ${top mem 1}   
+${color lightgrey} ${top name 2}$alignr ${top pid 2}    ${top cpu 2}    ${top mem 2}   
+${color lightgrey} ${top name 3}$alignr ${top pid 3}    ${top cpu 3}    ${top mem 3}   
+${color}Mem usage
+${color #ddaa00} ${top_mem name 1}$alignr ${top_mem pid 1}    ${top_mem cpu 1}    ${top_mem mem 1}   
+${color lightgrey} ${top_mem name 2}$alignr ${top_mem pid 2}    ${top_mem cpu 2}    ${top_mem mem 2}   
+${color lightgrey} ${top_mem name 3}$alignr ${top_mem pid 3}    ${top_mem cpu 3}    ${top_mem mem 3}   ${if_running mpd}
+$stippled_hr
+${font DejaVu Sans YuanTi Mono:style=Bold:size=10}${color #ddaa00}${alignc}$mpd_title
+${color blue}$mpd_bar
+${alignc}${font DejaVu Sans YuanTi Mono:style=Bold:size=8}${color #88aadd}${alignc}$mpd_status $mpd_elapsed - $mpd_length
+${font DejaVu Sans YuanTi Mono:style=Bold:size=8}${color cyan}${alignc}$mpd_artist - $mpd_album${endif}${if_match $battery_percent>0}
+${color #88aadd}$stippled_hr
+${color lightgrey}Battery: ${color #ddaa00}${battery_time} ${color lightgrey}- ${color #ddaa00}${battery_percent}% ${color #88aadd}${battery_bar}${endif}

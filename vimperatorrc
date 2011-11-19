@@ -1,0 +1,59 @@
+" == Settings ==
+:let g:hintsio="io"
+":let g:hintlabeling="a"
+":let g:hintchars="hjkl"
+:hi Hint font-family: monospace; font-size: 16px; font-weight: bold; color: white; background-color: black; border-color: ButtonShadow; border-width: 1px; border-style: solid; padding: 1px 1px 1px 1px;
+:let mapleader=","
+
+" == Auto commands ==
+" Escape in gmail and google reader
+autocmd LocationChange .* js modes.passAllKeys = /.*(mail\.google\.com|www\.google\.com\/reader|web\.qq\.com).*/.test(buffer.URL)
+autocmd VimperatorEnter .* emenu GBookmarks.Refresh
+
+""" == javascript ==
+js<<EOF
+// Toggle Tool bar
+liberator.globalVariables['sx_gopt'] = ''  
+toggle_bar = function () {
+    toggle_status = liberator.globalVariables['sx_gopt'];
+    liberator.globalVariables['sx_gopt'] = (toggle_status == ''? 'T': '');
+    toggle_status = liberator.globalVariables['sx_gopt'];
+    if(toggle_status=='T')
+        liberator.execute('set guioptions+=T');
+    else
+        liberator.execute('set guioptions-=T');
+}
+// Toggle Menu
+liberator.globalVariables['go_menu'] = ''  
+toggle_menu = function () {
+    toggle_status = liberator.globalVariables['go_menu'];
+    liberator.globalVariables['go_menu'] = (toggle_status == ''? 'm': '');
+    toggle_status = liberator.globalVariables['go_menu'];
+    if(toggle_status=='m')
+        liberator.execute('set guioptions+=m');
+    else
+        liberator.execute('set guioptions-=m');
+}
+// Wiki Selected Text
+wiki_selected_text = function () {
+    str = buffer.getCurrentWord()
+    liberator.execute('tabopen wikipedia ' + str);
+}
+EOF
+ 
+" Mappings
+"map <S-F2> :js toggle_bar() <CR>
+"map <silent> <F2> :js toggle_menu() <CR>
+map <C-w> :js wiki_selected_text() <CR>
+map <leader>gba :emenu GBookmarks.Add Bookmark<CR>
+map <leader>gbo :emenu GBookmarks.
+map <leader>qa :xa<CR>
+map <leader>tw :tw
+map <leader>twit :tw 
+map <leader>twls :tw<CR>
+map <leader>twmt :tw!@<CR>
+map <leader>rcop :!gvim ~/.vimperatorrc<CR>
+
+map <leader>wiki :topen http://localhost/wiki<CR>
+map <leader>dict :topen http://dict.youdao.com/<CR>
+map <leader>blog :topen http://sinolog.it<CR>
