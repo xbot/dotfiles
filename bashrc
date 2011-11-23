@@ -50,3 +50,13 @@ wcp()
         shift
     done
 }
+
+# Move directories
+mvd()
+{
+    if [ $# -ne 2 ]; then
+        echo 'mvd SRC TARGET' >&2
+        return 1
+    fi
+    cp -rf $1 $2 && rm -rf $1
+}
