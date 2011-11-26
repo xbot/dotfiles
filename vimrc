@@ -31,13 +31,13 @@ let gbl_ultrablog_debug = 0
 " Platform specific declarations
 if has('win32')
     let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
-    let gbl_vimrc_name='_vimrc'
-    let gbl_vimrc_file=expand($VIM.'/'.gbl_vimrc_name)
+    let gbl_vimrc_name = '_vimrc'
+    let gbl_vimrc_file = 'D:\\My\ Dropbox\'.gbl_vimrc_name
     let gbl_ultrablog_db = 'D:\\My\ Dropbox\UltraBlog.db'
 else
-    let gbl_private_settings_file=expand('~/.vim/private.vim')
-    let gbl_vimrc_name='.vimrc'
-    let gbl_vimrc_file=expand('~/'.gbl_vimrc_name)
+    let gbl_private_settings_file = expand('~/.vim/private.vim')
+    let gbl_vimrc_name = '.vimrc'
+    let gbl_vimrc_file = expand('~/'.gbl_vimrc_name)
     let gbl_ultrablog_db = '~/Dropbox/UltraBlog.db'
 endif
 "}}}
@@ -92,6 +92,8 @@ set mouse=a
 set vb t_vb=
 set laststatus=2
 set updatetime=10000
+set cursorline
+set cursorcolumn
 "}}}
 
 " --------------------------- GUI Settings ------------------------------"{{{
@@ -152,9 +154,6 @@ if has('gui_running')
     endif
     set go-=r
     "set go+=b
-
-    " Highlight the cursor line
-    set cursorline
 
     "if !has('win32')
     "    "Set dimensions
@@ -302,6 +301,9 @@ let g:shell_mappings_enabled=0
 
 " session.vim
 let g:session_autoload = 'no'
+
+" DirDiff
+let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -488,9 +490,9 @@ map <S-F6> :python debugger_context()<cr>
 
 " 查找與替換
 nmap <leader>ff yiw/<C-R>"\C
-vmap <leader>ff y/<C-R>=escape(@", '/\.*$^~[')<cr>\C
+vmap <leader>ff y/<C-R>=XEscapeRegex(@")<cr>\C
 nmap <leader>rr yiw:%s/<C-R>"\C//g<LEFT><LEFT>
-vmap <leader>rr y:%s/<C-R>=escape(@", '/\.*$^~[')<cr>\C//g<LEFT><LEFT>
+vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
 
 " 编码转换
 nmap <leader>fenc :set fenc<CR>
@@ -987,12 +989,12 @@ function! XGrep(grepprg, ...)
 endfunction
 command! -nargs=+ XGrep call XGrep('grep', <f-args>)
 command! -nargs=+ XLrep call XGrep('lgrep', <f-args>)
-nmap <leader>grep :XGrep -P @
-nmap <leader>lrep :XLrep -P @
 nmap <leader>gw :exec 'XGrep -w @'.expand('<cword>').' .'<CR>
 nmap <leader>lw :exec 'XLrep -w @'.expand('<cword>').' .'<CR>
-vmap <leader>grep y:XGrep @<C-R>" .<CR>
-vmap <leader>lrep y:XLrep @<C-R>" .<CR>
+nmap <leader>grep :XGrep -P @
+nmap <leader>lrep :XLrep -P @
+vmap <leader>grep y:XGrep @<C-R>=XEscapeRegex(@")<CR> .
+vmap <leader>lrep y:XLrep @<C-R>=XEscapeRegex(@")<CR> .
 
 " Wipe all buffers which are not active (i.e. not visible in a window/tab)
 command! -nargs=0 Prune call CloseFugitiveBuffers()
@@ -1028,4 +1030,9 @@ endfunction
 " 清除行尾空格
 nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
 nmap _= :call Preserve("normal gg=G")<CR>
+
+" 转义正则表达式特殊字符，以便在正则表达式中使用
+function! XEscapeRegex(str)
+    return escape(a:str, '/\.*$^~[')
+endfunction
 "}}}

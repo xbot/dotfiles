@@ -12,28 +12,6 @@ autocmd VimperatorEnter .* emenu GBookmarks.Refresh
 
 """ == javascript ==
 js<<EOF
-// Toggle Tool bar
-liberator.globalVariables['sx_gopt'] = ''  
-toggle_bar = function () {
-    toggle_status = liberator.globalVariables['sx_gopt'];
-    liberator.globalVariables['sx_gopt'] = (toggle_status == ''? 'T': '');
-    toggle_status = liberator.globalVariables['sx_gopt'];
-    if(toggle_status=='T')
-        liberator.execute('set guioptions+=T');
-    else
-        liberator.execute('set guioptions-=T');
-}
-// Toggle Menu
-liberator.globalVariables['go_menu'] = ''  
-toggle_menu = function () {
-    toggle_status = liberator.globalVariables['go_menu'];
-    liberator.globalVariables['go_menu'] = (toggle_status == ''? 'm': '');
-    toggle_status = liberator.globalVariables['go_menu'];
-    if(toggle_status=='m')
-        liberator.execute('set guioptions+=m');
-    else
-        liberator.execute('set guioptions-=m');
-}
 // Wiki Selected Text
 wiki_selected_text = function () {
     str = buffer.getCurrentWord()
@@ -42,8 +20,16 @@ wiki_selected_text = function () {
 EOF
  
 " Mappings
+" Application Mappings
 "map <S-F2> :js toggle_bar() <CR>
 "map <silent> <F2> :js toggle_menu() <CR>
+map <silent> <F2> :set gui=invmenu<CR>
+map <C-S-F2> :set gui=invnavigation<CR>
+map <leader>du :tabdu<CR>
+map <leader>rcop :!gvim ~/.vimperatorrc<CR>
+map <leader>rcso :so ~/.vimperatorrc<CR>
+
+" Plugin Mappings
 map <C-w> :js wiki_selected_text() <CR>
 map <leader>gba :emenu GBookmarks.Add Bookmark<CR>
 map <leader>gbo :emenu GBookmarks.
@@ -52,8 +38,12 @@ map <leader>tw :tw
 map <leader>twit :tw 
 map <leader>twls :tw<CR>
 map <leader>twmt :tw!@<CR>
-map <leader>rcop :!gvim ~/.vimperatorrc<CR>
 
+" URL Mappings
+map <leader>blog :topen http://sinolog.it<CR>
+map <leader>git :topen http://github.com/xbot<CR>
 map <leader>wiki :topen http://localhost/wiki<CR>
 map <leader>dict :topen http://dict.youdao.com/<CR>
-map <leader>blog :topen http://sinolog.it<CR>
+map <leader>db :topen http://douban.com<CR>
+map <leader>yk :topen http://youku.com<CR>
+map <leader>qq :topen http://web.qq.com<CR>
