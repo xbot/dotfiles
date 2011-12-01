@@ -8,9 +8,9 @@ alias ls='ls --color=auto'
 alias ll='ls -l'
 alias la='ls -Al'
 alias ..='cd ..'
-
 alias r='rm -f'
-alias rr="rm -rf"
+alias rr='rm -rf'
+alias ka='killall'
 
 alias v='vim'
 alias gv='gvim'

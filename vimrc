@@ -379,31 +379,42 @@ nmap <leader>qq :q<CR>
 nmap <leader>qa :qa<CR>
 nmap <leader>qf :q!<CR>
 nmap <leader>qaf :qa!<CR>
+
 "保存
 nmap <leader>w :w<CR>
 imap <C-S> <Esc><leader>w
 nmap <leader>fs :w!<CR>
 nmap <leader>x :x<CR>
 nmap <Space> <Pagedown>
+
 "显示、隐藏ctags侧边栏
 "nmap <leader>tl :TlistToggle<CR>
 nmap <leader>tl :TagbarToggle<CR>
+
 " 打开、关闭quickfix窗口
 nmap <leader>co :QFix<CR>
 nmap <leader>ct :QFixToggle<CR>
+
 " 打开、关闭location窗口
 nmap <leader>lo :lopen<CR>
 nmap <leader>lc :lclose<CR>
+
 " 使用FuzzyFinder打开文件
 nmap <leader>o  :echo 'Do nothing ...'<CR>
 nmap <leader>oo :FufTaggedFile<CR>
 nmap <leader>of :FufFile<CR>
 nmap <leader>ot :FufTag<CR>
+
 " 启用、禁用NeoComplCache
 nmap <leader>cmple :NeoComplCacheEnable<CR>
 nmap <leader>cmpld :NeoComplCacheDisable<CR>
+
 " 分割窗口
 nmap <leader>sp :sp<CR><C-W>_
+
+" 删除包含选中字符串的行
+nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
+vmap <leader>dl y:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
 
 " 最大化当前Split窗口
 nmap <F11> :wincmd_<CR>
