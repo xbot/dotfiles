@@ -1,8 +1,19 @@
+# General settings
 set -o vi
+set bell-style none
+PS1='[\u@\h \W]\$ '
+PAGER='less -X -M'
+export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
 
+# Sourcings
+source ~/.profile
+
+# Aliases for ease of managing bashrc
 alias reload='. ~/.bashrc'
 alias config='vim ~/.bashrc'
 
+# System commands aliases
 alias l='ls -CF'
 alias ls='ls --color=auto'
 alias ll='ls -l'
@@ -12,9 +23,12 @@ alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
 
+# Vim aliases
 alias v='vim'
 alias gv='gvim'
+alias gd='gvimdiff'
 
+# Distribution specific aliases
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias mhk='gvim ~/.xbindkeysrc'
 alias thk="xbindkeys --key"
@@ -27,15 +41,6 @@ alias unfix='yaourt -Rs'
 alias english='export LC_ALL=en_US.UTF-8'
 alias httpproxy='export http_proxy=127.0.0.1:2010'
 alias lsp='ps aux|grep -v grep|grep'
-
-set bell-style none
-
-PS1='[\u@\h \W]\$ '
-PAGER='less -X -M'
-export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
-export LESS=' -R '
-
-source ~/.profile
 
 # Count processes
 wcp()

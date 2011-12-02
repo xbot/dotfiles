@@ -1,4 +1,25 @@
 " ------------------------------ Miscellaneous ------------------------------"{{{
+" Check the current platform
+function! IsPlatform(mixed)"{{{
+    if type(a:mixed) == 1
+        let plist = [a:mixed]
+    elseif type(a:mixed) == 3
+        let plist = a:mixed
+    else
+        return 0
+    endif
+
+    if has("win16") || has('win32') || has('win64') || has('winnt')
+        return index(plist, 'win')>=0
+    elseif has('gui_macvim')
+        return index(plist, 'mac')>=0
+    else
+        return index(plist, 'unix')>=0
+    endif
+
+    return 0
+endfunction"}}}
+
 call pathogen#runtime_append_all_bundles()
 set nocompatible
 filetype on
@@ -9,7 +30,7 @@ syntax on
 " encoding & decoding settings
 set encoding=utf-8
 set fencs=ucs-bom,utf-8,chinese,big5,windows-1252
-if has("win32")
+if IsPlatform('win')
     set fileencoding=chinese
 else
     set fileencoding=utf-8
@@ -22,14 +43,14 @@ language message zh_CN.UTF-8
 let mapleader=","
 
 " Environment settings
-if has("win32")
+if IsPlatform('win')
     set rtp-=$HOME/vimfiles
 endif
 
 " Generic declarations
 let gbl_ultrablog_debug = 0
 " Platform specific declarations
-if has('win32')
+if IsPlatform('win')
     let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
     let gbl_vimrc_name = '_vimrc'
     let gbl_vimrc_file = 'D:\\My\ Dropbox\'.gbl_vimrc_name
@@ -47,7 +68,7 @@ endif
 if has('unix')
     so $VIMRUNTIME/ftplugin/man.vim
 endif
-if has('win32')
+if IsPlatform('win')
     source $VIMRUNTIME/vimrc_example.vim
 endif
 source $VIMRUNTIME/mswin.vim
@@ -99,7 +120,7 @@ set cursorcolumn
 " --------------------------- GUI Settings ------------------------------"{{{
 if has('gui_running')
     " Font settings
-    if has('win32')
+    if IsPlatform('win')
         if 1==1
             set background=light
         else
@@ -149,18 +170,11 @@ if has('gui_running')
     set go-=T
     set go-=m
     set go-=L
-    if has('win32')
+    if IsPlatform('win')
         set go-=r
     endif
     set go-=r
     "set go+=b
-
-    "if !has('win32')
-    "    "Set dimensions
-    "    winpos 12 12
-    "    set columns=139
-    "    set lines=39
-    "endif
 
     " Toggle menu bar
     map <silent> <F2> :if &guioptions =~# 'm' <Bar>
@@ -170,7 +184,7 @@ if has('gui_running')
                 \endif<CR>
 else
     set background=dark
-    colorscheme solarized
+    colorscheme diablo3
 endif
 "}}}
 
@@ -180,7 +194,7 @@ let php_folding=2
 let php_large_file=0
 
 " Tagbar
-if has('win32')
+if IsPlatform('win')
     let g:tagbar_ctags_bin = $VIM.'\addons\binary-utils\dist\bin\ctags.exe'
 elseif has('gui_macvim')
     let g:tagbar_ctags_bin='/usr/local/bin/ctags'
@@ -196,7 +210,7 @@ let g:fencview_checklines=10
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
 " NeoComplCache Settings
-if has('win32')
+if IsPlatform('win')
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_disable_auto_complete = 1
 else
@@ -221,7 +235,7 @@ let g:EasyGrepJumpToMatch = 0
 let g:EasyGrepWindow = 1
 
 " Pydiction Settings
-if has('win32')
+if IsPlatform('win')
     let g:pydiction_location = 'D:/Program Files/vim/vimfiles/ftplugin/pydiction/complete-dict'
 else
     let g:pydiction_location = '~/.vim/ftplugin/pydiction/complete-dict'
@@ -244,7 +258,7 @@ let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
 " TwitVim
 let twitvim_enable_python = 1
 let twitvim_proxy = "127.0.0.1:2010"
-if has('win32')
+if IsPlatform('win')
     let twitvim_browser_cmd = "D:/Program Files/Mozilla Firefox/firefox.exe"
 elseif has('gui_macvim')
     let twitvim_browser_cmd="/Applications/Firefox.app/Contents/MacOS/firefox"
@@ -252,11 +266,11 @@ else
     let twitvim_browser_cmd = "firefox"
 endif
 
-if has('win32')
+if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\addons\binary-utils\dist\bin\curl.exe -o'
 endif
 
-if has('win32')
+if IsPlatform('win')
     let g:pydoc_cmd = "python C:\\Python27\\Lib\\pydoc.py"
 endif
 
@@ -307,7 +321,7 @@ let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
-if has('win32')
+if IsPlatform('win')
     au GUIEnter * simalt ~x
 else
     au GUIEnter * call MaximizeWindow()
@@ -319,7 +333,7 @@ au BufNewFile,BufRead *.lib,*.inc set filetype=php
 au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
 au FileType php set keywordprg="help"
 au FileType php set iskeyword=@,48-57,_,128-167,224-235
-if has('win32')
+if IsPlatform('win')
     au FileType php set runtimepath+=$VIM\php
 else
     au FileType php set runtimepath+=~/.vim/api/php
@@ -359,7 +373,7 @@ au FileType sh set fdm=syntax
 let g:sh_fold_enabled=1
 
 " Auto handle resources
-if ! has('win32')
+if IsPlatform('win')
     autocmd! BufWritePost,FileWritePost .xbindkeysrc silent !killall xbindkeys > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
     autocmd! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
 endif
@@ -530,7 +544,7 @@ function! JavaScriptFold()"{{{
     setl foldtext=FoldText()
 endfunction"}}}
 
-if has('win32')
+if IsPlatform('win')
     set diffexpr=MyDiff()
 endif
 function! MyDiff()"{{{
@@ -561,7 +575,7 @@ endfunction"}}}
 function! GetTimeInfo()"{{{
     language time C
     let tmpTimeInfo = strftime('%Y-%m-%d %A %H:%M:%S')
-    if has('win32')
+    if IsPlatform('win')
         language time chinese_china
     else
         language time zh_CN.UTF-8
@@ -765,7 +779,7 @@ function! ExecutePythonScript()"{{{
         echohl WarningMsg | echo 'This is not a Python file !' | echohl None
         return
     endif
-    if has('win32') || has('gui_macvim')
+    if IsPlatform(['win','mac'])
         setlocal makeprg=python\ -u\ %
     else
         setlocal makeprg=python2\ -u\ %
@@ -787,7 +801,7 @@ function! CheckPythonSyntax()"{{{
         echohl WarningMsg | echo 'This is not a Python file !' | echohl None
         return
     endif
-    if has('win32') || has('gui_macvim')
+    if IsPlatform(['win','mac'])
         setlocal makeprg=python\ -u\ %
     else
         setlocal makeprg=python2\ -u\ %
@@ -946,9 +960,9 @@ endfunction
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
 
-if has('win32')
+if IsPlatform('win')
     let g:XGrepExcludeFrom = 'd:/dev/tool/vim/XGrepExcludeList'
-elseif has('gui_macvim')
+elseif IsPlatform('mac')
     let g:XGrepExcludeFrom = '/Users/lenin/.vim/XGrepExcludeList'
 else
     let g:XGrepExcludeFrom = '/home/lenin/.vim/XGrepExcludeList'

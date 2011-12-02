@@ -47,3 +47,4 @@ map <leader>dict :topen http://dict.youdao.com/<CR>
 map <leader>db :topen http://douban.com<CR>
 map <leader>yk :topen http://youku.com<CR>
 map <leader>qq :topen http://web.qq.com<CR>
+map <leader>mail :topen https://mail.google.com<CR>
