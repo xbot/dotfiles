@@ -22,6 +22,7 @@ alias ..='cd ..'
 alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
+alias +x='chmod +x'
 
 # Vim aliases
 alias v='vim'

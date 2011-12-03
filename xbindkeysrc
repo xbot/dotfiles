@@ -23,6 +23,8 @@
 
 "urxvt"
     F1
+"urxvt -geometry 130x38"
+    Shift+F1
 
 "/home/lenin/scripts/now"
     Shift+F2
