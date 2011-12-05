@@ -26,6 +26,7 @@ alias +x='chmod +x'
 
 # Vim aliases
 alias v='vim'
+alias vd='vimdiff'
 alias gv='gvim'
 alias gd='gvimdiff'
 
