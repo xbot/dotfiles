@@ -23,12 +23,21 @@ alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
 alias +x='chmod +x'
+alias cls='clear'
 
 # Vim aliases
 alias v='vim'
 alias vd='vimdiff'
 alias gv='gvim'
 alias gd='gvimdiff'
+
+# Git aliases
+alias pull='git pull'
+alias push='git push -u origin master'
+alias commit='git commit'
+alias amend='git commit --amend'
+alias status='git status'
+alias diffhead='git diff HEAD'
 
 # Distribution specific aliases
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
@@ -43,6 +52,7 @@ alias unfix='yaourt -Rs'
 alias english='export LC_ALL=en_US.UTF-8'
 alias httpproxy='export http_proxy=127.0.0.1:2010'
 alias lsp='ps aux|grep -v grep|grep'
+alias ff='firefox'
 
 # Count processes
 wcp()

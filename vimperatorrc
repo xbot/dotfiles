@@ -26,6 +26,7 @@ EOF
 "map <silent> <F2> :js toggle_menu() <CR>
 map <silent> <F2> :set gui=invmenu<CR>
 map <C-S-F2> :set gui=invnavigation<CR>
+map <C-S-F3> :set gui=invbookmarks<CR>
 map <leader>du :tabdu<CR>
 map <leader>rcop :!gvim ~/.vimperatorrc<CR>
 map <leader>rcso :so ~/.vimperatorrc<CR>
@@ -49,3 +50,4 @@ map <leader>db :topen http://douban.com<CR>
 map <leader>yk :topen http://youku.com<CR>
 map <leader>qq :topen http://web.qq.com<CR>
 map <leader>mail :topen https://mail.google.com<CR>
+map <leader>read :topen https://www.google.com/reader/view/<CR>

@@ -136,3 +136,9 @@ control+Mod4+6
 # 进程管理器
 "gnome-system-monitor"
     Control+Alt+Delete
+
+# 调节音量
+"amixer set Master 5%+"
+    Control+Shift+ Up
+"amixer set Master 5%-"
+    Control+Shift+ Down
