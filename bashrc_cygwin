@@ -64,6 +64,7 @@ alias df='df -h'
 alias du='du -h'
 
 # Git aliases
+alias status='git status'
 alias pull='git pull'
 alias push='git push'
 alias commit='git commit'

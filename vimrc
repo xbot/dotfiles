@@ -373,7 +373,7 @@ au FileType sh set fdm=syntax
 let g:sh_fold_enabled=1
 
 " Auto handle resources
-if IsPlatform('win')
+if IsPlatform('unix')
     autocmd! BufWritePost,FileWritePost .xbindkeysrc silent !killall xbindkeys > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
     autocmd! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
 endif
@@ -401,10 +401,6 @@ nmap <leader>fs :w!<CR>
 nmap <leader>x :x<CR>
 nmap <Space> <Pagedown>
 
-"显示、隐藏ctags侧边栏
-"nmap <leader>tl :TlistToggle<CR>
-nmap <leader>tl :TagbarToggle<CR>
-
 " 打开、关闭quickfix窗口
 nmap <leader>co :QFix<CR>
 nmap <leader>ct :QFixToggle<CR>
@@ -412,6 +408,26 @@ nmap <leader>ct :QFixToggle<CR>
 " 打开、关闭location窗口
 nmap <leader>lo :lopen<CR>
 nmap <leader>lc :lclose<CR>
+
+" 分割窗口
+nmap <leader>sp :sp<CR><C-W>_
+
+" 最大化当前Split窗口
+nmap <F11> :wincmd_<CR>
+
+" 跳转到下一个Split窗口并最大化之
+nmap <Tab> <C-W>j<C-W>_
+nmap <S-Tab> <C-W>k<C-W>_
+
+" Navigating long lines
+nmap <A-j> gj
+nmap <A-k> gk
+imap <A-j> <ESC>gji
+imap <A-k> <ESC>gki
+
+"显示、隐藏ctags侧边栏
+"nmap <leader>tl :TlistToggle<CR>
+nmap <leader>tl :TagbarToggle<CR>
 
 " 使用FuzzyFinder打开文件
 nmap <leader>o  :echo 'Do nothing ...'<CR>
@@ -423,19 +439,9 @@ nmap <leader>ot :FufTag<CR>
 nmap <leader>cmple :NeoComplCacheEnable<CR>
 nmap <leader>cmpld :NeoComplCacheDisable<CR>
 
-" 分割窗口
-nmap <leader>sp :sp<CR><C-W>_
-
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
 vmap <leader>dl y:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
-
-" 最大化当前Split窗口
-nmap <F11> :wincmd_<CR>
-
-" 跳转到下一个Split窗口并最大化之
-nmap <Tab> <C-W>j<C-W>_
-nmap <S-Tab> <C-W>k<C-W>_
 
 " Handles vimrc file
 " Edit private settings file
@@ -712,30 +718,6 @@ function! InsertCustModCommentV() range
     call InsertCustComment(a:firstline, a:lastline, 1)
 endfunction
 vmap <leader>cmod :call InsertCustModCommentV()<CR>
-
-" Insert a code section in Markdown syntax files
-function! InsertMarkdownCodeSection()"{{{
-    " Get the tag name
-    let tag = input('Input the syntax name of the code section: ')
-    " Validate
-    if tag !~ '^[a-zA-Z]\+$'
-        echoerr 'Invalid tag name: "'.tag.'" !'
-        return ''
-    endif
-
-    call setline('.', '<p>')
-    normal o
-    call setline('.', '['.tag.']')
-    normal o
-    let focusPoint = line('.')
-    normal o
-    call setline('.', '[/'.tag.']')
-    normal o
-    call setline('.', '</p>')
-    exe 'normal '.focusPoint.'G'
-    startinsert!
-endfunction"}}}
-nmap <leader>sec :call InsertMarkdownCodeSection()<CR>
 
 " Run a PHP script
 function! ExecutePHPScript()"{{{
@@ -1060,4 +1042,50 @@ nmap _= :call Preserve("normal gg=G")<CR>
 function! XEscapeRegex(str)
     return escape(a:str, '/\.*$^~[')
 endfunction
+
+" Display contents of the current fold in a balloon
+function! FoldSpellBalloon()
+    let foldStart = foldclosed(v:beval_lnum )
+    let foldEnd = foldclosedend(v:beval_lnum)
+    let lines = []
+    " Detect if we are in a fold
+    if foldStart < 0
+        " Detect if we are on a misspelled word
+        let lines = spellsuggest( spellbadword(v:beval_text)[ 0 ], 5, 0 )
+    else
+        " we are in a fold
+        let numLines = foldEnd - foldStart + 1
+        " if we have too many lines in fold, show only the first 14
+        " and the last 14 lines
+        if ( numLines > 31 )
+            let lines = getline( foldStart, foldStart + 14 )
+            let lines += [ '-- Snipped ' . ( numLines - 30 ) . ' lines --' ]
+            let lines += getline( foldEnd - 14, foldEnd )
+        else
+            "less than 30 lines, lets show all of them
+            let lines = getline( foldStart, foldEnd )
+        endif
+    endif
+    " return result
+    return join( lines, has( "balloon_multiline" ) ? "\n" : " " )
+endfunction
+if has('balloon_eval')
+    set balloonexpr=FoldSpellBalloon()
+    set ballooneval
+endif
+
+" Edit snippets
+function! EditSnippet(...)
+    let sdir = expand('~/.vim/bundle/snipmate/snippets')
+    if IsPlatform('win')
+        let sdir = expand($VIM.'/vimfiles/bundle/snipmate/snippets')
+    endif
+    if a:0 == 0
+        exec 'NERDTree '.sdir
+    else
+        let snippet = sdir.'/'.a:1.'.snippets'
+        exec 'sp '.snippet
+    endif
+endfunction
+command! -nargs=? EditSnippet call EditSnippet(<f-args>)
 "}}}
