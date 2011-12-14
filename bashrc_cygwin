@@ -1,0 +1,121 @@
+# To pick up the latest recommended .bashrc content,
+# look in /etc/defaults/etc/skel/.bashrc
+
+# Modifying /etc/skel/.bashrc directly will prevent
+# setup from updating it.
+
+# Don't wait for job termination notification
+# set -o notify
+
+# Don't use ^D to exit
+# set -o ignoreeof
+
+# Use case-insensitive filename globbing
+# shopt -s nocaseglob
+
+# Make bash append rather than overwrite the history on disk
+# shopt -s histappend
+
+# When changing directory small typos can be ignored by bash
+# for example, cd /vr/lgo/apaache would find /var/log/apache
+# shopt -s cdspell
+
+
+# Completion options
+# ##################
+
+# These completion tuning parameters change the default behavior of bash_completion:
+
+# Define to access remotely checked-out files over passwordless ssh for CVS
+# COMP_CVS_REMOTE=1
+
+# Define to avoid stripping description in --option=description of './configure --help'
+# COMP_CONFIGURE_HINTS=1
+
+# Define to avoid flattening internal contents of tar files
+# COMP_TAR_INTERNAL_PATHS=1
+
+# If this shell is interactive, turn on programmable completion enhancements.
+# Any completions you add in ~/.bash_completion are sourced last.
+# case $- in
+#   *i*) [[ -f /etc/bash_completion ]] && . /etc/bash_completion ;;
+# esac
+
+
+# History Options
+# ###############
+
+# Don't put duplicate lines in the history.
+# export HISTCONTROL="ignoredups"
+
+# Ignore some controlling instructions
+# export HISTIGNORE="[   ]*:&:bg:fg:exit"
+
+# Whenever displaying the prompt, write the previous line to disk
+# export PROMPT_COMMAND="history -a"
+export PATH=$PATH:~/scripts
+
+
+# Aliases
+# #######
+
+# Default to human readable figures
+alias df='df -h'
+alias du='du -h'
+
+# Git aliases
+alias pull='git pull'
+alias push='git push'
+alias commit='git commit'
+alias diffhead='git diff HEAD'
+
+# Misc :)
+alias less='less -r'                          # raw control characters
+# alias whence='type -a'                        # where, of a sort
+alias grep='grep --color'                     # show differences in colour
+alias +x='chmod +x'
+
+# Some shortcuts for different directory listings
+alias ls='ls -hF --color=tty'                 # classify files in colour
+alias dir='ls --color=auto --format=vertical'
+alias vdir='ls --color=auto --format=long'
+alias ll='ls -l'                              # long list
+alias la='ls -Al'                              # all but . and ..
+alias l='ls -CF'                              #
+
+alias r='rm -f'
+alias rr='rm -rf'
+
+alias upgrade='/cygdrive/d/cygwin/setup.exe'
+alias showd='ls /cygdrive'
+alias v='vim'
+alias c='cat'
+
+alias reload='. ~/.bashrc'
+alias config='vim ~/.bashrc'
+
+# Functions
+# #########
+
+# Some example functions
+# function settitle() { echo -ne "\e]2;$@\a\e]1;$@\a"; }
+cdl() {
+    cd "${1}";
+    ls;
+}
+cdd() {
+    cd "/cygdrive/${1}";
+}
+lsaccess() {
+    if [ $# -eq 0 ]; then
+        amount=10;
+    else
+        amount=$1
+    fi
+    grep -v 127.0.0.1 /cygdrive/d/apache/logs/access.log|grep -v 10.1.29.32|grep -v 10.10.71.94|tail -n $amount
+}
+#alias cd=cdl
+alias ..='cd ..'
+
+#export GIT_SSH=/cygdrive/d/dev/tool/putty/plink.exe
+export GIT_SSH=~/scripts/githelper.sh
