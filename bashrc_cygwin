@@ -20,6 +20,11 @@
 # for example, cd /vr/lgo/apaache would find /var/log/apache
 # shopt -s cdspell
 
+# check the hash before searching the PATH directories
+shopt -s checkhash
+
+# do not search the path when .-sourcing a file
+shopt -u sourcepath
 
 # Completion options
 # ##################
@@ -53,8 +58,10 @@
 
 # Whenever displaying the prompt, write the previous line to disk
 # export PROMPT_COMMAND="history -a"
+#export GIT_SSH=/cygdrive/d/dev/tool/putty/plink.exe
+export GIT_SSH=~/scripts/githelper.sh
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin
 export PATH=$PATH:~/scripts
-
 
 # Aliases
 # #######
@@ -68,6 +75,7 @@ alias status='git status'
 alias pull='git pull'
 alias push='git push'
 alias commit='git commit'
+alias amend='git commit --amend'
 alias diffhead='git diff HEAD'
 
 # Misc :)
@@ -75,6 +83,7 @@ alias less='less -r'                          # raw control characters
 # alias whence='type -a'                        # where, of a sort
 alias grep='grep --color'                     # show differences in colour
 alias +x='chmod +x'
+alias cls='clear'
 
 # Some shortcuts for different directory listings
 alias ls='ls -hF --color=tty'                 # classify files in colour
@@ -117,6 +126,3 @@ lsaccess() {
 }
 #alias cd=cdl
 alias ..='cd ..'
-
-#export GIT_SSH=/cygdrive/d/dev/tool/putty/plink.exe
-export GIT_SSH=~/scripts/githelper.sh
