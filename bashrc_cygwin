@@ -59,8 +59,9 @@ shopt -u sourcepath
 # Whenever displaying the prompt, write the previous line to disk
 # export PROMPT_COMMAND="history -a"
 #export GIT_SSH=/cygdrive/d/dev/tool/putty/plink.exe
+export LANG=en_US.UTF-8
 export GIT_SSH=~/scripts/githelper.sh
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/cygdrive/c/WINDOWS/system32
 export PATH=$PATH:~/scripts
 
 # Aliases
@@ -103,6 +104,7 @@ alias c='cat'
 
 alias reload='. ~/.bashrc'
 alias config='vim ~/.bashrc'
+alias newcygwin='upgrade_cygwin'
 
 # Functions
 # #########
@@ -123,6 +125,14 @@ lsaccess() {
         amount=$1
     fi
     grep -v 127.0.0.1 /cygdrive/d/apache/logs/access.log|grep -v 10.1.29.32|grep -v 10.10.71.94|tail -n $amount
+}
+upgrade_cygwin()
+{
+    cwd=`pwd`
+    cd /
+    wget -m http://cygwin.com/setup.exe
+    cd $cwd
+    echo 'Job done !'
 }
 #alias cd=cdl
 alias ..='cd ..'
