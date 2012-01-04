@@ -1,0 +1,5 @@
+test -r /sw/bin/init.sh && . /sw/bin/init.sh
+
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export PATH=/usr/local/sbin:$PATH
+export PATH=~/script:~/xdev/shell:$PATH

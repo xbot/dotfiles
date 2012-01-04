@@ -8,4 +8,4 @@ export PATH="$PATH:/usr/lib/cw"
 
 export EDITOR=vim
 export WWW=/opt/webapp
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/pps/lib
+export LANG=zh_TW.UTF-8
