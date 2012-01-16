@@ -106,6 +106,10 @@ alias reload='. ~/.bashrc'
 alias config='vim ~/.bashrc'
 alias newcygwin='upgrade_cygwin'
 
+# Corp issues
+alias cloud='ssh -i ~/.ssh/cloud'
+alias ccp='scp -i ~/.ssh/cloud'
+
 # Functions
 # #########
 
