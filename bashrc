@@ -83,6 +83,10 @@ alias status='git status'
 alias add='git add'
 alias diffhead='git diff HEAD'
 
+# SSH aliases
+alias cloud='ssh -i ~/.ssh/cloud'
+alias ccp='scp -i ~/.ssh/cloud'
+
 # Distribution specific aliases
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
