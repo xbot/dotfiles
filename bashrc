@@ -94,6 +94,8 @@ alias english='export LC_ALL=en_US.UTF-8'
 alias httpproxy='export http_proxy=127.0.0.1:2010'
 alias lsp='ps aux|grep -v grep|grep'
 alias ff='firefox'
+alias z='apack'
+alias x='aunpack'
 
 # Count processes
 wcp()
