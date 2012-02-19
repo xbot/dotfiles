@@ -305,7 +305,7 @@ if gbl_ultrablog_debug == 1
 else
     let ub_blog = {'login_name':'admin',
                 \'password':gbl_sinolog_password,
-                \'url':'http://sinolog.it',
+                \'url':'http://0x3f.org',
                 \'db':gbl_ultrablog_db
                 \}
 endif

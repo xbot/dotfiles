@@ -42,7 +42,7 @@ map <leader>twls :tw<CR>
 map <leader>twmt :tw!@<CR>
 
 " URL Mappings
-map <leader>blog :topen http://sinolog.it<CR>
+map <leader>blog :topen http://0x3f.org<CR>
 map <leader>git :topen http://github.com/xbot<CR>
 map <leader>wiki :topen http://localhost/wiki<CR>
 map <leader>dict :topen http://dict.youdao.com/<CR>

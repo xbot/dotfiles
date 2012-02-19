@@ -59,6 +59,8 @@ if [ $(uname) == "Linux" ]; then
     alias findpkg='yaourt -Ss'
     alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
     alias unfix='yaourt -Rs'
+    alias vsys='virsh -c sys'
+    alias vv='virt-viewer -c qemu:///system'
 elif [ $(uname) == "Darwin" ]; then
     alias updatedb='sudo /usr/libexec/locate.updatedb'
 fi
@@ -84,7 +86,7 @@ alias add='git add'
 alias diffhead='git diff HEAD'
 
 # SSH aliases
-alias cloud='ssh -i ~/.ssh/cloud'
+alias cld='ssh -i ~/.ssh/cloud'
 alias ccp='scp -i ~/.ssh/cloud'
 
 # Distribution specific aliases
