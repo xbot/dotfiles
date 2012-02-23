@@ -1,8 +1,8 @@
 #!/bin/sh
 
-export PATH="$PATH:/home/lenin/scripts"
-export PATH="$PATH:/home/lenin/dev/shell"
-export PATH="$PATH:/home/lenin/apps"
+export PATH="$PATH:/home/monk/scripts"
+export PATH="$PATH:/home/monk/dev/shell"
+export PATH="$PATH:/home/monk/apps"
 export PATH="$PATH:/opt/oracle-sqldeveloper/bin"
 export PATH="$PATH:/usr/lib/cw"
 
