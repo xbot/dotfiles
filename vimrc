@@ -184,7 +184,8 @@ if has('gui_running')
                 \endif<CR>
 else
     set background=dark
-    colorscheme diablo3
+    "colorscheme diablo3
+    colorscheme jellybeans
 endif
 "}}}
 
@@ -536,6 +537,8 @@ nmap <leader>unix :set ff=unix<CR>
 if has('unix')
     nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
 endif
+
+nmap <leader>V V']
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -889,7 +892,7 @@ function! SaveNOEOF()
 endfunction
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
-autocmd! BufWriteCmd */turbocrm*,version*.txt call SaveNOEOF()
+"autocmd! BufWriteCmd */turbocrm*,version*.txt call SaveNOEOF()
 
 " Set the current buffer to use utf-8 encoding and unix format
 function! SetUnixFF()
