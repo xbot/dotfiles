@@ -92,9 +92,10 @@ PS1='`a=$?;if [ $a -ne 0 ]; then echo -n -e "\[\e[01;32;41m\]{$a}"; fi`\[\033[01
 #export GIT_SSH=/cygdrive/d/dev/tool/putty/plink.exe
 export LANG=en_US.UTF-8
 export GIT_SSH=~/scripts/githelper.sh
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin
+export PATH=/usr/local/bin:/usr/bin:/bin
 #export PATH=$PATH:/cygdrive/c/WINDOWS/system32
 export PATH=$PATH:~/scripts
+unset PYTHONHOME
 
 # Aliases
 # #######
@@ -121,6 +122,7 @@ alias cls='clear'
 alias ..='cd ..'
 alias z='apack'
 alias x='aunpack'
+alias say='echo'
 
 # Some shortcuts for different directory listings
 alias ls='ls -hF --color=tty'                 # classify files in colour
@@ -145,6 +147,7 @@ alias newcygwin='upgrade_cygwin'
 # Corp issues
 alias cloud='ssh -i ~/.ssh/cloud'
 alias ccp='scp -i ~/.ssh/cloud'
+alias cdsaas='cd /cygdrive/d/CCWork/CRM7.2_SP2_SAAS_Dev/CRM7_VOB/CRM7_DOC/tsvr'
 
 # Functions
 # #########
