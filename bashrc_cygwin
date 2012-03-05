@@ -181,3 +181,11 @@ cld()
 {
     ssh -i ~/.ssh/cloud root@"$@"
 }
+publishcloudkit()
+{
+    test $# -eq 0 && echo 'One or more parameters are needed !' >&2 && return 1
+    for p in "$@"; do
+        ccp /cygdrive/d/CCWork/CRM7.2_SP2_SAAS_Dev/CRM7_VOB/CRM7_DOC/tsvr/cloudkit.sh root@${p}:/usr/bin/
+    done
+    return 0
+}

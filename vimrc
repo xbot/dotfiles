@@ -36,6 +36,7 @@ else
     set fileencoding=utf-8
 endif
 let &termencoding=&encoding
+"set langmenu=en_US.UTF-8
 set langmenu=zh_CN.UTF-8
 language message zh_CN.UTF-8
 
@@ -368,6 +369,8 @@ au FileType python set fdm=indent
 
 " Plain text
 au BufNewFile,BufRead *.txt set wrap
+" Dokuwiki
+au BufNewFile,BufRead *.doku set ft=dokuwiki
 
 " Bash
 au FileType sh set fdm=syntax
@@ -777,8 +780,8 @@ function! ExecutePythonScript()"{{{
     silent make
     clist
 endfunction"}}}
-au filetype python map <C-F5> :call ExecutePythonScript()<CR>
-au filetype python imap <C-F5> <ESC>:call ExecutePythonScript()<CR>
+au filetype python map <S-F5> :call ExecutePythonScript()<CR>
+au filetype python imap <S-F5> <ESC>:call ExecutePythonScript()<CR>
 
 " Check the syntax of a python file
 function! CheckPythonSyntax()"{{{
