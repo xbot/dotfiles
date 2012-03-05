@@ -8,6 +8,9 @@
 #-----------------------------【desktop apps】-------------------------------------# {{{
 "rox"
     F12
+#"nautilus --no-desktop"
+"thunar"
+    Mod4+e
 
 "grun"
     F9
