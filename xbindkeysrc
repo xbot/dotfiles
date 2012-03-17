@@ -8,12 +8,7 @@
 #-----------------------------【desktop apps】-------------------------------------# {{{
 "rox"
     F12
-<<<<<<< HEAD
-"nautilus --no-desktop"
-=======
-#"nautilus --no-desktop"
 "thunar"
->>>>>>> 745a71a88e03a2838703b12666f9e905315c52de
     Mod4+e
 
 "grun"
