@@ -36,6 +36,7 @@ else
     set fileencoding=utf-8
 endif
 let &termencoding=&encoding
+"set langmenu=en_US.UTF-8
 set langmenu=zh_CN.UTF-8
 language message zh_CN.UTF-8
 
@@ -184,7 +185,8 @@ if has('gui_running')
                 \endif<CR>
 else
     set background=dark
-    colorscheme diablo3
+    "colorscheme diablo3
+    colorscheme jellybeans
 endif
 "}}}
 
@@ -367,6 +369,8 @@ au FileType python set fdm=indent
 
 " Plain text
 au BufNewFile,BufRead *.txt set wrap
+" Dokuwiki
+au BufNewFile,BufRead *.doku set ft=dokuwiki
 
 " Bash
 au FileType sh set fdm=syntax
@@ -536,6 +540,8 @@ nmap <leader>unix :set ff=unix<CR>
 if has('unix')
     nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
 endif
+
+nmap <leader>V V']
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -774,8 +780,8 @@ function! ExecutePythonScript()"{{{
     silent make
     clist
 endfunction"}}}
-au filetype python map <C-F5> :call ExecutePythonScript()<CR>
-au filetype python imap <C-F5> <ESC>:call ExecutePythonScript()<CR>
+au filetype python map <S-F5> :call ExecutePythonScript()<CR>
+au filetype python imap <S-F5> <ESC>:call ExecutePythonScript()<CR>
 
 " Check the syntax of a python file
 function! CheckPythonSyntax()"{{{
@@ -889,7 +895,7 @@ function! SaveNOEOF()
 endfunction
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
-autocmd! BufWriteCmd */turbocrm*,version*.txt call SaveNOEOF()
+"autocmd! BufWriteCmd */turbocrm*,version*.txt call SaveNOEOF()
 
 " Set the current buffer to use utf-8 encoding and unix format
 function! SetUnixFF()
