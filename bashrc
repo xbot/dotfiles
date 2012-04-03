@@ -116,7 +116,8 @@ alias commit='git commit'
 alias amend='git commit --amend'
 alias status='git status'
 alias add='git add'
-alias diffhead='git diff HEAD'
+alias diffhead='git difftool HEAD'
+alias gdiffhead='git difftool --gui HEAD'
 
 # SSH aliases
 alias cld='ssh -i ~/.ssh/cloud'
@@ -131,6 +132,8 @@ alias lsp='ps aux|grep -v grep|grep'
 alias ff='firefox'
 alias z='apack'
 alias x='aunpack'
+alias brightness='cat /sys/class/backlight/acpi_video0/brightness'
+alias cleantracefiles='sudo rm /tmp/trace.*.xt'
 
 # Count processes
 wcp()

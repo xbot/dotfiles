@@ -298,7 +298,7 @@ let ub_hotkey_pagedown = '<pagedown>'
 let ub_hotkey_pageup = '<pageup>'
 let ub_tmpl_img_url = '<a href="%(url)s"><img src="%(url)s"></a>'
 if gbl_ultrablog_debug == 1
-    let ub_blog = {'login_name':'0xff',
+    let ub_blog = {'login_name':gbl_wordpress_login,
                 \'password':gbl_wordpress_password,
                 \'url':'http://localhost/wordpress',
                 \'db':'~/Dropbox/UltraTest.db'
@@ -500,28 +500,29 @@ nmap <leader>nto :NERDTree<CR>
 
 " UltraBlog
 nmap <leader>ub :UB
-nmap <leader>ubls :UBList 
-nmap <leader>ubnw :UBNew 
-nmap <leader>ubpv :UBPreview 
+nmap <leader>ubls :UBList
+nmap <leader>ubnw :UBNew
+nmap <leader>ubpv :UBPreview
 nmap <leader>ubsv :UBSave<CR>
-nmap <leader>ubsd :UBSend 
-nmap <leader>ubop :UBOpen 
+nmap <leader>ubsd :UBSend
+nmap <leader>ubop :UBOpen
 "nmap <F5> :UBRefresh<CR>
 
 " 简繁转换
 nmap <leader>g2b <ESC>:cal G2B()<CR>
 nmap <leader>b2g <ESC>:cal B2G()<CR>
 
-"map <F1> :python debugger_resize()<cr>
-map <F3> :python debugger_command('step_over')<cr>
-map <F2> :python debugger_command('step_into')<cr>
-map <S-F2> :python debugger_command('step_out')<cr>
-map <F5> :python debugger_run()<cr>
-map <S-F5> :python debugger_quit()<cr>
-map <F6> :python debugger_property()<cr>
-map <S-F6> :python debugger_context()<cr>
-"map <F11> :python debugger_watch_input("context_get")<cr>A<cr>
-"map <F12> :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
+" DBGP
+au FileType php map <F1> :python debugger_resize()<cr>
+au FileType php map <F3> :python debugger_command('step_over')<cr>
+au FileType php map <F2> :python debugger_command('step_into')<cr>
+au FileType php map <S-F2> :python debugger_command('step_out')<cr>
+au FileType php map <F5> :python debugger_run()<cr>
+au FileType php map <S-F5> :python debugger_quit()<cr>
+au FileType php map <F6> :python debugger_property()<cr>
+au FileType php map <S-F6> :python debugger_context()<cr>
+au FileType php map <F11> :python debugger_watch_input("context_get")<cr>A<cr>
+au FileType php map <F12> :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
 " 查找與替換
 nmap <leader>ff yiw/<C-R>"\C
@@ -761,50 +762,6 @@ endfunction"}}}
 "au filetype php map <F5> :call CheckPHPSyntax()<CR>
 "au filetype php imap <F5> <ESC>:call CheckPHPSyntax()<CR>
 
-" Run a python script
-function! ExecutePythonScript()"{{{
-    if &filetype != 'python'
-        echohl WarningMsg | echo 'This is not a Python file !' | echohl None
-        return
-    endif
-    if IsPlatform(['win','mac'])
-        setlocal makeprg=python\ -u\ %
-    else
-        setlocal makeprg=python2\ -u\ %
-    endif
-    set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
-    echohl WarningMsg | echo 'Execution output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction"}}}
-au filetype python map <S-F5> :call ExecutePythonScript()<CR>
-au filetype python imap <S-F5> <ESC>:call ExecutePythonScript()<CR>
-
-" Check the syntax of a python file
-function! CheckPythonSyntax()"{{{
-    if &filetype != 'python'
-        echohl WarningMsg | echo 'This is not a Python file !' | echohl None
-        return
-    endif
-    if IsPlatform(['win','mac'])
-        setlocal makeprg=python\ -u\ %
-    else
-        setlocal makeprg=python2\ -u\ %
-    endif
-    set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
-    echohl WarningMsg | echo 'Syntax checking output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    exec "silent make -c \"import py_compile;py_compile.compile(r'".bufname("%")."')\""
-    clist
-endfunction "}}}
-au filetype python map <F5> :call CheckPythonSyntax()<CR>
-au filetype python imap <F5> <ESC>:call CheckPythonSyntax()<CR>
-
 " Open a temporary PHP file in a new window
 function! PHPSandBox()"{{{
     let tmpfile = tempname().'.php'
@@ -943,7 +900,7 @@ function! PTagIt()
         exec 'normal '.lnr.'G'
     endif
 
-    exec cwin.'wincmd w'  
+    exec cwin.'wincmd w'
 endfunction
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
@@ -951,9 +908,9 @@ nmap <leader>pc :pclose<CR>
 if IsPlatform('win')
     let g:XGrepExcludeFrom = 'd:/dev/tool/vim/XGrepExcludeList'
 elseif IsPlatform('mac')
-    let g:XGrepExcludeFrom = '/Users/lenin/.vim/XGrepExcludeList'
+    let g:XGrepExcludeFrom = '/Users/monk/.vim/XGrepExcludeList'
 else
-    let g:XGrepExcludeFrom = '/home/lenin/.vim/XGrepExcludeList'
+    let g:XGrepExcludeFrom = '/home/monk/.vim/XGrepExcludeList'
 endif
 let g:XGrepExcludeDirs = ['datacache','.svn','assets','runtime','vendors']
 let g:XGrepAutoJump = 0
@@ -1094,4 +1051,62 @@ function! EditSnippet(...)
     endif
 endfunction
 command! -nargs=? EditSnippet call EditSnippet(<f-args>)
+
+"}}}
+
+" ----------------------------- Python -----------------------------{{{
+au filetype python map <F5> :call StartPDB()<CR>
+au filetype python map <S-F5> :call StopPDB()<CR>
+au filetype python map <F6> :Cstep<CR>
+au filetype python map <F7> :Cnext<CR>
+au filetype python map <S-N> :Cnext<CR>
+au FileType python map <C-F5> :python runScript()<cr>
+au filetype python map <A-F5> <ESC>:call ExecutePythonScript()<CR>
+
+" Start pyclewn
+function! StartPDB()"{{{
+    Pyclewn pdb %:p
+    sleep 1100m
+    Cmapkeys
+endfunction"}}}
+
+" Stop pyclewn
+function! StopPDB()"{{{
+    Cunmapkeys
+    Cquit
+    sleep 100m
+    let nr = bufnr('(clewn)_console')
+    if nr>0
+        exec 'bdelete '.nr
+    endif
+    e
+endfunction"}}}
+
+" Run a python script
+function! ExecutePythonScript()"{{{
+    if &filetype != 'python'
+        echohl WarningMsg | echo 'This is not a Python file !' | echohl None
+        return
+    endif
+    if IsPlatform(['win','mac'])
+        setlocal makeprg=python\ -u\ %
+    else
+        setlocal makeprg=python2\ -u\ %
+    endif
+    set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+    echohl WarningMsg | echo 'Execution output:' | echohl None
+    if &modified == 1
+        silent write
+    endif
+    silent make
+    clist
+endfunction"}}}
+
+" Run python code snippets
+python <<EOF
+def runScript():
+    script="\n".join([line for line in vim.current.buffer])
+    exec script
+EOF
+
 "}}}

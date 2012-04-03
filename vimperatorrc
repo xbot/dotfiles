@@ -51,3 +51,4 @@ map <leader>yk :topen http://youku.com<CR>
 map <leader>qq :topen http://web.qq.com<CR>
 map <leader>mail :topen https://mail.google.com<CR>
 map <leader>read :topen https://www.google.com/reader/view/<CR>
+map <leader>gbk :topen https://www.google.com/bookmarks/<CR>
