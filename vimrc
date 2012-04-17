@@ -54,7 +54,8 @@ let gbl_ultrablog_debug = 0
 if IsPlatform('win')
     let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
     let gbl_vimrc_name = '_vimrc'
-    let gbl_vimrc_file = 'D:\\My\ Dropbox\'.gbl_vimrc_name
+    "let gbl_vimrc_file = 'D:\\My\ Dropbox\'.gbl_vimrc_name
+    let gbl_vimrc_file = $VIM.'/'.gbl_vimrc_name
     let gbl_ultrablog_db = 'D:\\My\ Dropbox\UltraBlog.db'
 else
     let gbl_private_settings_file = expand('~/.vim/private.vim')
@@ -320,6 +321,8 @@ let g:session_autoload = 'no'
 
 " DirDiff
 let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
+
+let g:debuggerPort = 9001
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -542,7 +545,11 @@ if has('unix')
     nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
 endif
 
+" Select last paste area
 nmap <leader>V V']
+
+" Toggle fullscreen mode
+map <A-F11> :Fullscreen<CR>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -1052,6 +1059,25 @@ function! EditSnippet(...)
 endfunction
 command! -nargs=? EditSnippet call EditSnippet(<f-args>)
 
+"}}}
+
+" ----------------------------- Java -----------------------------{{{
+" Javadoc comments (/** and */ pairs) and code sections (marked by {} pairs) mark the start and end of folds. All other
+" lines simply take the fold level that is going so far.
+function! MyFoldLevel( lineNumber )
+  let thisLine = getline( a:lineNumber )
+  " If the entire Javadoc comment or the {} pair is on one line, then don't create a fold for it.
+  if ( thisLine =~ '\%(\%(/\*\*\).*\%(\*/\)\)\|\%({.*}\)' )
+    return '='
+  elseif ( thisLine =~ '\%(^\s*/\*\*\s*$\)\|{' )
+    return "a1"
+  elseif ( thisLine =~ '\%(^\s*\*/\s*$\)\|}' )
+    return "s1"
+  endif
+  return '='
+endfunction
+setlocal foldexpr=MyFoldLevel(v:lnum)
+setlocal foldmethod=expr
 "}}}
 
 " ----------------------------- Python -----------------------------{{{
