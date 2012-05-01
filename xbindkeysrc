@@ -21,6 +21,9 @@ keystate_scrolllock = enable
 "gvim"
     Mod2+F2
 
+"recoll"
+    Mod2+Mod1+F2
+
 "grun"
     Mod2+F9
 
@@ -46,6 +49,8 @@ keystate_scrolllock = enable
 # gmail
 "chromium --proxy-pac-url=file:///home/monk/Dropbox/proxy.pac --app="https://mail.google.com/mail""
     Mod2+Shift+F11
+"chromium --app="https://mail.google.com/mail""
+    Mod2+Control+Shift+F11
 
 # google calendar
 "chromium --proxy-pac-url=file:///home/monk/Dropbox/proxy.pac --app="https://www.google.com/calendar/render?gsessionid=OK""

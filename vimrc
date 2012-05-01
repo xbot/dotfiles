@@ -238,9 +238,9 @@ let g:EasyGrepWindow = 1
 
 " Pydiction Settings
 if IsPlatform('win')
-    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/ftplugin/pydiction/complete-dict'
+    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/bundle/pydiction/ftplugin/complete-dict'
 else
-    let g:pydiction_location = '~/.vim/ftplugin/pydiction/complete-dict'
+    let g:pydiction_location = '~/.vim/bundle/pydiction/ftplugin/complete-dict'
 endif
 
 " SQL Type Default
@@ -276,10 +276,13 @@ if IsPlatform('win')
     let g:pydoc_cmd = "python C:\\Python27\\Lib\\pydoc.py"
 endif
 
+let ub_debug = 0
+let ub_use_ubviewer = 1
+let ub_viewer_width = 900
 let ub_append_promotion_link = 1
-let ub_local_pagesize = 20
+let ub_local_pagesize = 30
 let ub_remote_pagesize = 15
-let ub_search_pagesize = 20
+let ub_search_pagesize = 30
 let ub_list_col1_width = 7
 let ub_list_col2_width = 8
 let ub_list_col3_width = 11
@@ -296,7 +299,9 @@ let ub_hotkey_open_item_in_tabbed_view = '<c-enter>'
 let ub_hotkey_delete_item = '<del>'
 let ub_hotkey_pagedown = '<pagedown>'
 let ub_hotkey_pageup = '<pageup>'
+let ub_hotkey_save_current_item='<leader>w'
 let ub_tmpl_img_url = '<a href="%(url)s"><img src="%(url)s"></a>'
+let ub_socket_timeout = 30
 if gbl_ultrablog_debug == 1
     let ub_blog = {'login_name':gbl_wordpress_login,
                 \'password':gbl_wordpress_password,
@@ -320,6 +325,9 @@ let g:session_autoload = 'no'
 
 " DirDiff
 let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
+
+" Colorizer
+let g:colorizer_auto_filetype='css,html'
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -328,18 +336,16 @@ if IsPlatform('win')
 else
     au GUIEnter * call MaximizeWindow()
 endif
-au VimEnter *.* cd %:h
+
+if IsPlatform('win')
+    au VimEnter *.* cd %:h
+endif
 
 " PHP filetype
 au BufNewFile,BufRead *.lib,*.inc set filetype=php
 au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
 au FileType php set keywordprg="help"
 au FileType php set iskeyword=@,48-57,_,128-167,224-235
-if IsPlatform('win')
-    au FileType php set runtimepath+=$VIM\php
-else
-    au FileType php set runtimepath+=~/.vim/api/php
-endif
 
 " Javascript filetype
 au FileType javascript call JavaScriptFold()
@@ -400,7 +406,7 @@ nmap <leader>qaf :qa!<CR>
 
 "保存
 nmap <leader>w :w<CR>
-imap <C-S> <Esc><leader>w
+map <C-S> <Esc><leader>w
 nmap <leader>fs :w!<CR>
 nmap <leader>x :x<CR>
 nmap <Space> <Pagedown>
@@ -513,16 +519,8 @@ nmap <leader>g2b <ESC>:cal G2B()<CR>
 nmap <leader>b2g <ESC>:cal B2G()<CR>
 
 " DBGP
-au FileType php map <F1> :python debugger_resize()<cr>
-au FileType php map <F3> :python debugger_command('step_over')<cr>
-au FileType php map <F2> :python debugger_command('step_into')<cr>
-au FileType php map <S-F2> :python debugger_command('step_out')<cr>
-au FileType php map <F5> :python debugger_run()<cr>
-au FileType php map <S-F5> :python debugger_quit()<cr>
-au FileType php map <F6> :python debugger_property()<cr>
-au FileType php map <S-F6> :python debugger_context()<cr>
-au FileType php map <F11> :python debugger_watch_input("context_get")<cr>A<cr>
-au FileType php map <F12> :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
+let g:debuggerMapDefaultKeys=2
+let g:debuggerPort = 9001
 
 " 查找與替換
 nmap <leader>ff yiw/<C-R>"\C
@@ -542,7 +540,11 @@ if has('unix')
     nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
 endif
 
+" Select the last pasted area
 nmap <leader>V V']
+
+" Clear highlighting of the last search
+nmap <leader>cls :nohl<CR>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{

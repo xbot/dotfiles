@@ -92,7 +92,7 @@ if [ $(uname) == "Linux" ]; then
     alias findpkg='yaourt -Ss'
     alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
     alias unfix='yaourt -Rs'
-    alias vsys='virsh -c sys'
+    alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
 elif [ $(uname) == "Darwin" ]; then
     alias updatedb='sudo /usr/libexec/locate.updatedb'
@@ -111,13 +111,15 @@ fi
 
 # Git aliases
 alias pull='git pull'
-alias push='git push -u origin master'
+alias push='git push -u origin'
 alias commit='git commit'
 alias amend='git commit --amend'
 alias status='git status'
 alias add='git add'
 alias diffhead='git difftool HEAD'
 alias gdiffhead='git difftool --gui HEAD'
+alias clone='git clone'
+alias merge='git merge'
 
 # SSH aliases
 alias cld='ssh -i ~/.ssh/cloud'
@@ -134,6 +136,10 @@ alias z='apack'
 alias x='aunpack'
 alias brightness='cat /sys/class/backlight/acpi_video0/brightness'
 alias cleantracefiles='sudo rm /tmp/trace.*.xt'
+alias rcstart='sudo rc.d start'
+alias rcstop='sudo rc.d stop'
+alias rcoo='sudo rc.d restart'
+alias my='mysql -uroot -pdkstFeb1st'
 
 # Count processes
 wcp()
