@@ -306,7 +306,7 @@ let ub_hotkey_open_item_in_tabbed_view = '<c-enter>'
 let ub_hotkey_delete_item = '<del>'
 let ub_hotkey_pagedown = '<pagedown>'
 let ub_hotkey_pageup = '<pageup>'
-let ub_hotkey_save_current_item='<leader>w'
+let ub_hotkey_save_current_item = '<leader>w'
 let ub_tmpl_img_url = '<a href="%(url)s"><img src="%(url)s"></a>'
 let ub_socket_timeout = 30
 if gbl_ultrablog_debug == 1
@@ -356,6 +356,11 @@ au BufNewFile,BufRead *.lib,*.inc set filetype=php
 au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
 au FileType php set keywordprg="help"
 au FileType php set iskeyword=@,48-57,_,128-167,224-235
+if IsPlatform('win')
+    au FileType php set runtimepath+=$VIM\php
+else
+    au FileType php set runtimepath+=~/.vim/api/php
+endif
 
 " Javascript filetype
 au FileType javascript call JavaScriptFold()
@@ -864,7 +869,7 @@ function! SaveNOEOF()
 endfunction
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
-"autocmd! BufWriteCmd */turbocrm*,version*.txt call SaveNOEOF()
+autocmd! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
 
 " Set the current buffer to use utf-8 encoding and unix format
 function! SetUnixFF()
