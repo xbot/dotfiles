@@ -140,6 +140,8 @@ alias rcstart='sudo rc.d start'
 alias rcstop='sudo rc.d stop'
 alias rcoo='sudo rc.d restart'
 alias my='mysql -uroot -pdkstFeb1st'
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
 
 # Count processes
 wcp()

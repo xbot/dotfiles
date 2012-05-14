@@ -224,12 +224,18 @@ let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
 let g:neocomplcache_cursor_hold_i_time=10000
+let g:neocomplcache_plugin_rank={}
 
 " SuperTab Settings
 let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 
 " SnipMate Settings
 let g:snips_author = 'Lenin Lee <lenin.lee@gmail.com>'
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " EasyGrep Settings
 let g:EasyGrepRecursive = 1
@@ -329,6 +335,9 @@ let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
 
 " Colorizer
 let g:colorizer_auto_filetype='css,html'
+
+" minibufexpl
+let g:miniBufExplSplitBelow=0
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{

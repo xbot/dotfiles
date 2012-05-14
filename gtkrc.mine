@@ -1,0 +1,18 @@
+style "xfdesktop-icon-view"
+{
+    XfdesktopIconView::label-alpha = 0
+ 
+    base[NORMAL] = "#FFFFFF"
+    base[SELECTED] = "#FFFFFF"
+    base[ACTIVE] = "#FFFFFF"
+ 
+    fg[NORMAL] = "#000000"
+    fg[SELECTED] = "#000000"
+    fg[ACTIVE] = "#000000"
+}
+widget_class "*XfdesktopIconView*" style "xfdesktop-icon-view"
+
+style "vimfix" {
+  bg[NORMAL] = "#002B36" # this matches my gvim theme 'Normal' bg color.
+}
+widget "vim-main-window.*GtkForm" style "vimfix"
