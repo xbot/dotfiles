@@ -1,71 +1,47 @@
-# General settings
-set -o vi
-set bell-style none
-PS1='[\u@\h \W]\$ '
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="robbyrussell"
+
+# Example aliases
+alias config="vim ~/.zshrc && refresh"
+alias ohmyzsh="vim ~/.oh-my-zsh"
+alias refresh=". ~/.zshrc"
+
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+# COMPLETION_WAITING_DOTS="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git python pip vi-mode)
+
+source $ZSH/oh-my-zsh.sh
+
+# Customize to your needs...
 PAGER='less -X -M'
 export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 export LESS=' -R '
 export CLICOLOR=1
-export EDITOR='vim'
-
-if [ $(uname) == "Darwin" ]; then
-    bashrc='~/.bash_profile'
-else
-    bashrc='~/.bashrc'
-fi
-
-# Sourcings
-source ~/.profile
-
-# Prompt Line
-function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-
-function proml {
-    local        BLUE="\[\033[0;34m\]"
-    local         RED="\[\033[0;31m\]"
-    local   LIGHT_RED="\[\033[1;31m\]"
-    local       GREEN="\[\033[0;32m\]"
-    local LIGHT_GREEN="\[\033[1;32m\]"
-    local       WHITE="\[\033[1;37m\]"
-    local  LIGHT_GRAY="\[\033[0;37m\]"
-    #case $TERM in
-    #    xterm*)
-    #        TITLEBAR='\[\033]0;\u@\h:\w\007\]'
-    #       ;;
-    #   *)
-    #       TITLEBAR=""
-    #        ;;
-    #esac
-
-    PS1="${TITLEBAR}\
-    $BLUE[$RED\$(date +%H:%M)$BLUE]\
-    $BLUE[$RED\u@\h:\w$GREEN\$(parse_git_branch)$BLUE]\
-    $GREEN\$ "
-    PS2='> '
-    PS4='+ '
-}
-#proml
-#PS1='`a=$?;if [ $a -ne 0 ]; then a="  "$a; echo -ne "\[\e[s\e[1A\e[$((COLUMNS-2))G\e[31m\e[1;41m${a:(-3)}\e[u\]\[\e[0m\e[7m\e[2m\]"; fi`\[\e[1;32m\]\u@\h:\[\e[0m\e[1;34m\]\W\[\e[1;34m\]\$ \[\e[0m\]'
-PS1='`a=$?;if [ $a -ne 0 ]; then echo -n -e "\[\e[01;32;41m\]{$a}"; fi`\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W`b=$(parse_git_branch); if [ x"$b" != "x" ]; then echo -n -e "\[\e[33;40m\](branch:$b)\[\033[01;32m\]\[\e[00m\]"; fi`\[\033[01;34m\] $ \[\e[00m\]'
-
-# Bash-completion
-if [ $(uname) == "Darwin" ]; then
-    if [ -f `brew --prefix`/etc/bash_completion ]; then
-        . `brew --prefix`/etc/bash_completion
-    fi
-else
-    [ -f /etc/profile.d/bash-completion ] && source /etc/profile.d/bash-completion
-fi
-complete -cf sudo
-
-# Aliases for ease of managing bashrc
-alias reload="source $bashrc"
-alias config="vim $bashrc"
 
 # System commands aliases
-if [ $(uname) == "Linux" ]; then
+if [[ $(uname) == "Linux" ]]; then
     alias ls='ls --color=auto'
     export LS_COLORS='di=33:fi=0:ln=95:pi=5:so=5:bd=5:cd=5:or=37:mi=0:ex=31:*.rpm=90'
 else
@@ -73,18 +49,24 @@ else
     export LSCOLORS=dxfxcxdxbxegedabagacad
 fi
 
-alias l='ls -CF'
-alias ll='ls -l'
-alias la='ls -Al'
-alias ..='cd ..'
+#alias l='ls -CF'
+#alias ll='ls -l'
+#alias la='ls -Al'
 alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
-alias +x='chmod +x'
 alias cls='clear'
+#alias +x='chmod +x'
+alias 777='chmod 777'
+alias 755='chmod 755'
+alias 744='chmod 744'
+alias 700='chmod 700'
+alias 600='chmod 600'
+alias 644='chmod 644'
+alias envs="$EDITOR ~/.profile && source ~/.profile"
 
 # Platform specific aliases
-if [ $(uname) == "Linux" ]; then
+if [[ $(uname) == "Linux" ]]; then
     alias mhk='gvim ~/.xbindkeysrc'
     alias thk="xbindkeys --key"
     alias rhk="killall xbindkeys && xbindkeys &"
@@ -94,14 +76,14 @@ if [ $(uname) == "Linux" ]; then
     alias ufix='yaourt -Rs'
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
-elif [ $(uname) == "Darwin" ]; then
+elif [[ $(uname) == "Darwin" ]]; then
     alias updatedb='sudo /usr/libexec/locate.updatedb'
 fi
 
 # Vim aliases
 alias v='vim'
 alias vd='vimdiff'
-if [ $(uname) == "Darwin" ]; then
+if [[ $(uname) == "Darwin" ]]; then
     alias gv='mvim'
     alias gd='mvimdiff'
 else
@@ -178,4 +160,13 @@ mvgo()
 clock()
 {
     while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
+}
+# Colorful less
+ptyless () {
+    zmodload zsh/zpty
+    zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
+    zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
+    less /tmp/ptyless.$$
+    rm -f /tmp/ptyless.$$
+    zpty -d ptyless                   # 删除已完成的 pty
 }

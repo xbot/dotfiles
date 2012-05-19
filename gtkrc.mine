@@ -6,7 +6,7 @@ style "xfdesktop-icon-view"
     base[SELECTED] = "#FFFFFF"
     base[ACTIVE] = "#FFFFFF"
  
-    fg[NORMAL] = "#000000"
+    fg[NORMAL] = "#FFFFFF"
     fg[SELECTED] = "#000000"
     fg[ACTIVE] = "#000000"
 }

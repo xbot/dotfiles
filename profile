@@ -1,5 +1,6 @@
 #!/bin/sh
 
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/vendor_perl:/usr/bin/core_perl"
 export PATH="$PATH:/home/monk/scripts"
 export PATH="$PATH:/home/monk/scripts/webapp"
 export PATH="$PATH:/home/monk/dev/shell"

@@ -187,7 +187,8 @@ if has('gui_running')
 else
     set background=dark
     "colorscheme diablo3
-    colorscheme jellybeans
+    "colorscheme jellybeans
+    colorscheme solarized
 endif
 "}}}
 
@@ -401,6 +402,7 @@ let g:sh_fold_enabled=1
 if IsPlatform('unix')
     autocmd! BufWritePost,FileWritePost .xbindkeysrc silent !killall xbindkeys > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
     autocmd! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
+    autocmd! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
 endif
 
 " Vimperator
