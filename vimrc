@@ -330,6 +330,9 @@ let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
 
 " Colorizer
 let g:colorizer_auto_filetype='css,html'
+
+" Minibufexpl
+let g:miniBufExplSplitBelow=0
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -530,9 +533,9 @@ let g:debuggerMapDefaultKeys=2
 let g:debuggerPort = 9001
 
 " 查找與替換
-nmap <leader>ff yiw/<C-R>"\C
+nmap <leader>ff yiw/\<<C-R>"\>\C
 vmap <leader>ff y/<C-R>=XEscapeRegex(@")<cr>\C
-nmap <leader>rr yiw:%s/<C-R>"\C//g<LEFT><LEFT>
+nmap <leader>rr yiw:%s/\<<C-R>"\>\C//g<LEFT><LEFT>
 vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
 
 " 编码转换
