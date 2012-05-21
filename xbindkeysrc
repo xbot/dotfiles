@@ -12,17 +12,20 @@ keystate_scrolllock = enable
 #-----------------------------【桌面應用】-------------------------------------# {{{
 "urxvt"
     Mod2+F1
-"urxvt -geometry 130x38"
+"urxvt -geometry 80x24"
     Mod2+Shift+F1
 
 "rox"
     Mod2+Mod1+F1
 
 "gvim"
-    Mod2+F2
+    Mod2+Mod1+F2
 
 "recoll"
-    Mod2+Mod1+F2
+    Mod2+Shift+F2
+
+"rox ~/scripts/webapp"
+    Mod2+Mod1+F3
 
 "grun"
     Mod2+F9
