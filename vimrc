@@ -188,6 +188,7 @@ else
     set background=dark
     "colorscheme diablo3
     "colorscheme jellybeans
+    let g:solarized_termcolors=256
     colorscheme solarized
 endif
 "}}}
@@ -389,6 +390,9 @@ au FileType vim set commentstring=\"%s
 " Python
 au FileType python set fdm=indent
 
+" SQL
+au FileType sql set fdm=manual
+
 " Plain text
 au BufNewFile,BufRead *.txt set wrap
 " Dokuwiki
@@ -460,6 +464,7 @@ nmap <leader>tl :TagbarToggle<CR>
 nmap <leader>o  :echo 'Do nothing ...'<CR>
 nmap <leader>oo :FufTaggedFile<CR>
 nmap <leader>of :FufFile<CR>
+nmap <leader>oc :FufCoverageFile<CR>
 nmap <leader>ot :FufTag<CR>
 
 " 启用、禁用NeoComplCache
