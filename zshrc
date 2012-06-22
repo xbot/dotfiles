@@ -83,12 +83,15 @@ fi
 # Vim aliases
 alias v='vim'
 alias vd='vimdiff'
+alias sv='sudo vim'
 if [[ $(uname) == "Darwin" ]]; then
     alias gv='mvim'
     alias gd='mvimdiff'
+    alias sgv='sudo mvim'
 else
     alias gv='gvim'
     alias gd='gvimdiff'
+    alias sgv='sudo gvim'
 fi
 
 # Git aliases

@@ -460,6 +460,7 @@ nmap <leader>tl :TagbarToggle<CR>
 nmap <leader>o  :echo 'Do nothing ...'<CR>
 nmap <leader>oo :FufTaggedFile<CR>
 nmap <leader>of :FufFile<CR>
+nmap <leader>oc :FufCoverageFile<CR>
 nmap <leader>ot :FufTag<CR>
 
 " 启用、禁用NeoComplCache
