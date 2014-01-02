@@ -1,15 +1,23 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+# do not share history instantly among terminals
+unsetopt share_history
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+if [[ "$TERM" == "rxvt-unicode-256color" ]]; then
+    ZSH_THEME="robbyrussell"
+else
+    ZSH_THEME="agnoster"
+fi
+DEFAULT_USER="monk"
 
 # Example aliases
-alias config="vim ~/.zshrc && refresh"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias config="gvim ~/.zshrc && refresh"
+alias ohmyzsh="gvim ~/.oh-my-zsh"
 alias refresh=". ~/.zshrc"
 
 # Set to this to use case-sensitive completion
@@ -30,15 +38,19 @@ alias refresh=". ~/.zshrc"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python pip vi-mode)
+plugins=(git python pip vi-mode systemd urltools archlinux)
 
 source $ZSH/oh-my-zsh.sh
+# source /usr/share/zsh/site-contrib/powerline.zsh
 
 # Customize to your needs...
 PAGER='less -X -M'
 export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
 export LESS=' -R '
 export CLICOLOR=1
+if [[ "$TERM" == "xterm" ]]; then
+    export TERM='xterm-256color'
+fi
 
 # System commands aliases
 if [[ $(uname) == "Linux" ]]; then
@@ -49,12 +61,13 @@ else
     export LSCOLORS=dxfxcxdxbxegedabagacad
 fi
 
-#alias l='ls -CF'
+alias l='ls -CF'
 #alias ll='ls -l'
 #alias la='ls -Al'
 alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
+alias k9="kill -9"
 alias cls='clear'
 #alias +x='chmod +x'
 alias 777='chmod 777'
@@ -71,9 +84,11 @@ if [[ $(uname) == "Linux" ]]; then
     alias thk="xbindkeys --key"
     alias rhk="killall xbindkeys && xbindkeys &"
     alias shk='gvim ~/.xbindkeysrc'
-    alias pkg='yaourt -Ss'
-    alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
-    alias ufix='yaourt -Rs'
+    alias pkg='nocorrect yaourt -Ss'
+    # alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
+    # alias ufix='yaourt -Rc'
+    alias fix='export LC_ALL=en_US.UTF-8 && nocorrect yaourt -S --noconfirm'
+    alias ufix='nocorrect sudo pacman -Rc'
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
 elif [[ $(uname) == "Darwin" ]]; then
@@ -95,42 +110,63 @@ else
 fi
 
 # Git aliases
-alias pull='git pull'
-alias push='git push -u origin'
-alias commit='git commit'
-alias amend='git commit --amend'
-alias status='git status'
-alias add='git add'
 alias diffhead='git difftool HEAD'
 alias gdiffhead='git difftool --gui HEAD'
-alias clone='git clone'
-alias merge='git merge'
+alias smpull='git submodule foreach git pull origin master'
+alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmailcom"'
 
 # SSH aliases
-alias cld='ssh -i ~/.ssh/cloud'
-alias ccp='scp -i ~/.ssh/cloud'
+alias sshdevsrv='ssh -i ~/.ssh/chanjet_devsrv root@10.10.11.218'
+alias sshtestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221'
+alias sshubsrv='ssh -i ~/.ssh/chanjet_testsrv root@172.18.8.145'
+alias viewlogtestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.log"'
+alias viewouttestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.out"'
+alias viewlogdevsrv='ssh -i ~/.ssh/chanjet_devsrv root@10.10.11.218 "tail -f /opt/geronimo/var/log/geronimo.log"'
+alias viewlogubsrv='ssh -i ~/.ssh/chanjet_testsrv root@172.18.8.145 "tail -f /opt/geronimo/var/log/geronimo.log"'
 
 # Distribution specific aliases
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
 alias english='export LC_ALL=en_US.UTF-8'
-alias httpproxy='export http_proxy=127.0.0.1:2010'
-alias lsp='ps aux|grep -v grep|grep'
+alias httpproxy='export http_proxy=127.0.0.1:8000'
+alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias ff='firefox'
 alias z='apack'
 alias x='aunpack'
-alias brightness='cat /sys/class/backlight/acpi_video0/brightness'
 alias cleantracefiles='sudo rm /tmp/trace.*.xt'
-alias rcstart='sudo rc.d start'
-alias rcstop='sudo rc.d stop'
-alias rcoo='sudo rc.d restart'
-alias my='mysql -uroot -pdkstFeb1st'
+alias my='mysql -uroot -p5G10color'
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
+alias toclip='xclip -sel clip <'
+alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
+alias post='create_new_post'
+alias killer='nocorrect killer.sh'
+alias regenmenu='mmaker -f -t Lilyterm MyGTKMenu'
 
-# Count processes
-wcp()
-{
+# Development
+alias yiic='/srv/http/yii/framework/yiic'
+
+#Maven
+alias makeframe='mvn clean install -Dmaven.test.skip=true'
+
+# Misc
+alias rake='nocorrect rake'
+
+# Hashes
+hash -d cust="/home/monk/workspace/csp_web_customer_v1"
+hash -d todo="/home/monk/workspace/csp_web_todo"
+hash -d desktop="/home/monk/workspace/csp_web_desktop"
+hash -d common="/home/monk/workspace/csp_web_desktop/src/main/webapp/app/common"
+hash -d dog="/home/monk/workspace/DualHead-Watchdog-NG"
+hash -d shell="/home/monk/dev/shell"
+hash -d blog="/home/monk/dev/octopress"
+hash -d post="/home/monk/dev/octopress/source/_posts"
+hash -d webroot="/home/monk/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/csp_web_todo/"
+hash -d www="/srv/http/"
+hash -d flame="/srv/http/flamework"
+hash -d yii="/srv/http/yii/framework"
+
+wcp() { # Count processes
     if [ $# -eq 0 ]; then
         echo 'Which process to count ?' >&2
         return 1
@@ -141,31 +177,17 @@ wcp()
         shift
     done
 }
-# Move directories
-mvd()
-{
-    if [ $# -ne 2 ]; then
-        echo 'mvd SRC TARGET' >&2
-        return 1
-    fi
-    cp -rf $1 $2 && rm -rf $1
-}
-# Move and go
-mvgo()
-{
+mvgo() { # Move and go
     if [ -d "$2" ];then
         mv $1 $2 && cd $2
     else
         mv $1 $2
     fi
 }
-# CLI clock
-clock()
-{
+clock() { # CLI clock
     while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
 }
-# Colorful less
-ptyless () {
+ptyless () { # Colorful less
     zmodload zsh/zpty
     zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
     zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
@@ -173,3 +195,46 @@ ptyless () {
     rm -f /tmp/ptyless.$$
     zpty -d ptyless                   # 删除已完成的 pty
 }
+orphans() { # Remove orphan packages in archlinux
+    if [[ ! -n $(pacman -Qdt) ]]; then
+        echo no orphans to remove
+    else
+        sudo pacman -Rs $(pacman -Qdtq)
+    fi
+}
+create_new_post() {
+   test $# -ne 1 && echo "Invalid title" >&2 && return 1
+   cd ~/dev/octopress
+   rake new_post\["$1"\]
+}
+copy_path() {
+    readlink -f "$1"|pbcopy
+}
+deploydevsrv() {
+    scp -i ~/.ssh/chanjet_devsrv "$1" root@10.10.11.218:/opt/geronimo/deploy/
+    # scp -i ~/.ssh/chanjet_devsrv "$1" root@10.10.11.218:/opt/tomcat/webapps/"$2"
+}
+deploytestsrv() {
+    scp -i ~/.ssh/chanjet_testsrv "$1" root@10.10.11.221:/opt/geronimo/deploy/
+    # scp -i ~/.ssh/chanjet_testsrv "$1" root@10.10.11.221:/opt/tomcat/webapps/"$2"
+}
+deployubsrv() {
+    scp -i ~/.ssh/chanjet_testsrv "$1" root@172.18.8.145:/opt/geronimo/deploy/
+}
+sendubsvr() {
+    scp -i ~/.ssh/chanjet_testsrv "$1" root@172.18.8.145:/opt/
+}
+lsf() { # List files whose names match the given pattern
+    ! [ $# -eq 1 -o $# -eq 2 ] && echo "lsf FILENAME PATH" >&2 && return 1
+    [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
+    find "$UNDER_PATH" -name "$1" -print
+}
+
+chpwd_octopress() {
+    OCTOPRESS=~/dev/octopress
+    if [[ "$PWD" == "$OCTOPRESS" ]]; then
+        source /usr/bin/virtualenvwrapper.sh
+        workon blog_env
+    fi
+}
+chpwd_functions=( chpwd_octopress )

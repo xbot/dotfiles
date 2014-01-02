@@ -86,6 +86,25 @@ else
 endif
 "}}}
 
+" ------------------------------ VAM ------------------------------"{{{
+set runtimepath+=~/.vim/addons/vim-addon-manager
+let active_addons = []
+let active_addons += ['YouCompleteMe']
+let active_addons += ['vim-jsbeautify']
+let active_addons += ['ag']
+let active_addons += ['ctrlp']
+let active_addons += ['vim-signify']
+let active_addons += ['splitjoin']
+let active_addons += ['EasyGrep']
+let active_addons += ['fugitive']
+" let active_addons += ['sexy_scroller']
+let active_addons += ['EasyMotion']
+let active_addons += ['session%3150']
+let active_addons += ['Syntastic']
+let active_addons += ['Tagbar']
+call vam#ActivateAddons(active_addons)
+"}}}
+
 " ------------------------- Application Settings ------------------------"{{{
 set nowrap
 set nobackup
@@ -109,7 +128,6 @@ set splitbelow
 set noequalalways
 set winminheight=1
 "set winheight=9999
-set grepprg=grep
 set clipboard+=unnamed
 set mouse=a
 set vb t_vb=
@@ -117,6 +135,14 @@ set laststatus=2
 set updatetime=10000
 set cursorline
 set cursorcolumn
+if IsPlatform('win')
+    set grepprg=d:/dev/tool/GnuWin32/bin/grep.exe\ -n
+else
+    " set grepprg=grep\ -n
+    " Do 'ln -s /usr/bin/ag /usr/bin/ack' to leverage the power of ag
+    set grepprg=ack\ --nogroup\ --column
+endif
+set wildignore=*.class,*.pyc
 "}}}
 
 " --------------------------- GUI Settings ------------------------------"{{{
@@ -132,13 +158,16 @@ if has('gui_running')
         "let g:zenesque_colors = 1
         "colorscheme zenesque
 
-        colorscheme solarized
+        " colorscheme solarized
         "colorscheme lucius
         "colorscheme diablo3
         "colorscheme dante
+        colorscheme freya
 
         "set guifont=Consolas:h11:b
-        set guifont=Monaco:h10:b
+        "set guifont=Monaco:h10:b
+        " set guifont=Source\ Code\ Pro:h11:b
+        set guifont=Source\ Code\ Pro:h11
         "set guifont=XHei\ Mono:h11:b
     elseif has('gui_macvim')
         set guifont=Monaco:h14
@@ -159,13 +188,16 @@ if has('gui_running')
 
         colorscheme solarized
         "set guifont=YaHei\ Consolas\ Hybrid\ Bold\ 13
-        set guifont=Monaco\ 11
+        " set guifont=Monaco\ Bold\ 12
+        " set guifont=Monaco\ 12
+        set guifont=CosmicSansNeueMono\ 16
+        " set guifont=Source\ Code\ Pro\ 12
         "set guifont=inconsolata\ Bold\ 13
         "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
         "set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ Bold\ 13
         "set guifont=Consolas\ Bold\ 13
         "set guifont=Consolas\ 13
-        set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 13
+        set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 11
     endif
 
     " GUI Options
@@ -179,7 +211,7 @@ if has('gui_running')
     "set go+=b
 
     " Toggle menu bar
-    map <silent> <F2> :if &guioptions =~# 'm' <Bar>
+    map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
                 \set guioptions-=m <bar>
                 \else <Bar>
                 \set guioptions+=m <Bar>
@@ -188,6 +220,7 @@ else
     set background=dark
     "colorscheme diablo3
     "colorscheme jellybeans
+    " let g:solarized_termcolors=16
     let g:solarized_termcolors=256
     colorscheme solarized
 endif
@@ -229,21 +262,30 @@ let g:neocomplcache_cursor_hold_i_time=10000
 let g:neocomplcache_plugin_rank={}
 
 " SuperTab Settings
-let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
-
-" SnipMate Settings
-let g:snips_author = 'Lenin Lee <lenin.lee@gmail.com>'
+" " To be compatible with neocomplcache
+" let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
+" To be compatible with YouCompleteMe
+let g:SuperTabDefaultCompletionType = '<C-Tab>'
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+" YouCompleteMe
+let g:ycm_key_list_select_completion = ['<C-TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-S-TAB>', '<Up>']
+
 " EasyGrep Settings
 let g:EasyGrepRecursive = 1
 let g:EasyGrepCommand = 1
 let g:EasyGrepJumpToMatch = 0
-let g:EasyGrepWindow = 1
+let g:EasyGrepWindow = 0
+let g:EasyGrepReplaceWindowMode = 1
+" let g:EasyGrepMode = 3
+" let g:EasyGrepDefaultUserPattern='<JAVA>'
+" let g:EasyGrepOpenWindowOnMatch=0
+" let g:EasyGrepFilesToExclude='third-lib'
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -259,6 +301,7 @@ let g:sql_type_default = 'sqlsvr'
 let g:fuf_enumeratingLimit = 30
 let g:fuf_modesDisable = [ 'mrufile', 'mrucmd', ]
 let g:fuf_dataDir = '~/.vim-fuf-data'
+let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])' . '|.*/third-lib/.*'
 
 " NERD_commenter Settings
 let NERDSpaceDelims = 1
@@ -286,7 +329,7 @@ if IsPlatform('win')
 endif
 
 let ub_debug = 0
-let ub_use_ubviewer = 1
+let ub_use_ubviewer = 0
 let ub_viewer_width = 900
 let ub_append_promotion_link = 1
 let ub_local_pagesize = 30
@@ -315,6 +358,7 @@ if gbl_ultrablog_debug == 1
     let ub_blog = {'login_name':gbl_wordpress_login,
                 \'password':gbl_wordpress_password,
                 \'url':'http://localhost/wordpress',
+                \'xmlrpc_uri':'xmlrpc.php',
                 \'db':'~/Dropbox/UltraTest.db'
                 \}
     let ub_local_pagesize = 2
@@ -322,6 +366,7 @@ else
     let ub_blog = {'login_name':'admin',
                 \'password':gbl_sinolog_password,
                 \'url':'http://0x3f.org',
+                \'xmlrpc_uri':'xmlrpc.php',
                 \'db':gbl_ultrablog_db
                 \}
 endif
@@ -340,13 +385,78 @@ let g:colorizer_auto_filetype='css,html'
 
 " Minibufexpl
 let g:miniBufExplSplitBelow=0
+
+" AsyncFinder.vim
+let g:asyncfinder_initial_mode='f'
+let g:asyncfinder_initial_pattern='**'
+nmap <leader>af :AsyncFinder<CR>
+
+" Vdebug.vim
+let g:vdebug_options= {
+\    "port" : 9001,
+\    "server" : 'localhost',
+\    "timeout" : 20,
+\    "on_close" : 'detach',
+\    "break_on_open" : 1,
+\    "ide_key" : '',
+\    "remote_path" : "",
+\    "local_path" : "",
+\    "debug_window_level" : 0,
+\    "debug_file_level" : 0,
+\    "debug_file" : "",
+\}
+
+let g:vimwiki_list = [
+    \{
+    \'path':'~/docs/blog/src/',
+    \'path_html':'~/docs/blog/html/',
+    \'template_path':'~/docs/blog/template/',
+    \'template_default':'default',
+    \'template_ext':'.html'
+    \}
+    \]
+
+au BufEnter *.wiki let g:AutoPairsMapCR=0
+au BufLeave *.wiki let g:AutoPairsMapCR=1
+
+" vim-jsbeautify
+nmap <c-a-f> :call JsBeautify()<cr>
+vmap <c-a-f> <ESC>:'<,'>!js-beautify -i<CR>
+autocmd FileType javascript noremap <buffer>  <a-f> :call JsBeautify()<cr>
+autocmd FileType html noremap <buffer> <a-f> :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<cr>
+
+" Eclim
+let g:EclimCompletionMethod = 'omnifunc'
+
+" Ctrlp
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  'target\|third-lib\|dist',
+  \ 'file': '\v\.(exe|so|dll)$'
+  \ }
+
+" syntastic
+let g:syntastic_check_on_open = 1
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
+
+" let g:powerline_pycmd = 'py'
+
+" pdv
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+nnoremap <buffer> <C-\> :call pdv#DocumentWithSnip()<CR>
+" nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
 if IsPlatform('win')
     au GUIEnter * simalt ~x
 else
-    au GUIEnter * call MaximizeWindow()
+    " au GUIEnter * call MaximizeWindow()
 endif
 
 if IsPlatform('win')
@@ -377,7 +487,12 @@ au BufNewFile,BufRead *.ds set filetype=lisp
 " Markdown
 augroup markdown
     autocmd BufNewFile,BufRead *.mkd set filetype=markdown
-    autocmd BufNewFile,BufRead *.mkd set wrap
+    " autocmd BufNewFile,BufRead *.mkd set wrap
+    au FileType markdown set wrap
+    au FileType markdown set guifontwide=
+    " au FileType markdown set background=light
+    " au FileType markdown colorscheme zenesque
+    au FileType markdown colorscheme newspaper
 augroup END
 
 " Don't use Ex mode, use Q for formatting
@@ -387,20 +502,20 @@ map Q gq
 " This problem is found only on my linux, it should be checked out that what reason causes such a problem
 au FileType vim set commentstring=\"%s
 
-" Python
+" Fold method
 au FileType python set fdm=indent
-
-" SQL
 au FileType sql set fdm=manual
+au FileType sh set fdm=syntax
+let g:sh_fold_enabled=1
+au FileType java set fdm=syntax
+au FileType java set fdl=1
+au FileType javascript set fdl=1
+au FileType php set fdl=1
 
 " Plain text
 au BufNewFile,BufRead *.txt set wrap
 " Dokuwiki
 au BufNewFile,BufRead *.doku set ft=dokuwiki
-
-" Bash
-au FileType sh set fdm=syntax
-let g:sh_fold_enabled=1
 
 " Auto handle resources
 if IsPlatform('unix')
@@ -414,7 +529,9 @@ au BufRead .vimperatorrc setl filetype=vimperator
 
 au FileType sql set synmaxcol=0
 
+" Quickfix and location windows
 au WinLeave * if &buftype=='quickfix' | lclose | endif
+autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
 "}}}
 
 "-----------------------------Key mappings-------------------------------"{{{
@@ -432,16 +549,21 @@ nmap <leader>fs :w!<CR>
 nmap <leader>x :x<CR>
 nmap <Space> <Pagedown>
 
-" 打开、关闭quickfix窗口
+" 编辑与当前文件路径相关的文件
+nmap <leader>O :e <C-R>=expand("%:p:~")<CR>
+nmap <leader>D :e <C-R>=expand("%:p:~:h").'/'<CR>
+
+" Quickfix and location windows
+" let g:toggle_list_no_mappings=1
+" noremap <F12> :call ToggleLocationList()<CR>
+nmap <leader>lo :lopen<CR>
+nmap <leader>lc :lclose<CR>
 nmap <leader>co :QFix<CR>
 nmap <leader>ct :QFixToggle<CR>
 
-" 打开、关闭location窗口
-nmap <leader>lo :lopen<CR>
-nmap <leader>lc :lclose<CR>
-
 " 分割窗口
-nmap <leader>sp :sp<CR><C-W>_
+nmap <leader>hs :sp<CR><C-W>_
+nmap <leader>vs :vsp<CR><C-W>_
 
 " 最大化当前Split窗口
 nmap <F11> :wincmd_<CR>
@@ -457,7 +579,6 @@ imap <A-j> <ESC>gji
 imap <A-k> <ESC>gki
 
 "显示、隐藏ctags侧边栏
-"nmap <leader>tl :TlistToggle<CR>
 nmap <leader>tl :TagbarToggle<CR>
 
 " 使用FuzzyFinder打开文件
@@ -466,10 +587,11 @@ nmap <leader>oo :FufTaggedFile<CR>
 nmap <leader>of :FufFile<CR>
 nmap <leader>oc :FufCoverageFile<CR>
 nmap <leader>ot :FufTag<CR>
+nmap <leader>frc :FufRenewCache<CR>
 
 " 启用、禁用NeoComplCache
-nmap <leader>cmple :NeoComplCacheEnable<CR>
-nmap <leader>cmpld :NeoComplCacheDisable<CR>
+" nmap <leader>cmple :NeoComplCacheEnable<CR>
+" nmap <leader>cmpld :NeoComplCacheDisable<CR>
 
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
@@ -510,21 +632,23 @@ function! MakeWorkingDir()"{{{
 endfunction"}}}
 
 " 切换到工程根目录
-nmap <leader>ret :call XRetreat()<CR>
-function! XRetreat()"{{{
-    "call MakeWorkingDir()
-    let currPath = expand('%:p:h')
-    let endPos = matchend(currPath, 'turbocrm[0-9]*[/\\]code')
-    if endPos>=0
-        exe 'cd '.fnameescape(strpart(currPath,0,endPos))
-    endif
-    pwd
-endfunction"}}}
+" nmap <leader>ret :call XRetreat()<CR>
+" function! XRetreat()"{{{
+    " "call MakeWorkingDir()
+    " let currPath = expand('%:p:h')
+    " let endPos = matchend(currPath, 'turbocrm[0-9]*[/\\]code')
+    " if endPos>=0
+        " exe 'cd '.fnameescape(strpart(currPath,0,endPos))
+    " endif
+    " pwd
+" endfunction"}}}
 
 " NERDTree
 nmap <leader>ntt :NERDTreeToggle<CR>
 nmap <leader>ntc :NERDTreeClose<CR>
 nmap <leader>nto :NERDTree<CR>
+nmap <leader>ntd :NERDTree %:h<CR>
+nmap <leader>nts :NERDTree ~/.vim/bundle/ultisnips/UltiSnips<CR>
 
 " UltraBlog
 nmap <leader>ub :UB
@@ -567,6 +691,57 @@ nmap <leader>V V']
 
 " Clear highlighting of the last search
 nmap <leader>cls :nohl<CR>
+
+" numsign
+" map <F12> <Plug>GotoNextSign
+" map <S-F12> <Plug>GotoPrevSign
+" map <leader>sc <Plug>RmAllSigns
+" map <leader>stm <Plug>ToggleMode
+
+" Search word
+nmap <leader>/w /\<\>\C<left><left><left><left>
+
+" Format JSON string
+nmap <leader>json :%!python -m json.tool<CR>
+
+" Sessions
+nmap <leader>os :OpenSession<Space>
+nmap <leader>ss :SaveSession<Space>
+
+" js-beautify
+nmap <leader>jsb <ESC>:%!js-beautify -i<CR>
+vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
+
+nmap <leader>uv :UseVimball ~/.vim/bundle/
+
+" Adjust font size on the fly
+map <leader>] :LargerFont<CR>
+map <leader>[ :SmallerFont<CR>
+
+" Eclim
+nmap <leader>ptt :ProjectTreeToggle<CR>
+
+" Ag
+nmap <leader>ag :LAg! -i<Space>
+nmap <leader>gag :Ag! -i<Space>
+nmap <leader>wag :LAg! -iw<Space>
+nmap <leader>wgag :Ag! -iw<Space>
+vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
+vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
+nnoremap <leader>ww :LAg! <cword><CR>
+
+" EasyGrep
+nmap <leader>R :Replace<Space>
+
+" Vimwiki
+nmap <leader>vw <Plug>VimwikiIndex
+
+" Fugitive
+nmap <leader>gst :Gstatus<CR>
+
+" Open terminal in the current path
+nmap <leader>sh :call system("lilyterm -d \"".getcwd()."\"")<CR>
+
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -837,29 +1012,6 @@ function! MaximizeWindow()
     silent !wmctrl -r :ACTIVE: -b add,fullscreen
 endfunction
 
-" toggles the quickfix window.
-command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
-function! QFixToggle(forced)
-    if exists("g:qfix_win") && a:forced != 0
-        QFix
-        cclose
-    else
-        if exists("g:my_quickfix_win_height")
-            execute "copen ".g:my_quickfix_win_height
-        else
-            copen
-        endif
-    endif
-endfunction
-
-" used to track the quickfix window
-augroup QFixToggle
-    autocmd!
-    autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
-    autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
-augroup END
-
 " Save the current buffer as a file with no EOF sign.
 function! SaveAsNOEOF(filename)
     let a=getline(1,line('$')-1)
@@ -929,26 +1081,21 @@ endfunction
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
 
+" Grep helper function
 if IsPlatform('win')
     let g:XGrepExcludeFrom = 'd:/dev/tool/vim/XGrepExcludeList'
-elseif IsPlatform('mac')
-    let g:XGrepExcludeFrom = '/Users/monk/.vim/XGrepExcludeList'
 else
-    let g:XGrepExcludeFrom = '/home/monk/.vim/XGrepExcludeList'
+    let g:XGrepExcludeFrom = expand('~').'/.vim/XGrepExcludeList'
 endif
-let g:XGrepExcludeDirs = ['datacache','.svn','assets','runtime','vendors']
+let g:XGrepExcludeDirs = ['datacache','.svn','.git','assets','runtime','vendors','third-lib']
 let g:XGrepAutoJump = 0
 let g:XGrepAutoOpen = 1
 function! XGrep(grepprg, ...)
-    let cmd = a:grepprg
-    if exists('g:XGrepAutoJump') && g:XGrepAutoJump==0
-        let cmd .= '!'
-    endif
+    let grepprgBak = &grepprg
+    set grepprg=grep\ -n
 
     let opts = ' -nrI'
-    if exists('g:XGrepExcludeFrom')
-        let opts .= ' --exclude-from='.g:XGrepExcludeFrom
-    endif
+    let opts = opts.( g:XGrepExcludeFrom ? ' --exclude-from='.g:XGrepExcludeFrom : '' )
     if exists('g:XGrepExcludeDirs')
         for tmp in g:XGrepExcludeDirs
             let opts .= ' --exclude-dir='.tmp
@@ -967,11 +1114,15 @@ function! XGrep(grepprg, ...)
         endif
     endfor
 
+    let cmd = a:grepprg.( g:XGrepAutoJump ? '' : '!' )
     let cmd .= opts
     let cmd .= ' "'.keyword.'"'
     let cmd .= target
-    echo cmd
+    " echo cmd
+
     silent execute cmd
+
+    let &grepprg = grepprgBak
 
     if exists('g:XGrepAutoOpen') && g:XGrepAutoOpen==1
         if a:grepprg=='grep'
@@ -1023,16 +1174,21 @@ function! Preserve(command)
 endfunction
 " 清除行尾空格
 nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
+" 美化缩进
 nmap _= :call Preserve("normal gg=G")<CR>
+" 替换Tab为4个空格
+nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 
 " 转义正则表达式特殊字符，以便在正则表达式中使用
-function! XEscapeRegex(str)
-    return escape(a:str, '/\.*$^~[')
+" 第一个额外参数如果是1，则不转义+号，否则默认转义（即Vim支持的格式）
+function! XEscapeRegex(str, ...)
+    let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
+    return substitute(escape(a:str, '/\.*$^~['), '\s\+', whitespacePattern, 'g')
 endfunction
 
 " Display contents of the current fold in a balloon
 function! FoldSpellBalloon()
-    let foldStart = foldclosed(v:beval_lnum )
+    let foldStart = foldclosed(v:beval_lnum)
     let foldEnd = foldclosedend(v:beval_lnum)
     let lines = []
     " Detect if we are in a fold
@@ -1076,6 +1232,64 @@ function! EditSnippet(...)
 endfunction
 command! -nargs=? EditSnippet call EditSnippet(<f-args>)
 
+" Toggle quickfix and location list
+command! -bang -nargs=? QFix call QFixToggle(<bang>0)
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
+function! QFixToggle(forced)
+    if exists("g:qfix_win") && a:forced != 0
+        QFix
+        cclose
+    else
+        if exists("g:my_quickfix_win_height")
+            execute "botright copen ".g:my_quickfix_win_height
+        else
+            copen
+        endif
+    endif
+endfunction
+
+" used to track the quickfix window
+augroup QFixToggle
+    autocmd!
+    autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
+    autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
+augroup END
+
+function! GetBufferList()
+  redir =>buflist
+  silent! ls
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+    let buflist = GetBufferList()
+    for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+        echo bufnum
+        if bufwinnr(bufnum) != -1
+            exec(a:pfx.'close')
+            return
+        endif
+    endfor
+    if a:pfx == 'l' && len(getloclist(0)) == 0
+        echohl ErrorMsg
+        echo "Location List is Empty."
+        return
+    endif
+    " let winnr = winnr()
+    let cmdMod = ''
+    if a:pfx == 'c'
+        let cmdMod = 'botright '
+    endif
+    exec(cmdMod.a:pfx.'open')
+    " if winnr() != winnr
+        " wincmd p
+    " endif
+endfunction
+
+noremap <F12> :call ToggleList("Location 列表", 'l')<CR>
+noremap <C-F12> :call ToggleList("Quickfix 列表", 'c')<CR>
+
 "}}}
 
 " ----------------------------- Java -----------------------------{{{
@@ -1093,8 +1307,8 @@ function! MyFoldLevel( lineNumber )
   endif
   return '='
 endfunction
-setlocal foldexpr=MyFoldLevel(v:lnum)
-setlocal foldmethod=expr
+" setlocal foldexpr=MyFoldLevel(v:lnum)
+" setlocal foldmethod=expr
 "}}}
 
 " ----------------------------- Python -----------------------------{{{
@@ -1153,3 +1367,4 @@ def runScript():
 EOF
 
 "}}}
+

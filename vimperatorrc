@@ -28,6 +28,7 @@ map <silent> <F2> :set gui=invmenu<CR>
 map <C-S-F2> :set gui=invnavigation<CR>
 map <C-S-F3> :set gui=invbookmarks<CR>
 map <leader>du :tabdu<CR>
+map gr :tabprevious<CR>
 map <leader>rcop :!gvim ~/.vimperatorrc<CR>
 map <leader>rcso :so ~/.vimperatorrc<CR>
 

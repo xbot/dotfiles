@@ -13,6 +13,8 @@ style "xfdesktop-icon-view"
 widget_class "*XfdesktopIconView*" style "xfdesktop-icon-view"
 
 style "vimfix" {
-  bg[NORMAL] = "#002B36" # this matches my gvim theme 'Normal' bg color.
+    bg[NORMAL] = "#002B36" # this matches my gvim theme 'Normal' bg color.
 }
 widget "vim-main-window.*GtkForm" style "vimfix"
+
+gtk-can-change-accels=1
