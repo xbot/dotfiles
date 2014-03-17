@@ -20,7 +20,7 @@
 
 "gvim"
     Scroll_Lock
-"gvim -c "cd ~/workspace/csp_web_todo""
+"gvim -c "cd ~/workspace/csp_web_customer_v1/web""
     Control + Scroll_Lock
 "gvim -c "cd ~/workspace/csp_web_desktop""
     Alt + Scroll_Lock
@@ -110,7 +110,7 @@
 #-----------------------------【窗口管理器】-------------------------------------# {{{
 # 关闭当前窗口
 # "wm.sh -q"
-    # F12
+    # F4
 # 跳转到左侧桌面
 # "wm.sh -s left"
     # Mod4 + Left
@@ -226,5 +226,8 @@
     XF86MonBrightnessUp
 "xosd_brightness.sh show"
     XF86MonBrightnessDown
+
+"mpc toggle"
+    XF86AudioPlay
 # }}}
 

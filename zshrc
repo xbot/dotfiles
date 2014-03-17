@@ -42,6 +42,7 @@ plugins=(git python pip vi-mode systemd urltools archlinux)
 
 source $ZSH/oh-my-zsh.sh
 # source /usr/share/zsh/site-contrib/powerline.zsh
+source ~/dev/z/z.sh
 
 # Customize to your needs...
 PAGER='less -X -M'
@@ -88,7 +89,7 @@ if [[ $(uname) == "Linux" ]]; then
     # alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
     # alias ufix='yaourt -Rc'
     alias fix='export LC_ALL=en_US.UTF-8 && nocorrect yaourt -S --noconfirm'
-    alias ufix='nocorrect sudo pacman -Rc'
+    alias ufix='nocorrect sudo pacman -Rsc'
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
 elif [[ $(uname) == "Darwin" ]]; then
@@ -116,9 +117,6 @@ alias smpull='git submodule foreach git pull origin master'
 alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmailcom"'
 
 # SSH aliases
-alias sshdevsrv='ssh -i ~/.ssh/chanjet_devsrv root@10.10.11.218'
-alias sshtestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221'
-alias sshubsrv='ssh -i ~/.ssh/chanjet_testsrv root@172.18.8.145'
 alias viewlogtestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.log"'
 alias viewouttestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.out"'
 alias viewlogdevsrv='ssh -i ~/.ssh/chanjet_devsrv root@10.10.11.218 "tail -f /opt/geronimo/var/log/geronimo.log"'
@@ -128,10 +126,10 @@ alias viewlogubsrv='ssh -i ~/.ssh/chanjet_testsrv root@172.18.8.145 "tail -f /op
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
 alias english='export LC_ALL=en_US.UTF-8'
-alias httpproxy='export http_proxy=127.0.0.1:8000'
+alias httpproxy='export http_proxy=127.0.0.1:8087'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias ff='firefox'
-alias z='apack'
+alias a='apack'
 alias x='aunpack'
 alias cleantracefiles='sudo rm /tmp/trace.*.xt'
 alias my='mysql -uroot -p5G10color'
@@ -238,3 +236,5 @@ chpwd_octopress() {
     fi
 }
 chpwd_functions=( chpwd_octopress )
+
+source /etc/profile.d/autojump.sh

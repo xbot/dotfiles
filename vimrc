@@ -207,6 +207,7 @@ if has('gui_running')
                 \set guioptions+=m <Bar>
                 \endif<CR>
 else
+    " For CLI vim
     set background=light
     "colorscheme diablo3
     "colorscheme jellybeans

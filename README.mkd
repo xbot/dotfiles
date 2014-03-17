@@ -2,3 +2,5 @@ dotfiles
 ========
 
 This repo hosts the dotfiles I use in my daily life.
+
+  - lilyterm.conf -> ~/.config/lilyterm/default.conf
