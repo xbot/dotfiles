@@ -104,6 +104,10 @@ let active_addons += ['Syntastic']
 let active_addons += ['Tagbar']
 let active_addons += ['godef']
 let active_addons += ['SingleCompile']
+let active_addons += ['UltiSnips']
+let active_addons += ['vim-snippets']
+let active_addons += ['Supertab']
+let active_addons += ['Vdebug']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -176,7 +180,7 @@ if has('gui_running')
         "set guifont=YaHei\ Consolas\ Hybrid\ Bold\ 13
         " set guifont=Monaco\ Bold\ 12
         " set guifont=Monaco\ 12
-        set guifont=CosmicSansNeueMono\ 16
+        set guifont=CosmicSansNeueMono\ 14
         " set guifont=Source\ Code\ Pro\ 12
         "set guifont=inconsolata\ Bold\ 13
         "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
@@ -379,8 +383,9 @@ nmap <leader>af :AsyncFinder<CR>
 
 " Vdebug.vim
 let g:vdebug_options= {
+\    "path_maps" : {"/var/www": "/home/taoqi/workspace"},
 \    "port" : 9001,
-\    "server" : 'localhost',
+\    "server" : '0.0.0.0',
 \    "timeout" : 20,
 \    "on_close" : 'detach',
 \    "break_on_open" : 1,
@@ -390,6 +395,7 @@ let g:vdebug_options= {
 \    "debug_window_level" : 0,
 \    "debug_file_level" : 0,
 \    "debug_file" : "",
+\    "marker_default" : "⬦",
 \}
 
 let g:vimwiki_list = [
@@ -612,7 +618,8 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
 "nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-nmap <leader>mkt :call xolox#shell#execute('ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .', 0)<CR>
+" nmap <leader>mkt :call xolox#misc#os#exec('ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .', 0)<CR>
+nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
 
 " 手工设置当前文件所在的目录为工作目录
 nmap <leader>pwd :pwd<CR>
@@ -640,7 +647,7 @@ nmap <leader>ntt :NERDTreeToggle<CR>
 nmap <leader>ntc :NERDTreeClose<CR>
 nmap <leader>nto :NERDTree<CR>
 nmap <leader>ntd :NERDTree %:h<CR>
-nmap <leader>nts :NERDTree ~/.vim/bundle/ultisnips/UltiSnips<CR>
+nmap <leader>nts :NERDTree ~/.vim/addons/vim-snippets/UltiSnips<CR>
 
 " UltraBlog
 nmap <leader>ub :UB
@@ -1210,9 +1217,9 @@ endif
 
 " Edit snippets
 function! EditSnippet(...)
-    let sdir = expand('~/.vim/bundle/snipmate/snippets')
+    let sdir = expand('~/.vim/addons/vim-snippets/UltiSnips')
     if IsPlatform('win')
-        let sdir = expand($VIM.'/vimfiles/bundle/snipmate/snippets')
+        let sdir = expand($VIM.'/vimfiles/addons/vim-snippets/UltiSnips')
     endif
     if a:0 == 0
         exec 'NERDTree '.sdir
