@@ -102,6 +102,8 @@ let active_addons += ['EasyMotion']
 let active_addons += ['session%3150']
 let active_addons += ['Syntastic']
 let active_addons += ['Tagbar']
+let active_addons += ['godef']
+let active_addons += ['SingleCompile']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -149,12 +151,7 @@ set wildignore=*.class,*.pyc
 if has('gui_running')
     " Font settings
     if IsPlatform('win')
-        if 1==1
-            set background=light
-        else
-            set background=dark
-        endif
-
+        set background=light
         "let g:zenesque_colors = 1
         "colorscheme zenesque
 
@@ -171,21 +168,10 @@ if has('gui_running')
         "set guifont=XHei\ Mono:h11:b
     elseif has('gui_macvim')
         set guifont=Monaco:h14
-
-        if 1==0
-            set background=light
-        else
-            set background=dark
-        endif
-
+        set background=dark
         colorscheme solarized
     else
-        if 1==0
-            set background=light
-        else
-            set background=dark
-        endif
-
+        set background=dark
         colorscheme solarized
         "set guifont=YaHei\ Consolas\ Hybrid\ Bold\ 13
         " set guifont=Monaco\ Bold\ 12
@@ -217,7 +203,7 @@ if has('gui_running')
                 \set guioptions+=m <Bar>
                 \endif<CR>
 else
-    set background=dark
+    set background=light
     "colorscheme diablo3
     "colorscheme jellybeans
     " let g:solarized_termcolors=16
@@ -311,7 +297,7 @@ let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
 
 " TwitVim
 let twitvim_enable_python = 1
-let twitvim_proxy = "127.0.0.1:2010"
+let twitvim_proxy = "127.0.0.1:8087"
 if IsPlatform('win')
     let twitvim_browser_cmd = "D:/Program Files/Mozilla Firefox/firefox.exe"
 elseif has('gui_macvim')
@@ -532,9 +518,15 @@ au FileType sql set synmaxcol=0
 " Quickfix and location windows
 au WinLeave * if &buftype=='quickfix' | lclose | endif
 autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
+
+" Golang
+autocmd BufWritePre *.go :Fmt
 "}}}
 
 "-----------------------------Key mappings-------------------------------"{{{
+" 凌波微步
+inoremap jj <Esc>
+
 "普通退出，全部退出，强制退出，强制全部退出
 nmap <leader>q :q<CR>
 nmap <leader>qq :q<CR>
@@ -741,7 +733,6 @@ nmap <leader>gst :Gstatus<CR>
 
 " Open terminal in the current path
 nmap <leader>sh :call system("lilyterm -d \"".getcwd()."\"")<CR>
-
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -1368,3 +1359,9 @@ EOF
 
 "}}}
 
+" ----------------------------- Go -----------------------------{{{
+au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
+au FileType go imap <buffer> <C-CR> <Esc><C-CR>
+let g:gofmt_command = "goimports"
+let g:vim_addon_manager['plugin_sources']['godef'] = {"type":"git", "url":"https://github.com/dgryski/vim-godef.git"}
+"}}}
