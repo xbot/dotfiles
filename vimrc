@@ -107,6 +107,7 @@ let active_addons += ['SingleCompile']
 let active_addons += ['UltiSnips']
 let active_addons += ['vim-snippets']
 let active_addons += ['Supertab']
+let active_addons += ['Vdebug']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -382,8 +383,9 @@ nmap <leader>af :AsyncFinder<CR>
 
 " Vdebug.vim
 let g:vdebug_options= {
+\    "path_maps" : {"/var/www": "/home/taoqi/workspace"},
 \    "port" : 9001,
-\    "server" : 'localhost',
+\    "server" : '0.0.0.0',
 \    "timeout" : 20,
 \    "on_close" : 'detach',
 \    "break_on_open" : 1,
@@ -393,6 +395,7 @@ let g:vdebug_options= {
 \    "debug_window_level" : 0,
 \    "debug_file_level" : 0,
 \    "debug_file" : "",
+\    "marker_default" : "⬦",
 \}
 
 let g:vimwiki_list = [

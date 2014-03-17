@@ -1,20 +1,17 @@
-style "xfdesktop-icon-view"
-{
-    XfdesktopIconView::label-alpha = 0
- 
-    base[NORMAL] = "#FFFFFF"
-    base[SELECTED] = "#FFFFFF"
-    base[ACTIVE] = "#FFFFFF"
- 
-    fg[NORMAL] = "#FFFFFF"
-    fg[SELECTED] = "#000000"
-    fg[ACTIVE] = "#000000"
+# fix for gvim border
+style "vim-fix" {
+  bg[NORMAL] = "#002B36" # this matches my gvim theme 'Normal' bg color.
+  fg[NORMAL] = "#ffffff"
 }
-widget_class "*XfdesktopIconView*" style "xfdesktop-icon-view"
 
-style "vimfix" {
-    bg[NORMAL] = "#002B36" # this matches my gvim theme 'Normal' bg color.
+style "vim-fix-tabs" {
+  bg[NORMAL] = shade(1.02, "#656565")
+  bg[ACTIVE] = shade(1.25, "#878787")
+  fg[ACTIVE] = "#323232"
+  ythickness = 0 # make tabs small enough to be eye candy
 }
-widget "vim-main-window.*GtkForm" style "vimfix"
+
+widget "vim-main-window*" style "vim-fix"
+widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs"
 
 gtk-can-change-accels=1
