@@ -180,7 +180,7 @@ if has('gui_running')
         "set guifont=YaHei\ Consolas\ Hybrid\ Bold\ 13
         " set guifont=Monaco\ Bold\ 12
         " set guifont=Monaco\ 12
-        set guifont=CosmicSansNeueMono\ 14
+        set guifont=CosmicSansNeueMono\ 16
         " set guifont=Source\ Code\ Pro\ 12
         "set guifont=inconsolata\ Bold\ 13
         "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
@@ -1372,4 +1372,12 @@ au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
 au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 let g:gofmt_command = "goimports"
 let g:vim_addon_manager['plugin_sources']['godef'] = {"type":"git", "url":"https://github.com/dgryski/vim-godef.git"}
+"}}}
+
+" ----------------------------- Leigh's -----------------------------{{{
+if hostname() == 'leighs'
+    set guifont=CosmicSansNeueMono\ 14
+    au BufEnter ~/workspace/* map <buffer> <C-P> :CtrlP ~/workspace<CR>
+    " let g:ctrlp_working_path_mode = '0'
+endif
 "}}}

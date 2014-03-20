@@ -247,7 +247,7 @@ exec --no-startup-id xbindkeys
 # exec --no-startup-id conky -c /home/monk/.weather/conkyrc
 exec --no-startup-id basket -h
 exec --no-startup-id diodon
-exec --no-startup-id feh --bg-scale /home/monk/.wallpaper
+exec --no-startup-id feh --bg-scale $HOME/.wallpaper
 # exec --no-startup-id /home/monk/bin/dhdog
 # exec --no-startup-id /home/monk/.screenlayout/AUTO.sh
 exec --no-startup-id compton -cGb
