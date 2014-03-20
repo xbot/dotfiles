@@ -20,10 +20,8 @@
 
 "gvim"
     Scroll_Lock
-"gvim -c "cd ~/workspace/csp_web_customer_v1/web""
+"gvim -c "cd ~/workspace""
     Control + Scroll_Lock
-"gvim -c "cd ~/workspace/csp_web_desktop""
-    Alt + Scroll_Lock
 
 # Terminal
 # "urxvt"
@@ -87,6 +85,9 @@
 
 "basket"
     Mod4 + grave
+
+"lockscreen.sh"
+    Control+Shift+Alt+Mod2 + l
 
 # }}}
 
@@ -231,3 +232,5 @@
     XF86AudioPlay
 # }}}
 
+"gvim ~/Dropbox/tasklist"
+    Alt+grave
