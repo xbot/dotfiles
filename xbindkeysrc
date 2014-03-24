@@ -36,7 +36,7 @@
     Alt+Mod2 + F1
 
 # File Manager
-"dolphin"
+"nautilus --no-desktop"
     Control + grave
 "doublecmd"
     Mod1+grave
