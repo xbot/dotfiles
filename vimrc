@@ -107,6 +107,8 @@ let active_addons += ['UltiSnips']
 let active_addons += ['vim-snippets']
 let active_addons += ['Supertab']
 let active_addons += ['Vdebug']
+let active_addons += ['TwitVim']
+let active_addons += ['cscope']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -275,7 +277,7 @@ let g:EasyGrepReplaceWindowMode = 1
 " let g:EasyGrepMode = 3
 " let g:EasyGrepDefaultUserPattern='<JAVA>'
 " let g:EasyGrepOpenWindowOnMatch=0
-" let g:EasyGrepFilesToExclude='third-lib'
+let g:EasyGrepFilesToExclude='tags'
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -383,7 +385,7 @@ nmap <leader>af :AsyncFinder<CR>
 
 " Vdebug.vim
 let g:vdebug_options= {
-\    "path_maps" : {"/var/www": "/home/taoqi/workspace"},
+\    "path_maps" : {"/var/www/workspace": "/home/taoqi/workspace"},
 \    "port" : 9001,
 \    "server" : '0.0.0.0',
 \    "timeout" : 20,
@@ -397,19 +399,6 @@ let g:vdebug_options= {
 \    "debug_file" : "",
 \    "marker_default" : "⬦",
 \}
-
-let g:vimwiki_list = [
-    \{
-    \'path':'~/docs/blog/src/',
-    \'path_html':'~/docs/blog/html/',
-    \'template_path':'~/docs/blog/template/',
-    \'template_default':'default',
-    \'template_ext':'.html'
-    \}
-    \]
-
-au BufEnter *.wiki let g:AutoPairsMapCR=0
-au BufLeave *.wiki let g:AutoPairsMapCR=1
 
 " vim-jsbeautify
 nmap <c-a-f> :call JsBeautify()<cr>
@@ -467,11 +456,21 @@ else
 endif
 
 " Javascript filetype
-au FileType javascript call JavaScriptFold()
 au FileType javascript setl fen
 au FileType javascript setl foldlevel=0
 au BufRead *.pac setl filetype=javascript
 au BufRead *.pac setl foldlevel=1
+" au FileType javascript call JavaScriptFold()
+function! JavaScriptFold()"{{{
+    setl foldmethod=syntax
+    setl foldlevelstart=1
+    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+
+    function! FoldText()
+        return substitute(getline(v:foldstart), '{.*', '{...}', '')
+    endfunction
+    setl foldtext=FoldText()
+endfunction"}}}
 
 " Devilspie
 au BufNewFile,BufRead *.ds set filetype=lisp
@@ -603,7 +602,7 @@ exec 'nmap <leader>rcop :new '.gbl_vimrc_file.'<CR><C-W>_'
 " Source vimrc
 exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " Source vimrc after it is modified
-exec 'autocmd! bufwritepost '.gbl_vimrc_name.' so '.gbl_vimrc_file
+" exec 'autocmd! bufwritepost '.gbl_vimrc_name.' so '.gbl_vimrc_file
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
 exec 'autocmd! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
 
@@ -617,9 +616,13 @@ nmap <leader>twdm :DMTwitter<CR>
 nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
-"nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-" nmap <leader>mkt :call xolox#misc#os#exec('ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .', 0)<CR>
-nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
+" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
+" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
+nmap <leader>mkt :call DoCtagsCscope()<CR>
+fun DoCtagsCscope()
+    silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
+    call CreateCscopeDB(getcwd())
+endf
 
 " 手工设置当前文件所在的目录为工作目录
 nmap <leader>pwd :pwd<CR>
@@ -732,27 +735,18 @@ nnoremap <leader>ww :LAg! <cword><CR>
 " EasyGrep
 nmap <leader>R :Replace<Space>
 
-" Vimwiki
-nmap <leader>vw <Plug>VimwikiIndex
-
 " Fugitive
 nmap <leader>gst :Gstatus<CR>
 
 " Open terminal in the current path
-nmap <leader>sh :call system("lilyterm -d \"".getcwd()."\"")<CR>
+if has('unix')
+    nmap <leader>sh :call xolox#misc#os#exec({'command':'lilyterm', 'async':1})<CR>
+elseif has('win32')
+    nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
+endif
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
-function! JavaScriptFold()"{{{
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-        return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
-endfunction"}}}
 
 if IsPlatform('win')
     set diffexpr=MyDiff()
@@ -1005,13 +999,13 @@ function! TextEnableCodeSnip(filetype, start, end, textSnipHl) abort"{{{
     execute 'syntax region textSnip'.ft.' matchgroup='.a:textSnipHl.' start="'.a:start.'" end="'.a:end.'" contains=@'.group
 endfunction"}}}
 
-function! MaximizeWindow()
+function! MaximizeWindow()"{{{
     "silent !wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
     silent !wmctrl -r :ACTIVE: -b add,fullscreen
-endfunction
+endfunction"}}}
 
 " Save the current buffer as a file with no EOF sign.
-function! SaveAsNOEOF(filename)
+function! SaveAsNOEOF(filename)"{{{
     let a=getline(1,line('$')-1)
     let b=map(a, 'iconv(v:val,"'.&enc.'","'.&fenc.'") . nr2char(13)')
     call extend(b, getline('$', '$'))
@@ -1019,7 +1013,7 @@ function! SaveAsNOEOF(filename)
     if a:filename == bufname('%')
         set nomodified
     endif
-endfunction
+endfunction"}}}
 " Save the current buffer and get rid of the EOF sign.
 function! SaveNOEOF()
     call SaveAsNOEOF(bufname('%'))
@@ -1029,19 +1023,19 @@ command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
 autocmd! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
 
 " Set the current buffer to use utf-8 encoding and unix format
-function! SetUnixFF()
+function! SetUnixFF()"{{{
     set fenc=utf-8
     set ff=unix
-endfunction
+endfunction"}}}
 command! -nargs=0 SetUnixFF call SetUnixFF()
 " Set the current buffer to use GBK encoding and dos format
-function! SetDOSFF()
+function! SetDOSFF()"{{{
     set fenc=cp936
     set ff=dos
-endfunction
+endfunction"}}}
 command! -nargs=0 SetDOSFF call SetDOSFF()
 
-function! PTagIt()
+function! PTagIt()"{{{
     exec "ptag ".expand("<cword>")
     let cwin = winnr()
     silent! wincmd P
@@ -1075,7 +1069,7 @@ function! PTagIt()
     endif
 
     exec cwin.'wincmd w'
-endfunction
+endfunction"}}}
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
 
@@ -1088,7 +1082,7 @@ endif
 let g:XGrepExcludeDirs = ['datacache','.svn','.git','assets','runtime','vendors','third-lib']
 let g:XGrepAutoJump = 0
 let g:XGrepAutoOpen = 1
-function! XGrep(grepprg, ...)
+function! XGrep(grepprg, ...)"{{{
     let grepprgBak = &grepprg
     set grepprg=grep\ -n
 
@@ -1129,7 +1123,7 @@ function! XGrep(grepprg, ...)
             lopen
         endif
     endif
-endfunction
+endfunction"}}}
 command! -nargs=+ XGrep call XGrep('grep', <f-args>)
 command! -nargs=+ XLrep call XGrep('lgrep', <f-args>)
 nmap <leader>gw :exec 'XGrep -w @'.expand('<cword>').' .'<CR>
@@ -1141,7 +1135,7 @@ vmap <leader>lrep y:XLrep @<C-R>=XEscapeRegex(@")<CR> .
 
 " Wipe all buffers which are not active (i.e. not visible in a window/tab)
 command! -nargs=0 Prune call CloseFugitiveBuffers()
-function! CloseFugitiveBuffers()
+function! CloseFugitiveBuffers()"{{{
     let visible = {}
     for t in range(1, tabpagenr('$'))
         for b in tabpagebuflist(t)
@@ -1156,10 +1150,10 @@ function! CloseFugitiveBuffers()
         endif
     endfor
     echon "Deleted " . l:tally . " buffers"
-endfunction
+endfunction"}}}
 
 " 执行命令并回到原位置
-function! Preserve(command)
+function! Preserve(command)"{{{
     " Preparation: save last search, and cursor position.
     let _s=@/
     let l = line(".")
@@ -1169,7 +1163,7 @@ function! Preserve(command)
     " Clean up: restore previous search history, and cursor position
     let @/=_s
     call cursor(l, c)
-endfunction
+endfunction"}}}
 " 清除行尾空格
 nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
 " 美化缩进
@@ -1185,7 +1179,7 @@ function! XEscapeRegex(str, ...)
 endfunction
 
 " Display contents of the current fold in a balloon
-function! FoldSpellBalloon()
+function! FoldSpellBalloon()"{{{
     let foldStart = foldclosed(v:beval_lnum)
     let foldEnd = foldclosedend(v:beval_lnum)
     let lines = []
@@ -1209,14 +1203,14 @@ function! FoldSpellBalloon()
     endif
     " return result
     return join( lines, has( "balloon_multiline" ) ? "\n" : " " )
-endfunction
+endfunction"}}}
 if has('balloon_eval')
     set balloonexpr=FoldSpellBalloon()
     set ballooneval
 endif
 
 " Edit snippets
-function! EditSnippet(...)
+function! EditSnippet(...)"{{{
     let sdir = expand('~/.vim/addons/vim-snippets/UltiSnips')
     if IsPlatform('win')
         let sdir = expand($VIM.'/vimfiles/addons/vim-snippets/UltiSnips')
@@ -1227,13 +1221,13 @@ function! EditSnippet(...)
         let snippet = sdir.'/'.a:1.'.snippets'
         exec 'sp '.snippet
     endif
-endfunction
+endfunction"}}}
 command! -nargs=? EditSnippet call EditSnippet(<f-args>)
 
 " Toggle quickfix and location list
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
-function! QFixToggle(forced)
+function! QFixToggle(forced)"{{{
     if exists("g:qfix_win") && a:forced != 0
         QFix
         cclose
@@ -1244,23 +1238,21 @@ function! QFixToggle(forced)
             copen
         endif
     endif
-endfunction
+endfunction"}}}
 
 " used to track the quickfix window
-augroup QFixToggle
+augroup QFixToggle"{{{
     autocmd!
     autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
     autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
-augroup END
-
-function! GetBufferList()
+augroup END"}}}
+function! GetBufferList()"{{{
   redir =>buflist
   silent! ls
   redir END
   return buflist
-endfunction
-
-function! ToggleList(bufname, pfx)
+endfunction"}}}
+function! ToggleList(bufname, pfx)"{{{
     let buflist = GetBufferList()
     for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
         echo bufnum
@@ -1283,11 +1275,32 @@ function! ToggleList(bufname, pfx)
     " if winnr() != winnr
         " wincmd p
     " endif
-endfunction
-
+endfunction"}}}
 noremap <F12> :call ToggleList("Location 列表", 'l')<CR>
 noremap <C-F12> :call ToggleList("Quickfix 列表", 'c')<CR>
 
+" Fold text
+set foldtext=CustomFoldText()
+fu! CustomFoldText()"{{{
+    "get first non-blank line
+    let fs = v:foldstart
+    while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+    endwhile
+    if fs > v:foldend
+        let line = getline(v:foldstart)
+    else
+        let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
+    endif
+
+    let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
+    let foldSize = 1 + v:foldend - v:foldstart
+    let foldSizeStr = " " . foldSize . " lines "
+    let foldLevelStr = repeat("+--", v:foldlevel)
+    let lineCount = line("$")
+    let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
+    let expansionString = " ".repeat("-", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
+    return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
+endf"}}}
 "}}}
 
 " ----------------------------- Java -----------------------------{{{
@@ -1380,3 +1393,4 @@ if hostname() == 'leighs'
     " let g:ctrlp_working_path_mode = '0'
 endif
 "}}}
+

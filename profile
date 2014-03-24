@@ -45,3 +45,7 @@ export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=lcd"
 # Python
 # export PYTHONPATH=/usr/lib/python3.3/site-packages
 
+if [[ `hostname` == 'leighs' ]]; then
+    export PATH="$HOME/.linuxbrew/bin:$PATH"
+    export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+fi
