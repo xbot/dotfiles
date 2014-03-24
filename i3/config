@@ -46,7 +46,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 # bindsym $mod+Shift+q kill
 bindsym $mod+q kill
-bindsym F4 kill
+bindsym Mod1+F4 kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run -i -b -fn "Source Code Pro-12" -p $
