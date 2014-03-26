@@ -38,8 +38,8 @@
 # File Manager
 "nautilus --no-desktop"
     Control + grave
-"doublecmd"
-    Mod1+grave
+"gvim ~/Dropbox/tasklist"
+    Alt+grave
 "rox"
     Alt + 1
 "rox ~/images"
@@ -232,5 +232,3 @@
     XF86AudioPlay
 # }}}
 
-"gvim ~/Dropbox/tasklist"
-    Alt+grave
