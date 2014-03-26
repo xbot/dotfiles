@@ -101,7 +101,6 @@ let active_addons += ['EasyMotion']
 let active_addons += ['session%3150']
 let active_addons += ['Syntastic']
 let active_addons += ['Tagbar']
-let active_addons += ['godef']
 let active_addons += ['SingleCompile']
 let active_addons += ['UltiSnips']
 let active_addons += ['vim-snippets']
@@ -109,6 +108,9 @@ let active_addons += ['Supertab']
 let active_addons += ['Vdebug']
 let active_addons += ['TwitVim']
 let active_addons += ['cscope']
+let active_addons += ['github:Blackrush/vim-gocode']
+let active_addons += ['github:cespare/vim-golang']
+let active_addons += ['github:dgryski/vim-godef']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -233,6 +235,33 @@ let g:tagbar_compact = 1
 let g:tagbar_usearrows = 1
 let g:tagbar_width = 30
 let g:tagbar_autofocus = 1
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
 
 " FencView settings
 let g:fencview_autodetect=0
