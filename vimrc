@@ -111,6 +111,7 @@ let active_addons += ['cscope']
 let active_addons += ['github:Blackrush/vim-gocode']
 let active_addons += ['github:cespare/vim-golang']
 let active_addons += ['github:dgryski/vim-godef']
+let active_addons += ['github:xbot/UltraBlog.vim']
 call vam#ActivateAddons(active_addons)
 "}}}
 
