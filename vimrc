@@ -108,6 +108,7 @@ let active_addons += ['Supertab']
 let active_addons += ['Vdebug']
 let active_addons += ['TwitVim']
 let active_addons += ['cscope']
+let active_addons += ['molokai']
 let active_addons += ['github:Blackrush/vim-gocode']
 let active_addons += ['github:cespare/vim-golang']
 let active_addons += ['github:dgryski/vim-godef']
@@ -680,7 +681,6 @@ nmap <leader>ntt :NERDTreeToggle<CR>
 nmap <leader>ntc :NERDTreeClose<CR>
 nmap <leader>nto :NERDTree<CR>
 nmap <leader>ntd :NERDTree %:h<CR>
-nmap <leader>nts :NERDTree ~/.vim/addons/vim-snippets/UltiSnips<CR>
 
 " UltraBlog
 nmap <leader>ub :UB
@@ -774,6 +774,9 @@ if has('unix')
 elseif has('win32')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
 endif
+
+" UltiSnips
+nmap <leader>ue :UltiSnipsEdit<Space>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -1239,21 +1242,6 @@ if has('balloon_eval')
     set ballooneval
 endif
 
-" Edit snippets
-function! EditSnippet(...)"{{{
-    let sdir = expand('~/.vim/addons/vim-snippets/UltiSnips')
-    if IsPlatform('win')
-        let sdir = expand($VIM.'/vimfiles/addons/vim-snippets/UltiSnips')
-    endif
-    if a:0 == 0
-        exec 'NERDTree '.sdir
-    else
-        let snippet = sdir.'/'.a:1.'.snippets'
-        exec 'sp '.snippet
-    endif
-endfunction"}}}
-command! -nargs=? EditSnippet call EditSnippet(<f-args>)
-
 " Toggle quickfix and location list
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
@@ -1360,6 +1348,8 @@ au filetype python map <F7> :Cnext<CR>
 au filetype python map <S-N> :Cnext<CR>
 au FileType python map <C-F5> :python runScript()<cr>
 au filetype python map <A-F5> <ESC>:call ExecutePythonScript()<CR>
+au FileType python set formatprg=PythonTidy.py
+au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
 
 " Start pyclewn
 function! StartPDB()"{{{
@@ -1413,7 +1403,6 @@ EOF
 au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
 au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 let g:gofmt_command = "goimports"
-let g:vim_addon_manager['plugin_sources']['godef'] = {"type":"git", "url":"https://github.com/dgryski/vim-godef.git"}
 "}}}
 
 " ----------------------------- Leigh's -----------------------------{{{
