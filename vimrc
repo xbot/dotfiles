@@ -20,7 +20,6 @@ function! IsPlatform(mixed)"{{{
     return 0
 endfunction"}}}
 
-call pathogen#runtime_append_all_bundles()
 set nocompatible
 filetype on
 filetype indent on
@@ -126,10 +125,21 @@ let active_addons += ['LargeFile']
 let active_addons += ['Pydiction']
 let active_addons += ['reload']
 let active_addons += ['Colorizer']
+let active_addons += ['Align%294']
+let active_addons += ['preview%3344']
+let active_addons += ['quickrun%3146']
+let active_addons += ['vim-octopress']
 let active_addons += ['github:Blackrush/vim-gocode']
 let active_addons += ['github:cespare/vim-golang']
 let active_addons += ['github:dgryski/vim-godef']
 let active_addons += ['github:xbot/UltraBlog.vim']
+let active_addons += ['github:tobyS/pdv']
+let active_addons += ['github:tobyS/vmustache']
+let active_addons += ['github:aaronbieber/vim-quicktask']
+let active_addons += ['github:peterhoeg/vim-qml']
+let active_addons += ['phpdoc']
+let active_addons += ['py2stdlib']
+let active_addons += ['pyclewn']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -315,9 +325,9 @@ let g:EasyGrepFilesToExclude='tags'
 
 " Pydiction Settings
 if IsPlatform('win')
-    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/bundle/pydiction/ftplugin/complete-dict'
+    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/addons/Pydiction/ftplugin/complete-dict'
 else
-    let g:pydiction_location = '~/.vim/bundle/pydiction/ftplugin/complete-dict'
+    let g:pydiction_location = '~/.vim/addons/Pydiction/ftplugin/complete-dict'
 endif
 
 " SQL Type Default
@@ -457,7 +467,7 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 " let g:powerline_pycmd = 'py'
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
 nnoremap <buffer> <C-\> :call pdv#DocumentWithSnip()<CR>
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 "}}}
@@ -737,8 +747,6 @@ nmap <leader>ss :SaveSession<Space>
 " js-beautify
 nmap <leader>jsb <ESC>:%!js-beautify -i<CR>
 vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
-
-nmap <leader>uv :UseVimball ~/.vim/bundle/
 
 " Adjust font size on the fly
 map <leader>] :LargerFont<CR>
