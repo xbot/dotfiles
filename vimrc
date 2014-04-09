@@ -20,7 +20,6 @@ function! IsPlatform(mixed)"{{{
     return 0
 endfunction"}}}
 
-call pathogen#runtime_append_all_bundles()
 set nocompatible
 filetype on
 filetype indent on
@@ -108,9 +107,39 @@ let active_addons += ['Supertab']
 let active_addons += ['Vdebug']
 let active_addons += ['TwitVim']
 let active_addons += ['cscope']
+let active_addons += ['molokai']
+let active_addons += ['shell']
+let active_addons += ['The_NERD_Commenter']
+let active_addons += ['The_NERD_tree']
+let active_addons += ['The_NERD_tree']
+let active_addons += ['FuzzyFinder']
+let active_addons += ['fencview']
+let active_addons += ['SudoEdit']
+let active_addons += ['Gundo']
+let active_addons += ['surround']
+let active_addons += ['Auto_Pairs']
+let active_addons += ['MatchTag']
+let active_addons += ['matchit.zip']
+let active_addons += ['bufexplorer.zip']
+let active_addons += ['LargeFile']
+let active_addons += ['Pydiction']
+let active_addons += ['reload']
+let active_addons += ['Colorizer']
+let active_addons += ['Align%294']
+let active_addons += ['preview%3344']
+let active_addons += ['quickrun%3146']
+let active_addons += ['vim-octopress']
 let active_addons += ['github:Blackrush/vim-gocode']
 let active_addons += ['github:cespare/vim-golang']
 let active_addons += ['github:dgryski/vim-godef']
+let active_addons += ['github:xbot/UltraBlog.vim']
+let active_addons += ['github:tobyS/pdv']
+let active_addons += ['github:tobyS/vmustache']
+let active_addons += ['github:aaronbieber/vim-quicktask']
+let active_addons += ['github:peterhoeg/vim-qml']
+let active_addons += ['phpdoc']
+let active_addons += ['py2stdlib']
+let active_addons += ['pyclewn']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -268,20 +297,6 @@ let g:fencview_autodetect=0
 let g:fencview_checklines=10
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
-" NeoComplCache Settings
-if IsPlatform('win')
-    let g:neocomplcache_enable_at_startup = 1
-    let g:neocomplcache_disable_auto_complete = 1
-else
-    let g:neocomplcache_enable_at_startup = 1
-    let g:neocomplcache_disable_auto_complete = 1
-endif
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_cursor_hold_i_time=10000
-let g:neocomplcache_plugin_rank={}
-
 " SuperTab Settings
 " " To be compatible with neocomplcache
 " let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
@@ -311,9 +326,9 @@ let g:EasyGrepFilesToExclude='tags'
 
 " Pydiction Settings
 if IsPlatform('win')
-    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/bundle/pydiction/ftplugin/complete-dict'
+    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/addons/Pydiction/ftplugin/complete-dict'
 else
-    let g:pydiction_location = '~/.vim/bundle/pydiction/ftplugin/complete-dict'
+    let g:pydiction_location = '~/.vim/addons/Pydiction/ftplugin/complete-dict'
 endif
 
 " SQL Type Default
@@ -408,11 +423,6 @@ let g:colorizer_auto_filetype='css,html'
 " Minibufexpl
 let g:miniBufExplSplitBelow=0
 
-" AsyncFinder.vim
-let g:asyncfinder_initial_mode='f'
-let g:asyncfinder_initial_pattern='**'
-nmap <leader>af :AsyncFinder<CR>
-
 " Vdebug.vim
 let g:vdebug_options= {
 \    "path_maps" : {"/var/www/workspace": "/home/taoqi/workspace"},
@@ -458,7 +468,7 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 " let g:powerline_pycmd = 'py'
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
 nnoremap <buffer> <C-\> :call pdv#DocumentWithSnip()<CR>
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 "}}}
@@ -616,10 +626,6 @@ nmap <leader>oc :FufCoverageFile<CR>
 nmap <leader>ot :FufTag<CR>
 nmap <leader>frc :FufRenewCache<CR>
 
-" 启用、禁用NeoComplCache
-" nmap <leader>cmple :NeoComplCacheEnable<CR>
-" nmap <leader>cmpld :NeoComplCacheDisable<CR>
-
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
 vmap <leader>dl y:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
@@ -680,7 +686,6 @@ nmap <leader>ntt :NERDTreeToggle<CR>
 nmap <leader>ntc :NERDTreeClose<CR>
 nmap <leader>nto :NERDTree<CR>
 nmap <leader>ntd :NERDTree %:h<CR>
-nmap <leader>nts :NERDTree ~/.vim/addons/vim-snippets/UltiSnips<CR>
 
 " UltraBlog
 nmap <leader>ub :UB
@@ -744,8 +749,6 @@ nmap <leader>ss :SaveSession<Space>
 nmap <leader>jsb <ESC>:%!js-beautify -i<CR>
 vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
 
-nmap <leader>uv :UseVimball ~/.vim/bundle/
-
 " Adjust font size on the fly
 map <leader>] :LargerFont<CR>
 map <leader>[ :SmallerFont<CR>
@@ -774,6 +777,9 @@ if has('unix')
 elseif has('win32')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
 endif
+
+" UltiSnips
+nmap <leader>ue :UltiSnipsEdit<Space>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -818,134 +824,6 @@ function! GetTimeInfo()"{{{
 endfunction"}}}
 nmap <silent> <leader>full a<C-R>=GetTimeInfo()<CR><ESC>
 imap <silent> <C-B>time <C-R>=GetTimeInfo()<CR>
-
-" 插入客户化添加注释
-function! InsertCustAddComment()"{{{
-    call setline('.',"//CUST-BEGIN ADD BY LINUS IN ".GetTimeInfo())
-    normal ==o
-    call setline('.',"//CUST-END")
-    normal ==O
-    call setline('.',".")
-    normal ==$x
-    startinsert!
-endfunction"}}}
-nmap <leader>cadd :call InsertCustAddComment()<CR>
-imap <C-B>add <Esc>,cadd
-
-"为指定的范围内的代码块添加客户化注释（删除、修改）
-"mode:0是删除；1是修改；
-function! InsertCustComment(firstLine, lastLine, mode)"{{{
-    "校验范围是否在当前Buffer的总行数之内
-    if a:firstLine < 1 || a:lastLine > line('$')
-        echoerr 'InsertCustComment : Range overflow !(FirstLine:'.a:firstLine.';LastLine:'.a:lastLine.';ValidRange:1~'.line('$').')'
-        return ''
-    endif
-
-    "校验是修改还是删除
-    if a:mode != 0 && a:mode != 1
-        echoerr 'InsertCustComment : Invalid mode !'
-        return ''
-    endif
-
-    " 跳转到指定区域的第一行，开始操作
-    exe 'normal '.a:firstLine.'GO'
-    let modeStr = ''
-    " 判断是MOD还是DEL
-    if a:mode == 0
-        let modeStr = 'DEL'
-    else
-        let modeStr = 'MOD'
-    endif
-    call setline('.', '//CUST-BEGIN '.modeStr.' BY LINUS IN '.GetTimeInfo())
-    normal ==o
-    " 如果是修改，显示FROM，并复制要修改的部分，以备后面引用
-    if a:mode == 1
-        call setline('.', '//FROM')
-        normal ==j
-        exe 'normal '.(a:lastLine-a:firstLine+1).'yyO'
-    endif
-    " 注释掉要修改的部分
-    call setline('.', '/*')
-    exe 'normal =='.(a:lastLine-a:firstLine+1).'jo'
-    call setline('.', '*/')
-    normal ==o
-    " 如果是修改，显示TO，并粘贴要修改的内容
-    if a:mode == 1
-        call setline('.', '//TO')
-        normal ==p
-        if (a:lastLine-a:firstLine) > 0
-            exe 'normal '.(a:lastLine-a:firstLine).'j'
-        endif
-        normal o
-    endif
-    call setline('.', '//CUST-END')
-
-    " 跳转光标
-    let gotoLn = 0
-    if a:mode == 0
-        let gotoLn = a:firstLine
-    else
-        let gotoLn = a:firstLine
-    endif
-    exe 'normal =='.gotoLn.'G'
-endfunction"}}}
-
-"Normal模式下针对单行、指定范围的多行、指定单边范围的多行插入客户化删除注释
-function! InsertCustCommentN(mode, instant)"{{{
-    let firstLine = 0
-    let lastLine = 0
-
-    "如果针对单行……
-    if a:instant
-        let firstLine = line('.')
-        let lastLine = line('.')
-        "如果针对多行
-    else
-        let rangeStr = input('Tell me the range : ')
-        "如果输入的是一个整数，根据它与当前行行号的大小判定范围
-        if rangeStr =~ '^\d\+$'
-            if rangeStr >= line('.')
-                let firstLine = line('.')
-                let lastLine = rangeStr
-            else
-                let firstLine = rangeStr
-                let lastLine = line('.')
-            endif
-            "如果输入的是“3,18”这样的字符串，根据两个数的大小判定范围
-        elseif rangeStr =~ '^\d\+,\d\+$'
-            let rangeInfo = split(rangeStr, ',')
-            if rangeInfo[0] >= rangeInfo[1]
-                let firstLine = rangeInfo[1]
-                let lastLine = rangeInfo[0]
-            else
-                let firstLine = rangeInfo[0]
-                let lastLine = rangeInfo[1]
-            endif
-            "输入的参数不正确
-        else
-            echoerr 'InsertCustDelCommentN : Wrong range !'
-        endif
-    endif
-
-    "针对给定范围进行插入操作
-    call InsertCustComment(firstLine, lastLine, a:mode)
-endfunction"}}}
-nmap <leader>xdel :call InsertCustCommentN(0, 0)<CR>
-nmap <leader>cdel :call InsertCustCommentN(0, 1)<CR>
-nmap <leader>xmod :call InsertCustCommentN(1, 0)<CR>
-nmap <leader>cmod :call InsertCustCommentN(1, 1)<CR>
-
-"Visual和Select模式下插入客户化删除注释
-function! InsertCustDelCommentV() range
-    call InsertCustComment(a:firstline, a:lastline, 0)
-endfunction
-vmap <leader>cdel :call InsertCustDelCommentV()<CR>
-
-"Visual、Select模式下针对选定范围内的代码插入客户化修改注释
-function! InsertCustModCommentV() range
-    call InsertCustComment(a:firstline, a:lastline, 1)
-endfunction
-vmap <leader>cmod :call InsertCustModCommentV()<CR>
 
 " Run a PHP script
 function! ExecutePHPScript()"{{{
@@ -1239,21 +1117,6 @@ if has('balloon_eval')
     set ballooneval
 endif
 
-" Edit snippets
-function! EditSnippet(...)"{{{
-    let sdir = expand('~/.vim/addons/vim-snippets/UltiSnips')
-    if IsPlatform('win')
-        let sdir = expand($VIM.'/vimfiles/addons/vim-snippets/UltiSnips')
-    endif
-    if a:0 == 0
-        exec 'NERDTree '.sdir
-    else
-        let snippet = sdir.'/'.a:1.'.snippets'
-        exec 'sp '.snippet
-    endif
-endfunction"}}}
-command! -nargs=? EditSnippet call EditSnippet(<f-args>)
-
 " Toggle quickfix and location list
 command! -bang -nargs=? QFix call QFixToggle(<bang>0)
 command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
@@ -1360,6 +1223,8 @@ au filetype python map <F7> :Cnext<CR>
 au filetype python map <S-N> :Cnext<CR>
 au FileType python map <C-F5> :python runScript()<cr>
 au filetype python map <A-F5> <ESC>:call ExecutePythonScript()<CR>
+au FileType python set formatprg=PythonTidy.py
+au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
 
 " Start pyclewn
 function! StartPDB()"{{{
@@ -1413,7 +1278,6 @@ EOF
 au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
 au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 let g:gofmt_command = "goimports"
-let g:vim_addon_manager['plugin_sources']['godef'] = {"type":"git", "url":"https://github.com/dgryski/vim-godef.git"}
 "}}}
 
 " ----------------------------- Leigh's -----------------------------{{{
