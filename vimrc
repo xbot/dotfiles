@@ -307,7 +307,6 @@ let g:SuperTabDefaultCompletionType = '<C-Tab>'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsSnippetsDir="~/.vim/addons/vim-snippets/UltiSnips"
 
 " YouCompleteMe
 let g:ycm_key_list_select_completion = ['<C-TAB>', '<Down>']
