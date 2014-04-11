@@ -88,58 +88,57 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
-let active_addons += ['YouCompleteMe']
-let active_addons += ['vim-jsbeautify']
 let active_addons += ['ag']
-let active_addons += ['ctrlp']
-let active_addons += ['vim-signify']
-let active_addons += ['splitjoin']
-let active_addons += ['EasyGrep']
-let active_addons += ['fugitive']
-let active_addons += ['EasyMotion']
-let active_addons += ['session%3150']
-let active_addons += ['Syntastic']
-let active_addons += ['Tagbar']
-let active_addons += ['SingleCompile']
-let active_addons += ['UltiSnips']
-let active_addons += ['vim-snippets']
-let active_addons += ['Supertab']
-let active_addons += ['Vdebug']
-let active_addons += ['TwitVim']
-let active_addons += ['cscope']
-let active_addons += ['molokai']
-let active_addons += ['shell']
-let active_addons += ['The_NERD_Commenter']
-let active_addons += ['The_NERD_tree']
-let active_addons += ['The_NERD_tree']
-let active_addons += ['FuzzyFinder']
-let active_addons += ['fencview']
-let active_addons += ['SudoEdit']
-let active_addons += ['Gundo']
-let active_addons += ['surround']
-let active_addons += ['Auto_Pairs']
-let active_addons += ['MatchTag']
-let active_addons += ['matchit.zip']
-let active_addons += ['bufexplorer.zip']
-let active_addons += ['LargeFile']
-" let active_addons += ['Pydiction']
-let active_addons += ['reload']
-let active_addons += ['Colorizer']
 let active_addons += ['Align%294']
-let active_addons += ['preview%3344']
-let active_addons += ['quickrun%3146']
-let active_addons += ['vim-octopress']
+let active_addons += ['Auto_Pairs']
+let active_addons += ['bufexplorer.zip']
+let active_addons += ['Colorizer']
+let active_addons += ['cscope']
+let active_addons += ['ctrlp']
+let active_addons += ['EasyGrep']
+let active_addons += ['EasyMotion']
+let active_addons += ['fencview']
+let active_addons += ['fugitive']
+let active_addons += ['FuzzyFinder']
+let active_addons += ['github:aaronbieber/vim-quicktask']
 let active_addons += ['github:Blackrush/vim-gocode']
 let active_addons += ['github:cespare/vim-golang']
 let active_addons += ['github:dgryski/vim-godef']
-let active_addons += ['github:xbot/UltraBlog.vim']
+let active_addons += ['github:peterhoeg/vim-qml']
 let active_addons += ['github:tobyS/pdv']
 let active_addons += ['github:tobyS/vmustache']
-let active_addons += ['github:aaronbieber/vim-quicktask']
-let active_addons += ['github:peterhoeg/vim-qml']
+let active_addons += ['github:xbot/UltraBlog.vim']
+let active_addons += ['Gundo']
+let active_addons += ['LargeFile']
+let active_addons += ['matchit.zip']
+let active_addons += ['MatchTag']
+let active_addons += ['molokai']
 let active_addons += ['phpdoc']
+let active_addons += ['preview%3344']
 let active_addons += ['py2stdlib']
 let active_addons += ['pyclewn']
+let active_addons += ['quickrun%3146']
+let active_addons += ['reload']
+let active_addons += ['session%3150']
+let active_addons += ['shell']
+let active_addons += ['SingleCompile']
+let active_addons += ['splitjoin']
+let active_addons += ['SudoEdit']
+let active_addons += ['Supertab']
+let active_addons += ['surround']
+let active_addons += ['Syntastic']
+let active_addons += ['Tagbar']
+let active_addons += ['The_NERD_Commenter']
+let active_addons += ['The_NERD_tree']
+let active_addons += ['TwitVim']
+let active_addons += ['UltiSnips']
+let active_addons += ['Vdebug']
+let active_addons += ['vim-jsbeautify']
+let active_addons += ['vim-octopress']
+let active_addons += ['vim-signify']
+let active_addons += ['vim-snippets']
+let active_addons += ['YouCompleteMe']
+" let active_addons += ['Pydiction']
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -353,7 +352,7 @@ if IsPlatform('win')
 elseif has('gui_macvim')
     let twitvim_browser_cmd="/Applications/Firefox.app/Contents/MacOS/firefox"
 else
-    let twitvim_browser_cmd = "firefox"
+    let twitvim_browser_cmd = "/usr/bin/chromium-browser"
 endif
 
 if IsPlatform('win')
@@ -779,6 +778,9 @@ endif
 
 " UltiSnips
 nmap <leader>ue :UltiSnipsEdit<Space>
+
+" Gundo
+nmap <leader>gu :GundoToggle<CR>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -809,20 +811,6 @@ function! MyDiff()"{{{
     endif
     silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction"}}}
-
-" 生成英文的日期、时间字符串
-function! GetTimeInfo()"{{{
-    language time C
-    let tmpTimeInfo = strftime('%Y-%m-%d %A %H:%M:%S')
-    if IsPlatform('win')
-        language time chinese_china
-    else
-        language time zh_CN.UTF-8
-    endif
-    return tmpTimeInfo
-endfunction"}}}
-nmap <silent> <leader>full a<C-R>=GetTimeInfo()<CR><ESC>
-imap <silent> <C-B>time <C-R>=GetTimeInfo()<CR>
 
 " Run a PHP script
 function! ExecutePHPScript()"{{{
@@ -1277,6 +1265,11 @@ EOF
 au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
 au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 let g:gofmt_command = "goimports"
+"}}}
+
+" ----------------------------- PHP -----------------------------{{{
+au FileType php nmap <buffer> <C-B> :% ! php_beautifier --filters "ArrayNested()"<CR>
+au FileType php vmap <buffer> <C-B> :! php_beautifier --filters "ArrayNested()"<CR>
 "}}}
 
 " ----------------------------- Leigh's -----------------------------{{{
