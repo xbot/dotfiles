@@ -569,6 +569,7 @@ autocmd BufWritePre *.go :Fmt
 "-----------------------------Key mappings-------------------------------"{{{
 " 凌波微步
 inoremap jj <Esc>
+nmap <C-U> :e!<CR>
 
 "普通退出，全部退出，强制退出，强制全部退出
 nmap <leader>q :q<CR>
@@ -1268,8 +1269,8 @@ let g:gofmt_command = "goimports"
 "}}}
 
 " ----------------------------- PHP -----------------------------{{{
-au FileType php nmap <buffer> <C-B> :% ! php_beautifier --filters "ArrayNested()"<CR>
-au FileType php vmap <buffer> <C-B> :! php_beautifier --filters "ArrayNested()"<CR>
+au FileType php nmap <buffer> <A-B> :% ! php_beautifier --filters "ArrayNested()"<CR>
+au FileType php vmap <buffer> <A-B> :! php_beautifier --filters "ArrayNested()"<CR>
 "}}}
 
 " ----------------------------- Leigh's -----------------------------{{{
