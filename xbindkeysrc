@@ -27,13 +27,13 @@
 # "urxvt"
 # "sakura"
 "lilyterm"
-    F1
+    Alt+Mod2 + F1
 # "sudo urxvt"
 # "sudo sakura"
 "sudo lilyterm"
     Shift+F1
 "lilyterm -d ~/Downloads"
-    Alt+Mod2 + F1
+    Control+Mod2 + F1
 
 # File Manager
 "nautilus --no-desktop"
