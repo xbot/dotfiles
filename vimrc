@@ -521,7 +521,7 @@ augroup markdown
     au FileType markdown set guifontwide=
     " au FileType markdown set background=light
     " au FileType markdown colorscheme zenesque
-    au FileType markdown colorscheme newspaper
+    " au FileType markdown colorscheme newspaper
 augroup END
 
 " Don't use Ex mode, use Q for formatting
@@ -1204,13 +1204,14 @@ endfunction
 "}}}
 
 " ----------------------------- Python -----------------------------{{{
-au filetype python map <F5> :call StartPDB()<CR>
-au filetype python map <S-F5> :call StopPDB()<CR>
-au filetype python map <F6> :Cstep<CR>
-au filetype python map <F7> :Cnext<CR>
-au filetype python map <S-N> :Cnext<CR>
-au FileType python map <C-F5> :python runScript()<cr>
-au filetype python map <A-F5> <ESC>:call ExecutePythonScript()<CR>
+au filetype python map <buffer> <F5> :call StartPDB()<CR>
+au filetype python map <buffer> <S-F5> :call StopPDB()<CR>
+au filetype python map <buffer> <F6> :Cstep<CR>
+au filetype python map <buffer> <F7> :Cnext<CR>
+au filetype python map <buffer> <S-N> :Cnext<CR>
+au FileType python map <buffer> <A-CR> :python runScript()<cr>
+au filetype python nmap <buffer> <C-CR> :call ExecutePythonScript()<CR>
+au filetype python imap <buffer> <C-CR> <ESC><C-CR>
 au FileType python set formatprg=PythonTidy.py
 au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
 
