@@ -570,6 +570,7 @@ autocmd BufWritePre *.go :Fmt
 " 凌波微步
 inoremap jj <Esc>
 nmap <C-U> :e!<CR>
+imap <C-Q> <Esc>:wq<CR>
 
 "普通退出，全部退出，强制退出，强制全部退出
 nmap <leader>q :q<CR>
