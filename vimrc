@@ -1271,8 +1271,9 @@ let g:gofmt_command = "goimports"
 "}}}
 
 " ----------------------------- PHP -----------------------------{{{
-au FileType php nmap <buffer> <A-B> :% ! php_beautifier --filters "ArrayNested()"<CR>
-au FileType php vmap <buffer> <A-B> :! php_beautifier --filters "ArrayNested()"<CR>
+au FileType php set formatprg=php_beautifier\ -l\ \"ArrayNested()\"
+au FileType php nnoremap <buffer> <A-F12> :call Preserve("normal gggqG")<CR>
+au FileType php vnoremap <buffer> <A-F12> gq
 "}}}
 
 " ----------------------------- Leigh's -----------------------------{{{
