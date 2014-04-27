@@ -48,7 +48,7 @@ if IsPlatform('win')
 endif
 
 " Generic declarations
-let gbl_ultrablog_debug = 0
+let gbl_ultrablog_debug = 1
 " Platform specific declarations
 if IsPlatform('win')
     let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
@@ -548,7 +548,8 @@ au BufNewFile,BufRead *.doku set ft=dokuwiki
 
 " Auto handle resources
 if IsPlatform('unix')
-    autocmd! BufWritePost,FileWritePost .xbindkeysrc silent !killall xbindkeys > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
+    autocmd! BufWritePost,FileWritePost .xbindkeysrc silent !ps aux|grep -P '\sxbindkeys$'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
+    autocmd! BufWritePost,FileWritePost .xbindkeys.scm silent !ps aux|grep -P '\sxbindkeys\s'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys -fg ~/.xbindkeys.scm > /dev/null 2>&1
     autocmd! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
     autocmd! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
 endif

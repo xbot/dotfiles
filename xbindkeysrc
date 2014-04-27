@@ -18,18 +18,9 @@
 "grun"
     F12
 
-"gvim"
-    Scroll_Lock
-"gvim -c "cd ~/workspace""
-    Control + Scroll_Lock
-
 # Terminal
-# "urxvt"
-# "sakura"
 "lilyterm"
     Alt+Mod2 + F1
-# "sudo urxvt"
-# "sudo sakura"
 "sudo lilyterm"
     Shift+F1
 "lilyterm -d ~/Downloads"
@@ -54,18 +45,10 @@
 "recoll"
     Shift+F3
 
-# "chromium --proxy-pac-url=file:///home/monk/Yunio/proxy.pac"
-"chromium"
-    Pause
-"firefox"
-    Alt+ Pause
-"midori"
-    Shift + Pause
-
-"thunderbird"
-    Alt + F11
-"thunderbird -compose"
-    Shift+Alt + F11
+# "thunderbird"
+    # Alt + F11
+# "thunderbird -compose"
+    # Shift+Alt + F11
 
 # 进程管理器
 "gnome-system-monitor"
