@@ -115,6 +115,8 @@ bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+Mod1+Left workspace prev_on_output
 bindsym $mod+Mod1+Right workspace next_on_output
+bindsym Control+Mod1+j workspace prev_on_output
+bindsym Control+Mod1+semicolon workspace next_on_output
 
 # move focused container to workspace
 bindsym $mod+Shift+0 move container to workspace 0:web
@@ -241,6 +243,7 @@ client.urgent           #2f343a #900000 #ffffff #900000
 # exec --no-startup-id wicd-gtk -t
 # exec --no-startup-id /home/taoqi/.yong/yong/yong
 exec --no-startup-id xbindkeys
+exec --no-startup-id xbindkeys -fg $HOME/.xbindkeys.scm
 # exec --no-startup-id udev-notify
 # exec --no-startup-id myblueman
 # exec --no-startup-id devmon

@@ -28,7 +28,7 @@
 
 # File Manager
 "nautilus --no-desktop"
-    Control + grave
+    Control+Mod2 + grave
 "gvim ~/Dropbox/tasklist"
     Alt+grave
 "rox"

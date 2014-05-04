@@ -61,10 +61,13 @@
 
 ; (register '((control semicolon) v) "wmctrl -xa Vim || gvim")
 ; (register '((control semicolon) f) (simple "firefox"))
+(register '((control semicolon) r) "grun")
 (register '((control semicolon) v) "gvim")
 (register '((control semicolon) (shift v)) "gvim -c \":cd ~/workspace\"")
 (register '((control semicolon) c) "chromium")
 (register '((control semicolon) f) "firefox")
+(register '((control semicolon) t) "thunderbird")
+(register '((control semicolon) (shift t)) "thunderbird -compose")
 (register '((control semicolon) (control q)) "i3-msg kill")
 (register '((control semicolon) (control semicolon)) "xdotool key ctrl+semicolon")
 
