@@ -138,6 +138,7 @@ let active_addons += ['vim-octopress']
 let active_addons += ['vim-signify']
 let active_addons += ['vim-snippets']
 let active_addons += ['YouCompleteMe']
+let active_addons += ['wildfire']
 " let active_addons += ['Pydiction']
 call vam#ActivateAddons(active_addons)
 "}}}
@@ -711,6 +712,8 @@ nmap <leader>ff yiw/\<<C-R>"\>\C
 vmap <leader>ff y/<C-R>=XEscapeRegex(@")<cr>\C
 nmap <leader>rr yiw:%s/\<<C-R>"\>\C//g<LEFT><LEFT>
 vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
+nmap <leader>rl yiw:s/\<<C-R>"\>\C//g<LEFT><LEFT>
+vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
 
 " 编码转换
 nmap <leader>fenc :set fenc<CR>
