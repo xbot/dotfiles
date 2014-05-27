@@ -139,7 +139,11 @@ let active_addons += ['vim-signify']
 let active_addons += ['vim-snippets']
 let active_addons += ['YouCompleteMe']
 let active_addons += ['wildfire']
+" let active_addons += ['ShowMarks7']
 " let active_addons += ['Pydiction']
+" let active_addons += ['vim-vebugger']
+" let active_addons += ['vimproc']
+" let g:vebugger_leader='<Leader>d'
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -264,6 +268,18 @@ let g:tagbar_compact = 1
 let g:tagbar_usearrows = 1
 let g:tagbar_width = 30
 let g:tagbar_autofocus = 1
+let g:tagbar_show_visibility = 1
+let g:tagbar_show_linenumbers = 1
+let g:tagbar_type_php  = {
+  \ 'ctagstype' : 'php',
+  \ 'kinds'     : [
+      \ 'i:interfaces',
+      \ 'c:classes',
+      \ 'd:constant definitions',
+      \ 'f:functions',
+      \ 'j:javascript functions:1'
+  \ ]
+\ }
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
@@ -353,7 +369,7 @@ if IsPlatform('win')
 elseif has('gui_macvim')
     let twitvim_browser_cmd="/Applications/Firefox.app/Contents/MacOS/firefox"
 else
-    let twitvim_browser_cmd = "/usr/bin/chromium-browser"
+    let twitvim_browser_cmd = "/usr/bin/firefox"
 endif
 
 if IsPlatform('win')
@@ -468,8 +484,7 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 
 " pdv
 let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
-nnoremap <buffer> <C-\> :call pdv#DocumentWithSnip()<CR>
-" nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
+au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -657,7 +672,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
 nmap <leader>mkt :call DoCtagsCscope()<CR>
-fun DoCtagsCscope()
+fun! DoCtagsCscope()
     silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
     call CreateCscopeDB(getcwd())
 endf
