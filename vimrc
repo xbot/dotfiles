@@ -188,20 +188,9 @@ if has('gui_running')
     " Font settings
     if IsPlatform('win')
         set background=light
-        "let g:zenesque_colors = 1
-        "colorscheme zenesque
-
-        " colorscheme solarized
-        "colorscheme lucius
-        "colorscheme diablo3
-        "colorscheme dante
         colorscheme freya
-
-        "set guifont=Consolas:h11:b
-        "set guifont=Monaco:h10:b
         " set guifont=Source\ Code\ Pro:h11:b
         set guifont=Source\ Code\ Pro:h11
-        "set guifont=XHei\ Mono:h11:b
     elseif has('gui_macvim')
         set guifont=Monaco:h14
         set background=dark
@@ -209,10 +198,7 @@ if has('gui_running')
     else
         set background=dark
         colorscheme solarized
-        "set guifont=YaHei\ Consolas\ Hybrid\ Bold\ 13
-        " set guifont=Monaco\ Bold\ 12
-        " set guifont=Monaco\ 12
-        set guifont=CosmicSansNeueMono\ 16
+        set guifont=CosmicSansNeueMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
         "set guifont=inconsolata\ Bold\ 13
         "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
@@ -250,10 +236,6 @@ endif
 "}}}
 
 "-----------------------------Plugins Settings--------------------------{{{
-" PHP folding method
-let php_folding=2
-let php_large_file=0
-
 " Tagbar
 if IsPlatform('win')
     let g:tagbar_ctags_bin = $VIM.'\addons\binary-utils\dist\bin\ctags.exe'
@@ -291,6 +273,16 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+let g:tagbar_type_php  = {
+  \ 'ctagstype' : 'php',
+  \ 'kinds'     : [
+      \ 'i:interfaces',
+      \ 'c:classes',
+      \ 'd:constant definitions',
+      \ 'f:functions',
+      \ 'j:javascript functions:1'
+  \ ]
+\ }
 
 " FencView settings
 let g:fencview_autodetect=0
@@ -301,7 +293,7 @@ let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 " " To be compatible with neocomplcache
 " let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 " To be compatible with YouCompleteMe
-let g:SuperTabDefaultCompletionType = '<C-Tab>'
+let g:SuperTabDefaultCompletionType = '<leader><C-Tab>'
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -309,8 +301,8 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " YouCompleteMe
-let g:ycm_key_list_select_completion = ['<C-TAB>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-S-TAB>', '<Up>']
+let g:ycm_key_list_select_completion = ['<leader><C-TAB>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<leader><C-S-TAB>', '<Up>']
 
 " EasyGrep Settings
 let g:EasyGrepRecursive = 1
@@ -348,13 +340,7 @@ let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
 " TwitVim
 let twitvim_enable_python = 1
 let twitvim_proxy = "127.0.0.1:8087"
-if IsPlatform('win')
-    let twitvim_browser_cmd = "D:/Program Files/Mozilla Firefox/firefox.exe"
-elseif has('gui_macvim')
-    let twitvim_browser_cmd="/Applications/Firefox.app/Contents/MacOS/firefox"
-else
-    let twitvim_browser_cmd = "/usr/bin/chromium-browser"
-endif
+let twitvim_browser_cmd = "/usr/bin/chromium"
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\addons\binary-utils\dist\bin\curl.exe -o'
@@ -424,7 +410,9 @@ let g:miniBufExplSplitBelow=0
 
 " Vdebug.vim
 let g:vdebug_options= {
-\    "path_maps" : {"/var/www/workspace": "/home/taoqi/workspace"},
+\    "path_maps" : {
+\        "/var/www/workspace": "/home/monk/workspace"
+\    },
 \    "port" : 9001,
 \    "server" : '0.0.0.0',
 \    "timeout" : 20,
@@ -466,10 +454,6 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 
 " let g:powerline_pycmd = 'py'
 
-" pdv
-let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
-nnoremap <buffer> <C-\> :call pdv#DocumentWithSnip()<CR>
-" nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -481,17 +465,6 @@ endif
 
 if IsPlatform('win')
     au VimEnter *.* cd %:h
-endif
-
-" PHP filetype
-au BufNewFile,BufRead *.lib,*.inc set filetype=php
-au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
-au FileType php set keywordprg="help"
-au FileType php set iskeyword=@,48-57,_,128-167,224-235
-if IsPlatform('win')
-    au FileType php set runtimepath+=$VIM\php
-else
-    au FileType php set runtimepath+=~/.vim/api/php
 endif
 
 " Javascript filetype
@@ -540,7 +513,6 @@ let g:sh_fold_enabled=1
 au FileType java set fdm=syntax
 au FileType java set fdl=1
 au FileType javascript set fdl=1
-au FileType php set fdl=1
 
 " Plain text
 au BufNewFile,BufRead *.txt set wrap
@@ -569,28 +541,45 @@ autocmd BufWritePre *.go :Fmt
 "}}}
 
 "-----------------------------Key mappings-------------------------------"{{{
-" 凌波微步
-inoremap jj <Esc>
-nmap <C-U> :e!<CR>
-imap <C-Q> <Esc>:wq<CR>
-
 "普通退出，全部退出，强制退出，强制全部退出
 nmap <leader>q :q<CR>
-nmap <leader>qq :q<CR>
-nmap <leader>qa :qa<CR>
-nmap <leader>qf :q!<CR>
-nmap <leader>qaf :qa!<CR>
+imap <leader>q <ESC>:q<CR>
+nmap <leader>aq :qa<CR>
+imap <leader>aq <ESC>:qa<CR>
+nmap <leader>Q :q!<CR>
+imap <leader>Q <ESC>:q!<CR>
+nmap <leader>aQ :qa!<CR>
+imap <leader>aQ <ESC>:qa!<CR>
 
-"保存
-nmap <leader>w :w<CR>
-map <C-S> <Esc><leader>w
-nmap <leader>fs :w!<CR>
+" 编辑
+inoremap jj <ESC>
+nmap <leader><leader>w :up<CR>
+nmap <leader><leader>W :up!<CR>
+imap <leader><leader>w <ESC>:up<CR>
+imap <leader><leader>W <ESC>:up!<CR>
 nmap <leader>x :x<CR>
+imap <leader>x <ESC>:x<CR>
+imap <leader>u <C-O>:normal u<CR>
+imap <leader>o <ESC>o<CR>
+imap <leader>O <ESC>O<CR>
 nmap <Space> <Pagedown>
+nmap <C-S-U> :e!<CR>
+imap <C-S-U> <C-O>:e!<CR>
+imap <C-Q> <ESC>:wq<CR>
+
+" 页签
+nmap <C-T><C-T> :tabnew<CR>
+imap <C-T><C-T> <ESC>:tabnew<CR>
+nmap <C-T><C-W> :tabc<CR>
+imap <C-T><C-W> <ESC>:tabc<CR>
+nmap <C-Tab> :tabn<CR>
+imap <C-Tab> <ESC>:tabn<CR>
+nmap <C-S-Tab> :tabp<CR>
+imap <C-S-Tab> <ESC>:tabp<CR>
 
 " 编辑与当前文件路径相关的文件
-nmap <leader>O :e <C-R>=expand("%:p:~")<CR>
-nmap <leader>D :e <C-R>=expand("%:p:~:h").'/'<CR>
+nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
+nmap <leader><leader>D :e <C-R>=expand("%:p:~:h").'/'<CR>
 
 " Quickfix and location windows
 " let g:toggle_list_no_mappings=1
@@ -614,8 +603,8 @@ nmap <S-Tab> <C-W>k<C-W>_
 " Navigating long lines
 nmap <A-j> gj
 nmap <A-k> gk
-imap <A-j> <ESC>gji
-imap <A-k> <ESC>gki
+imap <A-j> <C-O>gji
+imap <A-k> <C-O>gki
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tl :TagbarToggle<CR>
@@ -657,7 +646,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
 nmap <leader>mkt :call DoCtagsCscope()<CR>
-fun DoCtagsCscope()
+fun! DoCtagsCscope()
     silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
     call CreateCscopeDB(getcwd())
 endf
@@ -787,6 +776,11 @@ nmap <leader>ue :UltiSnipsEdit<Space>
 
 " Gundo
 nmap <leader>gu :GundoToggle<CR>
+
+" Cscope
+" f: Find this file
+map <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
+
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -818,53 +812,6 @@ function! MyDiff()"{{{
     silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction"}}}
 
-" Run a PHP script
-function! ExecutePHPScript()"{{{
-    if &filetype != 'php'
-        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
-        return
-    endif
-    setlocal makeprg=php\ -f\ %
-    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-    echohl WarningMsg | echo 'Execution output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction"}}}
-au filetype php map <C-F5> :call ExecutePHPScript()<CR>
-au filetype php imap <C-F5> <ESC>:call ExecutePHPScript()<CR>
-
-" Check the syntax of a PHP file
-function! CheckPHPSyntax()"{{{
-    if &filetype != 'php'
-        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
-        return
-    endif
-    setlocal makeprg=php\ -l\ -n\ -d\ html_errors=off\ %
-    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-    echohl WarningMsg | echo 'Syntax checking output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction"}}}
-"au filetype php map <F5> :call CheckPHPSyntax()<CR>
-"au filetype php imap <F5> <ESC>:call CheckPHPSyntax()<CR>
-
-" Open a temporary PHP file in a new window
-function! PHPSandBox()"{{{
-    let tmpfile = tempname().'.php'
-    exe 'new '.tmpfile
-    call setline('.', '<?php')
-    normal o
-    normal o
-    call setline('.', '?>')
-    normal k
-    startinsert
-endfunction"}}}
 " Open a temporary Python file in a new window
 function! PySandBox()"{{{
     let tmpfile = tempname().'.py'
@@ -876,7 +823,6 @@ function! PySandBox()"{{{
     startinsert
 endfunction"}}}
 nmap <leader>sbpy :call PySandBox()<CR>
-nmap <leader>sbph :call PHPSandBox()<CR>
 
 function! TextEnableCodeSnip(filetype, start, end, textSnipHl) abort"{{{
     let ft=toupper(a:filetype)
@@ -1275,12 +1221,81 @@ let g:gofmt_command = "goimports"
 "}}}
 
 " ----------------------------- PHP -----------------------------{{{
+" PHP folding method
+let php_folding=2
+let php_large_file=0
+
 au FileType php set formatprg=php_beautifier\ -l\ \"ArrayNested()\"
 au FileType php nnoremap <buffer> <A-F12> :call Preserve("normal gggqG")<CR>
 au FileType php vnoremap <buffer> <A-F12> gq
+" PHP filetype
+au BufNewFile,BufRead *.lib,*.inc set filetype=php
+au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
+au FileType php set keywordprg="help"
+au FileType php set iskeyword=@,48-57,_,128-167,224-235
+if IsPlatform('win')
+    au FileType php set runtimepath+=$VIM\php
+else
+    au FileType php set runtimepath+=~/.vim/api/php
+endif
+au FileType php set fdl=1
+
+" pdv
+let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
+au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
+" nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
+
+" Run a PHP script
+function! ExecutePHPScript()"{{{
+    if &filetype != 'php'
+        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
+        return
+    endif
+    setlocal makeprg=php\ -f\ %
+    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
+    echohl WarningMsg | echo 'Execution output:' | echohl None
+    if &modified == 1
+        silent write
+    endif
+    silent make
+    clist
+endfunction"}}}
+au filetype php map <buffer> <C-F5> :call ExecutePHPScript()<CR>
+au filetype php imap <buffer> <C-F5> <C-O>:call ExecutePHPScript()<CR>
+
+" Check the syntax of a PHP file
+function! CheckPHPSyntax()"{{{
+    if &filetype != 'php'
+        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
+        return
+    endif
+    setlocal makeprg=php\ -l\ -n\ -d\ html_errors=off\ %
+    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
+    echohl WarningMsg | echo 'Syntax checking output:' | echohl None
+    if &modified == 1
+        silent write
+    endif
+    silent make
+    clist
+endfunction"}}}
+au filetype php map <buffer> <leader><F5> :call CheckPHPSyntax()<CR>
+au filetype php imap <buffer> <leader><F5> <C-O>:call CheckPHPSyntax()<CR>
+
+" Open a temporary PHP file in a new window
+function! PHPSandBox()"{{{
+    let tmpfile = tempname().'.php'
+    exe 'new '.tmpfile
+    call setline('.', '<?php')
+    normal o
+    normal o
+    call setline('.', '?>')
+    normal k
+    startinsert
+endfunction"}}}
+nmap <leader>sbph :call PHPSandBox()<CR>
 "}}}
 
-" ----------------------------- Leigh's -----------------------------{{{
+" ----------------------------- Leigh's fixes -----------------------------{{{
 if hostname() == 'leighs'
     set guifont=CosmicSansNeueMono\ 14
     au BufEnter ~/workspace/* map <buffer> <C-P> :CtrlP ~/workspace<CR>

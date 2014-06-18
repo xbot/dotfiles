@@ -4,14 +4,34 @@ style "vim-fix" {
   fg[NORMAL] = "#ffffff"
 }
 
-style "vim-fix-tabs" {
+style "vim-fix-tabs-1" {
   bg[NORMAL] = shade(1.02, "#656565")
   bg[ACTIVE] = shade(1.25, "#878787")
   fg[ACTIVE] = "#323232"
   ythickness = 0 # make tabs small enough to be eye candy
+  font_name = "Zekton Bold 11"
+}
+
+style "vim-fix-tabs-2" {
+  bg[NORMAL] = shade(1.02, "#878787")
+  bg[ACTIVE] = shade(1.25, "#656565")
+  fg[ACTIVE] = "#323232"
+  ythickness = 0 # make tabs small enough to be eye candy
+  font_name = "Zekton Bold 11"
+}
+
+style "vim-fix-tabs-3" {
+  bg[NORMAL] = shade(1.02, "#AFD700")
+  bg[ACTIVE] = shade(1.25, "#585858")
+  fg[ACTIVE] = "#ffffff"
+  fg[NORMAL] = "#155F00"
+  ythickness = 0 # make tabs small enough to be eye candy
+  font_name = "Zekton Bold 11"
 }
 
 widget "vim-main-window*" style "vim-fix"
-widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs"
+# widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-1"
+widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-2"
+# widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-3"
 
 gtk-can-change-accels=1
