@@ -140,7 +140,11 @@ let active_addons += ['vim-snippets']
 let active_addons += ['YouCompleteMe']
 let active_addons += ['wildfire']
 let active_addons += ['vim-colorscheme-switcher']
+" let active_addons += ['ShowMarks7']
 " let active_addons += ['Pydiction']
+" let active_addons += ['vim-vebugger']
+" let active_addons += ['vimproc']
+" let g:vebugger_leader='<Leader>d'
 call vam#ActivateAddons(active_addons)
 "}}}
 
@@ -247,6 +251,18 @@ let g:tagbar_compact = 1
 let g:tagbar_usearrows = 1
 let g:tagbar_width = 30
 let g:tagbar_autofocus = 1
+let g:tagbar_show_visibility = 1
+let g:tagbar_show_linenumbers = 1
+let g:tagbar_type_php  = {
+  \ 'ctagstype' : 'php',
+  \ 'kinds'     : [
+      \ 'i:interfaces',
+      \ 'c:classes',
+      \ 'd:constant definitions',
+      \ 'f:functions',
+      \ 'j:javascript functions:1'
+  \ ]
+\ }
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
     \ 'kinds'     : [
@@ -455,6 +471,9 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 
 " let g:powerline_pycmd = 'py'
 
+" pdv
+let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
+au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{

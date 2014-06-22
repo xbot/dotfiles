@@ -5,11 +5,13 @@
 :hi Hint font-family: monospace; font-size: 16px; font-weight: bold; color: white; background-color: black; border-color: ButtonShadow; border-width: 1px; border-style: solid; padding: 1px 1px 1px 1px;
 :let mapleader=","
 set vb
+set gui=nonavigation
+set hintchars=sadfjklewcmpgh
 
 " == Auto commands ==
 " Escape in gmail and google reader
 autocmd LocationChange .* js modes.passAllKeys = /.*(mail\.google\.com|www\.google\.com\/reader|web\.qq\.com).*/.test(buffer.URL)
-autocmd VimperatorEnter .* emenu GBookmarks.Refresh
+" autocmd VimperatorEnter .* emenu GBookmarks.Refresh
 
 """ == javascript ==
 js<<EOF
