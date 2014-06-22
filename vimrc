@@ -139,6 +139,7 @@ let active_addons += ['vim-signify']
 let active_addons += ['vim-snippets']
 let active_addons += ['YouCompleteMe']
 let active_addons += ['wildfire']
+let active_addons += ['vim-colorscheme-switcher']
 " let active_addons += ['Pydiction']
 call vam#ActivateAddons(active_addons)
 "}}}
@@ -492,7 +493,7 @@ augroup markdown
     autocmd BufNewFile,BufRead *.mkd set filetype=markdown
     " autocmd BufNewFile,BufRead *.mkd set wrap
     au FileType markdown set wrap
-    au FileType markdown set guifontwide=
+    " au FileType markdown set guifontwide=
     " au FileType markdown set background=light
     " au FileType markdown colorscheme zenesque
     " au FileType markdown colorscheme newspaper
