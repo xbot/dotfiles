@@ -38,7 +38,7 @@ alias refresh=". ~/.zshrc"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python pip vi-mode systemd urltools archlinux)
+plugins=(git python pip vi-mode systemd urltools archlinux svn)
 
 source $ZSH/oh-my-zsh.sh
 # source /usr/share/zsh/site-contrib/powerline.zsh
@@ -116,6 +116,10 @@ alias gdiffhead='git difftool --gui HEAD'
 alias smpull='git submodule foreach git pull origin master'
 alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmailcom"'
 
+# svn aliases
+alias sst='svn status'
+alias sud='svn update'
+
 # SSH aliases
 alias viewlogtestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.log"'
 alias viewouttestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.out"'
@@ -143,12 +147,14 @@ alias regenmenu='mmaker -f -t Lilyterm MyGTKMenu'
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
+alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass /home/monk/workspace monster@172.16.20.111::xidi'
 
 #Maven
 alias makeframe='mvn clean install -Dmaven.test.skip=true'
 
 # Misc
 alias rake='nocorrect rake'
+alias gotosrv="ssh root@172.16.20.111"
 
 # Hashes
 hash -d cust="/home/monk/workspace/csp_web_customer_v1"
@@ -237,4 +243,4 @@ chpwd_octopress() {
 }
 chpwd_functions=( chpwd_octopress )
 
-source /etc/profile.d/autojump.sh
+# source /etc/profile.d/autojump.sh
