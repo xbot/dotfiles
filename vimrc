@@ -428,7 +428,7 @@ let g:miniBufExplSplitBelow=0
 " Vdebug.vim
 let g:vdebug_options= {
 \    "path_maps" : {
-\        "/var/www/workspace": "/home/monk/workspace"
+\        "/var/www/workspace": expand('~')."/workspace"
 \    },
 \    "port" : 9001,
 \    "server" : '0.0.0.0',
@@ -487,6 +487,9 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 " pdv
 let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
 au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
+
+" ag
+let g:ag_lhandler="lopen"
 "}}}
 
 "-----------------------------Auto Commands------------------------------"{{{
@@ -741,7 +744,8 @@ vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
 nmap <leader>fenc :set fenc<CR>
 nmap <leader>gbk :set fenc=cp936<CR>
 nmap <leader>utf8 :set fenc=utf-8<CR>
-nmap <leader>dos :set ff=dos<CR>
+nmap <leader>fdos :set ff=dos<CR>
+nmap <leader>edos :e ++ff=dos<CR>
 nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
@@ -814,6 +818,8 @@ nmap <leader>gu :GundoToggle<CR>
 " f: Find this file
 map <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
 
+" List all tasks under the current directory
+map <leader>lstd :LAg! --ignore "*/PHPExcel/*" --ignore "public/*" "// TODO:"<CR>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
