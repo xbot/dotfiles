@@ -472,6 +472,7 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  'target\|third-lib\|dist',
   \ 'file': '\v\.(exe|so|dll)$'
   \ }
+let g:ctrlp_follow_symlinks = 2
 
 " syntastic
 let g:syntastic_check_on_open = 1
@@ -822,9 +823,9 @@ map <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
 map <leader>lstd :LAg! --ignore "*/PHPExcel/*" --ignore "public/*" "// TODO:"<CR>
 
 " RabbitVCS
-map <leader>rbl :!rabbitvcs log<CR>
-map <leader>rbc :!rabbitvcs commit<CR>
-map <leader>rbu :!rabbitvcs update<CR>
+map <leader>rbl :silent !rabbitvcs log<CR>
+map <leader>rbc :silent !rabbitvcs commit<CR>
+map <leader>rbu :silent !rabbitvcs update<CR>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
