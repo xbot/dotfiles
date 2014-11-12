@@ -820,6 +820,11 @@ map <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
 
 " List all tasks under the current directory
 map <leader>lstd :LAg! --ignore "*/PHPExcel/*" --ignore "public/*" "// TODO:"<CR>
+
+" RabbitVCS
+map <leader>rbl :!rabbitvcs log<CR>
+map <leader>rbc :!rabbitvcs commit<CR>
+map <leader>rbu :!rabbitvcs update<CR>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
