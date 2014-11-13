@@ -1338,6 +1338,27 @@ function! PHPSandBox()"{{{
     startinsert
 endfunction"}}}
 nmap <leader>sbph :call PHPSandBox()<CR>
+
+" 强制使用HTML的注释
+function! ForceHTMLComment(mode, type) range
+    set ft=html
+    if a:mode == "x"
+        execute a:firstline.",".a:lastline."call NERDComment(\"x\", \"".a:type."\")"
+    else
+        if a:type == "Sexy"
+            normal ,cs
+        else
+            normal ,cc
+        endif
+    endif
+    set ft=php
+endfunction
+au FileType php nmap <buffer> <leader>fhcc :call ForceHTMLComment("n", "Comment")<CR>
+au FileType php vmap <buffer> <leader>fhcc :call ForceHTMLComment("x", "Comment")<CR>
+au FileType php nmap <buffer> <leader>fhcs :call ForceHTMLComment("n", "Sexy")<CR>
+au FileType php vmap <buffer> <leader>fhcs :call ForceHTMLComment("x", "Sexy")<CR>
+au FileType php nmap <buffer> <leader>fhcu :call ForceHTMLComment("n", "Uncomment")<CR>
+au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
 "}}}
 
 " ----------------------------- Leigh's fixes -----------------------------{{{
