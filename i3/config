@@ -197,7 +197,7 @@ bar {
     # output CRT1
     # font pango:DejaVu Sans YuanTi 10
     # font pango:DS-Digital 14
-    font pango:Zekton 11
+    font pango:Zekton 12
     position top
     status_command i3status
     # mode hide
