@@ -823,7 +823,8 @@ map <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
 map <leader>lstd :LAg! --ignore "*/PHPExcel/*" --ignore "public/*" "// TODO:"<CR>
 
 " RabbitVCS
-map <leader>rbl :silent !rabbitvcs log<CR>
+map <leader>rbll :silent !rabbitvcs log<CR>
+map <leader>rblL :silent !rabbitvcs log %<CR>
 map <leader>rbc :silent !rabbitvcs commit<CR>
 map <leader>rbu :silent !rabbitvcs update<CR>
 "}}}
