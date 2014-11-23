@@ -88,6 +88,7 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
+let active_addons += ['jianfan']
 let active_addons += ['ag']
 let active_addons += ['Align%294']
 let active_addons += ['Auto_Pairs']
@@ -1324,8 +1325,8 @@ function! CheckPHPSyntax()"{{{
     silent make
     clist
 endfunction"}}}
-au filetype php map <buffer> <leader><F5> :call CheckPHPSyntax()<CR>
-au filetype php imap <buffer> <leader><F5> <C-O>:call CheckPHPSyntax()<CR>
+au filetype php map <buffer> <A-F5> :call CheckPHPSyntax()<CR>
+au filetype php imap <buffer> <A-F5> <C-O>:call CheckPHPSyntax()<CR>
 
 " Open a temporary PHP file in a new window
 function! PHPSandBox()"{{{
