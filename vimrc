@@ -1364,10 +1364,10 @@ au FileType php nmap <buffer> <leader>fhcu :call ForceHTMLComment("n", "Uncommen
 au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
 
 " phpqa
-let g:phpqa_codesniffer_args = "--standard=Zend"
+let g:phpqa_codesniffer_args = "--standard=$HOME/.phpcs_ruleset.xml"
 " let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs' 
 " let g:phpqa_codesniffer_autorun = 1        "  default =1 on save
-" let g:phpqa_messdetector_ruleset = ''
+let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
 " let g:phpqa_messdetector_autorun = 0
 "}}}
