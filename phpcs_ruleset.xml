@@ -2,6 +2,8 @@
 <ruleset name="Donie Leigh's PHP CodeSniffer Standard">
     <description>Extended from zend standard.</description>
     <rule ref="Zend">
+        <!-- <exclude name="PEAR.ControlStructures.MultiLineCondition"/> -->
+        <!-- <exclude name="PEAR.Functions.FunctionCallSignature"/> -->
         <!-- <exclude name="Generic.PHP.DisallowShortOpenTag"/> -->
     </rule>
     <rule ref="Generic.Files.LineLength">
