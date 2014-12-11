@@ -466,8 +466,8 @@ autocmd FileType javascript noremap <buffer>  <a-f> :call JsBeautify()<cr>
 autocmd FileType html noremap <buffer> <a-f> :call HtmlBeautify()<cr>
 autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<cr>
 
-" Eclim
-let g:EclimCompletionMethod = 'omnifunc'
+" " Eclim
+" let g:EclimCompletionMethod = 'omnifunc'
 
 " Ctrlp
 let g:ctrlp_custom_ignore = {
@@ -484,6 +484,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height = 5
 let g:syntastic_enable_highlighting = 0
 let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
+au FileType php let b:syntastic_skip_checks = 1
 
 " let g:powerline_pycmd = 'py'
 
@@ -786,8 +787,8 @@ vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
 map <leader>] :LargerFont<CR>
 map <leader>[ :SmallerFont<CR>
 
-" Eclim
-nmap <leader>ptt :ProjectTreeToggle<CR>
+" " Eclim
+" nmap <leader>ptt :ProjectTreeToggle<CR>
 
 " Ag
 nmap <leader>ag :LAg! -i<Space>
@@ -1181,6 +1182,30 @@ fu! CustomFoldText()"{{{
     let expansionString = " ".repeat("-", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
     return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
 endf"}}}
+
+" Show commit history of the current file under the given VCS in a new window
+function! ShowCommitHistory(vcs)
+    " Check parameter
+    if a:vcs != 'svn' && a:vcs != 'git'
+        echoerr 'Unknow VCS: '.a:vcs
+        return
+    endif
+
+    " Do the dirty work
+    let fileName = expand('%')
+    if !empty(fileName)
+        exe 'new'
+        if a:vcs == 'svn'
+            exe 'r !svn log --diff --internal-diff '.fileName
+        elseif a:vcs == 'git'
+            exe 'r !git log -p '.fileName
+        endif
+    else
+        echo 'File not found.'
+    endif
+endfunction
+nnoremap <leader>ssch :call ShowCommitHistory('svn')<CR>
+nnoremap <leader>gsch :call ShowCommitHistory('git')<CR>
 "}}}
 
 " ----------------------------- Java -----------------------------{{{
