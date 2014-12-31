@@ -14,7 +14,7 @@
     <rule ref="rulesets/unusedcode.xml" />
 
     <!-- Ruleset codesize.xml -->
-    <rule ref="rulesets/codesize.xml/CyclomaticComplexity"/>
+    <!-- <rule ref="rulesets/codesize.xml/CyclomaticComplexity"/> -->
     <!-- <rule ref="rulesets/codesize.xml/NPathComplexity"/> -->
     <rule ref="rulesets/codesize.xml/ExcessiveMethodLength"/>
     <rule ref="rulesets/codesize.xml/ExcessiveClassLength"/>

@@ -616,6 +616,7 @@ nmap <C-Tab> :tabn<CR>
 imap <C-Tab> <ESC>:tabn<CR>
 nmap <C-S-Tab> :tabp<CR>
 imap <C-S-Tab> <ESC>:tabp<CR>
+nmap gr :tabp<CR>
 
 " 编辑与当前文件路径相关的文件
 nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
@@ -791,13 +792,20 @@ map <leader>[ :SmallerFont<CR>
 " nmap <leader>ptt :ProjectTreeToggle<CR>
 
 " Ag
-nmap <leader>ag :LAg! -i<Space>
+nmap <leader>ag :MyAg<Space>
 nmap <leader>gag :Ag! -i<Space>
 nmap <leader>wag :LAg! -iw<Space>
 nmap <leader>wgag :Ag! -iw<Space>
-vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
+" vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
+vmap <leader>ag y:LAg! <C-R>=escape(XEscapeRegex(@", 1), '\')<CR>
 vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
 nnoremap <leader>ww :LAg! <cword><CR>
+
+command! -nargs=+ MyAg call AgWrapper(<f-args>)
+function! AgWrapper(rawPattern)
+    let pattern = escape(XEscapeRegex(a:rawPattern), '\')
+    exe 'LAg! -i '.pattern
+endfunction
 
 " EasyGrep
 nmap <leader>R :Replace<Space>
@@ -1071,7 +1079,7 @@ nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 " 第一个额外参数如果是1，则不转义+号，否则默认转义（即Vim支持的格式）
 function! XEscapeRegex(str, ...)
     let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
-    return substitute(escape(a:str, '/\.*$^~['), '\s\+', whitespacePattern, 'g')
+    return substitute(escape(a:str, '/\.*$^~[]()'), '\s\+', whitespacePattern, 'g')
 endfunction
 
 " Display contents of the current fold in a balloon
