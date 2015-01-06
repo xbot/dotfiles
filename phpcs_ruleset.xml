@@ -4,7 +4,8 @@
     <rule ref="Zend">
         <!-- <exclude name="PEAR.ControlStructures.MultiLineCondition"/> -->
         <!-- <exclude name="PEAR.Functions.FunctionCallSignature"/> -->
-        <!-- <exclude name="Generic.PHP.DisallowShortOpenTag"/> -->
+        <exclude name="Generic.PHP.DisallowShortOpenTag"/>
+        <exclude name="PEAR.WhiteSpace.ScopeClosingBrace"/>
     </rule>
     <rule ref="Generic.Files.LineLength">
         <properties>

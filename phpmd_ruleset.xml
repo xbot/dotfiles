@@ -17,12 +17,12 @@
     <!-- <rule ref="rulesets/codesize.xml/CyclomaticComplexity"/> -->
     <!-- <rule ref="rulesets/codesize.xml/NPathComplexity"/> -->
     <rule ref="rulesets/codesize.xml/ExcessiveMethodLength"/>
-    <rule ref="rulesets/codesize.xml/ExcessiveClassLength"/>
+    <!-- <rule ref="rulesets/codesize.xml/ExcessiveClassLength"/> -->
     <rule ref="rulesets/codesize.xml/ExcessiveParameterList"/>
     <rule ref="rulesets/codesize.xml/ExcessivePublicCount"/>
     <rule ref="rulesets/codesize.xml/TooManyFields"/>
     <rule ref="rulesets/codesize.xml/TooManyMethods"/>
-    <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity"/>
+    <!-- <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity"/> -->
 
     <!-- Ruleset naming.xml -->
     <rule ref="rulesets/naming.xml/ShortVariable">
