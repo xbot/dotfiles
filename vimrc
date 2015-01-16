@@ -582,8 +582,8 @@ autocmd BufWritePre *.go :Fmt
 
 "-----------------------------Key mappings-------------------------------"{{{
 "普通退出，全部退出，强制退出，强制全部退出
-nmap <leader>q :q<CR>
-imap <leader>q <ESC>:q<CR>
+nmap <leader>qq :q<CR>
+imap <leader>qq <ESC>:q<CR>
 nmap <leader>aq :qa<CR>
 imap <leader>aq <ESC>:qa<CR>
 nmap <leader>Q :q!<CR>
@@ -600,8 +600,8 @@ imap <leader><leader>W <ESC>:up!<CR>
 nmap <leader>x :x<CR>
 imap <leader>x <ESC>:x<CR>
 imap <leader>u <C-O>:normal u<CR>
-imap <leader>o <ESC>o<CR>
-imap <leader>O <ESC>O<CR>
+imap <leader>o <C-O>:normal o<CR>
+imap <leader>O <C-O>:normal O<CR>
 nmap <Space> <Pagedown>
 nmap <C-S-U> :e!<CR>
 imap <C-S-U> <C-O>:e!<CR>
