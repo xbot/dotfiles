@@ -485,6 +485,7 @@ let g:syntastic_loc_list_height = 5
 let g:syntastic_enable_highlighting = 0
 let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 au FileType php let b:syntastic_skip_checks = 1
+let g:syntastic_python_python_exec = '/usr/bin/python2'
 
 " let g:powerline_pycmd = 'py'
 
