@@ -226,20 +226,6 @@ create_new_post() {
 copy_path() {
     readlink -f "$1"|pbcopy
 }
-deploydevsrv() {
-    scp -i ~/.ssh/chanjet_devsrv "$1" root@10.10.11.218:/opt/geronimo/deploy/
-    # scp -i ~/.ssh/chanjet_devsrv "$1" root@10.10.11.218:/opt/tomcat/webapps/"$2"
-}
-deploytestsrv() {
-    scp -i ~/.ssh/chanjet_testsrv "$1" root@10.10.11.221:/opt/geronimo/deploy/
-    # scp -i ~/.ssh/chanjet_testsrv "$1" root@10.10.11.221:/opt/tomcat/webapps/"$2"
-}
-deployubsrv() {
-    scp -i ~/.ssh/chanjet_testsrv "$1" root@172.18.8.145:/opt/geronimo/deploy/
-}
-sendubsvr() {
-    scp -i ~/.ssh/chanjet_testsrv "$1" root@172.18.8.145:/opt/
-}
 lsf() { # List files whose names match the given pattern
     ! [ $# -eq 1 -o $# -eq 2 ] && echo "lsf FILENAME PATH" >&2 && return 1
     [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
@@ -254,5 +240,9 @@ chpwd_octopress() {
     fi
 }
 chpwd_functions=( chpwd_octopress )
+
+chkprt() {
+    eval "lsof -i tcp:$1"
+}
 
 # source /etc/profile.d/autojump.sh

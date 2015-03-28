@@ -88,6 +88,7 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
+let active_addons += ['Gist']
 let active_addons += ['phpqa']
 let active_addons += ['jianfan']
 let active_addons += ['ag']
@@ -1246,7 +1247,7 @@ au FileType python map <buffer> <A-CR> :python runScript()<cr>
 au filetype python nmap <buffer> <C-CR> :call ExecutePythonScript()<CR>
 au filetype python imap <buffer> <C-CR> <ESC><C-CR>
 au FileType python set formatprg=PythonTidy.py
-au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
+" au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
 
 " Start pyclewn
 function! StartPDB()"{{{
