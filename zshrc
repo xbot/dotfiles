@@ -62,6 +62,11 @@ else
     export LSCOLORS=dxfxcxdxbxegedabagacad
 fi
 
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 alias l='ls -CF'
 #alias ll='ls -l'
 #alias la='ls -Al'
@@ -132,6 +137,7 @@ alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t
 alias english='export LC_ALL=en_US.UTF-8'
 # alias httpproxy='export http_proxy=127.0.0.1:8087'
 alias httpproxy='export http_proxy=127.0.0.1:1894'
+alias httpsproxy='export HTTPS_PROXY=socks5://127.0.0.1:1080'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias ff='firefox'
 alias a='apack'
@@ -160,6 +166,7 @@ alias makeframe='mvn clean install -Dmaven.test.skip=true'
 # Misc
 alias rake='nocorrect rake'
 alias gotosrv="ssh root@172.16.20.111"
+alias gotodo="ssh root@104.236.135.204"
 
 # Hashes
 hash -d cust="/home/monk/workspace/csp_web_customer_v1"
