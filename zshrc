@@ -218,7 +218,7 @@ orphans() { # Remove orphan packages in archlinux
         sudo pacman -Rs $(pacman -Qdtq)
     fi
 }
-create_new_post() {
+writeblog() {
    test $# -ne 1 && echo "Invalid title" >&2 && return 1
    cd ~/dev/octopress
    rake new_post\["$1"\]
@@ -241,8 +241,19 @@ chpwd_octopress() {
 }
 chpwd_functions=( chpwd_octopress )
 
-chkprt() {
+# Check tcp and dup port
+chktcp() {
     eval "lsof -i tcp:$1"
 }
+chkdup() {
+    eval "lsof -i dup:$1"
+}
 
-# source /etc/profile.d/autojump.sh
+# Use ssh to access a given host
+# eg. goto 3 <=> ssh root@192.168.1.3
+goto() {
+    test $# -eq 0 && echo "Which host do you want to access ?" >&2 && return 1
+    ipseg=`[ -z "$DONIE_IP_SEG" ] && echo "192.168.1" || echo "$DONIE_IP_SEG"`
+    account=`[ $# -ge 2 ] && echo "$2" || echo "root"`
+    ssh "$account@$ipseg.$1"
+}
