@@ -257,3 +257,10 @@ goto() {
     account=`[ $# -ge 2 ] && echo "$2" || echo "root"`
     ssh "$account@$ipseg.$1"
 }
+
+# Use screen to access a ttyUSBx device
+# eg. serial 0 <=> sudo screen /dev/ttyUSB0 115200
+serial() {
+    test $# -eq 0 && echo "Which ttyUSB device do you want to access ?" >&2 && return 1
+    sudo screen "/dev/ttyUSB$1" 115200
+}
