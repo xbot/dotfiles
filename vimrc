@@ -691,7 +691,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 nmap <leader>mkt :call DoCtagsCscope()<CR>
 fun! DoCtagsCscope()
     silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
-    call CreateCscopeDB(getcwd())
+    call CscopeUpdateDB()
 endf
 
 " 手工设置当前文件所在的目录为工作目录

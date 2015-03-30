@@ -240,14 +240,9 @@ client.urgent           #2f343a #900000 #ffffff #900000
 # client.urgent           #C10004 #900000 #ffffff #900000
 
 # exec yunio
-# exec --no-startup-id wicd-gtk -t
 exec --no-startup-id /home/taoqi/.yong/yong/yong
 exec --no-startup-id xbindkeys
 exec --no-startup-id xbindkeys -fg $HOME/.xbindkeys.scm
-# exec --no-startup-id udev-notify
-# exec --no-startup-id myblueman
-# exec --no-startup-id devmon
-# exec --no-startup-id conky -c /home/monk/.weather/conkyrc
 exec --no-startup-id basket -h
 exec --no-startup-id diodon
 exec --no-startup-id feh --bg-scale $HOME/.wallpaper
@@ -257,6 +252,9 @@ exec --no-startup-id compton -cGb
 # exec --no-startup-id sudo echo 10 > /sys/class/backlight/acpi_video0/brightness
 exec --no-startup-id dropboxd
 exec --no-startup-id ~/.i3/startup-ubuntu.sh
+# exec --no-startup-id nm-applet
+# exec --no-startup-id xmodmap $HOME/.Xmodmap
+exec --no-startup-id $HOME/dev/shell/udev.py
 
 for_window [class="Wine"] floating enable;border none
 for_window [class="Wine" instance="Thunder5.exe" title="迅雷5"] floating disable
@@ -281,6 +279,7 @@ for_window [class="Gtk-recordMyDesktop"] floating enable;border normal
 for_window [class="Kazam"] floating enable;border normal
 for_window [class="Dropbox"] floating enable;border normal
 for_window [class="Qsynergy"] floating enable;border normal
+for_window [class="Nw"] floating enable;border normal
 
 assign [class="Eclipse"] "1:code"
 assign [class="Java" title="Eclipse"] "1:code"
