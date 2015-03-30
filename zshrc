@@ -3,6 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 
 # do not share history instantly among terminals
 unsetopt share_history
+zstyle ':completion:*' rehash true
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -38,7 +39,11 @@ alias refresh=". ~/.zshrc"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git python pip vi-mode systemd urltools archlinux svn)
+if [[ `hostname` == "leighs" ]]; then
+    plugins=(git python pip systemd urltools debian svn vi-mode)
+else
+    plugins=(git python pip vi-mode systemd urltools archlinux svn)
+fi
 
 source $ZSH/oh-my-zsh.sh
 # source /usr/share/zsh/site-contrib/powerline.zsh
@@ -158,7 +163,7 @@ alias remap='xmodmap .Xmodmap'
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
-alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass /home/monk/workspace monster@172.16.20.111::xidi'
+# alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass /home/monk/workspace monster@172.16.20.111::xidi'
 
 #Maven
 alias makeframe='mvn clean install -Dmaven.test.skip=true'
@@ -245,8 +250,8 @@ chpwd_functions=( chpwd_octopress )
 chktcp() {
     eval "lsof -i tcp:$1"
 }
-chkdup() {
-    eval "lsof -i dup:$1"
+chkudp() {
+    eval "lsof -i udp:$1"
 }
 
 # Use ssh to access a given host
