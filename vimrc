@@ -688,11 +688,11 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 " CTags
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
-nmap <leader>mkt :call DoCtagsCscope()<CR>
-fun! DoCtagsCscope()
-    silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
-    call CscopeUpdateDB()
-endf
+" nmap <leader>mkt :call DoCtagsCscope()<CR>
+" fun! DoCtagsCscope()
+    " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
+    " call CscopeUpdateDB()
+" endf
 
 " 手工设置当前文件所在的目录为工作目录
 nmap <leader>pwd :pwd<CR>
@@ -830,7 +830,24 @@ nmap <leader>gu :GundoToggle<CR>
 
 " Cscope
 " f: Find this file
-map <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
+nnoremap <leader>cfa :call CscopeFindInteractive(expand('<cword>'))<CR>
+" nnoremap <leader>cl :call ToggleLocationList()<CR>
+" s: Find this C symbol
+nnoremap  <leader>cfs :call CscopeFind('s', expand('<cword>'))<CR>
+" g: Find this definition
+nnoremap  <leader>cfg :call CscopeFind('g', expand('<cword>'))<CR>
+" d: Find functions called by this function
+nnoremap  <leader>cfd :call CscopeFind('d', expand('<cword>'))<CR>
+" c: Find functions calling this function
+nnoremap  <leader>cfc :call CscopeFind('c', expand('<cword>'))<CR>
+" t: Find this text string
+nnoremap  <leader>cft :call CscopeFind('t', expand('<cword>'))<CR>
+" e: Find this egrep pattern
+nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
+" f: Find this file
+nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
+" i: Find files #including this file
+nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
 
 " List all tasks under the current directory
 map <leader>lstd :LAg! --ignore "*/PHPExcel/*" --ignore "public/*" "// TODO:"<CR>
