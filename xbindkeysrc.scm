@@ -65,6 +65,7 @@
 (register '((control semicolon) v) "gvim")
 (register '((control semicolon) (shift v)) "gvim -c \":cd ~/workspace\"")
 (register '((control semicolon) c) "chromium")
+(register '((control semicolon) d) "dolphin")
 (register '((control semicolon) f) "firefox")
 (register '((control semicolon) t) "thunderbird")
 (register '((control semicolon) (shift t)) "thunderbird -compose")

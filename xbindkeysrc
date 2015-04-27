@@ -84,6 +84,7 @@
 "chromium --app="https://www.google.com/calendar/render?gsessionid=OK""
     Shift+F10
 # GMail
+# "chromium --app="https://inbox.google.com""
 "chromium --app="https://mail.google.com/mail""
     Shift+F11
 # Wiki
