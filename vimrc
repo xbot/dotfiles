@@ -88,6 +88,7 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
+let active_addons += ['fontsize']
 let active_addons += ['Gist']
 let active_addons += ['phpqa']
 let active_addons += ['jianfan']
@@ -323,6 +324,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " YouCompleteMe
 let g:ycm_key_list_select_completion = ['<leader><C-TAB>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<leader><C-S-TAB>', '<Up>']
+let g:ycm_global_ycm_extra_conf = '~/.vim/addons/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
 " EasyGrep Settings
 let g:EasyGrepRecursive = 1
@@ -687,7 +689,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
+nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
 " nmap <leader>mkt :call DoCtagsCscope()<CR>
 " fun! DoCtagsCscope()
     " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."

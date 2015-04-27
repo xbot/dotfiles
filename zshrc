@@ -40,7 +40,7 @@ alias refresh=". ~/.zshrc"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ `hostname` == "leighs" ]]; then
-    plugins=(git python pip systemd urltools debian svn vi-mode)
+    plugins=(git python pip systemd urltools debian svn vi-mode archlinux)
 else
     plugins=(git python pip vi-mode systemd urltools archlinux svn)
 fi
@@ -71,6 +71,9 @@ fi
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# wine
+export WINEARCH=win32
 
 alias l='ls -CF'
 #alias ll='ls -l'
