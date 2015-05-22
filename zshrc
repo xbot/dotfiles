@@ -16,11 +16,6 @@ else
 fi
 DEFAULT_USER="monk"
 
-# Example aliases
-alias config="gvim ~/.zshrc && refresh"
-alias ohmyzsh="gvim ~/.oh-my-zsh"
-alias refresh=". ~/.zshrc"
-
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
@@ -46,8 +41,94 @@ else
 fi
 
 source $ZSH/oh-my-zsh.sh
-# source /usr/share/zsh/site-contrib/powerline.zsh
 source ~/dev/z/z.sh
+
+##################################################
+# Functions
+##################################################
+wcp() { # Count processes
+    if [ $# -eq 0 ]; then
+        echo 'Which process to count ?' >&2
+        return 1
+    fi
+    while [ $# -gt 0 ]; do
+        cnt=`ps aux|grep -v grep|grep $1|wc -l`
+        echo -e $1":\t\t"$cnt
+        shift
+    done
+}
+mvgo() { # Move and go
+    if [ -d "$2" ];then
+        mv $1 $2 && cd $2
+    else
+        mv $1 $2
+    fi
+}
+clock() { # CLI clock
+    while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
+}
+ptyless () { # Colorful less
+    zmodload zsh/zpty
+    zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
+    zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
+    less /tmp/ptyless.$$
+    rm -f /tmp/ptyless.$$
+    zpty -d ptyless                   # 删除已完成的 pty
+}
+orphans() { # Remove orphan packages in archlinux
+    if [[ ! -n $(pacman -Qdt) ]]; then
+        echo no orphans to remove
+    else
+        sudo pacman -Rns $(pacman -Qdtq)
+    fi
+}
+writeblog() {
+   test $# -ne 1 && echo "Invalid title" >&2 && return 1
+   cd ~/dev/octopress
+   rake new_post\["$1"\]
+}
+copy_path() {
+    readlink -f "$1"|pbcopy
+}
+lsf() { # List files whose names match the given pattern
+    ! [ $# -eq 1 -o $# -eq 2 ] && echo "lsf FILENAME PATH" >&2 && return 1
+    [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
+    find "$UNDER_PATH" -name "$1" -print
+}
+chpwd_octopress() {
+    OCTOPRESS=~/dev/octopress
+    if [[ "$PWD" == "$OCTOPRESS" ]]; then
+        source /usr/bin/virtualenvwrapper.sh
+        workon blog_env
+    fi
+}
+chpwd_functions=( chpwd_octopress )
+# Check tcp and dup port
+chktcp() {
+    eval "lsof -i tcp:$1"
+}
+chkudp() {
+    eval "lsof -i udp:$1"
+}
+# Use ssh to access a given host
+# eg. goto 3 <=> ssh root@192.168.1.3
+goto() {
+    test $# -eq 0 && echo "Which host do you want to access ?" >&2 && return 1
+    ipseg=`[ -z "$DONIE_IP_SEG" ] && echo "192.168.1" || echo "$DONIE_IP_SEG"`
+    account=`[ $# -ge 2 ] && echo "$2" || echo "root"`
+    ssh "$account@$ipseg.$1"
+}
+# Use screen to access a ttyUSBx device
+# eg. serial 0 <=> sudo screen /dev/ttyUSB0 115200
+serial() {
+    test $# -eq 0 && echo "Which ttyUSB device do you want to access ?" >&2 && return 1
+    sudo screen "/dev/ttyUSB$1" 115200
+}
+
+# Example aliases
+alias config="gvim ~/.zshrc && refresh"
+alias ohmyzsh="gvim ~/.oh-my-zsh"
+alias refresh=". ~/.zshrc"
 
 # Customize to your needs...
 PAGER='less -X -M'
@@ -102,7 +183,7 @@ if [[ $(uname) == "Linux" ]]; then
     # alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
     # alias ufix='yaourt -Rc'
     alias fix='export LC_ALL=en_US.UTF-8 && nocorrect yaourt -S --noconfirm'
-    alias ufix='nocorrect sudo pacman -Rsc'
+    alias ufix='nocorrect sudo pacman -Rnsc'
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
 elif [[ $(uname) == "Darwin" ]]; then
@@ -133,12 +214,6 @@ alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmailcom"'
 alias sst='svn status'
 alias sud='svn update'
 
-# SSH aliases
-alias viewlogtestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.log"'
-alias viewouttestsrv='ssh -i ~/.ssh/chanjet_testsrv root@10.10.11.221 "tail -f /opt/geronimo/var/log/geronimo.out"'
-alias viewlogdevsrv='ssh -i ~/.ssh/chanjet_devsrv root@10.10.11.218 "tail -f /opt/geronimo/var/log/geronimo.log"'
-alias viewlogubsrv='ssh -i ~/.ssh/chanjet_testsrv root@172.18.8.145 "tail -f /opt/geronimo/var/log/geronimo.log"'
-
 # Distribution specific aliases
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
@@ -147,129 +222,37 @@ alias english='export LC_ALL=en_US.UTF-8'
 alias httpproxy='export http_proxy=127.0.0.1:1894'
 alias httpsproxy='export HTTPS_PROXY=socks5://127.0.0.1:1080'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
-alias ff='firefox'
 alias a='apack'
 alias x='aunpack'
-alias cleantracefiles='sudo rm /tmp/trace.*.xt'
 alias my='mysql -uroot -p5G10color'
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 alias toclip='xclip -sel clip <'
 alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
-alias post='create_new_post'
 alias killer='nocorrect killer.sh'
-alias regenmenu='mmaker -f -t Lilyterm MyGTKMenu'
 alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
 alias lsgbkzip='lsar -e gb18030'
 alias ungbkzip='unar -e gb18030'
-alias remap='xmodmap .Xmodmap'
+alias lns='ln -s'
+alias rake='nocorrect rake'
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
 # alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass /home/monk/workspace monster@172.16.20.111::xidi'
 
-#Maven
-alias makeframe='mvn clean install -Dmaven.test.skip=true'
-
 # Misc
-alias rake='nocorrect rake'
 alias gotosrv="ssh root@172.16.20.111"
 alias gotodo="ssh root@104.236.135.204"
 alias gototest="ssh zengbo@192.168.80.10"
 
+# fix grep complainings
+alias grep="/usr/bin/grep -a $GREP_OPTIONS"
+unset GREP_OPTIONS
+
 # Hashes
-hash -d cust="/home/monk/workspace/csp_web_customer_v1"
-hash -d todo="/home/monk/workspace/csp_web_todo"
-hash -d desktop="/home/monk/workspace/csp_web_desktop"
-hash -d common="/home/monk/workspace/csp_web_desktop/src/main/webapp/app/common"
-hash -d dog="/home/monk/workspace/DualHead-Watchdog-NG"
 hash -d shell="/home/monk/dev/shell"
 hash -d blog="/home/monk/dev/octopress"
 hash -d post="/home/monk/dev/octopress/source/_posts"
-hash -d webroot="/home/monk/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/csp_web_todo/"
 hash -d www="/srv/http/"
 hash -d flame="/srv/http/flamework"
 hash -d yii="/srv/http/yii/framework"
-
-wcp() { # Count processes
-    if [ $# -eq 0 ]; then
-        echo 'Which process to count ?' >&2
-        return 1
-    fi
-    while [ $# -gt 0 ]; do
-        cnt=`ps aux|grep -v grep|grep $1|wc -l`
-        echo -e $1":\t\t"$cnt
-        shift
-    done
-}
-mvgo() { # Move and go
-    if [ -d "$2" ];then
-        mv $1 $2 && cd $2
-    else
-        mv $1 $2
-    fi
-}
-clock() { # CLI clock
-    while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
-}
-ptyless () { # Colorful less
-    zmodload zsh/zpty
-    zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
-    zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
-    less /tmp/ptyless.$$
-    rm -f /tmp/ptyless.$$
-    zpty -d ptyless                   # 删除已完成的 pty
-}
-orphans() { # Remove orphan packages in archlinux
-    if [[ ! -n $(pacman -Qdt) ]]; then
-        echo no orphans to remove
-    else
-        sudo pacman -Rs $(pacman -Qdtq)
-    fi
-}
-writeblog() {
-   test $# -ne 1 && echo "Invalid title" >&2 && return 1
-   cd ~/dev/octopress
-   rake new_post\["$1"\]
-}
-copy_path() {
-    readlink -f "$1"|pbcopy
-}
-lsf() { # List files whose names match the given pattern
-    ! [ $# -eq 1 -o $# -eq 2 ] && echo "lsf FILENAME PATH" >&2 && return 1
-    [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
-    find "$UNDER_PATH" -name "$1" -print
-}
-
-chpwd_octopress() {
-    OCTOPRESS=~/dev/octopress
-    if [[ "$PWD" == "$OCTOPRESS" ]]; then
-        source /usr/bin/virtualenvwrapper.sh
-        workon blog_env
-    fi
-}
-chpwd_functions=( chpwd_octopress )
-
-# Check tcp and dup port
-chktcp() {
-    eval "lsof -i tcp:$1"
-}
-chkudp() {
-    eval "lsof -i udp:$1"
-}
-
-# Use ssh to access a given host
-# eg. goto 3 <=> ssh root@192.168.1.3
-goto() {
-    test $# -eq 0 && echo "Which host do you want to access ?" >&2 && return 1
-    ipseg=`[ -z "$DONIE_IP_SEG" ] && echo "192.168.1" || echo "$DONIE_IP_SEG"`
-    account=`[ $# -ge 2 ] && echo "$2" || echo "root"`
-    ssh "$account@$ipseg.$1"
-}
-
-# Use screen to access a ttyUSBx device
-# eg. serial 0 <=> sudo screen /dev/ttyUSB0 115200
-serial() {
-    test $# -eq 0 && echo "Which ttyUSB device do you want to access ?" >&2 && return 1
-    sudo screen "/dev/ttyUSB$1" 115200
-}
