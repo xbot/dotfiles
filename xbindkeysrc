@@ -20,11 +20,11 @@
 
 # Terminal
 "lilyterm"
-    Alt+Mod2 + F1
+    Alt + 1
 "sudo lilyterm"
-    Shift+F1
+    Shift+Alt + 1
 "lilyterm -d ~/Downloads"
-    Control+Mod2 + F1
+    Control+Alt + 1
 
 # File Manager
 "nautilus --no-desktop"
@@ -32,15 +32,15 @@
 "gvim ~/Dropbox/tasklist"
     Alt+grave
 "rox"
-    Alt + 1
+    Alt+Mod2 + F1
 "rox ~/images"
-    Alt + 2
+    Alt+Mod2 + F2
 "rox ~/scripts/webapp"
-    Alt + 3
+    Alt+Mod2 + F3
 "rox ~/.screenlayout"
-    Alt + 4
+    Alt+Mod2 + F4
 "rox ~/dev/octopress/source/_posts"
-    Alt + 5
+    Alt+Mod2 + F5
 
 "recoll"
     Shift+F3

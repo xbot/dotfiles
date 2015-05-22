@@ -88,6 +88,8 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
+let active_addons += ['git_log']
+let active_addons += ['incsearch']
 let active_addons += ['fontsize']
 let active_addons += ['Gist']
 let active_addons += ['phpqa']
@@ -859,6 +861,11 @@ map <leader>rbll :silent !rabbitvcs log<CR>
 map <leader>rblL :silent !rabbitvcs log %<CR>
 map <leader>rbc :silent !rabbitvcs commit<CR>
 map <leader>rbu :silent !rabbitvcs update<CR>
+
+" incsearch.vim
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
