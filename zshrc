@@ -175,6 +175,7 @@ alias makeframe='mvn clean install -Dmaven.test.skip=true'
 alias rake='nocorrect rake'
 alias gotosrv="ssh root@172.16.20.111"
 alias gotodo="ssh root@104.236.135.204"
+alias gototest="ssh zengbo@192.168.80.10"
 
 # Hashes
 hash -d cust="/home/monk/workspace/csp_web_customer_v1"
