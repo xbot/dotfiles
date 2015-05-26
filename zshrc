@@ -125,6 +125,18 @@ serial() {
     sudo screen "/dev/ttyUSB$1" 115200
 }
 
+# Display vi-mode
+VIMODE='-- INSERT --'
+function zle-line-init zle-keymap-select {
+    VIMODE="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    zle reset-prompt
+}
+zle -N zle-line-init 
+zle -N zle-keymap-select
+RPROMPT='%{$fg[green]%}${VIMODE}%{$reset_color%}'
+
+##################### Functions End ##################################
+
 # Example aliases
 alias config="gvim ~/.zshrc && refresh"
 alias ohmyzsh="gvim ~/.oh-my-zsh"
