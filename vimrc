@@ -623,6 +623,8 @@ imap <C-Tab> <ESC>:tabn<CR>
 nmap <C-S-Tab> :tabp<CR>
 imap <C-S-Tab> <ESC>:tabp<CR>
 nmap gr :tabp<CR>
+nmap <leader><leader>du :tab sp<CR>
+imap <leader><leader>du :tab sp<CR>
 
 " 编辑与当前文件路径相关的文件
 nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
@@ -1242,6 +1244,15 @@ function! ShowCommitHistory(vcs)
 endfunction
 nnoremap <leader>ssch :call ShowCommitHistory('svn')<CR>
 nnoremap <leader>gsch :call ShowCommitHistory('git')<CR>
+
+" open an item in quickfix or location list in a new tab
+function! OpenQuickfixInNewTab()
+    let tmpSwitchbuf = &switchbuf
+    set switchbuf=newtab
+    exe "normal \<cr>"
+    exe 'set switchbuf='.tmpSwitchbuf
+endfunction
+au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
 "}}}
 
 " ----------------------------- Java -----------------------------{{{
