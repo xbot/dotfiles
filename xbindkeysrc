@@ -38,7 +38,7 @@
 "rox ~/scripts/webapp"
     Alt+Mod2 + F3
 "rox ~/.screenlayout"
-    Alt+Mod2 + F4
+    Alt + 4
 "rox ~/dev/octopress/source/_posts"
     Alt+Mod2 + F5
 
