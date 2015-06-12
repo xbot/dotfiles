@@ -119,7 +119,6 @@ $stockCodeArr = explode("\n", trim(file_get_contents(STOCKS_FILE)));
 if (empty($stockCodeArr)) {
     exit('No stock code found.');
 }
-array_walk($stockCodeArr, function(&$code) {$code = "sh{$code}";});
 
 $context = stream_context_create(
     [
@@ -133,9 +132,9 @@ $response = file_get_contents("http://hq.sinajs.cn/list=".implode(',', $stockCod
 if (empty($response)) {
     exit('Failed fetching stock info with API.');
 }
-$response = iconv('gbk', 'utf-8', $response);
-$lines = explode("\n", trim($response));
+
 $result = [];
+$lines = explode("\n", trim(iconv('gbk', 'utf-8', $response)));
 foreach ($lines as $line) {
     $matches = [];
     preg_match('/".*"/', $line, $matches);
