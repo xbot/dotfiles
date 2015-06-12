@@ -11,5 +11,11 @@ do
     fi
 
     read line
-    echo "$stock_info | $line" || exit 1
+
+    # if output_format = i3bar in i3status.conf
+    stock_info="[{ \"full_text\": \"${stock_info}\" },"
+    echo "${line/[/$stock_info}" || exit 1
+
+    # # if not output_format = i3bar in i3status.conf
+    # echo "$stock_info | $line" || exit 1
 done
