@@ -215,6 +215,17 @@ bar {
     # }
 }
 
+bar {
+    font pango:Zekton 12
+    position bottom
+    status_command i3status
+    tray_output none
+    workspace_buttons no
+    status_command ~/.i3/myi3status.sh ~/.stocks.bottom ~/.i3/i3status-bottom.conf
+    mode hide
+    modifier Mod1
+}
+
 # # Brown and golden theme
 # # class                 border  backgr. text    indicator
 # client.focused          #FFA500 #A52A2A #ffffff #2e9ef4
