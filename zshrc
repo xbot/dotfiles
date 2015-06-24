@@ -268,3 +268,6 @@ hash -d post="/home/monk/dev/octopress/source/_posts"
 hash -d www="/srv/http/"
 hash -d flame="/srv/http/flamework"
 hash -d yii="/srv/http/yii/framework"
+
+# Key bindings
+bindkey "^R" history-incremental-search-backward
