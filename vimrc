@@ -868,6 +868,9 @@ map <leader>rbu :silent !rabbitvcs update<CR>
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+
+" repeat last command
+nmap <leader>!! :<up><cr>
 "}}}
 
 " ----------------------------- Functions -----------------------------{{{
@@ -1438,10 +1441,10 @@ au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncommen
 " phpqa
 let g:phpqa_codesniffer_args = "--standard=$HOME/.phpcs_ruleset.xml"
 " let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs' 
-" let g:phpqa_codesniffer_autorun = 1        "  default =1 on save
+let g:phpqa_codesniffer_autorun = 1        "  default =1 on save
 let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
-" let g:phpqa_messdetector_autorun = 0
+let g:phpqa_messdetector_autorun = 1
 "}}}
 
 " ----------------------------- Leigh's fixes -----------------------------{{{
