@@ -53,7 +53,6 @@ let gbl_ultrablog_debug = 1
 if IsPlatform('win')
     let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
     let gbl_vimrc_name = '_vimrc'
-    "let gbl_vimrc_file = 'D:\\My\ Dropbox\'.gbl_vimrc_name
     let gbl_vimrc_file = $VIM.'/'.gbl_vimrc_name
     let gbl_ultrablog_db = 'D:\\My\ Dropbox\UltraBlog.db'
 else
@@ -154,7 +153,7 @@ let active_addons += ['vim-colorscheme-switcher']
 call vam#ActivateAddons(active_addons)
 "}}}
 
-" ------------------------- Application Settings ------------------------"{{{
+" ------------------------------ Application Settings ------------------------"{{{
 set nowrap
 set nobackup
 set number
@@ -194,7 +193,7 @@ endif
 set wildignore=*.class,*.pyc
 "}}}
 
-" --------------------------- GUI Settings ------------------------------"{{{
+" ------------------------------ GUI Settings ------------------------------"{{{
 if has('gui_running')
     " Font settings
     if IsPlatform('win')
@@ -246,7 +245,7 @@ else
 endif
 "}}}
 
-"-----------------------------Plugins Settings--------------------------{{{
+"------------------------------- Plugins Settings --------------------------{{{
 " Tagbar
 if IsPlatform('win')
     let g:tagbar_ctags_bin = $VIM.'\addons\binary-utils\dist\bin\ctags.exe'
@@ -363,7 +362,7 @@ let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
 
 " TwitVim
 let twitvim_enable_python = 1
-let twitvim_proxy = "127.0.0.1:8087"
+let twitvim_proxy = "127.0.0.1:8123"
 let twitvim_browser_cmd = "/usr/bin/chromium"
 
 if IsPlatform('win')
@@ -502,7 +501,7 @@ au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 let g:ag_lhandler="lopen"
 "}}}
 
-"-----------------------------Auto Commands------------------------------"{{{
+"------------------------------- Auto Commands ------------------------------"{{{
 if IsPlatform('win')
     au GUIEnter * simalt ~x
 else
@@ -586,7 +585,7 @@ autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
 autocmd BufWritePre *.go :Fmt
 "}}}
 
-"-----------------------------Key mappings-------------------------------"{{{
+"------------------------------- Key mappings -------------------------------"{{{
 "普通退出，全部退出，强制退出，强制全部退出
 nmap <leader>qq :q<CR>
 imap <leader>qq <ESC>:q<CR>
@@ -873,7 +872,7 @@ map g/ <Plug>(incsearch-stay)
 nmap <leader>!! :<up><cr>
 "}}}
 
-" ----------------------------- Functions -----------------------------{{{
+" ------------------------------ Functions -----------------------------{{{
 
 if IsPlatform('win')
     set diffexpr=MyDiff()
@@ -906,7 +905,7 @@ endfunction"}}}
 function! PySandBox()"{{{
     let tmpfile = tempname().'.py'
     exe 'new '.tmpfile
-    call setline('.', '#!/usr/bin/python')
+    call setline('.', '#!/usr/bin/python2')
     normal o
     call setline('.', '# -*- coding: utf-8 -*-')
     normal o
@@ -1258,7 +1257,7 @@ endfunction
 au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
 "}}}
 
-" ----------------------------- Java -----------------------------{{{
+" ------------------------------ Java -----------------------------{{{
 " Javadoc comments (/** and */ pairs) and code sections (marked by {} pairs) mark the start and end of folds. All other
 " lines simply take the fold level that is going so far.
 function! MyFoldLevel( lineNumber )
@@ -1277,7 +1276,7 @@ endfunction
 " setlocal foldmethod=expr
 "}}}
 
-" ----------------------------- Python -----------------------------{{{
+" ------------------------------ Python -----------------------------{{{
 au filetype python map <buffer> <F5> :call StartPDB()<CR>
 au filetype python map <buffer> <S-F5> :call StopPDB()<CR>
 au filetype python map <buffer> <F6> :Cstep<CR>
@@ -1337,13 +1336,13 @@ EOF
 
 "}}}
 
-" ----------------------------- Go -----------------------------{{{
+" ------------------------------ Go -----------------------------{{{
 au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
 au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 let g:gofmt_command = "goimports"
 "}}}
 
-" ----------------------------- PHP -----------------------------{{{
+" ------------------------------ PHP -----------------------------{{{
 " PHP folding method
 let php_folding=2
 let php_large_file=0
@@ -1410,8 +1409,8 @@ function! PHPSandBox()"{{{
     exe 'new '.tmpfile
     call setline('.', '<?php')
     normal o
-    normal o
-    call setline('.', '?>')
+    " normal o
+    " call setline('.', '?>')
     normal k
     startinsert
 endfunction"}}}
@@ -1447,7 +1446,7 @@ let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
 let g:phpqa_messdetector_autorun = 1
 "}}}
 
-" ----------------------------- Leigh's fixes -----------------------------{{{
+" ------------------------------ Leigh's fixes -----------------------------{{{
 if hostname() == 'leighs'
     set guifont=CosmicSansNeueMono\ 14
     au BufEnter ~/workspace/* map <buffer> <C-P> :CtrlP ~/workspace<CR>
