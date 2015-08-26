@@ -855,7 +855,7 @@ nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
 nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
 
 " List all tasks under the current directory
-map <leader>lstd :LAg! --ignore "*/PHPExcel/*" --ignore "public/*" "// TODO:"<CR>
+map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
 
 " RabbitVCS
 map <leader>rbll :silent !rabbitvcs log<CR>
