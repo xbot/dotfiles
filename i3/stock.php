@@ -110,7 +110,11 @@ class PinYin
     }
 }
 
-define('STOCKS_FILE', $_SERVER['HOME'].'/.stocks');
+if (!empty($_SERVER['argv']) && count($_SERVER['argv'])>1) {
+    define('STOCKS_FILE', $_SERVER['argv'][1]);
+} else {
+    define('STOCKS_FILE', $_SERVER['HOME'].'/.stocks');
+}
 
 if (!file_exists(STOCKS_FILE)) {
     exit('File not found: '.STOCKS_FILE);

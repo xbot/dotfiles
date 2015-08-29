@@ -83,7 +83,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen
 
 # Workspace renaming
-bindsym $mod+Mod1+r exec i3-input -F 'exec --no-startup-id workspace.rb %s' -P 'New name: '
+bindsym $mod+Mod1+r exec i3-input -F 'exec --no-startup-id $HOME/.i3/workspace.rb %s' -P 'New name: '
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -213,6 +213,17 @@ bar {
         # background #232323
         # statusline #DCDCDC
     # }
+}
+
+bar {
+    font pango:Zekton 12
+    position bottom
+    status_command i3status
+    tray_output none
+    workspace_buttons no
+    status_command ~/.i3/myi3status.sh ~/.stocks.bottom ~/.i3/i3status-bottom.conf
+    mode hide
+    modifier Mod1
 }
 
 # # Brown and golden theme

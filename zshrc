@@ -34,7 +34,7 @@ DEFAULT_USER="monk"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-if [[ `hostname` == "leighs" ]]; then
+if [[ `hostname` == "xidi-donieli" ]]; then
     plugins=(git python pip systemd urltools debian svn vi-mode archlinux)
 else
     plugins=(git python pip vi-mode systemd urltools archlinux svn)
@@ -230,9 +230,7 @@ alias sud='svn update'
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
 alias english='export LC_ALL=en_US.UTF-8'
-# alias httpproxy='export http_proxy=127.0.0.1:8087'
-# alias httpproxy='export http_proxy=127.0.0.1:1894'
-alias httpproxy='export http_proxy=127.0.0.1:8000'
+alias httpproxy='export http_proxy=127.0.0.1:8123'
 alias httpsproxy='export HTTPS_PROXY=socks5://127.0.0.1:1080'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias a='apack'
@@ -269,3 +267,6 @@ hash -d post="/home/monk/dev/octopress/source/_posts"
 hash -d www="/srv/http/"
 hash -d flame="/srv/http/flamework"
 hash -d yii="/srv/http/yii/framework"
+
+# Key bindings
+bindkey "^R" history-incremental-search-backward
