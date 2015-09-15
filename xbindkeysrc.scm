@@ -67,9 +67,11 @@
 (register '((control semicolon) d) "dolphin")
 (register '((control semicolon) f) "firefox")
 (register '((control semicolon) t) "thunderbird")
+(register '((control semicolon) g) "telegram-desktop")
 (register '((control semicolon) h) "gvim /etc/hosts")
 (register '((control semicolon) k) "keepassx")
 (register '((control semicolon) (shift t)) "thunderbird -compose")
+(register '((control semicolon) (shift g)) "sakura -x \"xsel -b -i\"")
 (register '((control semicolon) (control q)) "i3-msg kill")
 (register '((control semicolon) (control semicolon)) "xdotool key ctrl+semicolon")
 
