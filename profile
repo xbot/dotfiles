@@ -18,13 +18,19 @@
 
 # export PATH="$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/vendor_perl:/usr/bin/core_perl"
 export PATH="$PATH:$HOME/dev/shell"
-export PATH="$PATH:/usr/lib/cw"
-export PATH="$PATH:/usr/lib/python2.7/Tools/i18n"
-export PATH="$PATH:$HOME/.gem/ruby/1.9.1/bin"
-export PATH="$PATH:/opt/sourcenavigator/bin"
+# export PATH="$PATH:/opt/sourcenavigator/bin"
 # export PATH="$PATH:/opt/android-sdk/tools"
 # export PATH="$PATH:/opt/android-sdk/platform-tools"
-
+export PATH="$PATH:/usr/lib/cw"
+if [ -d "/usr/lib/python2.7/Tools/i18n" ] ; then
+    PATH="/usr/lib/python2.7/Tools/i18n:$PATH"
+fi
+if [ -d "$HOME/.gem/ruby/1.9.1/bin" ] ; then
+    PATH="$HOME/.gem/ruby/1.9.1/bin:$PATH"
+fi
+if [ -d "$HOME/.rbenv/bin" ] ; then
+    PATH="$HOME/.rbenv/bin:$PATH"
+fi
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/app" ] ; then
     PATH="$HOME/app:$PATH"
@@ -36,16 +42,22 @@ if [ -d "$HOME/scripts" ] ; then
     PATH="$HOME/scripts:$HOME/scripts/webapp:$PATH"
 fi
 
+export PATH
 export EDITOR=vim
 export WWW=/srv/http
 export LANG=zh_TW.UTF-8
 
 export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=lcd"
 
+# fix qt5 theme and icon problem
+export QT_QPA_PLATFORMTHEME="qt5ct"
+
 # Python
 # export PYTHONPATH=/usr/lib/python3.3/site-packages
 
-if [[ `hostname` == 'leighs' ]]; then
-    export PATH="$HOME/.linuxbrew/bin:$PATH"
-    export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
-fi
+# if [[ `hostname` == 'leighs' ]]; then
+    # export PATH="$HOME/.linuxbrew/bin:$PATH"
+    # export LD_LIBRARY_PATH="$HOME/.linuxbrew/lib:$LD_LIBRARY_PATH"
+# fi
+
+eval "$(rbenv init -)"

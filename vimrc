@@ -37,7 +37,8 @@ endif
 let &termencoding=&encoding
 "set langmenu=en_US.UTF-8
 set langmenu=zh_CN.UTF-8
-language message zh_CN.UTF-8
+" language message zh_CN.UTF-8
+language message en_US.UTF-8
 
 " map <leader>
 let mapleader=","
@@ -87,6 +88,9 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
+let active_addons += ['Perfect_Dark']
+let active_addons += ['github:xbot/svnj.vim']
+let active_addons += ['vcscommand']
 let active_addons += ['git_log']
 let active_addons += ['incsearch']
 let active_addons += ['fontsize']
@@ -499,6 +503,9 @@ au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 
 " ag
 let g:ag_lhandler="lopen"
+
+" svnj
+let g:svnj_send_soc_command = 0
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
