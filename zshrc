@@ -247,6 +247,8 @@ alias lsgbkzip='lsar -e gb18030'
 alias ungbkzip='unar -e gb18030'
 alias lns='ln -s'
 alias rake='nocorrect rake'
+alias lssrv='netstat -tulnp'
+alias lsconn='netstat -atunp'
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
@@ -260,6 +262,8 @@ alias gototest="ssh zengbo@192.168.80.10"
 # fix grep complainings
 alias grep="/usr/bin/grep -a $GREP_OPTIONS"
 unset GREP_OPTIONS
+
+alias phpsh="php -c ~/.php.ini -a"
 
 # Hashes
 hash -d shell="/home/monk/dev/shell"
