@@ -26,7 +26,7 @@ DEFAULT_USER="monk"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
@@ -256,8 +256,8 @@ alias yiic='/srv/http/yii/framework/yiic'
 
 # Misc
 alias gotosrv="ssh root@172.16.20.111"
-alias gotodo="ssh root@104.236.135.204"
 alias gototest="ssh zengbo@192.168.80.10"
+alias goto200="ssh root@172.16.20.200"
 
 # fix grep complainings
 alias grep="/usr/bin/grep -a $GREP_OPTIONS"

@@ -254,7 +254,7 @@ client.urgent           #2f343a #900000 #ffffff #900000
 # exec yunio
 exec --no-startup-id /home/taoqi/.yong/yong/yong
 exec --no-startup-id xbindkeys
-exec --no-startup-id xbindkeys -fg $HOME/.xbindkeys.scm
+# exec --no-startup-id xbindkeys -fg $HOME/.xbindkeys.scm
 exec --no-startup-id basket -h
 exec --no-startup-id clipit
 exec --no-startup-id feh --bg-scale $HOME/.wallpaper
@@ -267,6 +267,10 @@ exec --no-startup-id ~/.i3/startup-ubuntu.sh
 # exec --no-startup-id nm-applet
 # exec --no-startup-id xmodmap $HOME/.Xmodmap
 exec --no-startup-id $HOME/dev/shell/udev.py
+exec --no-startup-id google-chrome
+exec --no-startup-id thunderbird
+exec --no-startup-id wine-qqintl
+exec --no-startup-id /usr/share/playonlinux/playonlinux --run "RTX"
 
 for_window [class="Wine"] floating enable;border none
 for_window [class="Wine" instance="Thunder5.exe" title="迅雷5"] floating disable
