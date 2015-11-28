@@ -12,7 +12,9 @@
     Control+Alt+Mod4 + Insert
 
 "/home/monk/.screenlayout/LVDS1.sh"
-    Control+Shift+Alt + Pause
+    Control+Shift+Alt + 0
+"/home/monk/.screenlayout/HDMI1.sh"
+    Control+Shift+Alt + 1
 
 #-----------------------------【桌面應用】-------------------------------------# {{{
 "grun"
