@@ -438,7 +438,8 @@ let g:miniBufExplSplitBelow=0
 " Vdebug.vim
 let g:vdebug_options= {
 \    "path_maps" : {
-\        "/var/www/workspace": expand('~')."/workspace"
+\        "/var/www/workspace": expand('~')."/workspace",
+\        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
 \    },
 \    "port" : 9001,
 \    "server" : '0.0.0.0',

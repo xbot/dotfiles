@@ -1,14 +1,12 @@
 #keystate_numlock = enable
 #keystate_scrolllock = enable
 
-# 修改键绑定
+# 常用配置
 "gvim ~/.xbindkeysrc"
     Control+Shift+Alt + Insert
 "gvim ~/.i3/config"
     Control+Shift+Alt + Home
-
-# 更新系統
-"urxvt -sb -e packer -Syu --noconfirm wait"
+"gvim /etc/hosts"
     Control+Alt+Mod4 + Insert
 
 "/home/monk/.screenlayout/LVDS1.sh"
@@ -20,6 +18,9 @@
 "grun"
     F12
 
+"keepassx"
+    Alt+Mod4 + F12
+
 # Terminal
 "lilyterm"
     Alt + 1
@@ -27,17 +28,30 @@
     Shift+Alt + 1
 "lilyterm -d ~/Downloads"
     Control+Alt + 1
+"sakura -x "xsel -b -i""
+    Control+Alt+Mod4 + 1
+
+"google-chrome"
+    Alt + 2
+"firefox"
+    Alt+Shift + 2
+
+# vim
+"gvim"
+    Alt+grave
+"gvim -c "cd ~/workspace""
+    Control+Alt + grave
+"gvim -c "cd ~/openproj""
+    Control+Alt+Mod4 + grave
 
 # File Manager
 "nautilus --no-desktop"
     Control+Mod2 + grave
-"gvim ~/Dropbox/tasklist"
-    Alt+grave
 "rox"
     Alt+Mod2 + F1
 "rox ~/images"
     Alt+Mod2 + F2
-"rox ~/scripts/webapp"
+"rox ~/Desktop"
     Alt+Mod2 + F3
 "rox ~/.screenlayout"
     Alt + 4
