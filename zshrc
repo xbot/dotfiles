@@ -42,6 +42,10 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 source ~/dev/z/z.sh
+# load local custom scripts
+if [[ -f ~/.zshrc_work ]]; then
+    source ~/.zshrc_work
+fi
 
 ##################################################
 # Functions
