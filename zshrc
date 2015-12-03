@@ -201,6 +201,7 @@ if [[ $(uname) == "Linux" ]]; then
     alias fix='export LC_ALL=en_US.UTF-8 && nocorrect yaourt -S --noconfirm'
     alias ufix='nocorrect sudo pacman -Rnsc'
     alias yaupga='yaourt -Syua --noconfirm'
+    alias yag='yaourt -G'
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
 elif [[ $(uname) == "Darwin" ]]; then
