@@ -1419,7 +1419,7 @@ function! PHPSandBox()"{{{
     normal o
     " normal o
     " call setline('.', '?>')
-    normal k
+    " normal k
     startinsert
 endfunction"}}}
 nmap <leader>sbph :call PHPSandBox()<CR>
