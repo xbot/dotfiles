@@ -700,7 +700,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
+nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib .<CR>
 " nmap <leader>mkt :call DoCtagsCscope()<CR>
 " fun! DoCtagsCscope()
     " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
@@ -1031,7 +1031,7 @@ function! XGrep(grepprg, ...)"{{{
     set grepprg=grep\ -n
 
     let opts = ' -nrI'
-    let opts = opts.( g:XGrepExcludeFrom ? ' --exclude-from='.g:XGrepExcludeFrom : '' )
+    let opts = opts.( exists("g:XGrepExcludeFrom") ? ' --exclude-from='.g:XGrepExcludeFrom : '' )
     if exists('g:XGrepExcludeDirs')
         for tmp in g:XGrepExcludeDirs
             let opts .= ' --exclude-dir='.tmp
