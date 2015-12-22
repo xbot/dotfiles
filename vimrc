@@ -811,15 +811,15 @@ nmap <leader>ag :MyAg<Space>
 nmap <leader>gag :Ag! -i<Space>
 nmap <leader>wag :LAg! -iw<Space>
 nmap <leader>wgag :Ag! -iw<Space>
-" vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
-vmap <leader>ag y:LAg! <C-R>=escape(XEscapeRegex(@", 1), '\')<CR>
+vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
 vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
 nnoremap <leader>ww :LAg! <cword><CR>
 
 command! -nargs=+ MyAg call AgWrapper(<f-args>)
 function! AgWrapper(rawPattern)
-    let pattern = escape(XEscapeRegex(a:rawPattern), '\')
-    exe 'LAg! -i '.pattern
+    let pattern = substitute(a:rawPattern, '\\\\', '\\\\\\', 'g')
+    let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
+    exe 'LAg! -i "'.pattern.'"'
 endfunction
 
 " EasyGrep
@@ -1023,7 +1023,7 @@ if IsPlatform('win')
 else
     let g:XGrepExcludeFrom = expand('~').'/.vim/XGrepExcludeList'
 endif
-let g:XGrepExcludeDirs = ['datacache','.svn','.git','assets','runtime','vendors','third-lib']
+let g:XGrepExcludeDirs = ['datacache','.svn','.git','assets','runtime','vendors','third-lib','static']
 let g:XGrepAutoJump = 0
 let g:XGrepAutoOpen = 1
 function! XGrep(grepprg, ...)"{{{
@@ -1116,10 +1116,16 @@ nmap _= :call Preserve("normal gg=G")<CR>
 nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 
 " 转义正则表达式特殊字符，以便在正则表达式中使用
-" 第一个额外参数如果是1，则不转义+号，否则默认转义（即Vim支持的格式）
+" a:1   是否转义为vimgrep的pattern格式
 function! XEscapeRegex(str, ...)
     let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
-    return substitute(escape(a:str, '/\.*$^~[]()'), '\s\+', whitespacePattern, 'g')
+    let pattern = substitute(escape(a:str, '/\.*$^~[]+"'), '\s\+', whitespacePattern, 'g')
+    if a:0 && a:1
+        let pattern = escape(pattern, '()')
+        let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
+        let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
+    endif
+    return pattern
 endfunction
 
 " Display contents of the current fold in a balloon
