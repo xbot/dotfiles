@@ -43,6 +43,8 @@
     Control+Alt + grave
 "gvim -c "cd ~/openproj""
     Control+Alt+Mod4 + grave
+"gvim -c "cd ~/unittests/tests""
+    Alt+Mod4 + grave
 
 # File Manager
 "nautilus --no-desktop"

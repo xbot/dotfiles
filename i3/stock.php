@@ -145,7 +145,10 @@ foreach ($lines as $line) {
     if (!empty($matches)) {
         $stock = explode(',', trim($matches[0], '"'));
         if (!empty($stock)) {
-            $result[] = strtoupper(PinYin::utf8To($stock[0], true)).": {$stock[3]}, {$stock[4]}, {$stock[5]}";
+            $currentPrice = $stock[3] + 0;
+            $topPrice = $stock[4] + 0;
+            $bottomPrice = $stock[5] + 0;
+            $result[] = strtoupper(PinYin::utf8To($stock[0], true)).": {$currentPrice}, {$topPrice}, {$bottomPrice}";
         }
     }
 }

@@ -35,9 +35,9 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ `hostname` == "xidi-donieli" ]]; then
-    plugins=(git python pip systemd urltools debian svn vi-mode archlinux)
+    plugins=(git python pip systemd urltools debian svn vi-mode archlinux systemd-user)
 else
-    plugins=(git python pip vi-mode systemd urltools archlinux svn)
+    plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -263,6 +263,7 @@ alias yiic='/srv/http/yii/framework/yiic'
 alias gotosrv="ssh root@172.16.20.111"
 alias gototest="ssh zengbo@192.168.80.10"
 alias goto200="ssh root@172.16.20.200"
+alias ut="./run --colors=always"
 
 # fix grep complainings
 alias grep="/usr/bin/grep -a $GREP_OPTIONS"
