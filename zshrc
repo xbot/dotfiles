@@ -35,7 +35,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ `hostname` == "xidi-donieli" ]]; then
-    plugins=(git python pip systemd urltools debian svn vi-mode archlinux systemd-user)
+    plugins=(git python pip systemd urltools svn vi-mode archlinux systemd-user)
 else
     plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
 fi

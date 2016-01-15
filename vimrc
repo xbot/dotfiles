@@ -191,8 +191,7 @@ if IsPlatform('win')
     set grepprg=d:/dev/tool/GnuWin32/bin/grep.exe\ -n
 else
     " set grepprg=grep\ -n
-    " Do 'ln -s /usr/bin/ag /usr/bin/ack' to leverage the power of ag
-    set grepprg=ack\ --nogroup\ --column
+    set grepprg=ag\ --nogroup\ --column
 endif
 set wildignore=*.class,*.pyc
 "}}}
@@ -340,7 +339,7 @@ let g:EasyGrepReplaceWindowMode = 1
 " let g:EasyGrepMode = 3
 " let g:EasyGrepDefaultUserPattern='<JAVA>'
 " let g:EasyGrepOpenWindowOnMatch=0
-let g:EasyGrepFilesToExclude='tags'
+let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -1017,65 +1016,25 @@ endfunction"}}}
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
 
-" Grep helper function
-if IsPlatform('win')
-    let g:XGrepExcludeFrom = 'd:/dev/tool/vim/XGrepExcludeList'
-else
-    let g:XGrepExcludeFrom = expand('~').'/.vim/XGrepExcludeList'
-endif
-let g:XGrepExcludeDirs = ['datacache','.svn','.git','assets','runtime','vendors','third-lib','static']
-let g:XGrepAutoJump = 0
-let g:XGrepAutoOpen = 1
-function! XGrep(grepprg, ...)"{{{
-    let grepprgBak = &grepprg
-    set grepprg=grep\ -n
-
-    let opts = ' -nrI'
-    let opts = opts.( exists("g:XGrepExcludeFrom") ? ' --exclude-from='.g:XGrepExcludeFrom : '' )
-    if exists('g:XGrepExcludeDirs')
-        for tmp in g:XGrepExcludeDirs
-            let opts .= ' --exclude-dir='.tmp
-        endfor
+" EasyGrep Wrapper
+function! EasyGrepWrapper(grepprg, ...)"{{{
+    let grepWindow = g:EasyGrepWindow
+    if a:grepprg == 'grep'
+        let g:EasyGrepWindow = 0
+    elseif a:grepprg == 'lgrep'
+        let g:EasyGrepWindow = 1
     endif
-
-    let keyword = ''
-    let target = ''
-    for param in a:000
-        if stridx(param, '-')==0
-            let opts .= ' '.param
-        elseif stridx(param, '@')==0
-            let keyword = strpart(param, 1)
-        else
-            let target .= ' '.param
-        endif
-    endfor
-
-    let cmd = a:grepprg.( g:XGrepAutoJump ? '' : '!' )
-    let cmd .= opts
-    let cmd .= ' "'.keyword.'"'
-    let cmd .= target
-    " echo cmd
-
-    silent execute cmd
-
-    let &grepprg = grepprgBak
-
-    if exists('g:XGrepAutoOpen') && g:XGrepAutoOpen==1
-        if a:grepprg=='grep'
-            copen
-        elseif a:grepprg=='lgrep'
-            lopen
-        endif
-    endif
+    exec "Grep ".join(a:000, ' ')
+    let g:EasyGrepWindow = grepWindow
 endfunction"}}}
-command! -nargs=+ XGrep call XGrep('grep', <f-args>)
-command! -nargs=+ XLrep call XGrep('lgrep', <f-args>)
-nmap <leader>gw :exec 'XGrep -w @'.expand('<cword>').' .'<CR>
-nmap <leader>lw :exec 'XLrep -w @'.expand('<cword>').' .'<CR>
-nmap <leader>grep :XGrep -P @
-nmap <leader>lrep :XLrep -P @
-vmap <leader>grep y:XGrep @<C-R>=XEscapeRegex(@")<CR> .
-vmap <leader>lrep y:XLrep @<C-R>=XEscapeRegex(@")<CR> .
+command! -nargs=+ EGW call EasyGrepWrapper('grep', <f-args>)
+command! -nargs=+ EGWL call EasyGrepWrapper('lgrep', <f-args>)
+vmap <leader>grep y:EGW <C-R>=XEscapeRegex(@", 1)<CR>
+vmap <leader>lrep y:EGWL <C-R>=XEscapeRegex(@", 1)<CR>
+nmap <leader>grep :EGW<space>
+nmap <leader>lrep :EGWL<space>
+nmap <leader>gw :exec 'EGW -w '.expand('<cword>')<CR>
+nmap <leader>lw :exec 'EGWL -w '.expand('<cword>')<CR>
 
 " Wipe all buffers which are not active (i.e. not visible in a window/tab)
 command! -nargs=0 Prune call CloseFugitiveBuffers()
@@ -1118,13 +1077,15 @@ nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 " 转义正则表达式特殊字符，以便在正则表达式中使用
 " a:1   是否转义为vimgrep的pattern格式
 function! XEscapeRegex(str, ...)
-    let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
-    let pattern = substitute(escape(a:str, '/\.*$^~[]"'), '\s\+', whitespacePattern, 'g')
+    let pattern = a:str
+    let pattern = escape(pattern, '/\.*$^~[]"')
     if a:0 && a:1
-        let pattern = escape(pattern, '()')
+        let pattern = escape(pattern, '()+?')
         let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
         let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
     endif
+    let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
+    let pattern = substitute(pattern, '\s\+', whitespacePattern, 'g')
     return pattern
 endfunction
 
