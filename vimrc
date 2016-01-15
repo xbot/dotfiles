@@ -813,13 +813,15 @@ nmap <leader>wgag :Ag! -iw<Space>
 vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
 vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
 nnoremap <leader>ww :LAg! <cword><CR>
+" List all tasks under the current directory
+map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
 
 command! -nargs=+ MyAg call AgWrapper(<f-args>)
-function! AgWrapper(rawPattern)
+function! AgWrapper(rawPattern)"{{{
     let pattern = substitute(a:rawPattern, '\\\\', '\\\\\\', 'g')
     let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
     exe 'LAg! -i "'.pattern.'"'
-endfunction
+endfunction"}}}
 
 " EasyGrep
 nmap <leader>R :Replace<Space>
@@ -860,9 +862,6 @@ nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
 nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
 " i: Find files #including this file
 nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
-
-" List all tasks under the current directory
-map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
 
 " RabbitVCS
 map <leader>rbll :silent !rabbitvcs log<CR>
@@ -958,9 +957,9 @@ function! SaveAsNOEOF(filename)"{{{
     endif
 endfunction"}}}
 " Save the current buffer and get rid of the EOF sign.
-function! SaveNOEOF()
+function! SaveNOEOF()"{{{
     call SaveAsNOEOF(bufname('%'))
-endfunction
+endfunction"}}}
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
 autocmd! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
@@ -978,6 +977,7 @@ function! SetDOSFF()"{{{
 endfunction"}}}
 command! -nargs=0 SetDOSFF call SetDOSFF()
 
+" ptag wrapper
 function! PTagIt()"{{{
     exec "ptag ".expand("<cword>")
     let cwin = winnr()
@@ -1076,7 +1076,7 @@ nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 
 " 转义正则表达式特殊字符，以便在正则表达式中使用
 " a:1   是否转义为vimgrep的pattern格式
-function! XEscapeRegex(str, ...)
+function! XEscapeRegex(str, ...)"{{{
     let pattern = a:str
     let pattern = escape(pattern, '/\.*$^~[]"')
     if a:0 && a:1
@@ -1087,7 +1087,7 @@ function! XEscapeRegex(str, ...)
     let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
     let pattern = substitute(pattern, '\s\+', whitespacePattern, 'g')
     return pattern
-endfunction
+endfunction"}}}
 
 " Display contents of the current fold in a balloon
 function! FoldSpellBalloon()"{{{
@@ -1121,8 +1121,6 @@ if has('balloon_eval')
 endif
 
 " Toggle quickfix and location list
-command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
 function! QFixToggle(forced)"{{{
     if exists("g:qfix_win") && a:forced != 0
         QFix
@@ -1135,6 +1133,8 @@ function! QFixToggle(forced)"{{{
         endif
     endif
 endfunction"}}}
+command! -bang -nargs=? QFix call QFixToggle(<bang>0)
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
 
 " used to track the quickfix window
 augroup QFixToggle"{{{
@@ -1199,7 +1199,7 @@ fu! CustomFoldText()"{{{
 endf"}}}
 
 " Show commit history of the current file under the given VCS in a new window
-function! ShowCommitHistory(vcs)
+function! ShowCommitHistory(vcs)"{{{
     " Check parameter
     if a:vcs != 'svn' && a:vcs != 'git'
         echoerr 'Unknow VCS: '.a:vcs
@@ -1218,17 +1218,17 @@ function! ShowCommitHistory(vcs)
     else
         echo 'File not found.'
     endif
-endfunction
+endfunction"}}}
 nnoremap <leader>ssch :call ShowCommitHistory('svn')<CR>
 nnoremap <leader>gsch :call ShowCommitHistory('git')<CR>
 
 " open an item in quickfix or location list in a new tab
-function! OpenQuickfixInNewTab()
+function! OpenQuickfixInNewTab()"{{{
     let tmpSwitchbuf = &switchbuf
     set switchbuf=newtab
     exe "normal \<cr>"
     exe 'set switchbuf='.tmpSwitchbuf
-endfunction
+endfunction"}}}
 au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
 "}}}
 
