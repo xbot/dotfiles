@@ -700,7 +700,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib .<CR>
+nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
 " nmap <leader>mkt :call DoCtagsCscope()<CR>
 " fun! DoCtagsCscope()
     " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
@@ -1119,7 +1119,7 @@ nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 " a:1   是否转义为vimgrep的pattern格式
 function! XEscapeRegex(str, ...)
     let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
-    let pattern = substitute(escape(a:str, '/\.*$^~[]+"'), '\s\+', whitespacePattern, 'g')
+    let pattern = substitute(escape(a:str, '/\.*$^~[]"'), '\s\+', whitespacePattern, 'g')
     if a:0 && a:1
         let pattern = escape(pattern, '()')
         let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
