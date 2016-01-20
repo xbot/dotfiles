@@ -88,74 +88,117 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
-let active_addons += ['vim-lastplace']
-let active_addons += ['Perfect_Dark']
-let active_addons += ['github:xbot/svnj.vim']
-let active_addons += ['vcscommand']
-let active_addons += ['git_log']
-let active_addons += ['incsearch']
-let active_addons += ['fontsize']
-let active_addons += ['Gist']
-let active_addons += ['phpqa']
-let active_addons += ['jianfan']
-let active_addons += ['ag']
-let active_addons += ['Align%294']
-let active_addons += ['Auto_Pairs']
-let active_addons += ['bufexplorer.zip']
-let active_addons += ['Colorizer']
-let active_addons += ['cscope']
-let active_addons += ['ctrlp']
-let active_addons += ['EasyGrep']
-let active_addons += ['EasyMotion']
-let active_addons += ['fencview']
-let active_addons += ['fugitive']
-" let active_addons += ['FuzzyFinder']
-let active_addons += ['github:aaronbieber/vim-quicktask']
-let active_addons += ['github:Blackrush/vim-gocode']
-let active_addons += ['github:cespare/vim-golang']
-let active_addons += ['github:dgryski/vim-godef']
-let active_addons += ['github:peterhoeg/vim-qml']
-let active_addons += ['github:tobyS/pdv']
-let active_addons += ['github:tobyS/vmustache']
-let active_addons += ['github:xbot/UltraBlog.vim']
-let active_addons += ['Gundo']
-let active_addons += ['LargeFile']
-let active_addons += ['matchit.zip']
-let active_addons += ['MatchTag']
-let active_addons += ['molokai']
-let active_addons += ['phpdoc']
-let active_addons += ['preview%3344']
-let active_addons += ['py2stdlib']
-let active_addons += ['pyclewn']
-let active_addons += ['quickrun%3146']
-let active_addons += ['reload']
-let active_addons += ['session%3150']
-let active_addons += ['shell']
-let active_addons += ['SingleCompile']
-let active_addons += ['splitjoin']
-let active_addons += ['SudoEdit']
-let active_addons += ['Supertab']
-let active_addons += ['surround']
-let active_addons += ['Syntastic']
-let active_addons += ['Tagbar']
-let active_addons += ['The_NERD_Commenter']
-let active_addons += ['The_NERD_tree']
-let active_addons += ['TwitVim']
-let active_addons += ['UltiSnips']
-let active_addons += ['Vdebug']
-let active_addons += ['vim-jsbeautify']
-let active_addons += ['vim-octopress']
-let active_addons += ['vim-signify']
-let active_addons += ['vim-snippets']
-let active_addons += ['YouCompleteMe']
-let active_addons += ['wildfire']
-let active_addons += ['vim-colorscheme-switcher']
-" let active_addons += ['ShowMarks7']
-" let active_addons += ['Pydiction']
-" let active_addons += ['vim-vebugger']
-" let active_addons += ['vimproc']
-" let g:vebugger_leader='<Leader>d'
+" let active_addons += ['vim-lastplace']
+" let active_addons += ['Perfect_Dark']
+" let active_addons += ['github:xbot/svnj.vim']
+" let active_addons += ['vcscommand']
+" let active_addons += ['git_log']
+" let active_addons += ['incsearch']
+" let active_addons += ['fontsize']
+" let active_addons += ['Gist']
+" let active_addons += ['phpqa']
+" let active_addons += ['jianfan']
+" let active_addons += ['ag']
+" let active_addons += ['Align%294']
+" let active_addons += ['Auto_Pairs']
+" let active_addons += ['bufexplorer.zip']
+" let active_addons += ['Colorizer']
+" let active_addons += ['cscope']
+" let active_addons += ['ctrlp']
+" let active_addons += ['EasyGrep']
+" let active_addons += ['EasyMotion']
+" let active_addons += ['fencview']
+" let active_addons += ['fugitive']
+" " let active_addons += ['FuzzyFinder']
+" let active_addons += ['github:aaronbieber/vim-quicktask']
+" let active_addons += ['github:Blackrush/vim-gocode']
+" let active_addons += ['github:cespare/vim-golang']
+" let active_addons += ['github:dgryski/vim-godef']
+" let active_addons += ['github:peterhoeg/vim-qml']
+" let active_addons += ['github:tobyS/pdv']
+" let active_addons += ['github:tobyS/vmustache']
+" let active_addons += ['github:xbot/UltraBlog.vim']
+" let active_addons += ['Gundo']
+" let active_addons += ['LargeFile']
+" let active_addons += ['matchit.zip']
+" let active_addons += ['MatchTag']
+" let active_addons += ['molokai']
+" let active_addons += ['phpdoc']
+" let active_addons += ['preview%3344']
+" let active_addons += ['py2stdlib']
+" let active_addons += ['pyclewn']
+" let active_addons += ['quickrun%3146']
+" let active_addons += ['reload']
+" let active_addons += ['session%3150']
+" let active_addons += ['shell']
+" let active_addons += ['SingleCompile']
+" let active_addons += ['splitjoin']
+" let active_addons += ['SudoEdit']
+" let active_addons += ['Supertab']
+" let active_addons += ['surround']
+" let active_addons += ['Syntastic']
+" let active_addons += ['Tagbar']
+" let active_addons += ['The_NERD_Commenter']
+" let active_addons += ['The_NERD_tree']
+" let active_addons += ['TwitVim']
+" let active_addons += ['UltiSnips']
+" let active_addons += ['Vdebug']
+" let active_addons += ['vim-jsbeautify']
+" let active_addons += ['vim-octopress']
+" let active_addons += ['vim-signify']
+" let active_addons += ['vim-snippets']
+" let active_addons += ['YouCompleteMe']
+" let active_addons += ['wildfire']
+" let active_addons += ['vim-colorscheme-switcher']
+" " let active_addons += ['ShowMarks7']
+" " let active_addons += ['Pydiction']
+" " let active_addons += ['vim-vebugger']
+" " let active_addons += ['vimproc']
+" " let g:vebugger_leader='<Leader>d'
+let s:vamRegistryFile = expand('~').'/.vim/vam_registry'
+if filereadable(s:vamRegistryFile)
+    let active_addons += readfile(s:vamRegistryFile)
+endif
 call vam#ActivateAddons(active_addons)
+" Addon post-install hook.
+fun! MyAddonPostActivateHook(info, repository, pluginDir, opts)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+        call add(regLines, a:repository.name)
+        call sort(regLines)
+        call uniq(regLines)
+    else
+        let regLines = [a:repository.name]
+    endif
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+let g:vim_addon_manager.post_install_hook_functions = ['MyAddonPostActivateHook']
+" Complete the addon name.
+fun! MyDoActivatedAddonsCompete(...)"{{{
+    let fullList = keys(g:vim_addon_manager.activated_plugins)
+    call filter(fullList, 'v:val =~ ".*'.a:1.'.*"')
+    return fullList
+endfun"}}}
+" Remove records of addons from the registry.
+fun! MyUninstallAddons(...)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+    else
+        echo "Registry is empty."
+        return
+    endif
+    for addonName in a:000
+        let idx = index(regLines, addonName)
+        if idx >= 0
+            call remove(regLines, idx)
+            echo addonName.' is removed from the registry.'
+        else
+            echo addonName.' cannot be found in the registry.'
+        endif
+    endfor
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+command! -complete=customlist,MyDoActivatedAddonsCompete -nargs=* UninstallAddons :call MyUninstallAddons(<f-args>)
 "}}}
 
 " ------------------------------ Application Settings ------------------------"{{{
