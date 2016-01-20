@@ -90,6 +90,8 @@
 "slock"
     Control+Shift+Alt+Mod2 + l
 
+"xdotool key --window $(xdotool search --limit 1 --all --pid $(pgrep RTX) --name RTX) "ctrl+alt+x""
+    Control+Alt + x
 # }}}
 
 #-----------------------------【網絡應用】-------------------------------------# {{{

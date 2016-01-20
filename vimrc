@@ -88,6 +88,7 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
+let active_addons += ['vim-lastplace']
 let active_addons += ['Perfect_Dark']
 let active_addons += ['github:xbot/svnj.vim']
 let active_addons += ['vcscommand']
@@ -108,7 +109,7 @@ let active_addons += ['EasyGrep']
 let active_addons += ['EasyMotion']
 let active_addons += ['fencview']
 let active_addons += ['fugitive']
-let active_addons += ['FuzzyFinder']
+" let active_addons += ['FuzzyFinder']
 let active_addons += ['github:aaronbieber/vim-quicktask']
 let active_addons += ['github:Blackrush/vim-gocode']
 let active_addons += ['github:cespare/vim-golang']
@@ -209,7 +210,8 @@ if has('gui_running')
         set background=dark
         colorscheme solarized
     else
-        set background=dark
+        " set background=dark
+        set background=light
         colorscheme solarized
         set guifont=CosmicSansNeueMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
@@ -351,11 +353,11 @@ endif
 " SQL Type Default
 let g:sql_type_default = 'sqlsvr'
 
-" FuzzyFinder Settings
-let g:fuf_enumeratingLimit = 30
-let g:fuf_modesDisable = [ 'mrufile', 'mrucmd', ]
-let g:fuf_dataDir = '~/.vim-fuf-data'
-let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])' . '|.*/third-lib/.*'
+" " FuzzyFinder Settings
+" let g:fuf_enumeratingLimit = 30
+" let g:fuf_modesDisable = [ 'mrufile', 'mrucmd', ]
+" let g:fuf_dataDir = '~/.vim-fuf-data'
+" let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])' . '|.*/third-lib/.*'
 
 " NERD_commenter Settings
 let NERDSpaceDelims = 1
@@ -479,10 +481,34 @@ autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<cr>
 
 " Ctrlp
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  'target\|third-lib\|dist',
-  \ 'file': '\v\.(exe|so|dll)$'
-  \ }
+            \ 'dir':  'target\|third-lib\|dist',
+            \ 'file': '\v\.(exe|so|dll)$'
+            \ }
 let g:ctrlp_follow_symlinks = 2
+let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
+                      \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10000'
+" let g:ctrlp_max_files = 100000
+if executable('ag')
+    let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
+    let g:ctrlp_use_caching = 0
+endif
+let g:ctrlp_abbrev = {
+            \ 'gmode': 'i',
+            \ 'abbrevs': [
+            \ {
+            \ 'pattern': '^A',
+            \ 'expanded': 'lib/Api/',
+            \ 'mode': 'pfrz',
+            \ },
+            \ {
+            \ 'pattern': '^C',
+            \ 'expanded': 'web/controllers/',
+            \ 'mode': 'pfrz',
+            \ },
+            \ ]
+            \ }
 
 " syntastic
 let g:syntastic_check_on_open = 1
@@ -664,13 +690,13 @@ imap <A-k> <C-O>gki
 "显示、隐藏ctags侧边栏
 nmap <leader>tl :TagbarToggle<CR>
 
-" 使用FuzzyFinder打开文件
-nmap <leader>o  :echo 'Do nothing ...'<CR>
-nmap <leader>oo :FufTaggedFile<CR>
-nmap <leader>of :FufFile<CR>
-nmap <leader>oc :FufCoverageFile<CR>
-nmap <leader>ot :FufTag<CR>
-nmap <leader>frc :FufRenewCache<CR>
+" " 使用FuzzyFinder打开文件
+" nmap <leader>o  :echo 'Do nothing ...'<CR>
+" nmap <leader>oo :FufTaggedFile<CR>
+" nmap <leader>of :FufFile<CR>
+" nmap <leader>oc :FufCoverageFile<CR>
+" nmap <leader>ot :FufTag<CR>
+" nmap <leader>frc :FufRenewCache<CR>
 
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
@@ -705,6 +731,8 @@ nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=
     " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
     " call CscopeUpdateDB()
 " endf
+" 在新Tab打开Tag
+" nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 
 " 手工设置当前文件所在的目录为工作目录
 nmap <leader>pwd :pwd<CR>
@@ -823,9 +851,6 @@ function! AgWrapper(rawPattern)"{{{
     exe 'LAg! -i "'.pattern.'"'
 endfunction"}}}
 
-" EasyGrep
-nmap <leader>R :Replace<Space>
-
 " Fugitive
 nmap <leader>gst :Gstatus<CR>
 
@@ -876,6 +901,13 @@ map g/ <Plug>(incsearch-stay)
 
 " repeat last command
 nmap <leader>!! :<up><cr>
+
+" Command-T
+nnoremap <leader><leader>t :CommandT<CR>
+
+" CtrlP
+nmap <leader>ot :CtrlPTag<CR>
+nmap <leader>obt :CtrlPBufTag<CR>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -1425,6 +1457,5 @@ let g:phpqa_messdetector_autorun = 1
 if hostname() == 'leighs'
     set guifont=CosmicSansNeueMono\ 14
     au BufEnter ~/workspace/* map <buffer> <C-P> :CtrlP ~/workspace<CR>
-    " let g:ctrlp_working_path_mode = '0'
 endif
 "}}}
