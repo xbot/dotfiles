@@ -951,6 +951,24 @@ nnoremap <leader><leader>t :CommandT<CR>
 " CtrlP
 nmap <leader>ot :CtrlPTag<CR>
 nmap <leader>obt :CtrlPBufTag<CR>
+
+" Unite
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#custom#source('buffer,file,file_rec', 'sorters', 'sorter_selecta')
+nnoremap <leader><leader>r :<C-u>Unite file_rec/async<CR>
+call unite#custom#profile('default', 'context', {
+            \   'start_insert': 1,
+            \   'winheight': 1000,
+            \   'direction': 'botright',
+            \ })
+function! s:UniteSettings()
+    let b:actually_quit = 0
+    setlocal updatetime=3
+    au! InsertEnter <buffer> let b:actually_quit = 0
+    au! InsertLeave <buffer> let b:actually_quit = 1
+    au! CursorHold  <buffer> if exists('b:actually_quit') && b:actually_quit | close | endif
+endfunction
+au FileType unite call s:UniteSettings()
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
