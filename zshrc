@@ -254,6 +254,7 @@ alias lns='ln -s'
 alias rake='nocorrect rake'
 alias lssrv='netstat -tulnp'
 alias lsconn='netstat -atunp'
+alias follow='tail -f -n 100'
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'

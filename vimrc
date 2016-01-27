@@ -88,76 +88,13 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
-" let active_addons += ['vim-lastplace']
-" let active_addons += ['Perfect_Dark']
-" let active_addons += ['github:xbot/svnj.vim']
-" let active_addons += ['vcscommand']
-" let active_addons += ['git_log']
-" let active_addons += ['incsearch']
-" let active_addons += ['fontsize']
-" let active_addons += ['Gist']
-" let active_addons += ['phpqa']
-" let active_addons += ['jianfan']
-" let active_addons += ['ag']
-" let active_addons += ['Align%294']
-" let active_addons += ['Auto_Pairs']
-" let active_addons += ['bufexplorer.zip']
-" let active_addons += ['Colorizer']
-" let active_addons += ['cscope']
-" let active_addons += ['ctrlp']
-" let active_addons += ['EasyGrep']
-" let active_addons += ['EasyMotion']
-" let active_addons += ['fencview']
-" let active_addons += ['fugitive']
-" " let active_addons += ['FuzzyFinder']
-" let active_addons += ['github:aaronbieber/vim-quicktask']
-" let active_addons += ['github:Blackrush/vim-gocode']
-" let active_addons += ['github:cespare/vim-golang']
-" let active_addons += ['github:dgryski/vim-godef']
-" let active_addons += ['github:peterhoeg/vim-qml']
-" let active_addons += ['github:tobyS/pdv']
-" let active_addons += ['github:tobyS/vmustache']
-" let active_addons += ['github:xbot/UltraBlog.vim']
-" let active_addons += ['Gundo']
-" let active_addons += ['LargeFile']
-" let active_addons += ['matchit.zip']
-" let active_addons += ['MatchTag']
-" let active_addons += ['molokai']
-" let active_addons += ['phpdoc']
-" let active_addons += ['preview%3344']
-" let active_addons += ['py2stdlib']
-" let active_addons += ['pyclewn']
-" let active_addons += ['quickrun%3146']
-" let active_addons += ['reload']
-" let active_addons += ['session%3150']
-" let active_addons += ['shell']
-" let active_addons += ['SingleCompile']
-" let active_addons += ['splitjoin']
-" let active_addons += ['SudoEdit']
-" let active_addons += ['Supertab']
-" let active_addons += ['surround']
-" let active_addons += ['Syntastic']
-" let active_addons += ['Tagbar']
-" let active_addons += ['The_NERD_Commenter']
-" let active_addons += ['The_NERD_tree']
-" let active_addons += ['TwitVim']
-" let active_addons += ['UltiSnips']
-" let active_addons += ['Vdebug']
-" let active_addons += ['vim-jsbeautify']
-" let active_addons += ['vim-octopress']
-" let active_addons += ['vim-signify']
-" let active_addons += ['vim-snippets']
-" let active_addons += ['YouCompleteMe']
-" let active_addons += ['wildfire']
-" let active_addons += ['vim-colorscheme-switcher']
-" " let active_addons += ['ShowMarks7']
-" " let active_addons += ['Pydiction']
-" " let active_addons += ['vim-vebugger']
-" " let active_addons += ['vimproc']
-" " let g:vebugger_leader='<Leader>d'
 let s:vamRegistryFile = expand('~').'/.vim/vam_registry'
 if filereadable(s:vamRegistryFile)
-    let active_addons += readfile(s:vamRegistryFile)
+    for linestr in readfile(s:vamRegistryFile)
+        if linestr !~ '^#'
+            call add(active_addons, linestr)
+        endif
+    endfor
 endif
 call vam#ActivateAddons(active_addons)
 " Addon post-install hook.
@@ -199,6 +136,61 @@ fun! MyUninstallAddons(...)"{{{
     call writefile(regLines, s:vamRegistryFile)
 endfun"}}}
 command! -complete=customlist,MyDoActivatedAddonsCompete -nargs=* UninstallAddons :call MyUninstallAddons(<f-args>)
+" Enable or disable addons
+fun! MyDoEnabledAddonsCompete(...)"{{{
+    if file_readable(s:vamRegistryFile)
+        let fullList = readfile(s:vamRegistryFile)
+        call filter(fullList, 'v:val !~ "^#"')
+        call filter(fullList, 'v:val =~ ".*'.a:1.'.*"')
+        return fullList
+    endif
+endfun"}}}
+fun! MyDoDisabledAddonsCompete(...)"{{{
+    if file_readable(s:vamRegistryFile)
+        let fullList = readfile(s:vamRegistryFile)
+        call filter(fullList, 'v:val =~ "^#.*'.a:1.'.*"')
+        call map(fullList, 'v:val[1:]')
+        return fullList
+    endif
+endfun"}}}
+fun! MyEnableAddons(...)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+    else
+        echo "Registry is empty."
+        return
+    endif
+    for addonName in a:000
+        let idx = index(regLines, '#'.addonName)
+        if idx >= 0
+            let regLines[idx] = addonName
+            echo addonName.' is enabled.'
+        else
+            echo addonName.' cannot be enabled.'
+        endif
+    endfor
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+fun! MyDisableAddons(...)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+    else
+        echo "Registry is empty."
+        return
+    endif
+    for addonName in a:000
+        let idx = index(regLines, addonName)
+        if idx >= 0
+            let regLines[idx] = '#'.addonName
+            echo addonName.' is disabled.'
+        else
+            echo addonName.' cannot be disabled.'
+        endif
+    endfor
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+command! -complete=customlist,MyDoDisabledAddonsCompete -nargs=* EnableAddons :call MyEnableAddons(<f-args>)
+command! -complete=customlist,MyDoEnabledAddonsCompete -nargs=* DisableAddons :call MyDisableAddons(<f-args>)
 "}}}
 
 " ------------------------------ Application Settings ------------------------"{{{
@@ -523,6 +515,8 @@ autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<cr>
 " let g:EclimCompletionMethod = 'omnifunc'
 
 " Ctrlp
+" let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_custom_ignore = {
             \ 'dir':  'target\|third-lib\|dist',
             \ 'file': '\v\.(exe|so|dll)$'
@@ -535,7 +529,7 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10000'
 " let g:ctrlp_max_files = 100000
 if executable('ag')
     let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
-    let g:ctrlp_use_caching = 0
+    " let g:ctrlp_use_caching = 0
 endif
 let g:ctrlp_abbrev = {
             \ 'gmode': 'i',
@@ -575,6 +569,25 @@ let g:ag_lhandler="lopen"
 
 " svnj
 let g:svnj_send_soc_command = 0
+
+" Unite
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+" nnoremap <leader><leader>r :<C-u>Unite file_rec/async<CR>
+nnoremap <leader>jl :<C-u>Unite jump<CR>
+call unite#custom#profile('default', 'context', {
+            \   'start_insert': 1,
+            \   'winheight': 1000,
+            \   'direction': 'botright',
+            \ })
+function! s:UniteSettings()
+    let b:actually_quit = 0
+    setlocal updatetime=3
+    au! InsertEnter <buffer> let b:actually_quit = 0
+    au! InsertLeave <buffer> let b:actually_quit = 1
+    au! CursorHold  <buffer> if exists('b:actually_quit') && b:actually_quit | close | endif
+endfunction
+au FileType unite call s:UniteSettings()
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -674,10 +687,10 @@ imap <leader>aQ <ESC>:qa!<CR>
 
 " 编辑
 inoremap jj <ESC>
-nmap <leader><leader>w :up<CR>
-nmap <leader><leader>W :up!<CR>
-imap <leader><leader>w <ESC>:up<CR>
-imap <leader><leader>W <ESC>:up!<CR>
+nmap <leader>w :up<CR>
+nmap <leader>W :up!<CR>
+imap <leader>w <ESC>:up<CR>
+imap <leader>W <ESC>:up!<CR>
 nmap <leader>x :x<CR>
 imap <leader>x <ESC>:x<CR>
 imap <leader>u <C-O>:normal u<CR>
@@ -687,6 +700,7 @@ nmap <Space> <Pagedown>
 nmap <C-S-U> :e!<CR>
 imap <C-S-U> <C-O>:e!<CR>
 imap <C-Q> <ESC>:wq<CR>
+xnoremap <expr> p '"_d"'.v:register.'P'
 
 " 页签
 nmap <C-T><C-T> :tabnew<CR>
@@ -724,6 +738,12 @@ nmap <F11> :wincmd_<CR>
 nmap <Tab> <C-W>j<C-W>_
 nmap <S-Tab> <C-W>k<C-W>_
 
+" 窗口间移动焦点
+map <up> <C-W>k
+map <down> <C-W>j
+map <left> <C-W>h
+map <right> <C-W>l
+
 " Navigating long lines
 nmap <A-j> gj
 nmap <A-k> gk
@@ -732,6 +752,7 @@ imap <A-k> <C-O>gki
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tl :TagbarToggle<CR>
+au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR> 
 
 " " 使用FuzzyFinder打开文件
 " nmap <leader>o  :echo 'Do nothing ...'<CR>
@@ -777,42 +798,14 @@ nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=
 " 在新Tab打开Tag
 " nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
 
-" 手工设置当前文件所在的目录为工作目录
+" 查看当前目录
 nmap <leader>pwd :pwd<CR>
-nmap <leader>mwd :call MakeWorkingDir()<CR>
-function! MakeWorkingDir()"{{{
-    cd %:h
-    cd %:h
-    pwd
-endfunction"}}}
-
-" 切换到工程根目录
-" nmap <leader>ret :call XRetreat()<CR>
-" function! XRetreat()"{{{
-    " "call MakeWorkingDir()
-    " let currPath = expand('%:p:h')
-    " let endPos = matchend(currPath, 'turbocrm[0-9]*[/\\]code')
-    " if endPos>=0
-        " exe 'cd '.fnameescape(strpart(currPath,0,endPos))
-    " endif
-    " pwd
-" endfunction"}}}
 
 " NERDTree
 nmap <leader>ntt :NERDTreeToggle<CR>
 nmap <leader>ntc :NERDTreeClose<CR>
 nmap <leader>nto :NERDTree<CR>
 nmap <leader>ntd :NERDTree %:h<CR>
-
-" UltraBlog
-nmap <leader>ub :UB
-nmap <leader>ubls :UBList
-nmap <leader>ubnw :UBNew
-nmap <leader>ubpv :UBPreview
-nmap <leader>ubsv :UBSave<CR>
-nmap <leader>ubsd :UBSend
-nmap <leader>ubop :UBOpen
-"nmap <F5> :UBRefresh<CR>
 
 " 简繁转换
 nmap <leader>g2b <ESC>:cal G2B()<CR>
@@ -839,7 +832,7 @@ nmap <leader>edos :e ++ff=dos<CR>
 nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
-if has('unix')
+if has('unix') && executable('xbindkeys')
     nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
 endif
 
@@ -848,12 +841,6 @@ nmap <leader>V V']
 
 " Clear highlighting of the last search
 nmap <leader>cls :nohl<CR>
-
-" numsign
-" map <F12> <Plug>GotoNextSign
-" map <S-F12> <Plug>GotoPrevSign
-" map <leader>sc <Plug>RmAllSigns
-" map <leader>stm <Plug>ToggleMode
 
 " Search word
 nmap <leader>/w /\<\>\C<left><left><left><left>
@@ -873,17 +860,12 @@ vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
 map <leader>] :LargerFont<CR>
 map <leader>[ :SmallerFont<CR>
 
-" " Eclim
-" nmap <leader>ptt :ProjectTreeToggle<CR>
-
 " Ag
 nmap <leader>ag :MyAg<Space>
 nmap <leader>gag :Ag! -i<Space>
-nmap <leader>wag :LAg! -iw<Space>
-nmap <leader>wgag :Ag! -iw<Space>
 vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
 vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
-nnoremap <leader>ww :LAg! <cword><CR>
+nnoremap <leader>aw :LAg! <cword><CR>
 " List all tasks under the current directory
 map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
 
@@ -945,30 +927,9 @@ map g/ <Plug>(incsearch-stay)
 " repeat last command
 nmap <leader>!! :<up><cr>
 
-" Command-T
-nnoremap <leader><leader>t :CommandT<CR>
-
 " CtrlP
 nmap <leader>ot :CtrlPTag<CR>
-nmap <leader>obt :CtrlPBufTag<CR>
-
-" Unite
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-" call unite#custom#source('buffer,file,file_rec', 'sorters', 'sorter_selecta')
-nnoremap <leader><leader>r :<C-u>Unite file_rec/async<CR>
-call unite#custom#profile('default', 'context', {
-            \   'start_insert': 1,
-            \   'winheight': 1000,
-            \   'direction': 'botright',
-            \ })
-function! s:UniteSettings()
-    let b:actually_quit = 0
-    setlocal updatetime=3
-    au! InsertEnter <buffer> let b:actually_quit = 0
-    au! InsertLeave <buffer> let b:actually_quit = 1
-    au! CursorHold  <buffer> if exists('b:actually_quit') && b:actually_quit | close | endif
-endfunction
-au FileType unite call s:UniteSettings()
+nmap <leader>bt :CtrlPBufTag<CR>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -1506,17 +1467,10 @@ au FileType php nmap <buffer> <leader>fhcu :call ForceHTMLComment("n", "Uncommen
 au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
 
 " phpqa
+let g:phpqa_codesniffer_autorun = 0        "  default =1 on save
+let g:phpqa_messdetector_autorun = 0
 let g:phpqa_codesniffer_args = "--standard=$HOME/.phpcs_ruleset.xml"
 " let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs' 
-let g:phpqa_codesniffer_autorun = 1        "  default =1 on save
 let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
-let g:phpqa_messdetector_autorun = 1
-"}}}
-
-" ------------------------------ Leigh's fixes -----------------------------{{{
-if hostname() == 'leighs'
-    set guifont=CosmicSansNeueMono\ 14
-    au BufEnter ~/workspace/* map <buffer> <C-P> :CtrlP ~/workspace<CR>
-endif
 "}}}
