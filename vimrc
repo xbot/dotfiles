@@ -287,11 +287,6 @@ endif
 
 "------------------------------- Plugins Settings --------------------------{{{
 " Tagbar
-if IsPlatform('win')
-    let g:tagbar_ctags_bin = $VIM.'\addons\binary-utils\dist\bin\ctags.exe'
-elseif has('gui_macvim')
-    let g:tagbar_ctags_bin='/usr/local/bin/ctags'
-endif
 let g:tagbar_compact = 1
 let g:tagbar_usearrows = 1
 let g:tagbar_width = 30
@@ -335,16 +330,6 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
-let g:tagbar_type_php  = {
-  \ 'ctagstype' : 'php',
-  \ 'kinds'     : [
-      \ 'i:interfaces',
-      \ 'c:classes',
-      \ 'd:constant definitions',
-      \ 'f:functions',
-      \ 'j:javascript functions:1'
-  \ ]
-\ }
 
 " FencView settings
 let g:fencview_autodetect=0
@@ -387,12 +372,6 @@ endif
 
 " SQL Type Default
 let g:sql_type_default = 'sqlsvr'
-
-" " FuzzyFinder Settings
-" let g:fuf_enumeratingLimit = 30
-" let g:fuf_modesDisable = [ 'mrufile', 'mrucmd', ]
-" let g:fuf_dataDir = '~/.vim-fuf-data'
-" let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])' . '|.*/third-lib/.*'
 
 " NERD_commenter Settings
 let NERDSpaceDelims = 1
@@ -473,36 +452,36 @@ let g:miniBufExplSplitBelow=0
 
 " Vdebug.vim
 let g:vdebug_options= {
-\    "path_maps" : {
-\        "/var/www/workspace": expand('~')."/workspace",
-\        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
-\    },
-\    "port" : 9001,
-\    "server" : '0.0.0.0',
-\    "timeout" : 20,
-\    "on_close" : 'detach',
-\    "break_on_open" : 1,
-\    "ide_key" : '',
-\    "remote_path" : "",
-\    "local_path" : "",
-\    "debug_window_level" : 0,
-\    "debug_file_level" : 0,
-\    "debug_file" : "",
-\    "marker_default" : "⬦",
-\}
+            \    "path_maps" : {
+            \        "/var/www/workspace": expand('~')."/workspace",
+            \        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
+            \    },
+            \    "port" : 9001,
+            \    "server" : '0.0.0.0',
+            \    "timeout" : 20,
+            \    "on_close" : 'detach',
+            \    "break_on_open" : 1,
+            \    "ide_key" : '',
+            \    "remote_path" : "",
+            \    "local_path" : "",
+            \    "debug_window_level" : 0,
+            \    "debug_file_level" : 0,
+            \    "debug_file" : "",
+            \    "marker_default" : "⬦",
+            \}
 let g:vdebug_keymap = {
-\    "run" : "<F5>",
-\    "run_to_cursor" : "<F1>",
-\    "step_over" : "<F2>",
-\    "step_into" : "<F3>",
-\    "step_out" : "<F4>",
-\    "close" : "<F6>",
-\    "detach" : "<F7>",
-\    "set_breakpoint" : "<F10>",
-\    "get_context" : "<F11>",
-\    "eval_under_cursor" : "<F12>",
-\    "eval_visual" : "<Leader>e",
-\}
+            \    "run" : "<F5>",
+            \    "run_to_cursor" : "<F1>",
+            \    "step_over" : "<F2>",
+            \    "step_into" : "<F3>",
+            \    "step_out" : "<F4>",
+            \    "close" : "<F6>",
+            \    "detach" : "<F7>",
+            \    "set_breakpoint" : "<F10>",
+            \    "get_context" : "<F11>",
+            \    "eval_under_cursor" : "<F12>",
+            \    "eval_visual" : "<Leader>e",
+            \}
 
 " vim-jsbeautify
 nmap <c-a-f> :call JsBeautify()<cr>
@@ -580,14 +559,23 @@ call unite#custom#profile('default', 'context', {
             \   'winheight': 1000,
             \   'direction': 'botright',
             \ })
-function! s:UniteSettings()
+function! s:UniteSettings()"{{{
     let b:actually_quit = 0
     setlocal updatetime=3
     au! InsertEnter <buffer> let b:actually_quit = 0
     au! InsertLeave <buffer> let b:actually_quit = 1
     au! CursorHold  <buffer> if exists('b:actually_quit') && b:actually_quit | close | endif
-endfunction
+endfunction"}}}
 au FileType unite call s:UniteSettings()
+
+" gtags
+let Gtags_Close_When_Single = 1
+let Gtags_Auto_Update = 0
+let g:cscope_silent = 1
+au FileType php,python,c,cpp,javascript map <C-]> :Gtags<CR><CR>
+au FileType php,python,c,cpp,javascript map <C-[> :Gtags -r<CR><CR>
+nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
+nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -672,6 +660,9 @@ autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
 
 " Golang
 autocmd BufWritePre *.go :Fmt
+
+" vim help
+au FileType vim set keywordprg="help"
 "}}}
 
 "------------------------------- Key mappings -------------------------------"{{{
@@ -688,9 +679,9 @@ imap <leader>aQ <ESC>:qa!<CR>
 " 编辑
 inoremap jj <ESC>
 nmap <leader>w :up<CR>
-nmap <leader>W :up!<CR>
+nmap <leader>W :SudoWrite<CR>
 imap <leader>w <ESC>:up<CR>
-imap <leader>W <ESC>:up!<CR>
+imap <leader>W <ESC>:SudoWrite<CR>
 nmap <leader>x :x<CR>
 imap <leader>x <ESC>:x<CR>
 imap <leader>u <C-O>:normal u<CR>
@@ -788,15 +779,8 @@ nmap <leader>twdm :DMTwitter<CR>
 nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
-" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
-" nmap <leader>mkt :call DoCtagsCscope()<CR>
-" fun! DoCtagsCscope()
-    " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
-    " call CscopeUpdateDB()
-" endf
-" 在新Tab打开Tag
-" nnoremap <silent><Leader><C-]> <C-w><C-]><C-w>T
+" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
+nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
 
 " 查看当前目录
 nmap <leader>pwd :pwd<CR>
@@ -892,26 +876,26 @@ nmap <leader>ue :UltiSnipsEdit<Space>
 " Gundo
 nmap <leader>gu :GundoToggle<CR>
 
-" Cscope
-" f: Find this file
-nnoremap <leader>cfa :call CscopeFindInteractive(expand('<cword>'))<CR>
-" nnoremap <leader>cl :call ToggleLocationList()<CR>
-" s: Find this C symbol
-nnoremap  <leader>cfs :call CscopeFind('s', expand('<cword>'))<CR>
-" g: Find this definition
-nnoremap  <leader>cfg :call CscopeFind('g', expand('<cword>'))<CR>
-" d: Find functions called by this function
-nnoremap  <leader>cfd :call CscopeFind('d', expand('<cword>'))<CR>
-" c: Find functions calling this function
-nnoremap  <leader>cfc :call CscopeFind('c', expand('<cword>'))<CR>
-" t: Find this text string
-nnoremap  <leader>cft :call CscopeFind('t', expand('<cword>'))<CR>
-" e: Find this egrep pattern
-nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
-" f: Find this file
-nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
-" i: Find files #including this file
-nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
+" " Cscope
+" " f: Find this file
+" nnoremap <leader>cfa :call CscopeFindInteractive(expand('<cword>'))<CR>
+" " nnoremap <leader>cl :call ToggleLocationList()<CR>
+" " s: Find this C symbol
+" nnoremap  <leader>cfs :call CscopeFind('s', expand('<cword>'))<CR>
+" " g: Find this definition
+" nnoremap  <leader>cfg :call CscopeFind('g', expand('<cword>'))<CR>
+" " d: Find functions called by this function
+" nnoremap  <leader>cfd :call CscopeFind('d', expand('<cword>'))<CR>
+" " c: Find functions calling this function
+" nnoremap  <leader>cfc :call CscopeFind('c', expand('<cword>'))<CR>
+" " t: Find this text string
+" nnoremap  <leader>cft :call CscopeFind('t', expand('<cword>'))<CR>
+" " e: Find this egrep pattern
+" nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
+" " f: Find this file
+" nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
+" " i: Find files #including this file
+" nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
 
 " RabbitVCS
 map <leader>rbll :silent !rabbitvcs log<CR>
@@ -1284,6 +1268,34 @@ function! OpenQuickfixInNewTab()"{{{
     exe 'set switchbuf='.tmpSwitchbuf
 endfunction"}}}
 au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
+
+" translate the word under cursor
+fun! SearchWord()"{{{
+    echo system('ydcv --', expand("<cword>"))
+endfun"}}}
+" translate selected text
+fun! SearchWord_v(type, ...)"{{{
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @@
+
+    if a:0
+        silent exe "normal! `<" . a:type . "`>y"
+    elseif a:type == 'line'
+        silent exe "normal! '[V']y"
+    elseif a:type == 'block'
+        silent exe "normal! `[\<C-V>`]y"
+    else
+        silent exe "normal! `[v`]y"
+    endif
+
+    echo system('ydcv --', @@)
+
+    let &selection = sel_save
+    let @@ = reg_save
+endfun"}}}
+nnoremap <Leader>df :call SearchWord()<CR>
+vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<cr>
 "}}}
 
 " ------------------------------ Java -----------------------------{{{
