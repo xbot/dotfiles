@@ -272,6 +272,8 @@ exec --no-startup-id thunderbird
 exec --no-startup-id wine-qqintl
 exec --no-startup-id /usr/share/playonlinux/playonlinux --run "RTX"
 exec --no-startup-id recollindex -w 60 -m
+exec --no-startup-id mutate
+exec --no-startup-id amor
 
 for_window [class="Wine"] floating enable;border none
 for_window [class="Wine" instance="Thunder5.exe" title="迅雷5"] floating disable

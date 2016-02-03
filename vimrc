@@ -88,73 +88,109 @@ endif
 " ------------------------------ VAM ------------------------------"{{{
 set runtimepath+=~/.vim/addons/vim-addon-manager
 let active_addons = []
-let active_addons += ['Perfect_Dark']
-let active_addons += ['github:xbot/svnj.vim']
-let active_addons += ['vcscommand']
-let active_addons += ['git_log']
-let active_addons += ['incsearch']
-let active_addons += ['fontsize']
-let active_addons += ['Gist']
-let active_addons += ['phpqa']
-let active_addons += ['jianfan']
-let active_addons += ['ag']
-let active_addons += ['Align%294']
-let active_addons += ['Auto_Pairs']
-let active_addons += ['bufexplorer.zip']
-let active_addons += ['Colorizer']
-let active_addons += ['cscope']
-let active_addons += ['ctrlp']
-let active_addons += ['EasyGrep']
-let active_addons += ['EasyMotion']
-let active_addons += ['fencview']
-let active_addons += ['fugitive']
-let active_addons += ['FuzzyFinder']
-let active_addons += ['github:aaronbieber/vim-quicktask']
-let active_addons += ['github:Blackrush/vim-gocode']
-let active_addons += ['github:cespare/vim-golang']
-let active_addons += ['github:dgryski/vim-godef']
-let active_addons += ['github:peterhoeg/vim-qml']
-let active_addons += ['github:tobyS/pdv']
-let active_addons += ['github:tobyS/vmustache']
-let active_addons += ['github:xbot/UltraBlog.vim']
-let active_addons += ['Gundo']
-let active_addons += ['LargeFile']
-let active_addons += ['matchit.zip']
-let active_addons += ['MatchTag']
-let active_addons += ['molokai']
-let active_addons += ['phpdoc']
-let active_addons += ['preview%3344']
-let active_addons += ['py2stdlib']
-let active_addons += ['pyclewn']
-let active_addons += ['quickrun%3146']
-let active_addons += ['reload']
-let active_addons += ['session%3150']
-let active_addons += ['shell']
-let active_addons += ['SingleCompile']
-let active_addons += ['splitjoin']
-let active_addons += ['SudoEdit']
-let active_addons += ['Supertab']
-let active_addons += ['surround']
-let active_addons += ['Syntastic']
-let active_addons += ['Tagbar']
-let active_addons += ['The_NERD_Commenter']
-let active_addons += ['The_NERD_tree']
-let active_addons += ['TwitVim']
-let active_addons += ['UltiSnips']
-let active_addons += ['Vdebug']
-let active_addons += ['vim-jsbeautify']
-let active_addons += ['vim-octopress']
-let active_addons += ['vim-signify']
-let active_addons += ['vim-snippets']
-let active_addons += ['YouCompleteMe']
-let active_addons += ['wildfire']
-let active_addons += ['vim-colorscheme-switcher']
-" let active_addons += ['ShowMarks7']
-" let active_addons += ['Pydiction']
-" let active_addons += ['vim-vebugger']
-" let active_addons += ['vimproc']
-" let g:vebugger_leader='<Leader>d'
+let s:vamRegistryFile = expand('~').'/.vim/vam_registry'
+if filereadable(s:vamRegistryFile)
+    for linestr in readfile(s:vamRegistryFile)
+        if linestr !~ '^#'
+            call add(active_addons, linestr)
+        endif
+    endfor
+endif
 call vam#ActivateAddons(active_addons)
+" Addon post-install hook.
+fun! MyAddonPostActivateHook(info, repository, pluginDir, opts)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+        call add(regLines, a:repository.name)
+        call sort(regLines)
+        call uniq(regLines)
+    else
+        let regLines = [a:repository.name]
+    endif
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+let g:vim_addon_manager.post_install_hook_functions = ['MyAddonPostActivateHook']
+" Complete the addon name.
+fun! MyDoActivatedAddonsCompete(...)"{{{
+    let fullList = keys(g:vim_addon_manager.activated_plugins)
+    call filter(fullList, 'v:val =~ ".*'.a:1.'.*"')
+    return fullList
+endfun"}}}
+" Remove records of addons from the registry.
+fun! MyUninstallAddons(...)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+    else
+        echo "Registry is empty."
+        return
+    endif
+    for addonName in a:000
+        let idx = index(regLines, addonName)
+        if idx >= 0
+            call remove(regLines, idx)
+            echo addonName.' is removed from the registry.'
+        else
+            echo addonName.' cannot be found in the registry.'
+        endif
+    endfor
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+command! -complete=customlist,MyDoActivatedAddonsCompete -nargs=* UninstallAddons :call MyUninstallAddons(<f-args>)
+" Enable or disable addons
+fun! MyDoEnabledAddonsCompete(...)"{{{
+    if file_readable(s:vamRegistryFile)
+        let fullList = readfile(s:vamRegistryFile)
+        call filter(fullList, 'v:val !~ "^#"')
+        call filter(fullList, 'v:val =~ ".*'.a:1.'.*"')
+        return fullList
+    endif
+endfun"}}}
+fun! MyDoDisabledAddonsCompete(...)"{{{
+    if file_readable(s:vamRegistryFile)
+        let fullList = readfile(s:vamRegistryFile)
+        call filter(fullList, 'v:val =~ "^#.*'.a:1.'.*"')
+        call map(fullList, 'v:val[1:]')
+        return fullList
+    endif
+endfun"}}}
+fun! MyEnableAddons(...)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+    else
+        echo "Registry is empty."
+        return
+    endif
+    for addonName in a:000
+        let idx = index(regLines, '#'.addonName)
+        if idx >= 0
+            let regLines[idx] = addonName
+            echo addonName.' is enabled.'
+        else
+            echo addonName.' cannot be enabled.'
+        endif
+    endfor
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+fun! MyDisableAddons(...)"{{{
+    if filereadable(s:vamRegistryFile)
+        let regLines = readfile(s:vamRegistryFile)
+    else
+        echo "Registry is empty."
+        return
+    endif
+    for addonName in a:000
+        let idx = index(regLines, addonName)
+        if idx >= 0
+            let regLines[idx] = '#'.addonName
+            echo addonName.' is disabled.'
+        else
+            echo addonName.' cannot be disabled.'
+        endif
+    endfor
+    call writefile(regLines, s:vamRegistryFile)
+endfun"}}}
+command! -complete=customlist,MyDoDisabledAddonsCompete -nargs=* EnableAddons :call MyEnableAddons(<f-args>)
+command! -complete=customlist,MyDoEnabledAddonsCompete -nargs=* DisableAddons :call MyDisableAddons(<f-args>)
 "}}}
 
 " ------------------------------ Application Settings ------------------------"{{{
@@ -191,8 +227,7 @@ if IsPlatform('win')
     set grepprg=d:/dev/tool/GnuWin32/bin/grep.exe\ -n
 else
     " set grepprg=grep\ -n
-    " Do 'ln -s /usr/bin/ag /usr/bin/ack' to leverage the power of ag
-    set grepprg=ack\ --nogroup\ --column
+    set grepprg=ag\ --nogroup\ --column
 endif
 set wildignore=*.class,*.pyc
 "}}}
@@ -210,7 +245,8 @@ if has('gui_running')
         set background=dark
         colorscheme solarized
     else
-        set background=dark
+        " set background=dark
+        set background=light
         colorscheme solarized
         set guifont=CosmicSansNeueMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
@@ -251,11 +287,6 @@ endif
 
 "------------------------------- Plugins Settings --------------------------{{{
 " Tagbar
-if IsPlatform('win')
-    let g:tagbar_ctags_bin = $VIM.'\addons\binary-utils\dist\bin\ctags.exe'
-elseif has('gui_macvim')
-    let g:tagbar_ctags_bin='/usr/local/bin/ctags'
-endif
 let g:tagbar_compact = 1
 let g:tagbar_usearrows = 1
 let g:tagbar_width = 30
@@ -299,16 +330,6 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
-let g:tagbar_type_php  = {
-  \ 'ctagstype' : 'php',
-  \ 'kinds'     : [
-      \ 'i:interfaces',
-      \ 'c:classes',
-      \ 'd:constant definitions',
-      \ 'f:functions',
-      \ 'j:javascript functions:1'
-  \ ]
-\ }
 
 " FencView settings
 let g:fencview_autodetect=0
@@ -340,7 +361,7 @@ let g:EasyGrepReplaceWindowMode = 1
 " let g:EasyGrepMode = 3
 " let g:EasyGrepDefaultUserPattern='<JAVA>'
 " let g:EasyGrepOpenWindowOnMatch=0
-let g:EasyGrepFilesToExclude='tags'
+let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -351,12 +372,6 @@ endif
 
 " SQL Type Default
 let g:sql_type_default = 'sqlsvr'
-
-" FuzzyFinder Settings
-let g:fuf_enumeratingLimit = 30
-let g:fuf_modesDisable = [ 'mrufile', 'mrucmd', ]
-let g:fuf_dataDir = '~/.vim-fuf-data'
-let g:fuf_coveragefile_exclude = '\v\~$|\.(o|exe|dll|bak|orig|swp)$|(^|[/\\])\.(hg|git|bzr)($|[/\\])' . '|.*/third-lib/.*'
 
 " NERD_commenter Settings
 let NERDSpaceDelims = 1
@@ -437,36 +452,36 @@ let g:miniBufExplSplitBelow=0
 
 " Vdebug.vim
 let g:vdebug_options= {
-\    "path_maps" : {
-\        "/var/www/workspace": expand('~')."/workspace",
-\        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
-\    },
-\    "port" : 9001,
-\    "server" : '0.0.0.0',
-\    "timeout" : 20,
-\    "on_close" : 'detach',
-\    "break_on_open" : 1,
-\    "ide_key" : '',
-\    "remote_path" : "",
-\    "local_path" : "",
-\    "debug_window_level" : 0,
-\    "debug_file_level" : 0,
-\    "debug_file" : "",
-\    "marker_default" : "⬦",
-\}
+            \    "path_maps" : {
+            \        "/var/www/workspace": expand('~')."/workspace",
+            \        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
+            \    },
+            \    "port" : 9001,
+            \    "server" : '0.0.0.0',
+            \    "timeout" : 20,
+            \    "on_close" : 'detach',
+            \    "break_on_open" : 1,
+            \    "ide_key" : '',
+            \    "remote_path" : "",
+            \    "local_path" : "",
+            \    "debug_window_level" : 0,
+            \    "debug_file_level" : 0,
+            \    "debug_file" : "",
+            \    "marker_default" : "⬦",
+            \}
 let g:vdebug_keymap = {
-\    "run" : "<F5>",
-\    "run_to_cursor" : "<F1>",
-\    "step_over" : "<F2>",
-\    "step_into" : "<F3>",
-\    "step_out" : "<F4>",
-\    "close" : "<F6>",
-\    "detach" : "<F7>",
-\    "set_breakpoint" : "<F10>",
-\    "get_context" : "<F11>",
-\    "eval_under_cursor" : "<F12>",
-\    "eval_visual" : "<Leader>e",
-\}
+            \    "run" : "<F5>",
+            \    "run_to_cursor" : "<F1>",
+            \    "step_over" : "<F2>",
+            \    "step_into" : "<F3>",
+            \    "step_out" : "<F4>",
+            \    "close" : "<F6>",
+            \    "detach" : "<F7>",
+            \    "set_breakpoint" : "<F10>",
+            \    "get_context" : "<F11>",
+            \    "eval_under_cursor" : "<F12>",
+            \    "eval_visual" : "<Leader>e",
+            \}
 
 " vim-jsbeautify
 nmap <c-a-f> :call JsBeautify()<cr>
@@ -479,11 +494,37 @@ autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<cr>
 " let g:EclimCompletionMethod = 'omnifunc'
 
 " Ctrlp
+" let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  'target\|third-lib\|dist',
-  \ 'file': '\v\.(exe|so|dll)$'
-  \ }
+            \ 'dir':  'target\|third-lib\|dist',
+            \ 'file': '\v\.(exe|so|dll)$'
+            \ }
 let g:ctrlp_follow_symlinks = 2
+let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
+                      \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10000'
+" let g:ctrlp_max_files = 100000
+if executable('ag')
+    let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
+    " let g:ctrlp_use_caching = 0
+endif
+let g:ctrlp_abbrev = {
+            \ 'gmode': 'i',
+            \ 'abbrevs': [
+            \ {
+            \ 'pattern': '^A',
+            \ 'expanded': 'lib/Api/',
+            \ 'mode': 'pfrz',
+            \ },
+            \ {
+            \ 'pattern': '^C',
+            \ 'expanded': 'web/controllers/',
+            \ 'mode': 'pfrz',
+            \ },
+            \ ]
+            \ }
 
 " syntastic
 let g:syntastic_check_on_open = 1
@@ -507,6 +548,34 @@ let g:ag_lhandler="lopen"
 
 " svnj
 let g:svnj_send_soc_command = 0
+
+" Unite
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+" nnoremap <leader><leader>r :<C-u>Unite file_rec/async<CR>
+nnoremap <leader>jl :<C-u>Unite jump<CR>
+call unite#custom#profile('default', 'context', {
+            \   'start_insert': 1,
+            \   'winheight': 1000,
+            \   'direction': 'botright',
+            \ })
+function! s:UniteSettings()"{{{
+    let b:actually_quit = 0
+    setlocal updatetime=3
+    au! InsertEnter <buffer> let b:actually_quit = 0
+    au! InsertLeave <buffer> let b:actually_quit = 1
+    au! CursorHold  <buffer> if exists('b:actually_quit') && b:actually_quit | close | endif
+endfunction"}}}
+au FileType unite call s:UniteSettings()
+
+" gtags
+let Gtags_Close_When_Single = 1
+let Gtags_Auto_Update = 0
+let g:cscope_silent = 1
+au FileType php,python,c,cpp,javascript map <C-]> :Gtags<CR><CR>
+au FileType php,python,c,cpp,javascript map <C-[> :Gtags -r<CR><CR>
+nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
+nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -591,6 +660,9 @@ autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
 
 " Golang
 autocmd BufWritePre *.go :Fmt
+
+" vim help
+au FileType vim set keywordprg="help"
 "}}}
 
 "------------------------------- Key mappings -------------------------------"{{{
@@ -606,10 +678,10 @@ imap <leader>aQ <ESC>:qa!<CR>
 
 " 编辑
 inoremap jj <ESC>
-nmap <leader><leader>w :up<CR>
-nmap <leader><leader>W :up!<CR>
-imap <leader><leader>w <ESC>:up<CR>
-imap <leader><leader>W <ESC>:up!<CR>
+nmap <leader>w :up<CR>
+nmap <leader>W :SudoWrite<CR>
+imap <leader>w <ESC>:up<CR>
+imap <leader>W <ESC>:SudoWrite<CR>
 nmap <leader>x :x<CR>
 imap <leader>x <ESC>:x<CR>
 imap <leader>u <C-O>:normal u<CR>
@@ -619,6 +691,7 @@ nmap <Space> <Pagedown>
 nmap <C-S-U> :e!<CR>
 imap <C-S-U> <C-O>:e!<CR>
 imap <C-Q> <ESC>:wq<CR>
+xnoremap <expr> p '"_d"'.v:register.'P'
 
 " 页签
 nmap <C-T><C-T> :tabnew<CR>
@@ -656,6 +729,12 @@ nmap <F11> :wincmd_<CR>
 nmap <Tab> <C-W>j<C-W>_
 nmap <S-Tab> <C-W>k<C-W>_
 
+" 窗口间移动焦点
+map <up> <C-W>k
+map <down> <C-W>j
+map <left> <C-W>h
+map <right> <C-W>l
+
 " Navigating long lines
 nmap <A-j> gj
 nmap <A-k> gk
@@ -664,14 +743,15 @@ imap <A-k> <C-O>gki
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tl :TagbarToggle<CR>
+au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR> 
 
-" 使用FuzzyFinder打开文件
-nmap <leader>o  :echo 'Do nothing ...'<CR>
-nmap <leader>oo :FufTaggedFile<CR>
-nmap <leader>of :FufFile<CR>
-nmap <leader>oc :FufCoverageFile<CR>
-nmap <leader>ot :FufTag<CR>
-nmap <leader>frc :FufRenewCache<CR>
+" " 使用FuzzyFinder打开文件
+" nmap <leader>o  :echo 'Do nothing ...'<CR>
+" nmap <leader>oo :FufTaggedFile<CR>
+" nmap <leader>of :FufFile<CR>
+" nmap <leader>oc :FufCoverageFile<CR>
+" nmap <leader>ot :FufTag<CR>
+" nmap <leader>frc :FufRenewCache<CR>
 
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
@@ -699,50 +779,17 @@ nmap <leader>twdm :DMTwitter<CR>
 nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
-" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib --exclude=*.pas .<CR>
-nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib .<CR>
-" nmap <leader>mkt :call DoCtagsCscope()<CR>
-" fun! DoCtagsCscope()
-    " silent execute "!ctags -R --php-kinds=cidfj -h .php.inc.lib.js.py.java --langmap=php:.php.inc.lib ."
-    " call CscopeUpdateDB()
-" endf
+" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
+nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
 
-" 手工设置当前文件所在的目录为工作目录
+" 查看当前目录
 nmap <leader>pwd :pwd<CR>
-nmap <leader>mwd :call MakeWorkingDir()<CR>
-function! MakeWorkingDir()"{{{
-    cd %:h
-    cd %:h
-    pwd
-endfunction"}}}
-
-" 切换到工程根目录
-" nmap <leader>ret :call XRetreat()<CR>
-" function! XRetreat()"{{{
-    " "call MakeWorkingDir()
-    " let currPath = expand('%:p:h')
-    " let endPos = matchend(currPath, 'turbocrm[0-9]*[/\\]code')
-    " if endPos>=0
-        " exe 'cd '.fnameescape(strpart(currPath,0,endPos))
-    " endif
-    " pwd
-" endfunction"}}}
 
 " NERDTree
 nmap <leader>ntt :NERDTreeToggle<CR>
 nmap <leader>ntc :NERDTreeClose<CR>
 nmap <leader>nto :NERDTree<CR>
 nmap <leader>ntd :NERDTree %:h<CR>
-
-" UltraBlog
-nmap <leader>ub :UB
-nmap <leader>ubls :UBList
-nmap <leader>ubnw :UBNew
-nmap <leader>ubpv :UBPreview
-nmap <leader>ubsv :UBSave<CR>
-nmap <leader>ubsd :UBSend
-nmap <leader>ubop :UBOpen
-"nmap <F5> :UBRefresh<CR>
 
 " 简繁转换
 nmap <leader>g2b <ESC>:cal G2B()<CR>
@@ -769,7 +816,7 @@ nmap <leader>edos :e ++ff=dos<CR>
 nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
-if has('unix')
+if has('unix') && executable('xbindkeys')
     nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
 endif
 
@@ -778,12 +825,6 @@ nmap <leader>V V']
 
 " Clear highlighting of the last search
 nmap <leader>cls :nohl<CR>
-
-" numsign
-" map <F12> <Plug>GotoNextSign
-" map <S-F12> <Plug>GotoPrevSign
-" map <leader>sc <Plug>RmAllSigns
-" map <leader>stm <Plug>ToggleMode
 
 " Search word
 nmap <leader>/w /\<\>\C<left><left><left><left>
@@ -803,27 +844,21 @@ vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
 map <leader>] :LargerFont<CR>
 map <leader>[ :SmallerFont<CR>
 
-" " Eclim
-" nmap <leader>ptt :ProjectTreeToggle<CR>
-
 " Ag
 nmap <leader>ag :MyAg<Space>
 nmap <leader>gag :Ag! -i<Space>
-nmap <leader>wag :LAg! -iw<Space>
-nmap <leader>wgag :Ag! -iw<Space>
-" vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
-vmap <leader>ag y:LAg! <C-R>=escape(XEscapeRegex(@", 1), '\')<CR>
+vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
 vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
-nnoremap <leader>ww :LAg! <cword><CR>
+nnoremap <leader>aw :LAg! <cword><CR>
+" List all tasks under the current directory
+map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
 
 command! -nargs=+ MyAg call AgWrapper(<f-args>)
-function! AgWrapper(rawPattern)
-    let pattern = escape(XEscapeRegex(a:rawPattern), '\')
-    exe 'LAg! -i '.pattern
-endfunction
-
-" EasyGrep
-nmap <leader>R :Replace<Space>
+function! AgWrapper(rawPattern)"{{{
+    let pattern = substitute(a:rawPattern, '\\\\', '\\\\\\', 'g')
+    let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
+    exe 'LAg! -i "'.pattern.'"'
+endfunction"}}}
 
 " Fugitive
 nmap <leader>gst :Gstatus<CR>
@@ -841,29 +876,26 @@ nmap <leader>ue :UltiSnipsEdit<Space>
 " Gundo
 nmap <leader>gu :GundoToggle<CR>
 
-" Cscope
-" f: Find this file
-nnoremap <leader>cfa :call CscopeFindInteractive(expand('<cword>'))<CR>
-" nnoremap <leader>cl :call ToggleLocationList()<CR>
-" s: Find this C symbol
-nnoremap  <leader>cfs :call CscopeFind('s', expand('<cword>'))<CR>
-" g: Find this definition
-nnoremap  <leader>cfg :call CscopeFind('g', expand('<cword>'))<CR>
-" d: Find functions called by this function
-nnoremap  <leader>cfd :call CscopeFind('d', expand('<cword>'))<CR>
-" c: Find functions calling this function
-nnoremap  <leader>cfc :call CscopeFind('c', expand('<cword>'))<CR>
-" t: Find this text string
-nnoremap  <leader>cft :call CscopeFind('t', expand('<cword>'))<CR>
-" e: Find this egrep pattern
-nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
-" f: Find this file
-nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
-" i: Find files #including this file
-nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
-
-" List all tasks under the current directory
-map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
+" " Cscope
+" " f: Find this file
+" nnoremap <leader>cfa :call CscopeFindInteractive(expand('<cword>'))<CR>
+" " nnoremap <leader>cl :call ToggleLocationList()<CR>
+" " s: Find this C symbol
+" nnoremap  <leader>cfs :call CscopeFind('s', expand('<cword>'))<CR>
+" " g: Find this definition
+" nnoremap  <leader>cfg :call CscopeFind('g', expand('<cword>'))<CR>
+" " d: Find functions called by this function
+" nnoremap  <leader>cfd :call CscopeFind('d', expand('<cword>'))<CR>
+" " c: Find functions calling this function
+" nnoremap  <leader>cfc :call CscopeFind('c', expand('<cword>'))<CR>
+" " t: Find this text string
+" nnoremap  <leader>cft :call CscopeFind('t', expand('<cword>'))<CR>
+" " e: Find this egrep pattern
+" nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
+" " f: Find this file
+" nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
+" " i: Find files #including this file
+" nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
 
 " RabbitVCS
 map <leader>rbll :silent !rabbitvcs log<CR>
@@ -878,6 +910,10 @@ map g/ <Plug>(incsearch-stay)
 
 " repeat last command
 nmap <leader>!! :<up><cr>
+
+" CtrlP
+nmap <leader>ot :CtrlPTag<CR>
+nmap <leader>bt :CtrlPBufTag<CR>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -959,9 +995,9 @@ function! SaveAsNOEOF(filename)"{{{
     endif
 endfunction"}}}
 " Save the current buffer and get rid of the EOF sign.
-function! SaveNOEOF()
+function! SaveNOEOF()"{{{
     call SaveAsNOEOF(bufname('%'))
-endfunction
+endfunction"}}}
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
 autocmd! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
@@ -979,6 +1015,7 @@ function! SetDOSFF()"{{{
 endfunction"}}}
 command! -nargs=0 SetDOSFF call SetDOSFF()
 
+" ptag wrapper
 function! PTagIt()"{{{
     exec "ptag ".expand("<cword>")
     let cwin = winnr()
@@ -1017,65 +1054,25 @@ endfunction"}}}
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
 
-" Grep helper function
-if IsPlatform('win')
-    let g:XGrepExcludeFrom = 'd:/dev/tool/vim/XGrepExcludeList'
-else
-    let g:XGrepExcludeFrom = expand('~').'/.vim/XGrepExcludeList'
-endif
-let g:XGrepExcludeDirs = ['datacache','.svn','.git','assets','runtime','vendors','third-lib']
-let g:XGrepAutoJump = 0
-let g:XGrepAutoOpen = 1
-function! XGrep(grepprg, ...)"{{{
-    let grepprgBak = &grepprg
-    set grepprg=grep\ -n
-
-    let opts = ' -nrI'
-    let opts = opts.( g:XGrepExcludeFrom ? ' --exclude-from='.g:XGrepExcludeFrom : '' )
-    if exists('g:XGrepExcludeDirs')
-        for tmp in g:XGrepExcludeDirs
-            let opts .= ' --exclude-dir='.tmp
-        endfor
+" EasyGrep Wrapper
+function! EasyGrepWrapper(grepprg, ...)"{{{
+    let grepWindow = g:EasyGrepWindow
+    if a:grepprg == 'grep'
+        let g:EasyGrepWindow = 0
+    elseif a:grepprg == 'lgrep'
+        let g:EasyGrepWindow = 1
     endif
-
-    let keyword = ''
-    let target = ''
-    for param in a:000
-        if stridx(param, '-')==0
-            let opts .= ' '.param
-        elseif stridx(param, '@')==0
-            let keyword = strpart(param, 1)
-        else
-            let target .= ' '.param
-        endif
-    endfor
-
-    let cmd = a:grepprg.( g:XGrepAutoJump ? '' : '!' )
-    let cmd .= opts
-    let cmd .= ' "'.keyword.'"'
-    let cmd .= target
-    " echo cmd
-
-    silent execute cmd
-
-    let &grepprg = grepprgBak
-
-    if exists('g:XGrepAutoOpen') && g:XGrepAutoOpen==1
-        if a:grepprg=='grep'
-            copen
-        elseif a:grepprg=='lgrep'
-            lopen
-        endif
-    endif
+    exec "Grep ".join(a:000, ' ')
+    let g:EasyGrepWindow = grepWindow
 endfunction"}}}
-command! -nargs=+ XGrep call XGrep('grep', <f-args>)
-command! -nargs=+ XLrep call XGrep('lgrep', <f-args>)
-nmap <leader>gw :exec 'XGrep -w @'.expand('<cword>').' .'<CR>
-nmap <leader>lw :exec 'XLrep -w @'.expand('<cword>').' .'<CR>
-nmap <leader>grep :XGrep -P @
-nmap <leader>lrep :XLrep -P @
-vmap <leader>grep y:XGrep @<C-R>=XEscapeRegex(@")<CR> .
-vmap <leader>lrep y:XLrep @<C-R>=XEscapeRegex(@")<CR> .
+command! -nargs=+ EGW call EasyGrepWrapper('grep', <f-args>)
+command! -nargs=+ EGWL call EasyGrepWrapper('lgrep', <f-args>)
+vmap <leader>grep y:EGW <C-R>=XEscapeRegex(@", 1)<CR>
+vmap <leader>lrep y:EGWL <C-R>=XEscapeRegex(@", 1)<CR>
+nmap <leader>grep :EGW<space>
+nmap <leader>lrep :EGWL<space>
+nmap <leader>gw :exec 'EGW -w '.expand('<cword>')<CR>
+nmap <leader>lw :exec 'EGWL -w '.expand('<cword>')<CR>
 
 " Wipe all buffers which are not active (i.e. not visible in a window/tab)
 command! -nargs=0 Prune call CloseFugitiveBuffers()
@@ -1116,11 +1113,19 @@ nmap _= :call Preserve("normal gg=G")<CR>
 nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 
 " 转义正则表达式特殊字符，以便在正则表达式中使用
-" 第一个额外参数如果是1，则不转义+号，否则默认转义（即Vim支持的格式）
-function! XEscapeRegex(str, ...)
+" a:1   是否转义为vimgrep的pattern格式
+function! XEscapeRegex(str, ...)"{{{
+    let pattern = a:str
+    let pattern = escape(pattern, '/\.*$^~[]"')
+    if a:0 && a:1
+        let pattern = escape(pattern, '()+?')
+        let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
+        let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
+    endif
     let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
-    return substitute(escape(a:str, '/\.*$^~[]()'), '\s\+', whitespacePattern, 'g')
-endfunction
+    let pattern = substitute(pattern, '\s\+', whitespacePattern, 'g')
+    return pattern
+endfunction"}}}
 
 " Display contents of the current fold in a balloon
 function! FoldSpellBalloon()"{{{
@@ -1154,8 +1159,6 @@ if has('balloon_eval')
 endif
 
 " Toggle quickfix and location list
-command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
 function! QFixToggle(forced)"{{{
     if exists("g:qfix_win") && a:forced != 0
         QFix
@@ -1168,6 +1171,8 @@ function! QFixToggle(forced)"{{{
         endif
     endif
 endfunction"}}}
+command! -bang -nargs=? QFix call QFixToggle(<bang>0)
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
 
 " used to track the quickfix window
 augroup QFixToggle"{{{
@@ -1232,7 +1237,7 @@ fu! CustomFoldText()"{{{
 endf"}}}
 
 " Show commit history of the current file under the given VCS in a new window
-function! ShowCommitHistory(vcs)
+function! ShowCommitHistory(vcs)"{{{
     " Check parameter
     if a:vcs != 'svn' && a:vcs != 'git'
         echoerr 'Unknow VCS: '.a:vcs
@@ -1251,18 +1256,46 @@ function! ShowCommitHistory(vcs)
     else
         echo 'File not found.'
     endif
-endfunction
+endfunction"}}}
 nnoremap <leader>ssch :call ShowCommitHistory('svn')<CR>
 nnoremap <leader>gsch :call ShowCommitHistory('git')<CR>
 
 " open an item in quickfix or location list in a new tab
-function! OpenQuickfixInNewTab()
+function! OpenQuickfixInNewTab()"{{{
     let tmpSwitchbuf = &switchbuf
     set switchbuf=newtab
     exe "normal \<cr>"
     exe 'set switchbuf='.tmpSwitchbuf
-endfunction
+endfunction"}}}
 au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
+
+" translate the word under cursor
+fun! SearchWord()"{{{
+    echo system('ydcv --', expand("<cword>"))
+endfun"}}}
+" translate selected text
+fun! SearchWord_v(type, ...)"{{{
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @@
+
+    if a:0
+        silent exe "normal! `<" . a:type . "`>y"
+    elseif a:type == 'line'
+        silent exe "normal! '[V']y"
+    elseif a:type == 'block'
+        silent exe "normal! `[\<C-V>`]y"
+    else
+        silent exe "normal! `[v`]y"
+    endif
+
+    echo system('ydcv --', @@)
+
+    let &selection = sel_save
+    let @@ = reg_save
+endfun"}}}
+nnoremap <Leader>df :call SearchWord()<CR>
+vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<cr>
 "}}}
 
 " ------------------------------ Java -----------------------------{{{
@@ -1446,18 +1479,10 @@ au FileType php nmap <buffer> <leader>fhcu :call ForceHTMLComment("n", "Uncommen
 au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
 
 " phpqa
+let g:phpqa_codesniffer_autorun = 0        "  default =1 on save
+let g:phpqa_messdetector_autorun = 0
 let g:phpqa_codesniffer_args = "--standard=$HOME/.phpcs_ruleset.xml"
 " let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs' 
-let g:phpqa_codesniffer_autorun = 1        "  default =1 on save
 let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
-let g:phpqa_messdetector_autorun = 1
-"}}}
-
-" ------------------------------ Leigh's fixes -----------------------------{{{
-if hostname() == 'leighs'
-    set guifont=CosmicSansNeueMono\ 14
-    au BufEnter ~/workspace/* map <buffer> <C-P> :CtrlP ~/workspace<CR>
-    " let g:ctrlp_working_path_mode = '0'
-endif
 "}}}

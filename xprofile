@@ -6,8 +6,8 @@ xrdb $HOME/.Xresources &
 
 export OOO_FORCE_DESKTOP=GNOME
 export XMODIFIERS="@im=yong"
-export GTK_IM_MODULE=xim
-export QT_IM_MODULE=xim
+export GTK_IM_MODULE=yong
+export QT_IM_MODULE=yong
 
 xset s off
 xset -dpms
