@@ -37,7 +37,7 @@ DISABLE_AUTO_TITLE="true"
 if [[ `hostname` == "xidi-donieli" ]]; then
     plugins=(git python pip systemd urltools debian svn vi-mode archlinux)
 else
-    plugins=(git python pip vi-mode systemd urltools archlinux svn)
+    plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
 fi
 
 source $ZSH/oh-my-zsh.sh
