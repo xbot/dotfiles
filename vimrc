@@ -294,42 +294,56 @@ let g:tagbar_autofocus = 1
 let g:tagbar_show_visibility = 1
 let g:tagbar_show_linenumbers = 1
 let g:tagbar_type_php  = {
-  \ 'ctagstype' : 'php',
-  \ 'kinds'     : [
-      \ 'i:interfaces',
-      \ 'c:classes',
-      \ 'd:constant definitions',
-      \ 'f:functions',
-      \ 'j:javascript functions:1'
-  \ ]
-\ }
+            \ 'ctagstype' : 'php',
+            \ 'kinds'     : [
+            \ 'i:interfaces',
+            \ 'c:classes',
+            \ 'd:constant definitions',
+            \ 'f:functions',
+            \ 'j:javascript functions:1'
+            \ ]
+            \ }
 let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
+            \ 'ctagstype' : 'go',
+            \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+            \ ],
+            \ 'sro' : '.',
+            \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+            \ },
+            \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+            \ },
+            \ 'ctagsbin'  : 'gotags',
+            \ 'ctagsargs' : '-sort -silent'
+            \ }
+let g:tagbar_type_octopress = {
+            \ 'ctagstype': 'markdown',
+            \ 'ctagsbin' : 'markdown2ctags',
+            \ 'ctagsargs' : '-f - --sort=yes',
+            \ 'kinds' : [
+            \ 's:sections',
+            \ 'i:images'
+            \ ],
+            \ 'sro' : '|',
+            \ 'kind2scope' : {
+            \ 's' : 'section',
+            \ },
+            \ 'sort': 0,
+            \ }
 
 " FencView settings
 let g:fencview_autodetect=0
@@ -380,9 +394,9 @@ let NERDSpaceDelims = 1
 let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
 
 " TwitVim
-let twitvim_enable_python = 1
-let twitvim_proxy = "127.0.0.1:8123"
-let twitvim_browser_cmd = "/usr/bin/chromium"
+" let twitvim_enable_python = 1
+let twitvim_proxy = "127.0.0.1:8787"
+" let twitvim_browser_cmd = "/usr/bin/chromium"
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\addons\binary-utils\dist\bin\curl.exe -o'
@@ -572,10 +586,13 @@ au FileType unite call s:UniteSettings()
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update = 0
 let g:cscope_silent = 1
-au FileType php,python,c,cpp,javascript map <C-]> :Gtags<CR><CR>
-au FileType php,python,c,cpp,javascript map <C-[> :Gtags -r<CR><CR>
+au FileType php,python,c,cpp,javascript,go map <C-]> :Gtags<CR><CR>
+au FileType php,python,c,cpp,javascript,go map <C-[> :Gtags -r<CR><CR>
 nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
 nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
+
+" FastFold
+let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -663,6 +680,9 @@ autocmd BufWritePre *.go :Fmt
 
 " vim help
 au FileType vim set keywordprg="help"
+
+" vim-octopress
+autocmd BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
 "}}}
 
 "------------------------------- Key mappings -------------------------------"{{{
@@ -730,10 +750,10 @@ nmap <Tab> <C-W>j<C-W>_
 nmap <S-Tab> <C-W>k<C-W>_
 
 " 窗口间移动焦点
-map <up> <C-W>k
-map <down> <C-W>j
-map <left> <C-W>h
-map <right> <C-W>l
+nmap <up> <C-W>k
+nmap <down> <C-W>j
+nmap <left> <C-W>h
+nmap <right> <C-W>l
 
 " Navigating long lines
 nmap <A-j> gj
@@ -769,7 +789,7 @@ exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
 exec 'autocmd! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
 
-" Twitter
+" TwitVim
 nmap <leader>twit :PosttoTwitter<CR>
 nmap <leader>twmy :UserTwitter<CR>
 nmap <leader>twls :FriendsTwitter<CR>
@@ -777,6 +797,7 @@ nmap <leader>twpb :PublicTwitter<CR>
 nmap <leader>twmt :MentionsTwitter<CR>
 nmap <leader>twdm :DMTwitter<CR>
 nmap <leader>twre :RetweetedByMeTwitter<CR>
+" Add support for markdown files in tagbar.
 
 " CTags
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
@@ -827,7 +848,7 @@ nmap <leader>V V']
 nmap <leader>cls :nohl<CR>
 
 " Search word
-nmap <leader>/w /\<\>\C<left><left><left><left>
+nmap <leader>/w /\<\>\C<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 
 " Format JSON string
 nmap <leader>json :%!python -m json.tool<CR>
