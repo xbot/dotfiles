@@ -586,13 +586,17 @@ au FileType unite call s:UniteSettings()
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update = 0
 let g:cscope_silent = 1
-au FileType php,python,c,cpp,javascript,go map <C-]> :Gtags<CR><CR>
-au FileType php,python,c,cpp,javascript,go map <C-[> :Gtags -r<CR><CR>
+au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
+au FileType php,python,c,cpp,javascript,go map <buffer> <C-[> :Gtags -r<CR><CR>
 nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
 nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 
 " FastFold
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
+
+"easy-align
+vmap <leader>A <Plug>(EasyAlign)
+let g:easy_align_ignore_groups = ["String"]
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{

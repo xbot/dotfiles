@@ -258,12 +258,13 @@ alias follow='tail -f -n 100'
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
-# alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass /home/monk/workspace monster@172.16.20.111::xidi'
+# alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
 
 # Misc
 alias gotosrv="ssh root@172.16.20.111"
 alias gototest="ssh zengbo@192.168.80.10"
 alias goto200="ssh root@172.16.20.200"
+alias gotovpn="ssh root@45.78.50.109 -p 26681"
 alias ut="./run --colors=always"
 
 # fix grep complainings
@@ -273,12 +274,12 @@ unset GREP_OPTIONS
 alias phpsh="php -c ~/.php.ini -a"
 
 # Hashes
-hash -d shell="/home/monk/dev/shell"
-hash -d blog="/home/monk/dev/octopress"
-hash -d post="/home/monk/dev/octopress/source/_posts"
+hash -d shell="$HOME/dev/shell"
+hash -d blog="$HOME/dev/octopress"
+hash -d post="$HOME/dev/octopress/source/_posts"
 hash -d www="/srv/http/"
-hash -d flame="/srv/http/flamework"
-hash -d yii="/srv/http/yii/framework"
+hash -d open="$HOME/dev/xidi/open/trunk"
+hash -d xidi="$HOME/workspace"
 
 # Key bindings
 bindkey "^R" history-incremental-search-backward
