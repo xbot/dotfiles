@@ -238,10 +238,9 @@ if has('gui_running')
     if IsPlatform('win')
         set background=light
         colorscheme freya
-        " set guifont=Source\ Code\ Pro:h11:b
         set guifont=Source\ Code\ Pro:h11
     elseif has('gui_macvim')
-        set guifont=Monaco:h14
+        set guifont=Monaco:h18
         set background=dark
         colorscheme solarized
     else
@@ -483,6 +482,12 @@ let g:vdebug_options= {
             \    "debug_file" : "",
             \    "marker_default" : "⬦",
             \}
+if IsPlatform('mac')
+    let g:vdebug_options['path_maps'] = {
+                \    "/var/www/workspace": expand('~')."/Projects/xidi-pc",
+                \    "/var/www/xidi_open": expand('~')."/Projects/xidi-other/open/trunk"
+                \}
+endif
 let g:vdebug_keymap = {
             \    "run" : "<F5>",
             \    "run_to_cursor" : "<F1>",
@@ -923,10 +928,15 @@ nmap <leader>gu :GundoToggle<CR>
 " nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
 
 " RabbitVCS
-map <leader>rbll :silent !rabbitvcs log<CR>
-map <leader>rblL :silent !rabbitvcs log %<CR>
-map <leader>rbc :silent !rabbitvcs commit<CR>
-map <leader>rbu :silent !rabbitvcs update<CR>
+if IsPlatform('unix')
+    map <leader>rbu :silent !rabbitvcs update<CR>
+    map <leader>rbc :silent !rabbitvcs commit<CR>
+    map <leader>rbll :silent !rabbitvcs log<CR>
+    map <leader>rblL :silent !rabbitvcs log %<CR>
+elseif IsPlatform('mac')
+    map <leader>rbu :!svn update<CR>
+    map <leader>rbc :silent !svnx<CR>
+endif
 
 " incsearch.vim
 map /  <Plug>(incsearch-forward)

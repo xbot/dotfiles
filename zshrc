@@ -41,11 +41,17 @@ else
 fi
 
 source $ZSH/oh-my-zsh.sh
-source ~/dev/z/z.sh
+if [[ $(uname) == 'Darwin' ]]; then
+    source ~/Projects/z/z.sh
+else
+    source ~/dev/z/z.sh
+fi
 # load local custom scripts
 if [[ -f ~/.zshrc_work ]]; then
     source ~/.zshrc_work
 fi
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
 ##################################################
 # Functions
@@ -169,8 +175,14 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# PATH
+export PATH="$HOME/Bin:$PATH"
+
 # wine
 export WINEARCH=win32
+
+# VPS
+export VPS_PORT=26681
 
 alias l='ls -CF'
 #alias ll='ls -l'
@@ -274,12 +286,21 @@ unset GREP_OPTIONS
 alias phpsh="php -c ~/.php.ini -a"
 
 # Hashes
-hash -d shell="$HOME/dev/shell"
-hash -d blog="$HOME/dev/octopress"
-hash -d post="$HOME/dev/octopress/source/_posts"
-hash -d www="/srv/http/"
-hash -d open="$HOME/dev/xidi/open/trunk"
-hash -d xidi="$HOME/workspace"
+if [[ `uname` == 'Darwin' ]]; then
+    hash -d shell="$HOME/Projects/shell"
+    hash -d blog="$HOME/Projects/octopress"
+    hash -d post="$HOME/Projects/octopress/source/_posts"
+    hash -d www="$HOME/Sites"
+    hash -d open="$HOME/Projects/xidi-other/open/trunk"
+    hash -d xidi="$HOME/Projects/xidi-pc"
+else
+    hash -d shell="$HOME/dev/shell"
+    hash -d blog="$HOME/dev/octopress"
+    hash -d post="$HOME/dev/octopress/source/_posts"
+    hash -d www="/srv/http/"
+    hash -d open="$HOME/dev/xidi/open/trunk"
+    hash -d xidi="$HOME/workspace"
+fi
 
 # Key bindings
 bindkey "^R" history-incremental-search-backward
