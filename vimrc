@@ -230,6 +230,10 @@ else
     set grepprg=ag\ --nogroup\ --column
 endif
 set wildignore=*.class,*.pyc
+
+if IsPlatform('mac')
+    let &cdpath = $HOME."/Projects," . $CDPATH
+endif
 "}}}
 
 " ------------------------------ GUI Settings ------------------------------"{{{
@@ -939,9 +943,11 @@ elseif IsPlatform('mac')
 endif
 
 " incsearch.vim
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+if !IsPlatform('mac')
+    map /  <Plug>(incsearch-forward)
+    map ?  <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
+endif
 
 " repeat last command
 nmap <leader>!! :<up><cr>

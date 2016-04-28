@@ -94,7 +94,7 @@ orphans() { # Remove orphan packages in archlinux
 }
 writeblog() {
    test $# -ne 1 && echo "Invalid title" >&2 && return 1
-   cd ~/dev/octopress
+   cd blog
    rake new_post\["$1"\]
 }
 copy_path() {
@@ -254,10 +254,6 @@ alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias a='apack'
 alias x='aunpack'
 alias my='mysql -uroot -p5G10color'
-alias pbcopy='xsel --clipboard --input'
-alias pbpaste='xsel --clipboard --output'
-alias toclip='xclip -sel clip <'
-alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
 alias killer='nocorrect killer.sh'
 alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
 alias lsgbkzip='lsar -e gb18030'
@@ -267,6 +263,12 @@ alias rake='nocorrect rake'
 alias lssrv='netstat -tulnp'
 alias lsconn='netstat -atunp'
 alias follow='tail -f -n 100'
+if [[ `uname` != 'Darwin' ]]; then
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+    alias toclip='xclip -sel clip <'
+    alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
+fi
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
