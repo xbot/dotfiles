@@ -41,11 +41,17 @@ else
 fi
 
 source $ZSH/oh-my-zsh.sh
-source ~/dev/z/z.sh
+if [[ $(uname) == 'Darwin' ]]; then
+    source ~/Projects/z/z.sh
+else
+    source ~/dev/z/z.sh
+fi
 # load local custom scripts
 if [[ -f ~/.zshrc_work ]]; then
     source ~/.zshrc_work
 fi
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 
 ##################################################
 # Functions
@@ -88,7 +94,7 @@ orphans() { # Remove orphan packages in archlinux
 }
 writeblog() {
    test $# -ne 1 && echo "Invalid title" >&2 && return 1
-   cd ~/dev/octopress
+   cd blog
    rake new_post\["$1"\]
 }
 copy_path() {
@@ -169,8 +175,14 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# PATH
+export PATH="$HOME/Bin:$PATH"
+
 # wine
 export WINEARCH=win32
+
+# VPS
+export VPS_PORT=26681
 
 alias l='ls -CF'
 #alias ll='ls -l'
@@ -242,10 +254,6 @@ alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias a='apack'
 alias x='aunpack'
 alias my='mysql -uroot -p5G10color'
-alias pbcopy='xsel --clipboard --input'
-alias pbpaste='xsel --clipboard --output'
-alias toclip='xclip -sel clip <'
-alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
 alias killer='nocorrect killer.sh'
 alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
 alias lsgbkzip='lsar -e gb18030'
@@ -255,15 +263,22 @@ alias rake='nocorrect rake'
 alias lssrv='netstat -tulnp'
 alias lsconn='netstat -atunp'
 alias follow='tail -f -n 100'
+if [[ `uname` != 'Darwin' ]]; then
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+    alias toclip='xclip -sel clip <'
+    alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
+fi
 
 # Development
 alias yiic='/srv/http/yii/framework/yiic'
-# alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass /home/monk/workspace monster@172.16.20.111::xidi'
+# alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
 
 # Misc
 alias gotosrv="ssh root@172.16.20.111"
 alias gototest="ssh zengbo@192.168.80.10"
 alias goto200="ssh root@172.16.20.200"
+alias gotovpn="ssh root@45.78.50.109 -p 26681"
 alias ut="./run --colors=always"
 
 # fix grep complainings
@@ -273,12 +288,21 @@ unset GREP_OPTIONS
 alias phpsh="php -c ~/.php.ini -a"
 
 # Hashes
-hash -d shell="/home/monk/dev/shell"
-hash -d blog="/home/monk/dev/octopress"
-hash -d post="/home/monk/dev/octopress/source/_posts"
-hash -d www="/srv/http/"
-hash -d flame="/srv/http/flamework"
-hash -d yii="/srv/http/yii/framework"
+if [[ `uname` == 'Darwin' ]]; then
+    hash -d shell="$HOME/Projects/shell"
+    hash -d blog="$HOME/Projects/octopress"
+    hash -d post="$HOME/Projects/octopress/source/_posts"
+    hash -d www="$HOME/Sites"
+    hash -d open="$HOME/Projects/xidi-other/open/trunk"
+    hash -d xidi="$HOME/Projects/xidi-pc"
+else
+    hash -d shell="$HOME/dev/shell"
+    hash -d blog="$HOME/dev/octopress"
+    hash -d post="$HOME/dev/octopress/source/_posts"
+    hash -d www="/srv/http/"
+    hash -d open="$HOME/dev/xidi/open/trunk"
+    hash -d xidi="$HOME/workspace"
+fi
 
 # Key bindings
 bindkey "^R" history-incremental-search-backward
