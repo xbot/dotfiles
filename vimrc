@@ -251,7 +251,8 @@ if has('gui_running')
         " set background=dark
         set background=light
         colorscheme solarized
-        set guifont=CosmicSansNeueMono\ 15
+        " set guifont=CosmicSansNeueMono\ 15
+        set guifont=FantasqueSansMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
         "set guifont=inconsolata\ Bold\ 13
         "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
@@ -471,7 +472,6 @@ let g:miniBufExplSplitBelow=0
 let g:vdebug_options= {
             \    "path_maps" : {
             \        "/var/www/workspace": expand('~')."/workspace",
-            \        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
             \    },
             \    "port" : 9001,
             \    "server" : '0.0.0.0',
@@ -488,8 +488,6 @@ let g:vdebug_options= {
             \}
 if IsPlatform('mac')
     let g:vdebug_options['path_maps'] = {
-                \    "/var/www/workspace": expand('~')."/Projects/xidi-pc",
-                \    "/var/www/xidi_open": expand('~')."/Projects/xidi-other/open/trunk"
                 \}
 endif
 let g:vdebug_keymap = {
@@ -891,7 +889,7 @@ command! -nargs=+ MyAg call AgWrapper(<f-args>)
 function! AgWrapper(rawPattern)"{{{
     let pattern = substitute(a:rawPattern, '\\\\', '\\\\\\', 'g')
     let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
-    exe 'LAg! -i "'.pattern.'"'
+    exe 'LAg! -i --ignore "GTAGS" --ignore "tags" "'.pattern.'"'
 endfunction"}}}
 
 " Fugitive
@@ -1337,6 +1335,18 @@ fun! SearchWord_v(type, ...)"{{{
 endfun"}}}
 nnoremap <Leader>df :call SearchWord()<CR>
 vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<cr>
+
+" remap n/N to nzz/Nzz in a nice way
+function! s:nice_next(cmd)
+  let view = winsaveview()
+  execute "normal! " . a:cmd
+  if view.topline != winsaveview().topline
+    normal! zz
+  endif
+endfunction
+
+nnoremap <silent> n :call <SID>nice_next('n')<cr>
+nnoremap <silent> N :call <SID>nice_next('N')<cr>
 "}}}
 
 " ------------------------------ Java -----------------------------{{{
