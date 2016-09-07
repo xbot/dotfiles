@@ -287,6 +287,18 @@ else
     let g:solarized_termcolors=256
     colorscheme solarized
 endif
+
+" custom the window title
+fun! MyTitleString()
+    let sessionName = xolox#session#find_current_session()
+    let sessionStr = ''
+    if len(sessionName)>0
+        let sessionStr = ' ['.sessionName.'] '
+    endif
+    return 'VIM'.sessionStr.': %-25.55F %a%r%m'
+endfun
+au BufEnter * let &titlestring=MyTitleString()
+set titlelen=70
 "}}}
 
 "------------------------------- Plugins Settings --------------------------{{{
@@ -935,6 +947,7 @@ if IsPlatform('unix')
     map <leader>rbc :silent !rabbitvcs commit<CR>
     map <leader>rbll :silent !rabbitvcs log<CR>
     map <leader>rblL :silent !rabbitvcs log %<CR>
+    map <leader>rbr :silent !rabbitvcs revert %<CR>
 elseif IsPlatform('mac')
     map <leader>rbu :!svn update<CR>
     map <leader>rbc :silent !svnx<CR>
