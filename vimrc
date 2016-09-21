@@ -230,10 +230,6 @@ else
     set grepprg=ag\ --nogroup\ --column
 endif
 set wildignore=*.class,*.pyc
-
-if IsPlatform('mac')
-    let &cdpath = $HOME."/Projects," . $CDPATH
-endif
 "}}}
 
 " ------------------------------ GUI Settings ------------------------------"{{{
@@ -1337,6 +1333,18 @@ fun! SearchWord_v(type, ...)"{{{
 endfun"}}}
 nnoremap <Leader>df :call SearchWord()<CR>
 vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<cr>
+
+" remap n/N to nzz/Nzz in a nice way
+function! s:nice_next(cmd)
+  let view = winsaveview()
+  execute "normal! " . a:cmd
+  if view.topline != winsaveview().topline
+    normal! zz
+  endif
+endfunction
+
+nnoremap <silent> n :call <SID>nice_next('n')<cr>
+nnoremap <silent> N :call <SID>nice_next('N')<cr>
 "}}}
 
 " ------------------------------ Java -----------------------------{{{

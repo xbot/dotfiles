@@ -94,7 +94,7 @@ orphans() { # Remove orphan packages in archlinux
 }
 writeblog() {
    test $# -ne 1 && echo "Invalid title" >&2 && return 1
-   cd blog
+   cd ~blog
    rake new_post\["$1"\]
 }
 copy_path() {
@@ -132,7 +132,11 @@ goto() {
 # eg. serial 0 <=> sudo screen /dev/ttyUSB0 115200
 serial() {
     test $# -eq 0 && echo "Which ttyUSB device do you want to access ?" >&2 && return 1
-    sudo screen "/dev/ttyUSB$1" 115200
+    if [[ $(uname) == 'Linux' ]]; then
+        sudo screen "/dev/ttyUSB$1" 115200
+    else if [[ $(uname) == 'Darwin' ]]
+        sudo screen "/dev/tty.usbserial" 115200
+    fi
 }
 
 # Display vi-mode
@@ -275,9 +279,6 @@ alias yiic='/srv/http/yii/framework/yiic'
 # alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
 
 # Misc
-alias gotosrv="ssh root@172.16.20.111"
-alias gototest="ssh zengbo@192.168.80.10"
-alias goto200="ssh root@172.16.20.200"
 alias gotovpn="ssh root@45.78.50.109 -p 26681"
 alias ut="./run --colors=always"
 
