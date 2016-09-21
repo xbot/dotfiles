@@ -1,0 +1,21 @@
+{
+    "name": "your-vendor-name/package-name",
+    "description": "A short description of what your package does",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "perftools/xhgui",
+                "version": "0.4.0",
+                "dist": {
+                    "url": "https://github.com/perftools/xhgui/archive/v0.4.0.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "perftools/xhgui": "0.4.0",
+        "ccampbell/chromephp": "*"
+    }
+}

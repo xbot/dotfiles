@@ -77,13 +77,27 @@ mvgo() { # Move and go
 clock() { # CLI clock
     while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
 }
-ptyless () { # Colorful less
+# ptyless () { # Colorful less
+    # zmodload zsh/zpty
+    # zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
+    # zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
+    # less /tmp/ptyless.$$
+    # rm -f /tmp/ptyless.$$
+    # zpty -d ptyless                   # 删除已完成的 pty
+# }
+ptyrun () {
+    local ptyname=pty-$$
     zmodload zsh/zpty
-    zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
-    zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
-    less /tmp/ptyless.$$
-    rm -f /tmp/ptyless.$$
-    zpty -d ptyless                   # 删除已完成的 pty
+    zpty $ptyname ${1+"$@"}
+    if [[ ! -t 1 ]]; then
+        setopt local_traps
+        trap '' INT
+    fi
+    zpty -r $ptyname
+    zpty -d $ptyname
+}
+ptyless () {
+    ptyrun $@ | less
 }
 orphans() { # Remove orphan packages in archlinux
     if [[ ! -n $(pacman -Qdt) ]]; then

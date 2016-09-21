@@ -247,7 +247,8 @@ if has('gui_running')
         " set background=dark
         set background=light
         colorscheme solarized
-        set guifont=CosmicSansNeueMono\ 15
+        " set guifont=CosmicSansNeueMono\ 15
+        set guifont=FantasqueSansMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
         "set guifont=inconsolata\ Bold\ 13
         "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
@@ -282,6 +283,18 @@ else
     let g:solarized_termcolors=256
     colorscheme solarized
 endif
+
+" custom the window title
+fun! MyTitleString()
+    let sessionName = xolox#session#find_current_session()
+    let sessionStr = ''
+    if len(sessionName)>0
+        let sessionStr = ' ['.sessionName.'] '
+    endif
+    return 'VIM'.sessionStr.': %-25.55F %a%r%m'
+endfun
+au BufEnter * let &titlestring=MyTitleString()
+set titlelen=70
 "}}}
 
 "------------------------------- Plugins Settings --------------------------{{{
@@ -467,7 +480,6 @@ let g:miniBufExplSplitBelow=0
 let g:vdebug_options= {
             \    "path_maps" : {
             \        "/var/www/workspace": expand('~')."/workspace",
-            \        "/var/www/xidi_open": expand('~')."/dev/xidi/open/trunk"
             \    },
             \    "port" : 9001,
             \    "server" : '0.0.0.0',
@@ -484,8 +496,6 @@ let g:vdebug_options= {
             \}
 if IsPlatform('mac')
     let g:vdebug_options['path_maps'] = {
-                \    "/var/www/workspace": expand('~')."/Projects/xidi-pc",
-                \    "/var/www/xidi_open": expand('~')."/Projects/xidi-other/open/trunk"
                 \}
 endif
 let g:vdebug_keymap = {
@@ -810,7 +820,7 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 " CTags
 " nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
-nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
+nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
 
 " 查看当前目录
 nmap <leader>pwd :pwd<CR>
@@ -887,7 +897,7 @@ command! -nargs=+ MyAg call AgWrapper(<f-args>)
 function! AgWrapper(rawPattern)"{{{
     let pattern = substitute(a:rawPattern, '\\\\', '\\\\\\', 'g')
     let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
-    exe 'LAg! -i "'.pattern.'"'
+    exe 'LAg! -i --ignore "GTAGS" --ignore "tags" "'.pattern.'"'
 endfunction"}}}
 
 " Fugitive
@@ -933,6 +943,7 @@ if IsPlatform('unix')
     map <leader>rbc :silent !rabbitvcs commit<CR>
     map <leader>rbll :silent !rabbitvcs log<CR>
     map <leader>rblL :silent !rabbitvcs log %<CR>
+    map <leader>rbr :silent !rabbitvcs revert %<CR>
 elseif IsPlatform('mac')
     map <leader>rbu :!svn update<CR>
     map <leader>rbc :silent !svnx<CR>
