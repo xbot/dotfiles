@@ -475,6 +475,7 @@ let g:colorizer_auto_filetype='css,html'
 
 " Minibufexpl
 let g:miniBufExplSplitBelow=0
+let g:bufExplorerDisableDefaultKeyMapping=1
 
 " Vdebug.vim
 let g:vdebug_options= {
