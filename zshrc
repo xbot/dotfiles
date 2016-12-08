@@ -202,6 +202,11 @@ export WINEARCH=win32
 # VPS
 export VPS_PORT=26681
 
+# Homebrew
+if [ -f /usr/local/bin/brew ]; then
+    export HOMEBREW_GITHUB_API_TOKEN="55b40e6e6dbee769353a17567859b4ec9296d7ae"
+fi
+
 alias l='ls -CF'
 #alias ll='ls -l'
 #alias la='ls -Al'
