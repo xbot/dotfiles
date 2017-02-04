@@ -227,7 +227,7 @@ if IsPlatform('win')
     set grepprg=d:/dev/tool/GnuWin32/bin/grep.exe\ -n
 else
     " set grepprg=grep\ -n
-    set grepprg=ag\ --nogroup\ --column
+    set grepprg=ag\ --nogroup\ --column\ -U\ --ignore\ tags
 endif
 set wildignore=*.class,*.pyc
 "}}}
@@ -236,7 +236,8 @@ set wildignore=*.class,*.pyc
 if has('gui_running')
     " Font settings
     if IsPlatform('win')
-        set background=light
+        set background=dark
+        " set background=light
         colorscheme freya
         set guifont=Source\ Code\ Pro:h11
     elseif has('gui_macvim')
@@ -244,8 +245,8 @@ if has('gui_running')
         set background=dark
         colorscheme solarized
     else
-        " set background=dark
-        set background=light
+        set background=dark
+        " set background=light
         colorscheme solarized
         " set guifont=CosmicSansNeueMono\ 15
         set guifont=FantasqueSansMono\ 15
@@ -276,7 +277,8 @@ if has('gui_running')
                 \endif<CR>
 else
     " For CLI vim
-    set background=light
+    " set background=light
+    set background=dark
     "colorscheme diablo3
     "colorscheme jellybeans
     " let g:solarized_termcolors=16
@@ -387,7 +389,7 @@ let g:EasyGrepReplaceWindowMode = 1
 " let g:EasyGrepMode = 3
 " let g:EasyGrepDefaultUserPattern='<JAVA>'
 " let g:EasyGrepOpenWindowOnMatch=0
-let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
+" let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -476,6 +478,7 @@ let g:colorizer_auto_filetype='css,html'
 " Minibufexpl
 let g:miniBufExplSplitBelow=0
 let g:bufExplorerDisableDefaultKeyMapping=1
+map <leader>be :ToggleBufExplorer<CR>
 
 " Vdebug.vim
 let g:vdebug_options= {
@@ -767,7 +770,7 @@ nmap <F11> :wincmd_<CR>
 
 " 跳转到下一个Split窗口并最大化之
 nmap <Tab> <C-W>j<C-W>_
-nmap <S-Tab> <C-W>k<C-W>_
+nnoremap <S-Tab> <C-W>k<C-W>_
 
 " 窗口间移动焦点
 nmap <up> <C-W>k
@@ -963,6 +966,9 @@ nmap <leader>!! :<up><cr>
 " CtrlP
 nmap <leader>ot :CtrlPTag<CR>
 nmap <leader>bt :CtrlPBufTag<CR>
+
+" remap c-z ctrl-z suspend stop
+map <c-s-z> :st<cr>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{

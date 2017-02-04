@@ -195,6 +195,7 @@ eval "$(pyenv init -)"
 
 # PATH
 export PATH="$HOME/Bin:$PATH"
+export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 # wine
 export WINEARCH=win32
@@ -261,7 +262,7 @@ fi
 alias diffhead='git difftool HEAD'
 alias gdiffhead='git difftool --gui HEAD'
 alias smpull='git submodule foreach git pull origin master'
-alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmailcom"'
+alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
 
 # svn aliases
 alias sst='svn status'
