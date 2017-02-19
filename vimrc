@@ -72,8 +72,10 @@ endif
 if IsPlatform('win')
     source $VIMRUNTIME/vimrc_example.vim
 endif
-source $VIMRUNTIME/mswin.vim
-behave mswin
+if !has('gui_macvim')
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
+endif
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
@@ -380,16 +382,48 @@ let g:ycm_key_list_select_completion = ['<leader><C-TAB>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<leader><C-S-TAB>', '<Up>']
 let g:ycm_global_ycm_extra_conf = '~/.vim/addons/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
-" EasyGrep Settings
-let g:EasyGrepRecursive = 1
-let g:EasyGrepCommand = 1
-let g:EasyGrepJumpToMatch = 0
-let g:EasyGrepWindow = 0
-let g:EasyGrepReplaceWindowMode = 1
-" let g:EasyGrepMode = 3
-" let g:EasyGrepDefaultUserPattern='<JAVA>'
-" let g:EasyGrepOpenWindowOnMatch=0
-" let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
+" Ferret
+let g:FerretExecutable='ag'
+
+nmap <leader>ak <Plug>(FerretAck)
+nmap <leader>lak <Plug>(FerretLack)
+nmap <leader>aw <Plug>(FerretAckWord)
+nmap <leader>as <Plug>(FerretAcks)
+vmap <leader>ak y:Ack <C-R>=XEscapeRegex(@", 2)<CR>
+vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 2)<CR>
+
+nnoremap <leader>a :set operatorfunc=GrepOperator<CR>g@
+vnoremap <leader>a :<c-u>call GrepOperator(visualmode())<CR>
+function! GrepOperator(type)"{{{
+    if a:type ==# 'v'
+        normal! `<v`>y
+    elseif a:type ==# 'char'
+        normal! `[v`]y
+    else
+        return
+    endif
+
+    exec "Ack ".XEscapeRegex(@@, 2)
+    " exec "Grep ".XEscapeRegex(@@, 2)
+endfunction"}}}
+
+" List all tasks under the current directory
+map <leader>lstd :Ack //\ TODO: --ignore PHPExcel --ignore public<CR>
+
+" EasyGrep
+" let g:EasyGrepRecursive = 1
+" let g:EasyGrepCommand = 1
+" let g:EasyGrepJumpToMatch = 0
+" let g:EasyGrepWindow = 0
+" let g:EasyGrepReplaceWindowMode = 1
+" let g:EasyGrepPerlStyle = 0
+" " let g:EasyGrepMode = 3
+" " let g:EasyGrepDefaultUserPattern='<JAVA>'
+" " let g:EasyGrepOpenWindowOnMatch=0
+" " let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
+
+" nmap <leader>gr :Grep<space>
+" vmap <leader>gr y:Grep <C-R>=XEscapeRegex(@", 2)<CR>
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -517,11 +551,11 @@ let g:vdebug_keymap = {
             \}
 
 " vim-jsbeautify
-nmap <c-a-f> :call JsBeautify()<cr>
+nmap <c-a-f> :call JsBeautify()<CR>
 vmap <c-a-f> <ESC>:'<,'>!js-beautify -i<CR>
-autocmd FileType javascript noremap <buffer>  <a-f> :call JsBeautify()<cr>
-autocmd FileType html noremap <buffer> <a-f> :call HtmlBeautify()<cr>
-autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<cr>
+autocmd FileType javascript noremap <buffer>  <a-f> :call JsBeautify()<CR>
+autocmd FileType html noremap <buffer> <a-f> :call HtmlBeautify()<CR>
+autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<CR>
 
 " " Eclim
 " let g:EclimCompletionMethod = 'omnifunc'
@@ -840,16 +874,16 @@ nmap <leader>g2b <ESC>:cal G2B()<CR>
 nmap <leader>b2g <ESC>:cal B2G()<CR>
 
 " DBGP
-let g:debuggerMapDefaultKeys=2
+let g:debuggerMapDefaultKeys = 2
 let g:debuggerPort = 9001
 
 " 查找與替換
 nmap <leader>ff yiw/\<<C-R>"\>\C
-vmap <leader>ff y/<C-R>=XEscapeRegex(@")<cr>\C
+vmap <leader>ff y/<C-R>=XEscapeRegex(@")<CR>\C
 nmap <leader>rr yiw:%s/\<<C-R>"\>\C//g<LEFT><LEFT>
-vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
+vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 nmap <leader>rl yiw:s/\<<C-R>"\>\C//g<LEFT><LEFT>
-vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<cr>\C//g<LEFT><LEFT>
+vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 
 " 编码转换
 nmap <leader>fenc :set fenc<CR>
@@ -861,7 +895,7 @@ nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
 if has('unix') && executable('xbindkeys')
-    nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<cr>
+    nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<CR>
 endif
 
 " Select the last pasted area
@@ -871,7 +905,11 @@ nmap <leader>V V']
 nmap <leader>cls :nohl<CR>
 
 " Search word
-nmap <leader>/w /\<\>\C<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+if has('gui_running')
+    nmap <leader>/w /\<\>\C<left><left><left><left>
+else
+    nmap <leader>/w /\<\>\C<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+endif
 
 " Format JSON string
 nmap <leader>json :%!python -m json.tool<CR>
@@ -887,22 +925,6 @@ vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
 " Adjust font size on the fly
 map <leader>] :LargerFont<CR>
 map <leader>[ :SmallerFont<CR>
-
-" Ag
-nmap <leader>ag :MyAg<Space>
-nmap <leader>gag :Ag! -i<Space>
-vmap <leader>ag y:LAg! "<C-R>=XEscapeRegex(@", 1)<CR>"
-vmap <leader>gag y:Ag! "<C-R>=XEscapeRegex(@", 1)<CR>"
-nnoremap <leader>aw :LAg! <cword><CR>
-" List all tasks under the current directory
-map <leader>lstd :LAg! --ignore "PHPExcel" --ignore "public/*" "// TODO:"<CR>
-
-command! -nargs=+ MyAg call AgWrapper(<f-args>)
-function! AgWrapper(rawPattern)"{{{
-    let pattern = substitute(a:rawPattern, '\\\\', '\\\\\\', 'g')
-    let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
-    exe 'LAg! -i --ignore "GTAGS" --ignore "tags" "'.pattern.'"'
-endfunction"}}}
 
 " Fugitive
 nmap <leader>gst :Gstatus<CR>
@@ -961,14 +983,14 @@ if !IsPlatform('mac')
 endif
 
 " repeat last command
-nmap <leader>!! :<up><cr>
+nmap <leader>!! :<up><CR>
 
 " CtrlP
 nmap <leader>ot :CtrlPTag<CR>
 nmap <leader>bt :CtrlPBufTag<CR>
 
 " remap c-z ctrl-z suspend stop
-map <c-s-z> :st<cr>
+map <c-s-z> :st<CR>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -1109,26 +1131,6 @@ endfunction"}}}
 nmap <leader>pp :call PTagIt()<CR>
 nmap <leader>pc :pclose<CR>
 
-" EasyGrep Wrapper
-function! EasyGrepWrapper(grepprg, ...)"{{{
-    let grepWindow = g:EasyGrepWindow
-    if a:grepprg == 'grep'
-        let g:EasyGrepWindow = 0
-    elseif a:grepprg == 'lgrep'
-        let g:EasyGrepWindow = 1
-    endif
-    exec "Grep ".join(a:000, ' ')
-    let g:EasyGrepWindow = grepWindow
-endfunction"}}}
-command! -nargs=+ EGW call EasyGrepWrapper('grep', <f-args>)
-command! -nargs=+ EGWL call EasyGrepWrapper('lgrep', <f-args>)
-vmap <leader>grep y:EGW <C-R>=XEscapeRegex(@", 1)<CR>
-vmap <leader>lrep y:EGWL <C-R>=XEscapeRegex(@", 1)<CR>
-nmap <leader>grep :EGW<space>
-nmap <leader>lrep :EGWL<space>
-nmap <leader>gw :exec 'EGW -w '.expand('<cword>')<CR>
-nmap <leader>lw :exec 'EGWL -w '.expand('<cword>')<CR>
-
 " Wipe all buffers which are not active (i.e. not visible in a window/tab)
 command! -nargs=0 Prune call CloseFugitiveBuffers()
 function! CloseFugitiveBuffers()"{{{
@@ -1168,17 +1170,31 @@ nmap _= :call Preserve("normal gg=G")<CR>
 nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
 
 " 转义正则表达式特殊字符，以便在正则表达式中使用
-" a:1   是否转义为vimgrep的pattern格式
+" a:1   是否转义为vimgrep的pattern格式，1，2
+" a:2   是否用shellescape()转义，1是转义，2是转义并去掉两侧单引号
 function! XEscapeRegex(str, ...)"{{{
     let pattern = a:str
     let pattern = escape(pattern, '/\.*$^~[]"')
+
     if a:0 && a:1
         let pattern = escape(pattern, '()+?')
-        let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
-        let pattern = substitute(pattern, '\\\$', '\\\\\\$', 'g')
+        if a:1 == 2
+            " 解决:Ack搜索PHP的namespace的问题，把“\\”替换成“\\\”
+            " 脏，不是完美的解决方法
+            let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
+        endif
     endif
+
+    if a:0 > 1 && a:2
+        let pattern = shellescape(pattern)
+        if a:2 == 2
+            let pattern = pattern[1:-2]
+        endif
+    endif
+
     let whitespacePattern = a:0 && a:1 ? '\\s\+' : '\\s\\+'
     let pattern = substitute(pattern, '\s\+', whitespacePattern, 'g')
+
     return pattern
 endfunction"}}}
 
@@ -1319,7 +1335,7 @@ nnoremap <leader>gsch :call ShowCommitHistory('git')<CR>
 function! OpenQuickfixInNewTab()"{{{
     let tmpSwitchbuf = &switchbuf
     set switchbuf=newtab
-    exe "normal \<cr>"
+    exe "normal \<CR>"
     exe 'set switchbuf='.tmpSwitchbuf
 endfunction"}}}
 au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
@@ -1350,7 +1366,7 @@ fun! SearchWord_v(type, ...)"{{{
     let @@ = reg_save
 endfun"}}}
 nnoremap <Leader>df :call SearchWord()<CR>
-vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<cr>
+vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<CR>
 
 " remap n/N to nzz/Nzz in a nice way
 function! s:nice_next(cmd)
@@ -1361,8 +1377,8 @@ function! s:nice_next(cmd)
   endif
 endfunction
 
-nnoremap <silent> n :call <SID>nice_next('n')<cr>
-nnoremap <silent> N :call <SID>nice_next('N')<cr>
+nnoremap <silent> n :call <SID>nice_next('n')<CR>
+nnoremap <silent> N :call <SID>nice_next('N')<CR>
 "}}}
 
 " ------------------------------ Java -----------------------------{{{
@@ -1390,7 +1406,7 @@ au filetype python map <buffer> <S-F5> :call StopPDB()<CR>
 au filetype python map <buffer> <F6> :Cstep<CR>
 au filetype python map <buffer> <F7> :Cnext<CR>
 au filetype python map <buffer> <S-N> :Cnext<CR>
-au FileType python map <buffer> <A-CR> :python runScript()<cr>
+au FileType python map <buffer> <A-CR> :python runScript()<CR>
 au filetype python nmap <buffer> <C-CR> :call ExecutePythonScript()<CR>
 au filetype python imap <buffer> <C-CR> <ESC><C-CR>
 au FileType python set formatprg=PythonTidy.py

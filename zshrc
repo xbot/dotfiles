@@ -314,16 +314,17 @@ if [[ `uname` == 'Darwin' ]]; then
     hash -d blog="$HOME/Projects/octopress"
     hash -d post="$HOME/Projects/octopress/source/_posts"
     hash -d www="$HOME/Sites"
-    hash -d open="$HOME/Projects/xidi-other/open/trunk"
-    hash -d xidi="$HOME/Projects/xidi-pc"
 else
     hash -d shell="$HOME/dev/shell"
     hash -d blog="$HOME/dev/octopress"
     hash -d post="$HOME/dev/octopress/source/_posts"
     hash -d www="/srv/http/"
-    hash -d open="$HOME/dev/xidi/open/trunk"
-    hash -d xidi="$HOME/workspace"
 fi
 
 # Key bindings
 bindkey "^R" history-incremental-search-backward
+
+# nvm
+export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
