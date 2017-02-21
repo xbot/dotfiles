@@ -551,11 +551,11 @@ let g:vdebug_keymap = {
             \}
 
 " vim-jsbeautify
-nmap <c-a-f> :call JsBeautify()<CR>
-vmap <c-a-f> <ESC>:'<,'>!js-beautify -i<CR>
-autocmd FileType javascript noremap <buffer>  <a-f> :call JsBeautify()<CR>
-autocmd FileType html noremap <buffer> <a-f> :call HtmlBeautify()<CR>
-autocmd FileType css noremap <buffer> <a-f> :call CSSBeautify()<CR>
+nmap <leader>jsb :call JsBeautify()<CR>
+vmap <leader>jsb :'<,'>!js-beautify -i<CR>
+autocmd FileType javascript noremap <buffer>  <leader>jsb :call JsBeautify()<CR>
+autocmd FileType html noremap <buffer> <leader>htmlb :call HtmlBeautify()<CR>
+autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
 
 " " Eclim
 " let g:EclimCompletionMethod = 'omnifunc'
@@ -917,10 +917,6 @@ nmap <leader>json :%!python -m json.tool<CR>
 " Sessions
 nmap <leader>os :OpenSession<Space>
 nmap <leader>ss :SaveSession<Space>
-
-" js-beautify
-nmap <leader>jsb <ESC>:%!js-beautify -i<CR>
-vmap <leader>jsb <ESC>:'<,'>!js-beautify -i<CR>
 
 " Adjust font size on the fly
 map <leader>] :LargerFont<CR>
