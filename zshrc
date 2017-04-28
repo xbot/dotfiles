@@ -34,8 +34,8 @@ DISABLE_AUTO_TITLE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-if [[ `hostname` == "xidi-donieli" ]]; then
-    plugins=(git python pip systemd urltools svn vi-mode archlinux systemd-user)
+if [[ $(uname) == 'Darwin' ]]; then
+    plugins=(git python pip vi-mode urltools brew)
 else
     plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
 fi
@@ -273,7 +273,7 @@ alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
 alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
 alias english='export LC_ALL=en_US.UTF-8'
 alias httpproxy='export http_proxy=127.0.0.1:8123'
-alias httpsproxy='export HTTPS_PROXY=socks5://127.0.0.1:1080'
+alias httpsproxy='export HTTPS_PROXY=socks5://127.0.0.1:1086'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias a='apack'
 alias x='aunpack'
@@ -299,7 +299,7 @@ alias yiic='/srv/http/yii/framework/yiic'
 # alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
 
 # Misc
-alias gotovpn="ssh root@45.78.50.109 -p 26681"
+alias gotovpn="ssh root@fusang"
 alias ut="./run --colors=always"
 
 # fix grep complainings
