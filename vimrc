@@ -245,11 +245,13 @@ if has('gui_running')
     elseif has('gui_macvim')
         set guifont=Monaco:h18
         set background=dark
-        colorscheme solarized
+        " colorscheme solarized
+        colorscheme nova
     else
         set background=dark
         " set background=light
-        colorscheme solarized
+        " colorscheme solarized
+        colorscheme nova
         " set guifont=CosmicSansNeueMono\ 15
         set guifont=FantasqueSansMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
@@ -285,7 +287,8 @@ else
     "colorscheme jellybeans
     " let g:solarized_termcolors=16
     let g:solarized_termcolors=256
-    colorscheme solarized
+    " colorscheme solarized
+    colorscheme nova
 endif
 
 " custom the window title
@@ -1174,9 +1177,7 @@ function! XEscapeRegex(str, ...)"{{{
     if a:0 && a:1
         let pattern = escape(pattern, '()+?')
         if a:1 == 2
-            " 解决:Ack搜索PHP的namespace的问题，把“\\”替换成“\\\”
-            " 脏，不是完美的解决方法
-            let pattern = substitute(pattern, '\\\\', '\\\\\\', 'g')
+            let pattern = escape(pattern, '\')
         endif
     endif
 
