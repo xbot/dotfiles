@@ -379,6 +379,7 @@ let g:SuperTabDefaultCompletionType = '<leader><C-Tab>'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 
 " YouCompleteMe
 let g:ycm_key_list_select_completion = ['<leader><C-TAB>', '<Down>']
@@ -642,7 +643,9 @@ let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update = 0
 let g:cscope_silent = 1
 au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
-au FileType php,python,c,cpp,javascript,go map <buffer> <C-[> :Gtags -r<CR><CR>
+if has('gui_running')
+    au FileType php,python,c,cpp,javascript,go map <buffer> <C-[> :Gtags -r<CR><CR>
+endif
 nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
 nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 
