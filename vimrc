@@ -49,18 +49,15 @@ if IsPlatform('win')
 endif
 
 " Generic declarations
-let gbl_ultrablog_debug = 1
 " Platform specific declarations
 if IsPlatform('win')
     let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
     let gbl_vimrc_name = '_vimrc'
     let gbl_vimrc_file = $VIM.'/'.gbl_vimrc_name
-    let gbl_ultrablog_db = 'D:\\My\ Dropbox\UltraBlog.db'
 else
     let gbl_private_settings_file = expand('~/.vim/private.vim')
     let gbl_vimrc_name = '.vimrc'
     let gbl_vimrc_file = expand('~/'.gbl_vimrc_name)
-    let gbl_ultrablog_db = '~/Dropbox/UltraBlog.db'
 endif
 "}}}
 
@@ -75,6 +72,7 @@ endif
 if !has('gui_macvim')
     source $VIMRUNTIME/mswin.vim
     behave mswin
+    map <c-f> <PageDown>
 endif
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
@@ -445,9 +443,9 @@ let NERDSpaceDelims = 1
 let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
 
 " TwitVim
-" let twitvim_enable_python = 1
-let twitvim_proxy = "127.0.0.1:8787"
-" let twitvim_browser_cmd = "/usr/bin/chromium"
+let twitvim_enable_python = 1
+let twitvim_proxy = "127.0.0.1:8123"
+let twitvim_browser_cmd = "/usr/bin/google-chrome-stable"
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\addons\binary-utils\dist\bin\curl.exe -o'
@@ -483,22 +481,6 @@ let ub_hotkey_pageup = '<pageup>'
 let ub_hotkey_save_current_item = '<leader>w'
 let ub_tmpl_img_url = '<a href="%(url)s"><img src="%(url)s"></a>'
 let ub_socket_timeout = 30
-if gbl_ultrablog_debug == 1
-    let ub_blog = {'login_name':gbl_wordpress_login,
-                \'password':gbl_wordpress_password,
-                \'url':'http://localhost/wordpress',
-                \'xmlrpc_uri':'xmlrpc.php',
-                \'db':'~/Dropbox/UltraTest.db'
-                \}
-    let ub_local_pagesize = 2
-else
-    let ub_blog = {'login_name':'admin',
-                \'password':gbl_sinolog_password,
-                \'url':'http://0x3f.org',
-                \'xmlrpc_uri':'xmlrpc.php',
-                \'db':gbl_ultrablog_db
-                \}
-endif
 
 " shell.vim
 let g:shell_mappings_enabled=0
@@ -652,6 +634,12 @@ let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 "easy-align
 vmap <leader>A <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = ["String"]
+
+" instant-markdown
+let g:instant_markdown_autostart = 0
+
+" vim-markdown
+let g:vim_markdown_folding_disabled = 1
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -687,7 +675,7 @@ au BufNewFile,BufRead *.ds set filetype=lisp
 
 " Markdown
 augroup markdown
-    autocmd BufNewFile,BufRead *.mkd set filetype=markdown
+    autocmd BufNewFile,BufRead *.mkd,*.md set filetype=markdown
     " autocmd BufNewFile,BufRead *.mkd set wrap
     au FileType markdown set wrap
     " au FileType markdown set guifontwide=
@@ -876,8 +864,8 @@ nmap <leader>g2b <ESC>:cal G2B()<CR>
 nmap <leader>b2g <ESC>:cal B2G()<CR>
 
 " DBGP
-let g:debuggerMapDefaultKeys = 2
-let g:debuggerPort = 9001
+" let g:debuggerMapDefaultKeys = 2
+" let g:debuggerPort = 9001
 
 " 查找與替換
 nmap <leader>ff yiw/\<<C-R>"\>\C

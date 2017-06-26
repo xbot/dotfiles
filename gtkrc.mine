@@ -29,9 +29,9 @@ style "vim-fix-tabs-3" {
   font_name = "Zekton Bold 11"
 }
 
-widget "vim-main-window*" style "vim-fix"
+# widget "vim-main-window*" style "vim-fix"
 # widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-1"
-widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-2"
+# widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-2"
 # widget "vim-main-window.*.GtkNotebook*" style "vim-fix-tabs-3"
 
 gtk-can-change-accels=1

@@ -15,23 +15,23 @@
     Control+Shift+Alt + 1
 
 #-----------------------------【桌面應用】-------------------------------------# {{{
-"grun"
-    F12
+# "grun"
+    # F12
 
-"keepassx"
+"keepassxc"
     Alt+Mod4 + F12
 
 # Terminal
-"lilyterm"
+"sakura"
     Alt + 1
-"sudo lilyterm"
+"sudo sakura"
     Shift+Alt + 1
 "lilyterm -d ~/Downloads"
     Control+Alt + 1
 "sakura -x "xsel -b -i""
     Control+Alt+Mod4 + 1
 
-"google-chrome"
+"google-chrome-stable"
     Alt + 2
 "firefox"
     Alt+Shift + 2
@@ -39,12 +39,12 @@
 # vim
 "gvim"
     Alt+grave
-"gvim -c "cd ~/workspace""
+"gvim -c "cd ~/Projects/php_lumen_api/api""
     Control+Alt + grave
-"gvim -c "cd ~/openproj""
-    Control+Alt+Mod4 + grave
-"gvim -c "cd ~/unittests/tests""
-    Alt+Mod4 + grave
+# "gvim -c "cd ~/openproj""
+    # Control+Alt+Mod4 + grave
+# "gvim -c "cd ~/unittests/tests""
+    # Alt+Mod4 + grave
 
 # File Manager
 "nautilus --no-desktop"
@@ -72,9 +72,9 @@
 "gnome-system-monitor"
     Control+Alt+ Delete
 
-"deepin-screenshot"
+"deepin-screenshot -n"
     Print
-"deepin-screenshot -f"
+"deepin-screenshot -n -f"
     Alt+ Print
 
 "random_wallpaper"
@@ -90,8 +90,15 @@
 "slock"
     Control+Shift+Alt+Mod2 + l
 
-"xdotool key --window $(xdotool search --limit 1 --all --pid $(pgrep RTX) --name RTX) "ctrl+alt+x""
-    Control+Alt + x
+# "xdotool key --window $(xdotool search --limit 1 --all --pid $(pgrep RTX) --name RTX) "ctrl+alt+x""
+    # Control+Alt + x
+
+"copyq menu"
+    Control+Alt + h
+
+"copyq show"
+    Control+Alt+Shift + h
+
 # }}}
 
 #-----------------------------【網絡應用】-------------------------------------# {{{

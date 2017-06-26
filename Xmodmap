@@ -1,9 +1,9 @@
-keysym Escape = grave asciitilde
-keysym grave = Escape
+! keysym Escape = grave asciitilde
+! keysym grave = Escape
 
 remove Lock = Caps_Lock
 keysym Caps_Lock = Control_L
 add Control = Control_L
 
 !shift + esc => ~
-keycode 0x09 = Escape asciitilde
+! keycode 0x09 = Escape asciitilde

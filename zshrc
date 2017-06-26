@@ -44,7 +44,7 @@ source $ZSH/oh-my-zsh.sh
 if [[ $(uname) == 'Darwin' ]]; then
     source ~/Projects/z/z.sh
 else
-    source ~/dev/z/z.sh
+    source ~/Projects/3rd-parties/z/z.sh
 fi
 # load local custom scripts
 if [[ -f ~/.zshrc_work ]]; then
@@ -192,10 +192,11 @@ fi
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # PATH
-export PATH="$HOME/Bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # wine
 export WINEARCH=win32
@@ -325,6 +326,8 @@ fi
 bindkey "^R" history-incremental-search-backward
 
 # nvm
-export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+if [[ `uname` == 'Darwin' ]]; then
+    export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+    export NVM_DIR="$HOME/.nvm"
+    . "/usr/local/opt/nvm/nvm.sh"
+fi
