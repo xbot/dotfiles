@@ -148,6 +148,7 @@ bindsym $mod+minus scratchpad show
 # Show the sup-mail scratchpad window, if any.
 # bindsym mod4+s [title="^Sup ::"] scratchpad show
 bindsym Control+Mod1+backslash [title="^Electronic WeChat$"] scratchpad show
+bindsym Mod1+Shift+o           [title="滴答清单$"]           scratchpad show
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
