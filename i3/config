@@ -34,7 +34,7 @@ force_focus_wrapping yes
 workspace_layout tabbed
 
 # workspace "0:web" output CRT1
-# workspace "1:wiki" output CRT1
+# workspace "1:code" output CRT1
 # workspace "2:db" output CRT1
 
 # Test area
@@ -102,11 +102,14 @@ bindsym $mod+c focus child
 bindsym $mod+Control+Left focus output left
 bindsym $mod+Control+Right focus output right
 
+# focus urgent
+bindsym $mod+x [urgent=latest] focus
+
 # switch to workspace
 bindsym $mod+0 workspace 0:web
-bindsym $mod+1 workspace 1:wiki
-bindsym $mod+2 workspace 2:db
-bindsym $mod+3 workspace 3:vcs
+bindsym $mod+1 workspace 1:code
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
@@ -120,9 +123,9 @@ bindsym Control+Mod1+semicolon workspace next_on_output
 
 # move focused container to workspace
 bindsym $mod+Shift+0 move container to workspace 0:web
-bindsym $mod+Shift+1 move container to workspace 1:wiki
-bindsym $mod+Shift+2 move container to workspace 2:db
-bindsym $mod+Shift+3 move container to workspace 3:vcs
+bindsym $mod+Shift+1 move container to workspace 1:code
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
 bindsym $mod+Shift+6 move container to workspace number 6
@@ -302,8 +305,8 @@ for_window [class="Dropbox"] floating enable;border normal
 for_window [class="Qsynergy"] floating enable;border normal
 for_window [class="Nw"] floating enable;border normal
 
-assign [class="Eclipse"] "1:wiki"
-assign [class="Java" title="Eclipse"] "1:wiki"
+assign [class="Eclipse"] "1:code"
+assign [class="Java" title="Eclipse"] "1:code"
 # Chrome调试工具
 # assign [class="Chromium" title="^未命名$"] 9
 
