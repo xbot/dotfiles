@@ -898,11 +898,11 @@ nmap <leader>V V']
 nmap <leader>cls :nohl<CR>
 
 " Search word
-if has('gui_running')
-    nmap <leader>/w /\<\>\C<left><left><left><left>
-else
+" if has('gui_running')
+    " nmap <leader>/w /\<\>\C<left><left><left><left>
+" else
     nmap <leader>/w /\<\>\C<left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-endif
+" endif
 
 " Format JSON string
 nmap <leader>json :%!python -m json.tool<CR>
@@ -920,7 +920,7 @@ nmap <leader>gst :Gstatus<CR>
 
 " Open terminal in the current path
 if has('unix')
-    nmap <leader>sh :call xolox#misc#os#exec({'command':'lilyterm', 'async':1})<CR>
+    nmap <leader>sh :call xolox#misc#os#exec({'command':'sakura', 'async':1})<CR>
 elseif has('win32')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
 endif
@@ -931,38 +931,17 @@ nmap <leader>ue :UltiSnipsEdit<Space>
 " Gundo
 nmap <leader>gu :GundoToggle<CR>
 
-" " Cscope
-" " f: Find this file
-" nnoremap <leader>cfa :call CscopeFindInteractive(expand('<cword>'))<CR>
-" " nnoremap <leader>cl :call ToggleLocationList()<CR>
-" " s: Find this C symbol
-" nnoremap  <leader>cfs :call CscopeFind('s', expand('<cword>'))<CR>
-" " g: Find this definition
-" nnoremap  <leader>cfg :call CscopeFind('g', expand('<cword>'))<CR>
-" " d: Find functions called by this function
-" nnoremap  <leader>cfd :call CscopeFind('d', expand('<cword>'))<CR>
-" " c: Find functions calling this function
-" nnoremap  <leader>cfc :call CscopeFind('c', expand('<cword>'))<CR>
-" " t: Find this text string
-" nnoremap  <leader>cft :call CscopeFind('t', expand('<cword>'))<CR>
-" " e: Find this egrep pattern
-" nnoremap  <leader>cfe :call CscopeFind('e', expand('<cword>'))<CR>
-" " f: Find this file
-" nnoremap  <leader>cff :call CscopeFind('f', expand('<cword>'))<CR>
-" " i: Find files #including this file
-" nnoremap  <leader>cfi :call CscopeFind('i', expand('<cword>'))<CR>
-
-" RabbitVCS
-if IsPlatform('unix')
-    map <leader>rbu :silent !rabbitvcs update<CR>
-    map <leader>rbc :silent !rabbitvcs commit<CR>
-    map <leader>rbll :silent !rabbitvcs log<CR>
-    map <leader>rblL :silent !rabbitvcs log %<CR>
-    map <leader>rbr :silent !rabbitvcs revert %<CR>
-elseif IsPlatform('mac')
-    map <leader>rbu :!svn update<CR>
-    map <leader>rbc :silent !svnx<CR>
-endif
+" " RabbitVCS
+" if IsPlatform('unix')
+    " map <leader>rbu :silent !rabbitvcs update<CR>
+    " map <leader>rbc :silent !rabbitvcs commit<CR>
+    " map <leader>rbll :silent !rabbitvcs log<CR>
+    " map <leader>rblL :silent !rabbitvcs log %<CR>
+    " map <leader>rbr :silent !rabbitvcs revert %<CR>
+" elseif IsPlatform('mac')
+    " map <leader>rbu :!svn update<CR>
+    " map <leader>rbc :silent !svnx<CR>
+" endif
 
 " incsearch.vim
 if !IsPlatform('mac')
@@ -977,9 +956,6 @@ nmap <leader>!! :<up><CR>
 " CtrlP
 nmap <leader>ot :CtrlPTag<CR>
 nmap <leader>bt :CtrlPBufTag<CR>
-
-" remap c-z ctrl-z suspend stop
-map <c-s-z> :st<CR>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{

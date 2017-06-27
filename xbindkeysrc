@@ -22,14 +22,10 @@
     Alt+Mod4 + F12
 
 # Terminal
-"sakura"
+"terminator"
     Alt + 1
-"sudo sakura"
+"sudo terminator"
     Shift+Alt + 1
-"lilyterm -d ~/Downloads"
-    Control+Alt + 1
-"sakura -x "xsel -b -i""
-    Control+Alt+Mod4 + 1
 
 "google-chrome-stable"
     Alt + 2
@@ -47,7 +43,8 @@
     # Alt+Mod4 + grave
 
 # File Manager
-"nautilus --no-desktop"
+# "nautilus --no-desktop"
+"pcmanfm"
     Control+Mod2 + grave
 "rox"
     Alt+Mod2 + F1
@@ -55,10 +52,6 @@
     Alt+Mod2 + F2
 "rox ~/Desktop"
     Alt+Mod2 + F3
-"rox ~/.screenlayout"
-    Alt + 4
-"rox ~/dev/octopress/source/_posts"
-    Alt+Mod2 + F5
 
 "recoll"
     Shift+F3
@@ -102,20 +95,19 @@
 # }}}
 
 #-----------------------------【網絡應用】-------------------------------------# {{{
-"qzone"
-    Shift+F8
-# Weibo
-"weibo"
-    Shift+F9
+# "qzone"
+    # Shift+F8
+# "weibo"
+    # Shift+F9
 # Google Calendar
-"google-chrome --app="https://www.google.com/calendar/render?gsessionid=OK""
+"google-chrome-stable --app="https://www.google.com/calendar/render?gsessionid=OK""
     Shift+F10
 # GMail
-# "google-chrome --app="https://inbox.google.com""
-"google-chrome --app="https://mail.google.com/mail""
+# "google-chrome-stable --app="https://mail.google.com/mail""
+"google-chrome-stable --app="https://inbox.google.com""
     Shift+F11
 # Wiki
-"google-chrome --app="http://localhost/wiki""
+"google-chrome-stable --app="http://wiki""
     Shift+F12
 # }}}
 
@@ -201,9 +193,9 @@
 # #"urxvt -e synergyc -f --name archer 192.168.1.7"
 # #    Control+Alt+Mod4 + KP_End
 
-# 开启笔记本显示器，关闭其余显示
-"/home/monk/.screenlayout/LVDS1.sh"
-    XF86Display
+# # 开启笔记本显示器，关闭其余显示
+# "/home/monk/.screenlayout/LVDS1.sh"
+    # XF86Display
 
 # 左右创建并聚焦新桌面
 "i3wm.py left"
