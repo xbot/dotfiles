@@ -622,7 +622,7 @@ au FileType unite call s:UniteSettings()
 
 " gtags
 let Gtags_Close_When_Single = 1
-let Gtags_Auto_Update = 0
+let Gtags_Auto_Update = 1
 let g:cscope_silent = 1
 au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
 if has('gui_running')
@@ -850,8 +850,9 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 " Add support for markdown files in tagbar.
 
 " CTags
-" nmap <leader>mkt :!ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
+" nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
 nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" .<CR>
+" nmap <leader>mkt :VimProcBang gtags<CR>
 
 " 查看当前目录
 nmap <leader>pwd :pwd<CR>
