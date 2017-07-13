@@ -41,11 +41,7 @@ else
 fi
 
 source $ZSH/oh-my-zsh.sh
-if [[ $(uname) == 'Darwin' ]]; then
-    source ~/Projects/z/z.sh
-else
-    source ~/Projects/3rd-parties/z/z.sh
-fi
+source ~/Projects/3rd-parties/z/z.sh
 # load local custom scripts
 if [[ -f ~/.zshrc_work ]]; then
     source ~/.zshrc_work

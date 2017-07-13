@@ -279,6 +279,7 @@ exec --no-startup-id amor
 exec --no-startup-id switchhosts
 exec --no-startup-id albert
 exec --no-startup-id fcitx
+exec --no-startup-id thunderbird
 
 for_window [class="Wine"] floating enable;border none
 for_window [class="Wine" instance="Thunder5.exe" title="迅雷5"] floating disable

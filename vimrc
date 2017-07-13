@@ -391,8 +391,8 @@ nmap <leader>ak <Plug>(FerretAck)
 nmap <leader>lak <Plug>(FerretLack)
 nmap <leader>aw <Plug>(FerretAckWord)
 nmap <leader>as <Plug>(FerretAcks)
-vmap <leader>ak y:Ack <C-R>=XEscapeRegex(@", 2)<CR>
-vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 2)<CR>
+vmap <leader>ak y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
+vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
 
 nnoremap <leader>a :set operatorfunc=GrepOperator<CR>g@
 vnoremap <leader>a :<c-u>call GrepOperator(visualmode())<CR>
@@ -546,7 +546,7 @@ autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
 " let g:EclimCompletionMethod = 'omnifunc'
 
 " Ctrlp
-" let g:ctrlp_map = '<c-p>'
+let g:ctrlp_map = '<leader>cp'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_custom_ignore = {
             \ 'dir':  'target\|third-lib\|dist',
@@ -559,7 +559,7 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10000'
 " let g:ctrlp_max_files = 100000
 if executable('ag')
-    let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
+    let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
     " let g:ctrlp_use_caching = 0
 endif
 let g:ctrlp_abbrev = {
@@ -577,6 +577,8 @@ let g:ctrlp_abbrev = {
             \ },
             \ ]
             \ }
+" nmap <leader>ot :CtrlPTag<CR>
+" nmap <leader>bt :CtrlPBufTag<CR>
 
 " syntastic
 let g:syntastic_check_on_open = 1
@@ -643,6 +645,15 @@ let g:instant_markdown_autostart = 0
 
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
+
+" leaderf
+let g:Lf_DefaultMode = 'FullPath'
+let g:Lf_ShortcutF = '<C-P>'
+let g:Lf_CommandMap = {'<c-c>': ['<esc>', '<c-c>']}
+let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
+nmap <leader>ot :LeaderfTag<CR>
+nmap <leader>bt :LeaderfBufTag<CR>
+nmap <leader>bf :LeaderfFunction<CR>
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -921,7 +932,7 @@ nmap <leader>gst :Gstatus<CR>
 
 " Open terminal in the current path
 if has('unix')
-    nmap <leader>sh :call xolox#misc#os#exec({'command':'sakura', 'async':1})<CR>
+    nmap <leader>sh :call xolox#misc#os#exec({'command':'terminator', 'async':1})<CR>
 elseif has('win32')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
 endif
@@ -953,10 +964,6 @@ endif
 
 " repeat last command
 nmap <leader>!! :<up><CR>
-
-" CtrlP
-nmap <leader>ot :CtrlPTag<CR>
-nmap <leader>bt :CtrlPBufTag<CR>
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
