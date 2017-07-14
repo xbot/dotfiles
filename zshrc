@@ -191,6 +191,9 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # PATH
+if [[ $(uname) == "Darwin" ]]; then
+    export PATH="$HOME/Bin:$PATH"
+fi
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
