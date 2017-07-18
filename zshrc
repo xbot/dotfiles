@@ -41,7 +41,7 @@ else
 fi
 
 source $ZSH/oh-my-zsh.sh
-source ~/Projects/3rd-parties/z/z.sh
+source ~/Projects/3rd-party/z/z.sh
 # load local custom scripts
 if [[ -f ~/.zshrc_work ]]; then
     source ~/.zshrc_work
