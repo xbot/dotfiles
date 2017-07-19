@@ -290,16 +290,16 @@ else
 endif
 
 " custom the window title
-fun! MyTitleString()
-    let sessionName = xolox#session#find_current_session()
-    let sessionStr = ''
-    if len(sessionName)>0
-        let sessionStr = ' ['.sessionName.'] '
-    endif
-    return 'VIM'.sessionStr.': %-25.55F %a%r%m'
-endfun
-au BufEnter * let &titlestring=MyTitleString()
-set titlelen=70
+" fun! MyTitleString()
+    " let sessionName = xolox#session#find_current_session()
+    " let sessionStr = ''
+    " if len(sessionName)>0
+        " let sessionStr = ' ['.sessionName.'] '
+    " endif
+    " return 'VIM'.sessionStr.': %-25.55F %a%r%m'
+" endfun
+" au BufEnter * let &titlestring=MyTitleString()
+" set titlelen=70
 "}}}
 
 "------------------------------- Plugins Settings --------------------------{{{
@@ -753,6 +753,10 @@ nmap <leader>- <Plug>AirlineSelectPrevTab
 nmap <leader>+ <Plug>AirlineSelectNextTab
 let g:airline#extensions#xkblayout#enabled = 1
 let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
+
+" vim-workspace
+nnoremap <leader>ss :ToggleWorkspace<CR>
+let g:workspace_session_name = '.session.vim'
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -923,7 +927,7 @@ imap <A-k> <C-O>gki
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tl :TagbarToggle<CR>
-au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR> 
+au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR>
 
 " " 使用FuzzyFinder打开文件
 " nmap <leader>o  :echo 'Do nothing ...'<CR>
@@ -1018,9 +1022,9 @@ nmap <leader>cls :nohl<CR>
 " Format JSON string
 nmap <leader>json :%!python -m json.tool<CR>
 
-" Sessions
-nmap <leader>os :OpenSession<Space>
-nmap <leader>ss :SaveSession<Space>
+" " Sessions
+" nmap <leader>os :OpenSession<Space>
+" nmap <leader>ss :SaveSession<Space>
 
 " Adjust font size on the fly
 map <leader>] :LargerFont<CR>
@@ -1635,7 +1639,7 @@ au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncommen
 let g:phpqa_codesniffer_autorun = 0        "  default =1 on save
 let g:phpqa_messdetector_autorun = 0
 let g:phpqa_codesniffer_args = "--standard=$HOME/.phpcs_ruleset.xml"
-" let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs' 
+" let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs'
 let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
 "}}}
