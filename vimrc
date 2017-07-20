@@ -757,6 +757,7 @@ let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
 " vim-workspace
 nnoremap <leader>ss :ToggleWorkspace<CR>
 let g:workspace_session_name = '.session.vim'
+let g:workspace_autosave = 0
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
