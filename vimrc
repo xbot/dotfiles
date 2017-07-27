@@ -600,28 +600,6 @@ au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 " ag
 let g:ag_lhandler="lopen"
 
-" svnj
-let g:svnj_send_soc_command = 0
-
-" Unite
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-call unite#filters#sorter_default#use(['sorter_rank'])
-" nnoremap <leader><leader>r :<C-u>Unite file_rec/async<CR>
-nnoremap <leader>jl :<C-u>Unite jump<CR>
-call unite#custom#profile('default', 'context', {
-            \   'start_insert': 1,
-            \   'winheight': 1000,
-            \   'direction': 'botright',
-            \ })
-function! s:UniteSettings()"{{{
-    let b:actually_quit = 0
-    setlocal updatetime=3
-    au! InsertEnter <buffer> let b:actually_quit = 0
-    au! InsertLeave <buffer> let b:actually_quit = 1
-    au! CursorHold  <buffer> if exists('b:actually_quit') && b:actually_quit | close | endif
-endfunction"}}}
-au FileType unite call s:UniteSettings()
-
 " gtags
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update = 1
@@ -758,6 +736,25 @@ let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
 nnoremap <leader>ss :ToggleWorkspace<CR>
 let g:workspace_session_name = '.session.vim'
 let g:workspace_autosave = 0
+
+" denite
+call denite#custom#map(
+            \ 'insert',
+            \ '<C-j>',
+            \ '<denite:move_to_next_line>',
+            \ 'noremap'
+            \)
+call denite#custom#map(
+            \ 'insert',
+            \ '<C-k>',
+            \ '<denite:move_to_previous_line>',
+            \ 'noremap'
+            \)
+nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
+nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
+au FileType help,markdown map <buffer> <leader>tl :Denite unite:outline<CR>
+nnoremap <leader>jl :<C-u>Denite jump<CR>
+
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -928,7 +925,6 @@ imap <A-k> <C-O>gki
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tl :TagbarToggle<CR>
-au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR>
 
 " " 使用FuzzyFinder打开文件
 " nmap <leader>o  :echo 'Do nothing ...'<CR>
@@ -1527,11 +1523,19 @@ function! ExecutePythonScript()"{{{
 endfunction"}}}
 
 " Run python code snippets
+if has('python3')
+python3 <<EOF
+def runScript():
+    script="\n".join([line for line in vim.current.buffer])
+    exec(script)
+EOF
+else
 python <<EOF
 def runScript():
     script="\n".join([line for line in vim.current.buffer])
-    exec script
+    exec(script)
 EOF
+endif
 
 "}}}
 
