@@ -545,41 +545,6 @@ autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
 " " Eclim
 " let g:EclimCompletionMethod = 'omnifunc'
 
-" Ctrlp
-let g:ctrlp_map = '<leader>cp'
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  'target\|third-lib\|dist',
-            \ 'file': '\v\.(exe|so|dll)$'
-            \ }
-let g:ctrlp_follow_symlinks = 2
-let g:ctrlp_extensions = ['tag', 'buffertag', 'quickfix', 'dir', 'rtscript',
-                      \ 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10000'
-" let g:ctrlp_max_files = 100000
-if executable('ag')
-    let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
-    " let g:ctrlp_use_caching = 0
-endif
-let g:ctrlp_abbrev = {
-            \ 'gmode': 'i',
-            \ 'abbrevs': [
-            \ {
-            \ 'pattern': '^A',
-            \ 'expanded': 'lib/Api/',
-            \ 'mode': 'pfrz',
-            \ },
-            \ {
-            \ 'pattern': '^C',
-            \ 'expanded': 'web/controllers/',
-            \ 'mode': 'pfrz',
-            \ },
-            \ ]
-            \ }
-" nmap <leader>ot :CtrlPTag<CR>
-" nmap <leader>bt :CtrlPBufTag<CR>
-
 " syntastic
 let g:syntastic_check_on_open = 1
 let g:syntastic_error_symbol = '✗'
@@ -737,23 +702,30 @@ nnoremap <leader>ss :ToggleWorkspace<CR>
 let g:workspace_session_name = '.session.vim'
 let g:workspace_autosave = 0
 
-" denite
-call denite#custom#map(
-            \ 'insert',
-            \ '<C-j>',
-            \ '<denite:move_to_next_line>',
-            \ 'noremap'
-            \)
-call denite#custom#map(
-            \ 'insert',
-            \ '<C-k>',
-            \ '<denite:move_to_previous_line>',
-            \ 'noremap'
-            \)
-nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
-nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
-au FileType help,markdown map <buffer> <leader>tl :Denite unite:outline<CR>
-nnoremap <leader>jl :<C-u>Denite jump<CR>
+" denite or unite
+if has('python3')
+    call denite#custom#map(
+                \ 'insert',
+                \ '<C-j>',
+                \ '<denite:move_to_next_line>',
+                \ 'noremap'
+                \)
+    call denite#custom#map(
+                \ 'insert',
+                \ '<C-k>',
+                \ '<denite:move_to_previous_line>',
+                \ 'noremap'
+                \)
+    nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
+    nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
+    au FileType help,markdown map <buffer> <leader>tl :Denite unite:outline<CR>
+    nnoremap <leader>jl :<C-u>Denite jump<CR>
+else
+    nnoremap <leader>gll :Unite -default-action=tabopen -direction=dynamicbottom gitlog<CR>
+    nnoremap <leader>gla :Unite -default-action=tabopen -direction=dynamicbottom gitlog:all<CR>
+    au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR>
+    nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
+endif
 
 "}}}
 
