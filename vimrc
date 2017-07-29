@@ -442,6 +442,7 @@ let NERDSpaceDelims = 1
 
 " NERD Tree
 let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
+let NERDTreeNaturalSort=1
 
 " TwitVim
 let twitvim_enable_python = 1
@@ -727,6 +728,21 @@ else
     nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
 endif
 
+" goyo
+function! s:auto_goyo()
+    if &ft == 'markdown'
+        Goyo 80
+    else
+        let bufnr = bufnr('%')
+        Goyo!
+        execute 'b '.bufnr
+    endif
+endfunction
+
+augroup goyo_markdown
+    autocmd!
+    autocmd BufNewFile,BufRead * call s:auto_goyo()
+augroup END
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
