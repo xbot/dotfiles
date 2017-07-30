@@ -92,6 +92,9 @@ let s:vamRegistryFile = expand('~').'/.vim/vam_registry'
 if filereadable(s:vamRegistryFile)
     for linestr in readfile(s:vamRegistryFile)
         if linestr !~ '^#'
+            if has('nvim') && linestr == 'neocomplete'
+                continue
+            endif
             call add(active_addons, linestr)
         endif
     endfor
@@ -743,6 +746,10 @@ augroup goyo_markdown
     autocmd!
     autocmd BufNewFile,BufRead * call s:auto_goyo()
 augroup END
+
+" choosewin
+nmap  -  <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
