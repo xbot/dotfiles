@@ -159,9 +159,7 @@ else
     let gbl_vimrc_name = '.vimrc'
     let gbl_vimrc_file = expand('~/'.gbl_vimrc_name)
 endif
-"}}}
 
-" ------------------------------ Sourcings ------------------------------"{{{
 " Use command :Man to view manpages
 if has('unix')
     so $VIMRUNTIME/ftplugin/man.vim
@@ -222,9 +220,7 @@ else
     set grepprg=ag\ --nogroup\ --column\ -U\ --ignore\ tags
 endif
 set wildignore=*.class,*.pyc
-"}}}
 
-" ------------------------------ GUI Settings ------------------------------"{{{
 if has('gui_running')
     " Font settings
     if IsPlatform('win')
@@ -281,17 +277,6 @@ else
     colorscheme nova
 endif
 
-" custom the window title
-" fun! MyTitleString()
-    " let sessionName = xolox#session#find_current_session()
-    " let sessionStr = ''
-    " if len(sessionName)>0
-        " let sessionStr = ' ['.sessionName.'] '
-    " endif
-    " return 'VIM'.sessionStr.': %-25.55F %a%r%m'
-" endfun
-" au BufEnter * let &titlestring=MyTitleString()
-" set titlelen=70
 "}}}
 
 "------------------------------- Plugin Settings --------------------------{{{
@@ -371,11 +356,6 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 
-" YouCompleteMe
-let g:ycm_key_list_select_completion = ['<leader><C-TAB>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<leader><C-S-TAB>', '<Up>']
-let g:ycm_global_ycm_extra_conf = '~/.vim/addons/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-
 " Ferret
 let g:FerretExecutable='ag'
 
@@ -403,21 +383,6 @@ endfunction"}}}
 
 " List all tasks under the current directory
 map <leader>lstd :Ack //\ TODO: --ignore PHPExcel --ignore public<CR>
-
-" EasyGrep
-" let g:EasyGrepRecursive = 1
-" let g:EasyGrepCommand = 1
-" let g:EasyGrepJumpToMatch = 0
-" let g:EasyGrepWindow = 0
-" let g:EasyGrepReplaceWindowMode = 1
-" let g:EasyGrepPerlStyle = 0
-" " let g:EasyGrepMode = 3
-" " let g:EasyGrepDefaultUserPattern='<JAVA>'
-" " let g:EasyGrepOpenWindowOnMatch=0
-" " let g:EasyGrepFilesToExclude='.svn,.git,tags,PHPExcel,assets,runtime,third-lib,static,*.js,*.*.js'
-
-" nmap <leader>gr :Grep<space>
-" vmap <leader>gr y:Grep <C-R>=XEscapeRegex(@", 2)<CR>
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -505,9 +470,6 @@ autocmd FileType javascript noremap <buffer>  <leader>jsb :call JsBeautify()<CR>
 autocmd FileType html noremap <buffer> <leader>htmlb :call HtmlBeautify()<CR>
 autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
 
-" " Eclim
-" let g:EclimCompletionMethod = 'omnifunc'
-
 " syntastic
 let g:syntastic_check_on_open = 1
 let g:syntastic_error_symbol = '✗'
@@ -518,8 +480,6 @@ let g:syntastic_enable_highlighting = 0
 let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 au FileType php let b:syntastic_skip_checks = 1
 let g:syntastic_python_python_exec = '/usr/bin/python2'
-
-" let g:powerline_pycmd = 'py'
 
 " pdv
 let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
