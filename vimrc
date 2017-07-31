@@ -1,3 +1,95 @@
+" ------------------------------ Plugins ------------------------------"{{{
+call plug#begin('~/.vim/plugged')
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdcommenter'
+Plug 't9md/vim-choosewin'
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'trevordmiller/nova-vim'
+Plug 'joonty/vdebug', { 'for': 'php' }
+Plug 'joonty/vim-phpqa', { 'for': 'php' }
+Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+Plug 'diepm/vim-php-wrapper', { 'for': 'php' }
+Plug 'tobyS/pdv', { 'for': 'php' }
+Plug 'tobyS/vmustache', { 'for': 'php' }
+Plug 'dgryski/vim-godef', { 'for': 'go' }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'Blackrush/vim-gocode', { 'for': 'go' }
+Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'majutsushi/tagbar'
+Plug 'Yggdroot/LeaderF'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'wincent/ferret'
+Plug 'sjl/gundo.vim'
+Plug 'gcmt/wildfire.vim'
+Plug 'thaerkh/vim-workspace'
+Plug 'mhinz/vim-signify'
+Plug 'tangledhelix/vim-octopress'
+Plug 'farmergreg/vim-lastplace'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-surround'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'haya14busa/incsearch.vim'
+Plug 'rizzatti/dash.vim'
+Plug 'brooth/far.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'twitvim/twitvim'
+Plug 'godlygeek/tabular'
+Plug 'vim-syntastic/syntastic'
+Plug 'ervandew/supertab'
+Plug 'chrisbra/SudoEdit.vim'
+Plug 'vim-scripts/SQLUtilities'
+Plug 'Konfekt/FastFold'
+Plug 'easymotion/vim-easymotion'
+Plug 'lilydjwg/colorizer'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mbbill/fencview'
+Plug 'drmikehenry/vim-fontsize'
+Plug 'PAntoine/vimgitlog'
+Plug 'greyblake/vim-preview'
+Plug 'thinca/vim-quickrun'
+Plug 'xolox/vim-reload'
+Plug 'xolox/vim-shell'
+Plug 'xolox/vim-misc'
+
+if has('python')
+    Plug 'Valloric/MatchTagAlways'
+else
+    Plug 'gregsexton/MatchTag'
+endif
+
+if has('python')
+    Plug 'Shougo/unite.vim'
+    Plug 'Shougo/unite-outline'
+    Plug 'chemzqm/unite-git-log'
+    Plug 'hewes/unite-gtags'
+    Plug 'tsukkee/unite-tag'
+elseif has('python3')
+    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'chemzqm/denite-git'
+    Plug 'chemzqm/vim-easygit'
+endif
+
+if has('lua')
+    Plug 'Shougo/neocomplete.vim'
+endif
+
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+endif
+
+call plug#end()
+"}}}
+
 " ------------------------------ Miscellaneous ------------------------------"{{{
 " Check the current platform
 function! IsPlatform(mixed)"{{{
@@ -305,7 +397,7 @@ endif
 " set titlelen=70
 "}}}
 
-"------------------------------- Plugins Settings --------------------------{{{
+"------------------------------- Plugin Settings --------------------------{{{
 " Tagbar
 let g:tagbar_compact = 1
 let g:tagbar_usearrows = 1
@@ -733,6 +825,9 @@ endif
 
 " goyo
 function! s:auto_goyo()
+    if !exists(':Goyo')
+        return
+    endif
     if &ft == 'markdown'
         Goyo 80
     else
@@ -965,8 +1060,6 @@ nmap <leader>pwd :pwd<CR>
 
 " NERDTree
 nmap <leader>ntt :NERDTreeToggle<CR>
-nmap <leader>ntc :NERDTreeClose<CR>
-nmap <leader>nto :NERDTree<CR>
 nmap <leader>ntd :NERDTree %:h<CR>
 
 " 简繁转换
