@@ -4,20 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 't9md/vim-choosewin'
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'trevordmiller/nova-vim'
-Plug 'joonty/vdebug', { 'for': 'php' }
-Plug 'joonty/vim-phpqa', { 'for': 'php' }
-Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
-Plug 'diepm/vim-php-wrapper', { 'for': 'php' }
-Plug 'tobyS/pdv', { 'for': 'php' }
-Plug 'tobyS/vmustache', { 'for': 'php' }
-Plug 'dgryski/vim-godef', { 'for': 'go' }
-Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'Blackrush/vim-gocode', { 'for': 'go' }
-Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
@@ -37,7 +24,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-surround'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 'rizzatti/dash.vim'
 Plug 'brooth/far.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'jlanzarotta/bufexplorer'
@@ -53,12 +39,34 @@ Plug 'lilydjwg/colorizer'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'drmikehenry/vim-fontsize'
-Plug 'PAntoine/vimgitlog'
-Plug 'greyblake/vim-preview'
-Plug 'thinca/vim-quickrun'
-Plug 'xolox/vim-reload'
-Plug 'xolox/vim-shell'
-Plug 'xolox/vim-misc'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
+Plug 'jreybert/vim-largefile'
+Plug 'brookhong/cscope.vim'
+Plug 'jiazhoulvke/jianfan'
+Plug 'adelarsq/vim-matchit'
+Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'joonty/vdebug', { 'for': 'php' }
+Plug 'joonty/vim-phpqa', { 'for': 'php' }
+Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+Plug 'diepm/vim-php-wrapper', { 'for': 'php' }
+Plug 'tobyS/pdv', { 'for': 'php' }
+Plug 'tobyS/vmustache', { 'for': 'php' }
+Plug 'dgryski/vim-godef', { 'for': 'go' }
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'Blackrush/vim-gocode', { 'for': 'go' }
+Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
+
+Plug '~/.vim/plugged/gtags'
+Plug '~/.vim/plugged/phpdoc'
+Plug '~/.vim/plugged/pyclewn'
+Plug '~/.vim/plugged/py2stdlib'
+
+if has('mac')
+    Plug 'rizzatti/dash.vim'
+endif
 
 if has('python')
     Plug 'Valloric/MatchTagAlways'
@@ -103,7 +111,7 @@ function! IsPlatform(mixed)"{{{
 
     if has("win16") || has('win32') || has('win64') || has('winnt')
         return index(plist, 'win')>=0
-    elseif has('gui_macvim')
+    elseif has('mac')
         return index(plist, 'mac')>=0
     else
         return index(plist, 'unix')>=0
@@ -161,7 +169,7 @@ endif
 if IsPlatform('win')
     source $VIMRUNTIME/vimrc_example.vim
 endif
-if !has('gui_macvim')
+if !IsPlatform('mac')
     source $VIMRUNTIME/mswin.vim
     behave mswin
     map <c-f> <PageDown>
@@ -175,117 +183,6 @@ if filereadable(gbl_private_settings_file)
 else
     echoerr 'gbl_private_settings_file is not readable, some functions may not work.'
 endif
-"}}}
-
-" ------------------------------ VAM ------------------------------"{{{
-set runtimepath+=~/.vim/addons/vim-addon-manager
-let active_addons = []
-let s:vamRegistryFile = expand('~').'/.vim/vam_registry'
-if filereadable(s:vamRegistryFile)
-    for linestr in readfile(s:vamRegistryFile)
-        if linestr !~ '^#'
-            if has('nvim') && linestr == 'neocomplete'
-                continue
-            endif
-            call add(active_addons, linestr)
-        endif
-    endfor
-endif
-call vam#ActivateAddons(active_addons)
-" Addon post-install hook.
-fun! MyAddonPostActivateHook(info, repository, pluginDir, opts)"{{{
-    if filereadable(s:vamRegistryFile)
-        let regLines = readfile(s:vamRegistryFile)
-        call add(regLines, a:repository.name)
-        call sort(regLines)
-        call uniq(regLines)
-    else
-        let regLines = [a:repository.name]
-    endif
-    call writefile(regLines, s:vamRegistryFile)
-endfun"}}}
-let g:vim_addon_manager.post_install_hook_functions = ['MyAddonPostActivateHook']
-" Complete the addon name.
-fun! MyDoActivatedAddonsCompete(...)"{{{
-    let fullList = keys(g:vim_addon_manager.activated_plugins)
-    call filter(fullList, 'v:val =~ ".*'.a:1.'.*"')
-    return fullList
-endfun"}}}
-" Remove records of addons from the registry.
-fun! MyUninstallAddons(...)"{{{
-    if filereadable(s:vamRegistryFile)
-        let regLines = readfile(s:vamRegistryFile)
-    else
-        echo "Registry is empty."
-        return
-    endif
-    for addonName in a:000
-        let idx = index(regLines, addonName)
-        if idx >= 0
-            call remove(regLines, idx)
-            echo addonName.' is removed from the registry.'
-        else
-            echo addonName.' cannot be found in the registry.'
-        endif
-    endfor
-    call writefile(regLines, s:vamRegistryFile)
-endfun"}}}
-command! -complete=customlist,MyDoActivatedAddonsCompete -nargs=* UninstallAddons :call MyUninstallAddons(<f-args>)
-" Enable or disable addons
-fun! MyDoEnabledAddonsCompete(...)"{{{
-    if file_readable(s:vamRegistryFile)
-        let fullList = readfile(s:vamRegistryFile)
-        call filter(fullList, 'v:val !~ "^#"')
-        call filter(fullList, 'v:val =~ ".*'.a:1.'.*"')
-        return fullList
-    endif
-endfun"}}}
-fun! MyDoDisabledAddonsCompete(...)"{{{
-    if file_readable(s:vamRegistryFile)
-        let fullList = readfile(s:vamRegistryFile)
-        call filter(fullList, 'v:val =~ "^#.*'.a:1.'.*"')
-        call map(fullList, 'v:val[1:]')
-        return fullList
-    endif
-endfun"}}}
-fun! MyEnableAddons(...)"{{{
-    if filereadable(s:vamRegistryFile)
-        let regLines = readfile(s:vamRegistryFile)
-    else
-        echo "Registry is empty."
-        return
-    endif
-    for addonName in a:000
-        let idx = index(regLines, '#'.addonName)
-        if idx >= 0
-            let regLines[idx] = addonName
-            echo addonName.' is enabled.'
-        else
-            echo addonName.' cannot be enabled.'
-        endif
-    endfor
-    call writefile(regLines, s:vamRegistryFile)
-endfun"}}}
-fun! MyDisableAddons(...)"{{{
-    if filereadable(s:vamRegistryFile)
-        let regLines = readfile(s:vamRegistryFile)
-    else
-        echo "Registry is empty."
-        return
-    endif
-    for addonName in a:000
-        let idx = index(regLines, addonName)
-        if idx >= 0
-            let regLines[idx] = '#'.addonName
-            echo addonName.' is disabled.'
-        else
-            echo addonName.' cannot be disabled.'
-        endif
-    endfor
-    call writefile(regLines, s:vamRegistryFile)
-endfun"}}}
-command! -complete=customlist,MyDoDisabledAddonsCompete -nargs=* EnableAddons :call MyEnableAddons(<f-args>)
-command! -complete=customlist,MyDoEnabledAddonsCompete -nargs=* DisableAddons :call MyDisableAddons(<f-args>)
 "}}}
 
 " ------------------------------ Application Settings ------------------------"{{{
@@ -335,7 +232,7 @@ if has('gui_running')
         " set background=light
         colorscheme freya
         set guifont=Source\ Code\ Pro:h11
-    elseif has('gui_macvim')
+    elseif IsPlatform('mac')
         set guifont=Monaco\ for\ Powerline:h18
         set background=dark
         " colorscheme solarized
@@ -542,7 +439,8 @@ let NERDTreeNaturalSort=1
 " TwitVim
 let twitvim_enable_python = 1
 let twitvim_proxy = "127.0.0.1:8123"
-let twitvim_browser_cmd = "/usr/bin/google-chrome-stable"
+" let twitvim_browser_cmd = "/usr/bin/google-chrome-stable"
+let twitvim_browser_cmd = "open -a Safari"
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\addons\binary-utils\dist\bin\curl.exe -o'
@@ -551,33 +449,6 @@ endif
 if IsPlatform('win')
     let g:pydoc_cmd = "python C:\\Python27\\Lib\\pydoc.py"
 endif
-
-let ub_debug = 0
-let ub_use_ubviewer = 0
-let ub_viewer_width = 900
-let ub_append_promotion_link = 1
-let ub_local_pagesize = 30
-let ub_remote_pagesize = 15
-let ub_search_pagesize = 30
-let ub_list_col1_width = 7
-let ub_list_col2_width = 8
-let ub_list_col3_width = 11
-"let ub_converter_command = 'pandoc'
-"let ub_converter_options = []
-"let ub_converter_option_from = '--from=%s'
-"let ub_converter_option_to = '--to=%s'
-let ub_save_after_opened = 0
-let ub_save_after_sent = 1
-let ub_editor_mode = 0
-let ub_hotkey_open_item_in_current_view = '<enter>'
-let ub_hotkey_open_item_in_splited_view = '<s-enter>'
-let ub_hotkey_open_item_in_tabbed_view = '<c-enter>'
-let ub_hotkey_delete_item = '<del>'
-let ub_hotkey_pagedown = '<pagedown>'
-let ub_hotkey_pageup = '<pageup>'
-let ub_hotkey_save_current_item = '<leader>w'
-let ub_tmpl_img_url = '<a href="%(url)s"><img src="%(url)s"></a>'
-let ub_socket_timeout = 30
 
 " shell.vim
 let g:shell_mappings_enabled=0
@@ -614,10 +485,6 @@ let g:vdebug_options= {
             \    "debug_file" : "",
             \    "marker_default" : "⬦",
             \}
-if IsPlatform('mac')
-    let g:vdebug_options['path_maps'] = {
-                \}
-endif
 let g:vdebug_keymap = {
             \    "run" : "<F5>",
             \    "run_to_cursor" : "<F1>",
@@ -845,6 +712,9 @@ augroup END
 " choosewin
 nmap  -  <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
+
+" wildfire
+nmap <leader>vv <Plug>(wildfire-quick-select)
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -1144,11 +1014,9 @@ nmap <leader>gu :GundoToggle<CR>
 " endif
 
 " incsearch.vim
-if !IsPlatform('mac')
-    map /  <Plug>(incsearch-forward)
-    map ?  <Plug>(incsearch-backward)
-    map g/ <Plug>(incsearch-stay)
-endif
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " repeat last command
 nmap <leader>!! :<up><CR>
