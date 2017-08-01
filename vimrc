@@ -35,7 +35,6 @@ Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
 Plug 'Konfekt/FastFold'
 Plug 'easymotion/vim-easymotion'
-Plug 'lilydjwg/colorizer'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'drmikehenry/vim-fontsize'
@@ -58,6 +57,7 @@ Plug 'dgryski/vim-godef', { 'for': 'go' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'Blackrush/vim-gocode', { 'for': 'go' }
 Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
+Plug 'lilydjwg/colorizer', { 'for': 'css' }
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
@@ -425,7 +425,10 @@ let g:session_autoload = 'no'
 let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
 
 " Colorizer
-let g:colorizer_auto_filetype='css,html'
+let g:colorizer_startup = 0
+
+" Tasklist
+noremap <leader>tl :TaskList<CR>
 
 " Minibufexpl
 let g:miniBufExplSplitBelow=0
@@ -641,12 +644,12 @@ if has('python3')
                 \)
     nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
     nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
-    au FileType help,markdown map <buffer> <leader>tl :Denite unite:outline<CR>
+    au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
     nnoremap <leader>jl :<C-u>Denite jump<CR>
 else
     nnoremap <leader>gll :Unite -default-action=tabopen -direction=dynamicbottom gitlog<CR>
     nnoremap <leader>gla :Unite -default-action=tabopen -direction=dynamicbottom gitlog:all<CR>
-    au FileType help,markdown map <buffer> <leader>tl :Unite outline<CR>
+    au FileType help,markdown map <buffer> <leader>tt :Unite outline<CR>
     nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
 endif
 
@@ -844,7 +847,7 @@ imap <A-j> <C-O>gji
 imap <A-k> <C-O>gki
 
 "显示、隐藏ctags侧边栏
-nmap <leader>tl :TagbarToggle<CR>
+nmap <leader>tt :TagbarToggle<CR>
 
 " " 使用FuzzyFinder打开文件
 " nmap <leader>o  :echo 'Do nothing ...'<CR>
@@ -889,8 +892,8 @@ nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.li
 nmap <leader>pwd :pwd<CR>
 
 " NERDTree
-nmap <leader>ntt :NERDTreeToggle<CR>
-nmap <leader>ntd :NERDTree %:h<CR>
+nmap <leader>nt :NERDTreeToggle<CR>
+nmap <leader>nd :NERDTree %:h<CR>
 
 " 简繁转换
 nmap <leader>g2b <ESC>:cal G2B()<CR>
