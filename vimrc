@@ -44,7 +44,7 @@ Plug 'jreybert/vim-largefile'
 Plug 'brookhong/cscope.vim'
 Plug 'jiazhoulvke/jianfan'
 Plug 'adelarsq/vim-matchit'
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+" Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'joonty/vdebug', { 'for': 'php' }
@@ -58,6 +58,7 @@ Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'Blackrush/vim-gocode', { 'for': 'go' }
 Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
 Plug 'lilydjwg/colorizer', { 'for': 'css' }
+Plug 'vim-scripts/Pydiction', { 'for': 'python' }
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
@@ -249,6 +250,8 @@ if has('gui_running')
         set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 11
     endif
 
+    set lines=35 columns=120
+
     " GUI Options
     set go-=T
     set go-=m
@@ -260,19 +263,19 @@ if has('gui_running')
     "set go+=b
 
     " Toggle menu bar
-    map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
-                \set guioptions-=m <bar>
-                \else <Bar>
-                \set guioptions+=m <Bar>
-                \endif<CR>
+    if !IsPlatform('mac')
+        map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
+                    \set guioptions-=m <bar>
+                    \else <Bar>
+                    \set guioptions+=m <Bar>
+                    \endif<CR>
+    endif
 else
     " For CLI vim
     " set background=light
     set background=dark
-    "colorscheme diablo3
     "colorscheme jellybeans
-    " let g:solarized_termcolors=16
-    let g:solarized_termcolors=256
+    " let g:solarized_termcolors=256
     " colorscheme solarized
     colorscheme nova
 endif
@@ -386,9 +389,9 @@ map <leader>lstd :Ack //\ TODO: --ignore PHPExcel --ignore public<CR>
 
 " Pydiction Settings
 if IsPlatform('win')
-    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/addons/Pydiction/ftplugin/complete-dict'
+    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/plugged/Pydiction/complete-dict'
 else
-    let g:pydiction_location = '~/.vim/addons/Pydiction/ftplugin/complete-dict'
+    let g:pydiction_location = '~/.vim/plugged/Pydiction/complete-dict'
 endif
 
 " SQL Type Default
@@ -408,7 +411,7 @@ let twitvim_proxy = "127.0.0.1:8123"
 let twitvim_browser_cmd = "open -a Safari"
 
 if IsPlatform('win')
-    let g:netrw_http_cmd = $VIM.'\addons\binary-utils\dist\bin\curl.exe -o'
+    let g:netrw_http_cmd = $VIM.'\plugged\binary-utils\dist\bin\curl.exe -o'
 endif
 
 if IsPlatform('win')
@@ -485,7 +488,7 @@ au FileType php let b:syntastic_skip_checks = 1
 let g:syntastic_python_python_exec = '/usr/bin/python2'
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 
 " ag
@@ -1485,7 +1488,7 @@ endif
 au FileType php set fdl=1
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/addons/github-tobyS-pdv/templates_snip"
+let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
 au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 
