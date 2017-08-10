@@ -352,8 +352,8 @@ call CleverTab#NeoCompleteFirst()
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 
 " Ferret
