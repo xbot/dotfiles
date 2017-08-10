@@ -30,7 +30,6 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 'twitvim/twitvim'
 Plug 'godlygeek/tabular'
 Plug 'vim-syntastic/syntastic'
-Plug 'ervandew/supertab'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
 Plug 'Konfekt/FastFold'
@@ -44,7 +43,8 @@ Plug 'jreybert/vim-largefile'
 Plug 'brookhong/cscope.vim'
 Plug 'jiazhoulvke/jianfan'
 Plug 'adelarsq/vim-matchit'
-" Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+Plug 'vim-scripts/Align'
+Plug 'neitanod/vim-clevertab'
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'joonty/vdebug', { 'for': 'php' }
@@ -230,7 +230,7 @@ if has('gui_running')
         colorscheme freya
         set guifont=Source\ Code\ Pro:h11
     elseif IsPlatform('mac')
-        set guifont=Monaco\ for\ Powerline:h18
+        set guifont=Monaco\ for\ Powerline:h16
         set background=dark
         " colorscheme solarized
         colorscheme nova
@@ -347,16 +347,13 @@ let g:fencview_autodetect=0
 let g:fencview_checklines=10
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
-" SuperTab Settings
-" " To be compatible with neocomplcache
-" let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
-" To be compatible with YouCompleteMe
-let g:SuperTabDefaultCompletionType = '<leader><C-Tab>'
+" clevertab
+call CleverTab#NeoCompleteFirst()
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 
 " Ferret
@@ -519,99 +516,49 @@ let g:instant_markdown_autostart = 0
 let g:vim_markdown_folding_disabled = 1
 
 " leaderf
-let g:Lf_DefaultMode = 'FullPath'
-let g:Lf_ShortcutF = '<C-P>'
-let g:Lf_CommandMap = {'<c-c>': ['<esc>', '<c-c>']}
+let g:Lf_DefaultMode     = 'FullPath'
+let g:Lf_ShortcutF       = '<C-P>'
+let g:Lf_CommandMap      = {'<c-c>': ['<esc>', '<c-c>']}
 let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
 nmap <leader>ot :LeaderfTag<CR>
 nmap <leader>bt :LeaderfBufTag<CR>
 nmap <leader>bf :LeaderfFunction<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
+" neocomplete
+set completeopt-=preview
+let g:neocomplete#enable_at_startup                 = 1
+let g:neocomplete#enable_smart_case                 = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+let g:neocomplete#disable_auto_complete             = 0
+autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
+autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+    let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.php =
-            \ '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" let g:neocomplete#sources#omni#input_patterns.c   = '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+inoremap <expr><C-g> neocomplete#undo_completion()
+inoremap <expr><C-l> neocomplete#complete_common_string()
+noremap  <leader>ncl :NeoCompleteLock<CR>
 
 " airline
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#wordcount#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#show_tab_type = 1
+let g:airline_powerline_fonts                            = 1
+let g:airline#extensions#tagbar#enabled                  = 1
+let g:airline#extensions#wordcount#enabled               = 1
+let g:airline#extensions#tabline#enabled                 = 1
+let g:airline#extensions#tabline#show_splits             = 1
+let g:airline#extensions#tabline#show_buffers            = 1
+let g:airline#extensions#tabline#show_tabs               = 1
+let g:airline#extensions#tabline#show_tab_type           = 1
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
-let g:airline#extensions#tabline#exclude_preview = 1
-let g:airline#extensions#tabline#tab_nr_type = 2
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#exclude_preview         = 1
+let g:airline#extensions#tabline#tab_nr_type             = 2
+let g:airline#extensions#tabline#buffer_idx_mode         = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
