@@ -45,20 +45,21 @@ Plug 'jiazhoulvke/jianfan'
 Plug 'adelarsq/vim-matchit'
 Plug 'vim-scripts/Align'
 Plug 'neitanod/vim-clevertab'
+Plug 'dgryski/vim-godef',           { 'for': 'go'       }
+Plug 'fatih/vim-go',                { 'for': 'go'       }
+Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
+Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
+Plug 'lilydjwg/colorizer',          { 'for': 'css'      }
+Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-Plug 'joonty/vdebug', { 'for': 'php' }
-Plug 'joonty/vim-phpqa', { 'for': 'php' }
-Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
-Plug 'diepm/vim-php-wrapper', { 'for': 'php' }
-Plug 'tobyS/pdv', { 'for': 'php' }
-Plug 'tobyS/vmustache', { 'for': 'php' }
-Plug 'dgryski/vim-godef', { 'for': 'go' }
-Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'Blackrush/vim-gocode', { 'for': 'go' }
-Plug 'peterhoeg/vim-qml', { 'for': 'qml' }
-Plug 'lilydjwg/colorizer', { 'for': 'css' }
-Plug 'vim-scripts/Pydiction', { 'for': 'python' }
+Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
+Plug 'joonty/vdebug',               { 'for': 'php'      }
+Plug 'joonty/vim-phpqa',            { 'for': 'php'      }
+Plug 'shawncplus/phpcomplete.vim',  { 'for': 'php'      }
+Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
+Plug 'tobyS/pdv',                   { 'for': 'php'      }
+Plug 'tobyS/vmustache',             { 'for': 'php'      }
+Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
@@ -348,13 +349,46 @@ let g:fencview_checklines=10
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
 " clevertab
-call CleverTab#NeoCompleteFirst()
+" let g:CleverTab#next_step_direction='N'
+" call CleverTab#NeoCompleteFirst()
+" inoremap <silent><tab> <c-r>=CleverTab#Complete('start')<cr>
+            " \<c-r>=CleverTab#Complete('tab')<cr>
+            " \<c-r>=CleverTab#Complete('neocomplete')<cr>
+            " \<c-r>=CleverTab#Complete('ultisnips')<cr>
+            " \<c-r>=CleverTab#Complete('stop')<cr>
+            " " \<c-r>=CleverTab#Complete('keyword')<cr>
+            " " \<c-r>=CleverTab#Complete('omni')<cr>
+" inoremap <silent><s-tab> <c-r>=CleverTab#Complete('prev')<cr>
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-tab>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" imap <tab> <c-r>UltiSnips#ExpandSnippetOrJump()<cr>
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
+let g:ulti_expand_or_jump_res = 0 "default value, just set once
+function! Ulti_ExpandOrJump_and_getRes()
+    call UltiSnips#ExpandSnippetOrJump()
+    return g:ulti_expand_or_jump_res
+endfunction
+function! Dxxx(type)
+    " call UltiSnips#ExpandSnippetOrJump()
+    if a:type == 'ultisnips'
+        return UltiSnips#ExpandSnippetOrJump()
+    else
+        if !g:ulti_expand_or_jump_res
+            " if !Ulti_ExpandOrJump_and_getRes()
+            if pumvisible()
+                return "\<c-n>"
+            else
+                return neocomplete#start_manual_complete()
+            endif
+        endif
+    endif
+endfunction
+inoremap <silent><tab> <c-r>=Dxxx('ultisnips')<cr>
+            \<c-r>=Dxxx('neocomplete')<cr>
 
 " Ferret
 let g:FerretExecutable='ag'
