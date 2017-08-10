@@ -363,32 +363,24 @@ let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-tab>"
 " let g:UltiSnipsExpandTrigger="<tab>"
-" imap <tab> <c-r>UltiSnips#ExpandSnippetOrJump()<cr>
+" imap <tab> <c-r>=UltiSnips#ExpandSnippetOrJump()<cr>
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 let g:ulti_expand_or_jump_res = 0 "default value, just set once
-function! Ulti_ExpandOrJump_and_getRes()
+function! CleverTab()
     call UltiSnips#ExpandSnippetOrJump()
-    return g:ulti_expand_or_jump_res
-endfunction
-function! Dxxx(type)
-    " call UltiSnips#ExpandSnippetOrJump()
-    if a:type == 'ultisnips'
-        return UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res
+        return ""
     else
-        if !g:ulti_expand_or_jump_res
-            " if !Ulti_ExpandOrJump_and_getRes()
-            if pumvisible()
-                return "\<c-n>"
-            else
-                return neocomplete#start_manual_complete()
-            endif
+        if pumvisible()
+            return "\<c-n>"
+        else
+            return neocomplete#start_manual_complete()
         endif
     endif
 endfunction
-inoremap <silent><tab> <c-r>=Dxxx('ultisnips')<cr>
-            \<c-r>=Dxxx('neocomplete')<cr>
+inoremap <silent><tab> <c-r>=CleverTab()<cr>
 
 " Ferret
 let g:FerretExecutable='ag'
