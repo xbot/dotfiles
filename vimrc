@@ -350,7 +350,7 @@ let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-s-tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 let g:ulti_expand_or_jump_res = 0
 function! CleverTab()"{{{
@@ -615,31 +615,32 @@ else
     nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
 endif
 
-" goyo
-function! s:auto_goyo()
-    if !exists(':Goyo')
-        return
-    endif
-    if &ft == 'markdown'
-        Goyo 80
-    else
-        let bufnr = bufnr('%')
-        Goyo!
-        execute 'b '.bufnr
-    endif
-endfunction
-
-augroup goyo_markdown
-    autocmd!
-    autocmd BufNewFile,BufRead * call s:auto_goyo()
-augroup END
-
 " choosewin
 nmap  -  <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 
 " wildfire
 nmap <leader>vv <Plug>(wildfire-quick-select)
+
+" vim-php-namespace
+let g:php_namespace_sort_after_insert = 1
+" do imports
+function! IPhpInsertUse()"{{{
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction"}}}
+autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
+" do expansions
+function! IPhpExpandClass()"{{{
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction"}}}
+autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
+" do sortings
+autocmd FileType php inoremap <Leader>su <Esc>:call PhpSortUse()<CR>
+autocmd FileType php noremap  <Leader>su :call PhpSortUse()<CR>
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -1501,7 +1502,7 @@ endfunction"}}}
 nmap <leader>sbph :call PHPSandBox()<CR>
 
 " 强制使用HTML的注释
-function! ForceHTMLComment(mode, type) range
+function! ForceHTMLComment(mode, type) range"{{{
     set ft=html
     if a:mode == "x"
         execute a:firstline.",".a:lastline."call NERDComment(\"x\", \"".a:type."\")"
@@ -1513,7 +1514,7 @@ function! ForceHTMLComment(mode, type) range
         endif
     endif
     set ft=php
-endfunction
+endfunction"}}}
 au FileType php nmap <buffer> <leader>fhcc :call ForceHTMLComment("n", "Comment")<CR>
 au FileType php vmap <buffer> <leader>fhcc :call ForceHTMLComment("x", "Comment")<CR>
 au FileType php nmap <buffer> <leader>fhcs :call ForceHTMLComment("n", "Sexy")<CR>
