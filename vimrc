@@ -44,7 +44,6 @@ Plug 'brookhong/cscope.vim'
 Plug 'jiazhoulvke/jianfan'
 Plug 'adelarsq/vim-matchit'
 Plug 'vim-scripts/Align'
-Plug 'neitanod/vim-clevertab'
 Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
@@ -348,27 +347,13 @@ let g:fencview_autodetect=0
 let g:fencview_checklines=10
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
-" clevertab
-" let g:CleverTab#next_step_direction='N'
-" call CleverTab#NeoCompleteFirst()
-" inoremap <silent><tab> <c-r>=CleverTab#Complete('start')<cr>
-            " \<c-r>=CleverTab#Complete('tab')<cr>
-            " \<c-r>=CleverTab#Complete('neocomplete')<cr>
-            " \<c-r>=CleverTab#Complete('ultisnips')<cr>
-            " \<c-r>=CleverTab#Complete('stop')<cr>
-            " " \<c-r>=CleverTab#Complete('keyword')<cr>
-            " " \<c-r>=CleverTab#Complete('omni')<cr>
-" inoremap <silent><s-tab> <c-r>=CleverTab#Complete('prev')<cr>
-
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-tab>"
-" let g:UltiSnipsExpandTrigger="<tab>"
-" imap <tab> <c-r>=UltiSnips#ExpandSnippetOrJump()<cr>
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-s-tab>"
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
-let g:ulti_expand_or_jump_res = 0 "default value, just set once
-function! CleverTab()
+let g:ulti_expand_or_jump_res = 0
+function! CleverTab()"{{{
     call UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res
         return ""
@@ -379,8 +364,9 @@ function! CleverTab()
             return neocomplete#start_manual_complete()
         endif
     endif
-endfunction
-inoremap <silent><tab> <c-r>=CleverTab()<cr>
+endfunction"}}}
+inoremap <silent> <tab> <c-r>=CleverTab()<cr>
+snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
 
 " Ferret
 let g:FerretExecutable='ag'
