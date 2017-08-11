@@ -59,6 +59,10 @@ Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
 Plug 'tobyS/pdv',                   { 'for': 'php'      }
 Plug 'tobyS/vmustache',             { 'for': 'php'      }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
+Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
+Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
+Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
+Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
