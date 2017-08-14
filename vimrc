@@ -44,6 +44,7 @@ Plug 'brookhong/cscope.vim'
 Plug 'jiazhoulvke/jianfan'
 Plug 'adelarsq/vim-matchit'
 Plug 'vim-scripts/Align'
+Plug 'janko-m/vim-test'
 Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
@@ -645,6 +646,10 @@ autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
 " do sortings
 autocmd FileType php inoremap <Leader>su <Esc>:call PhpSortUse()<CR>
 autocmd FileType php noremap  <Leader>su :call PhpSortUse()<CR>
+
+" vim-test
+autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
+autocmd FileType php nnoremap <leader>tL :TestLast<cr>
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
