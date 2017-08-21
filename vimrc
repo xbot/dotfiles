@@ -45,6 +45,7 @@ Plug 'jiazhoulvke/jianfan'
 Plug 'adelarsq/vim-matchit'
 Plug 'vim-scripts/Align'
 Plug 'janko-m/vim-test'
+Plug 'junegunn/vader.vim'
 Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
@@ -500,6 +501,7 @@ let g:syntastic_enable_highlighting = 0
 let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
 au FileType php let b:syntastic_skip_checks = 1
 let g:syntastic_python_python_exec = '/usr/bin/python2'
+let g:syntastic_vim_checkers = ['vint']
 
 " pdv
 let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
