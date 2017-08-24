@@ -516,7 +516,7 @@ let Gtags_Auto_Update = 1
 let g:cscope_silent = 1
 au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
 if has('gui_running')
-    au FileType php,python,c,cpp,javascript,go map <buffer> <C-[> :Gtags -r<CR><CR>
+    au FileType php,python,c,cpp,javascript,go map <buffer> <C-S-]> :Gtags -r<CR><CR>
 endif
 nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
 nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
