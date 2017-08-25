@@ -564,6 +564,7 @@ let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\%(\h\w*\)\?\|\h\w
 inoremap <expr><C-g> neocomplete#undo_completion()
 inoremap <expr><C-l> neocomplete#complete_common_string()
 noremap  <leader>ncl :NeoCompleteLock<CR>
+noremap  <leader>ncu :NeoCompleteUnlock<CR>
 
 " airline
 let g:airline_powerline_fonts                            = 1
