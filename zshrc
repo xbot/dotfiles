@@ -115,13 +115,13 @@ lsf() { # List files whose names match the given pattern
     [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
     find "$UNDER_PATH" -name "$1" -print
 }
-chpwd_octopress() {
-    OCTOPRESS=~/dev/octopress
-    if [[ "$PWD" == "$OCTOPRESS" ]]; then
-        source /usr/bin/virtualenvwrapper.sh
-        workon blog_env
-    fi
-}
+# chpwd_octopress() {
+    # OCTOPRESS=~/dev/blog
+    # if [[ "$PWD" == "$OCTOPRESS" ]]; then
+        # source /usr/bin/virtualenvwrapper.sh
+        # workon blog_env
+    # fi
+# }
 chpwd_functions=( chpwd_octopress )
 # Check tcp and dup port
 chktcp() {
@@ -265,10 +265,7 @@ alias smpull='git submodule foreach git pull origin master'
 alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
 alias gll="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges"
 alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --author"
-
-# svn aliases
-alias sst='svn status'
-alias sud='svn update'
+alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --grep"
 
 # Distribution specific aliases
 alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
@@ -313,13 +310,13 @@ alias phpsh="php -c ~/.php.ini -a"
 # Hashes
 if [[ `uname` == 'Darwin' ]]; then
     hash -d shell="$HOME/Projects/shell"
-    hash -d blog="$HOME/Projects/octopress"
-    hash -d post="$HOME/Projects/octopress/source/_posts"
+    hash -d blog="$HOME/Projects/blog"
+    hash -d post="$HOME/Projects/blog/source/_posts"
     hash -d www="$HOME/Sites"
 else
     hash -d shell="$HOME/dev/shell"
-    hash -d blog="$HOME/dev/octopress"
-    hash -d post="$HOME/dev/octopress/source/_posts"
+    hash -d blog="$HOME/dev/blog"
+    hash -d post="$HOME/dev/blog/source/_posts"
     hash -d www="/srv/http/"
 fi
 
