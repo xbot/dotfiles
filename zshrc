@@ -263,6 +263,8 @@ alias diffhead='git difftool HEAD'
 alias gdiffhead='git difftool --gui HEAD'
 alias smpull='git submodule foreach git pull origin master'
 alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
+alias gll="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges"
+alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --author"
 
 # svn aliases
 alias sst='svn status'
