@@ -116,7 +116,7 @@ function! IsPlatform(mixed)"{{{
         return 0
     endif
 
-    if has("win16") || has('win32') || has('win64') || has('winnt')
+    if has('win16') || has('win32') || has('win64') || has('winnt')
         return index(plist, 'win')>=0
     elseif has('mac')
         return index(plist, 'mac')>=0
@@ -148,7 +148,7 @@ set langmenu=zh_CN.UTF-8
 language message en_US.UTF-8
 
 " map <leader>
-let mapleader=","
+let mapleader=','
 
 " Environment settings
 if IsPlatform('win')
@@ -354,15 +354,15 @@ let g:fencview_checklines=10
 let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger='<c-tab>'
+let g:UltiSnipsJumpForwardTrigger='<c-tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
 let g:ulti_expand_or_jump_res = 0
 function! CleverTab()"{{{
     call UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res
-        return ""
+        return ''
     else
         if pumvisible()
             return "\<c-n>"
@@ -395,8 +395,8 @@ function! GrepOperator(type)"{{{
         return
     endif
 
-    exec "Ack ".XEscapeRegex(@@, 2)
-    " exec "Grep ".XEscapeRegex(@@, 2)
+    exec 'Ack '.XEscapeRegex(@@, 2)
+    " exec 'Grep '.XEscapeRegex(@@, 2)
 endfunction"}}}
 
 " List all tasks under the current directory
@@ -421,9 +421,9 @@ let NERDTreeNaturalSort=1
 
 " TwitVim
 let twitvim_enable_python = 1
-let twitvim_proxy = "127.0.0.1:8123"
-" let twitvim_browser_cmd = "/usr/bin/google-chrome-stable"
-let twitvim_browser_cmd = "open -a Safari"
+let twitvim_proxy = '127.0.0.1:8123'
+" let twitvim_browser_cmd = '/usr/bin/google-chrome-stable'
+let twitvim_browser_cmd = 'open -a Safari'
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\plugged\binary-utils\dist\bin\curl.exe -o'
@@ -440,7 +440,7 @@ let g:shell_mappings_enabled=0
 let g:session_autoload = 'no'
 
 " DirDiff
-let g:DirDiffExcludes = "CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags"
+let g:DirDiffExcludes = 'CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags'
 
 " Colorizer
 let g:colorizer_startup = 0
@@ -455,41 +455,44 @@ map <leader>be :ToggleBufExplorer<CR>
 
 " Vdebug.vim
 let g:vdebug_options= {
-            \    "path_maps" : {
-            \        "/var/www/workspace": expand('~')."/workspace",
+            \    'path_maps' : {
+            \        '/var/www/workspace': expand('~').'/workspace',
             \    },
-            \    "port" : 9001,
-            \    "server" : '0.0.0.0',
-            \    "timeout" : 20,
-            \    "on_close" : 'detach',
-            \    "break_on_open" : 1,
-            \    "ide_key" : '',
-            \    "remote_path" : "",
-            \    "local_path" : "",
-            \    "debug_window_level" : 0,
-            \    "debug_file_level" : 0,
-            \    "debug_file" : "",
-            \    "marker_default" : "⬦",
+            \    'port' : 9001,
+            \    'server' : '0.0.0.0',
+            \    'timeout' : 20,
+            \    'on_close' : 'detach',
+            \    'break_on_open' : 1,
+            \    'ide_key' : '',
+            \    'remote_path' : '',
+            \    'local_path' : '',
+            \    'debug_window_level' : 0,
+            \    'debug_file_level' : 0,
+            \    'debug_file' : '',
+            \    'marker_default' : '⬦',
             \}
 let g:vdebug_keymap = {
-            \    "run" : "<F5>",
-            \    "run_to_cursor" : "<F1>",
-            \    "step_over" : "<F2>",
-            \    "step_into" : "<F3>",
-            \    "step_out" : "<F4>",
-            \    "close" : "<F6>",
-            \    "detach" : "<F7>",
-            \    "set_breakpoint" : "<F10>",
-            \    "get_context" : "<F11>",
-            \    "eval_under_cursor" : "<F12>",
-            \    "eval_visual" : "<Leader>e",
+            \    'run' : '<F5>',
+            \    'run_to_cursor' : '<F1>',
+            \    'step_over' : '<F2>',
+            \    'step_into' : '<F3>',
+            \    'step_out' : '<F4>',
+            \    'close' : '<F6>',
+            \    'detach' : '<F7>',
+            \    'set_breakpoint' : '<F10>',
+            \    'get_context' : '<F11>',
+            \    'eval_under_cursor' : '<F12>',
+            \    'eval_visual' : '<Leader>e',
             \}
 
 " vim-jsbeautify
 vmap <leader>jsb :'<,'>!js-beautify -i<CR>
-autocmd FileType javascript noremap <buffer>  <leader>jsb :call JsBeautify()<CR>
-autocmd FileType html noremap <buffer> <leader>htmlb :call HtmlBeautify()<CR>
-autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
+augroup jsbeautify
+    au!
+    autocmd FileType javascript noremap <buffer>  <leader>jsb :call JsBeautify()<CR>
+    autocmd FileType html noremap <buffer> <leader>htmlb :call HtmlBeautify()<CR>
+    autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
+augroup END
 
 " syntastic
 let g:syntastic_check_on_open = 1
@@ -499,25 +502,34 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height = 5
 let g:syntastic_enable_highlighting = 0
 let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
-au FileType php let b:syntastic_skip_checks = 1
 let g:syntastic_python_python_exec = '/usr/bin/python2'
 let g:syntastic_vim_checkers = ['vint']
+augroup syntastic
+    au!
+    au FileType php let b:syntastic_skip_checks = 1
+augroup END
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
-au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
+let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
+augroup pdv
+    au!
+    au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
+augroup END
 
 " ag
-let g:ag_lhandler="lopen"
+let g:ag_lhandler='lopen'
 
 " gtags
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update = 1
 let g:cscope_silent = 1
-au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
-if has('gui_running')
-    au FileType php,python,c,cpp,javascript,go map <buffer> <C-S-]> :Gtags -r<CR><CR>
-endif
+augroup gtags
+    au!
+    au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
+    if has('gui_running')
+        au FileType php,python,c,cpp,javascript,go map <buffer> <C-S-]> :Gtags -r<CR><CR>
+    endif
+augroup END
 nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
 nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 
@@ -526,7 +538,7 @@ let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 
 "easy-align
 vmap <leader>A <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = ["String"]
+let g:easy_align_ignore_groups = ['String']
 
 " instant-markdown
 let g:instant_markdown_autostart = 0
@@ -549,11 +561,14 @@ let g:neocomplete#enable_at_startup                 = 1
 let g:neocomplete#enable_smart_case                 = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#disable_auto_complete             = 0
-autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+augroup neocomplete
+    au!
+    autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+augroup END
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
@@ -614,17 +629,23 @@ if has('python3')
                 \)
     nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
     nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
-    au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
     nnoremap <leader>jl :<C-u>Denite jump<CR>
+    augroup denite
+        au!
+        au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
+    augroup END
 else
     nnoremap <leader>gll :Unite -default-action=tabopen -direction=dynamicbottom gitlog<CR>
     nnoremap <leader>gla :Unite -default-action=tabopen -direction=dynamicbottom gitlog:all<CR>
-    au FileType help,markdown map <buffer> <leader>tt :Unite outline<CR>
     nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
+    augroup unite
+        au!
+        au FileType help,markdown map <buffer> <leader>tt :Unite outline<CR>
+    augroup END
 endif
 
 " choosewin
-nmap  -  <Plug>(choosewin)
+nmap - <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 
 " wildfire
@@ -632,27 +653,33 @@ nmap <leader>vv <Plug>(wildfire-quick-select)
 
 " vim-php-namespace
 let g:php_namespace_sort_after_insert = 1
-" do imports
 function! IPhpInsertUse()"{{{
     call PhpInsertUse()
     call feedkeys('a',  'n')
 endfunction"}}}
-autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
-" do expansions
 function! IPhpExpandClass()"{{{
     call PhpExpandClass()
     call feedkeys('a', 'n')
 endfunction"}}}
-autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
-" do sortings
-autocmd FileType php inoremap <Leader>su <Esc>:call PhpSortUse()<CR>
-autocmd FileType php noremap  <Leader>su :call PhpSortUse()<CR>
+augroup vim_php_namespace"{{{
+    au!
+    " do imports
+    autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
+    autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
+    " do expansions
+    autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
+    autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
+    " do sortings
+    autocmd FileType php inoremap <Leader>su <Esc>:call PhpSortUse()<CR>
+    autocmd FileType php noremap  <Leader>su :call PhpSortUse()<CR>
+augroup END"}}}
 
 " vim-test
-autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
-autocmd FileType php nnoremap <leader>tL :TestLast<cr>
+augroup vim_test"{{{
+    au!
+    autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
+    autocmd FileType php nnoremap <leader>tL :TestLast<cr>
+augroup END"}}}
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -667,10 +694,13 @@ if IsPlatform('win')
 endif
 
 " Javascript filetype
-au FileType javascript setl fen
-au FileType javascript setl foldlevel=0
-au BufRead *.pac setl filetype=javascript
-au BufRead *.pac setl foldlevel=1
+augroup javascript
+    au!
+    au FileType javascript setl fen
+    au FileType javascript setl foldlevel=0
+    au BufRead *.pac setl filetype=javascript
+    au BufRead *.pac setl foldlevel=1
+augroup END
 " au FileType javascript call JavaScriptFold()
 function! JavaScriptFold()"{{{
     setl foldmethod=syntax
@@ -705,13 +735,16 @@ map Q gq
 au FileType vim set commentstring=\"%s
 
 " Fold method
-au FileType python set fdm=indent
-au FileType sql set fdm=manual
-au FileType sh set fdm=syntax
 let g:sh_fold_enabled=1
-au FileType java set fdm=syntax
-au FileType java set fdl=1
-au FileType javascript set fdl=1
+augroup fold_method
+    au!
+    au FileType python     set fdm=indent
+    au FileType sql        set fdm=manual
+    au FileType sh         set fdm=syntax
+    au FileType java       set fdm=syntax
+    au FileType java       set fdl=1
+    au FileType javascript set fdl=1
+augroup END
 
 " Plain text
 au BufNewFile,BufRead *.txt set wrap
@@ -720,20 +753,17 @@ au BufNewFile,BufRead *.doku set ft=dokuwiki
 
 " Auto handle resources
 if IsPlatform('unix')
-    autocmd! BufWritePost,FileWritePost .xbindkeysrc silent !ps aux|grep -P '\sxbindkeys$'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
-    autocmd! BufWritePost,FileWritePost .xbindkeys.scm silent !ps aux|grep -P '\sxbindkeys\s'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys -fg ~/.xbindkeys.scm > /dev/null 2>&1
-    autocmd! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
-    autocmd! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
+    au! BufWritePost,FileWritePost .xbindkeysrc silent !ps aux|grep -P '\sxbindkeys$'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
+    au! BufWritePost,FileWritePost .xbindkeys.scm silent !ps aux|grep -P '\sxbindkeys\s'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys -fg ~/.xbindkeys.scm > /dev/null 2>&1
+    au! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
+    au! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
 endif
-
-" Vimperator
-au BufRead .vimperatorrc setl filetype=vimperator
 
 au FileType sql set synmaxcol=0
 
 " Quickfix and location windows
 au WinLeave * if &buftype=='quickfix' | lclose | endif
-autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
+au! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
 
 " Golang
 autocmd BufWritePre *.go :Fmt
@@ -844,9 +874,9 @@ exec 'nmap <leader>rcop :new '.gbl_vimrc_file.'<CR><C-W>_'
 " Source vimrc
 exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " Source vimrc after it is modified
-" exec 'autocmd! bufwritepost '.gbl_vimrc_name.' so '.gbl_vimrc_file
+" exec 'au! bufwritepost '.gbl_vimrc_name.' so '.gbl_vimrc_file
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
-exec 'autocmd! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
+exec 'au! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
 
 " TwitVim
 nmap <leader>twit :PosttoTwitter<CR>
@@ -1044,7 +1074,7 @@ function! SaveNOEOF()"{{{
 endfunction"}}}
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
-autocmd! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
+au! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
 
 " Set the current buffer to use utf-8 encoding and unix format
 function! SetUnixFF()"{{{
@@ -1212,7 +1242,7 @@ command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
 
 " used to track the quickfix window
 augroup QFixToggle"{{{
-    autocmd!
+    au!
     autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
     autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
 augroup END"}}}
@@ -1366,16 +1396,19 @@ endfunction
 "}}}
 
 " ------------------------------ Python -----------------------------{{{
-au filetype python map <buffer> <F5> :call StartPDB()<CR>
-au filetype python map <buffer> <S-F5> :call StopPDB()<CR>
-au filetype python map <buffer> <F6> :Cstep<CR>
-au filetype python map <buffer> <F7> :Cnext<CR>
-au filetype python map <buffer> <S-N> :Cnext<CR>
-au FileType python map <buffer> <A-CR> :python runScript()<CR>
-au filetype python nmap <buffer> <C-CR> :call ExecutePythonScript()<CR>
-au filetype python imap <buffer> <C-CR> <ESC><C-CR>
-au FileType python set formatprg=PythonTidy.py
-" au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
+augroup python
+    au!
+    au filetype python map  <buffer> <F5>   :call   StartPDB()<CR>
+    au filetype python map  <buffer> <S-F5> :call   StopPDB()<CR>
+    au filetype python map  <buffer> <F6>   :Cstep<CR>
+    au filetype python map  <buffer> <F7>   :Cnext<CR>
+    au filetype python map  <buffer> <S-N>  :Cnext<CR>
+    au FileType python map  <buffer> <A-CR> :python runScript()<CR>
+    au filetype python nmap <buffer> <C-CR> :call   ExecutePythonScript()<CR>
+    au filetype python imap <buffer> <C-CR> <ESC><C-CR>
+    au FileType python set  formatprg=PythonTidy.py
+    " au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
+augroup END
 
 " Start pyclewn
 function! StartPDB()"{{{
@@ -1434,8 +1467,11 @@ endif
 "}}}
 
 " ------------------------------ Go -----------------------------{{{
-au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
-au FileType go imap <buffer> <C-CR> <Esc><C-CR>
+augroup javascript
+    au!
+    au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
+    au FileType go imap <buffer> <C-CR> <Esc><C-CR>
+augroup END
 let g:gofmt_command = "goimports"
 "}}}
 
@@ -1444,23 +1480,25 @@ let g:gofmt_command = "goimports"
 let php_folding=2
 let php_large_file=0
 
-au FileType php set formatprg=php_beautifier\ -l\ \"ArrayNested()\"
-au FileType php nnoremap <buffer> <A-F12> :call Preserve("normal gggqG")<CR>
-au FileType php vnoremap <buffer> <A-F12> gq
-" PHP filetype
-au BufNewFile,BufRead *.lib,*.inc set filetype=php
-au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
-au FileType php set keywordprg="help"
-au FileType php set iskeyword=@,48-57,_,128-167,224-235
-if IsPlatform('win')
-    au FileType php set runtimepath+=$VIM\php
-else
-    au FileType php set runtimepath+=~/.vim/api/php
-endif
-au FileType php set fdl=1
+augroup php
+    au!
+    au FileType php set formatprg=php_beautifier\ -l\ \"ArrayNested()\"
+    au FileType php nnoremap <buffer> <A-F12> :call Preserve("normal gggqG")<CR>
+    au FileType php vnoremap <buffer> <A-F12> gq
+    au BufNewFile,BufRead *.lib,*.inc set filetype=php
+    au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
+    au FileType php set keywordprg="help"
+    au FileType php set iskeyword=@,48-57,_,128-167,224-235
+    if IsPlatform('win')
+        au FileType php set runtimepath+=$VIM\php
+    else
+        au FileType php set runtimepath+=~/.vim/api/php
+    endif
+    au FileType php set fdl=1
+augroup END
 
 " pdv
-let g:pdv_template_dir = $HOME ."/.vim/plugged/pdv/templates_snip"
+let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
 au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 
@@ -1516,10 +1554,10 @@ nmap <leader>sbph :call PHPSandBox()<CR>
 " 强制使用HTML的注释
 function! ForceHTMLComment(mode, type) range"{{{
     set ft=html
-    if a:mode == "x"
-        execute a:firstline.",".a:lastline."call NERDComment(\"x\", \"".a:type."\")"
+    if a:mode == 'x'
+        execute a:firstline.','.a:lastline.'call NERDComment(\"x\", \"'.a:type.'\")'
     else
-        if a:type == "Sexy"
+        if a:type == 'Sexy'
             normal ,cs
         else
             normal ,cc
@@ -1527,18 +1565,21 @@ function! ForceHTMLComment(mode, type) range"{{{
     endif
     set ft=php
 endfunction"}}}
-au FileType php nmap <buffer> <leader>fhcc :call ForceHTMLComment("n", "Comment")<CR>
-au FileType php vmap <buffer> <leader>fhcc :call ForceHTMLComment("x", "Comment")<CR>
-au FileType php nmap <buffer> <leader>fhcs :call ForceHTMLComment("n", "Sexy")<CR>
-au FileType php vmap <buffer> <leader>fhcs :call ForceHTMLComment("x", "Sexy")<CR>
-au FileType php nmap <buffer> <leader>fhcu :call ForceHTMLComment("n", "Uncomment")<CR>
-au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
+augroup php_force_html_comment
+    au!
+    au FileType php nmap <buffer> <leader>fhcc :call ForceHTMLComment("n", "Comment")<CR>
+    au FileType php vmap <buffer> <leader>fhcc :call ForceHTMLComment("x", "Comment")<CR>
+    au FileType php nmap <buffer> <leader>fhcs :call ForceHTMLComment("n", "Sexy")<CR>
+    au FileType php vmap <buffer> <leader>fhcs :call ForceHTMLComment("x", "Sexy")<CR>
+    au FileType php nmap <buffer> <leader>fhcu :call ForceHTMLComment("n", "Uncomment")<CR>
+    au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
+augroup END
 
 " phpqa
 let g:phpqa_codesniffer_autorun = 0        "  default =1 on save
 let g:phpqa_messdetector_autorun = 0
-let g:phpqa_codesniffer_args = "--standard=$HOME/.phpcs_ruleset.xml"
+let g:phpqa_codesniffer_args = '--standard=$HOME/.phpcs_ruleset.xml'
 " let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs'
-let g:phpqa_messdetector_ruleset = "~/.phpmd_ruleset.xml"
+let g:phpqa_messdetector_ruleset = '~/.phpmd_ruleset.xml'
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
 "}}}
