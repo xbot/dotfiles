@@ -680,6 +680,12 @@ augroup vim_test"{{{
     autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
     autocmd FileType php nnoremap <leader>tL :TestLast<cr>
 augroup END"}}}
+
+" Fugitive
+nnoremap <leader>gst :Gstatus<CR>
+nnoremap <leader>gpl :Gpull<CR>
+nnoremap <leader>gps :Gpush<CR>
+
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -952,9 +958,6 @@ nmap <leader>json :%!python -m json.tool<CR>
 " Adjust font size on the fly
 map <leader>] :LargerFont<CR>
 map <leader>[ :SmallerFont<CR>
-
-" Fugitive
-nmap <leader>gst :Gstatus<CR>
 
 " Open terminal in the current path
 if has('unix')
