@@ -384,21 +384,6 @@ nmap <leader>as <Plug>(FerretAcks)
 vmap <leader>ak y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
 vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
 
-nnoremap <leader>a :set operatorfunc=GrepOperator<CR>g@
-vnoremap <leader>a :<c-u>call GrepOperator(visualmode())<CR>
-function! GrepOperator(type)"{{{
-    if a:type ==# 'v'
-        normal! `<v`>y
-    elseif a:type ==# 'char'
-        normal! `[v`]y
-    else
-        return
-    endif
-
-    exec 'Ack '.XEscapeRegex(@@, 2)
-    " exec 'Grep '.XEscapeRegex(@@, 2)
-endfunction"}}}
-
 " List all tasks under the current directory
 map <leader>lstd :Ack //\ TODO: --ignore PHPExcel --ignore public<CR>
 
@@ -537,7 +522,7 @@ nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 
 "easy-align
-vmap <leader>A <Plug>(EasyAlign)
+vmap <leader>a <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = ['String']
 
 " instant-markdown
