@@ -290,11 +290,11 @@ endif
 
 "------------------------------- Plugin Settings --------------------------{{{
 " Tagbar
-let g:tagbar_compact = 1
-let g:tagbar_usearrows = 1
-let g:tagbar_width = 30
-let g:tagbar_autofocus = 1
-let g:tagbar_show_visibility = 1
+let g:tagbar_compact          = 1
+let g:tagbar_usearrows        = 1
+let g:tagbar_width            = 30
+let g:tagbar_autofocus        = 1
+let g:tagbar_show_visibility  = 1
 let g:tagbar_show_linenumbers = 1
 let g:tagbar_type_php  = {
             \ 'ctagstype' : 'php',
@@ -349,16 +349,16 @@ let g:tagbar_type_octopress = {
             \ }
 
 " FencView settings
-let g:fencview_autodetect=0
-let g:fencview_checklines=10
-let g:fencview_auto_patterns='*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
+let g:fencview_autodetect    = 0
+let g:fencview_checklines    = 10
+let g:fencview_auto_patterns = '*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger='<c-tab>'
-let g:UltiSnipsJumpForwardTrigger='<c-tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-let g:UltiSnipsSnippetsDir='~/.vim/UltiSnips'
-let g:ulti_expand_or_jump_res = 0
+let g:UltiSnipsExpandTrigger       = '<c-tab>'
+let g:UltiSnipsJumpForwardTrigger  = '<c-tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsSnippetsDir         = '~/.vim/UltiSnips'
+let g:ulti_expand_or_jump_res      = 0
 function! CleverTab()"{{{
     call UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res
@@ -377,11 +377,11 @@ snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
 " Ferret
 let g:FerretExecutable='ag'
 
-nmap <leader>ak <Plug>(FerretAck)
+nmap <leader>ak  <Plug>(FerretAck)
 nmap <leader>lak <Plug>(FerretLack)
-nmap <leader>aw <Plug>(FerretAckWord)
-nmap <leader>as <Plug>(FerretAcks)
-vmap <leader>ak y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
+nmap <leader>aw  <Plug>(FerretAckWord)
+nmap <leader>as  <Plug>(FerretAcks)
+vmap <leader>ak  y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
 vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
 
 " List all tasks under the current directory
@@ -401,14 +401,14 @@ let g:sql_type_default = 'sqlsvr'
 let NERDSpaceDelims = 1
 
 " NERD Tree
-let NERDTreeIgnore=['\.scc$', '\.pyc$', '\~$']
-let NERDTreeNaturalSort=1
+let NERDTreeIgnore      = ['\.scc$', '\.pyc$', '\~$']
+let NERDTreeNaturalSort = 1
 
 " TwitVim
 let twitvim_enable_python = 1
-let twitvim_proxy = '127.0.0.1:8123'
+let twitvim_proxy         = '127.0.0.1:8123'
+let twitvim_browser_cmd   = 'open -a Safari'
 " let twitvim_browser_cmd = '/usr/bin/google-chrome-stable'
-let twitvim_browser_cmd = 'open -a Safari'
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\plugged\binary-utils\dist\bin\curl.exe -o'
@@ -434,8 +434,8 @@ let g:colorizer_startup = 0
 noremap <leader>tl :TaskList<CR>
 
 " Minibufexpl
-let g:miniBufExplSplitBelow=0
-let g:bufExplorerDisableDefaultKeyMapping=1
+let g:miniBufExplSplitBelow               = 0
+let g:bufExplorerDisableDefaultKeyMapping = 1
 map <leader>be :ToggleBufExplorer<CR>
 
 " Vdebug.vim
@@ -480,15 +480,15 @@ augroup jsbeautify
 augroup END
 
 " syntastic
-let g:syntastic_check_on_open = 1
-let g:syntastic_error_symbol = '✗'
-let g:syntastic_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_loc_list_height = 5
+let g:syntastic_check_on_open       = 1
+let g:syntastic_error_symbol        = '✗'
+let g:syntastic_warning_symbol      = '⚠'
+let g:syntastic_auto_loc_list       = 1
+let g:syntastic_loc_list_height     = 5
 let g:syntastic_enable_highlighting = 0
-let g:syntastic_mode_map = { 'passive_filetypes': ['scss', 'slim'] }
-let g:syntastic_python_python_exec = '/usr/bin/python2'
-let g:syntastic_vim_checkers = ['vint']
+let g:syntastic_mode_map            = { 'passive_filetypes': ['scss', 'slim'] }
+let g:syntastic_python_python_exec  = '/usr/bin/python2'
+let g:syntastic_vim_checkers        = ['vint']
 augroup syntastic
     au!
     au FileType php let b:syntastic_skip_checks = 1
@@ -506,8 +506,8 @@ let g:ag_lhandler='lopen'
 
 " gtags
 let Gtags_Close_When_Single = 1
-let Gtags_Auto_Update = 1
-let g:cscope_silent = 1
+let Gtags_Auto_Update       = 1
+let g:cscope_silent         = 1
 augroup gtags
     au!
     au FileType php,python,c,cpp,javascript,go map <buffer> <C-]> :Gtags<CR><CR>
@@ -545,7 +545,7 @@ set completeopt-=preview
 let g:neocomplete#enable_at_startup                 = 1
 let g:neocomplete#enable_smart_case                 = 1
 let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#disable_auto_complete             = 0
+let g:neocomplete#disable_auto_complete             = 1
 augroup neocomplete
     au!
     autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
@@ -760,10 +760,10 @@ au! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
 autocmd BufWritePre *.go :Fmt
 
 " vim help
-au FileType vim set keywordprg="help"
+au FileType vim set keywordprg = 'help'
 
 " vim-octopress
-autocmd BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
+autocmd BufNewFile,BufRead *.markdown,*.textile set filetype = octopress
 "}}}
 
 "------------------------------- Key mappings -------------------------------"{{{
@@ -772,26 +772,26 @@ nmap <leader>qq :q<CR>
 imap <leader>qq <ESC>:q<CR>
 nmap <leader>aq :qa<CR>
 imap <leader>aq <ESC>:qa<CR>
-nmap <leader>Q :q!<CR>
-imap <leader>Q <ESC>:q!<CR>
+nmap <leader>Q  :q!<CR>
+imap <leader>Q  <ESC>:q!<CR>
 nmap <leader>aQ :qa!<CR>
 imap <leader>aQ <ESC>:qa!<CR>
 
 " 编辑
-inoremap jj <ESC>
-nmap <leader>w :up<CR>
-nmap <leader>W :SudoWrite<CR>
-imap <leader>w <ESC>:up<CR>
-imap <leader>W <ESC>:SudoWrite<CR>
-nmap <leader>x :x<CR>
-imap <leader>x <ESC>:x<CR>
-imap <leader>u <C-O>:normal u<CR>
-imap <leader>o <C-O>:normal o<CR>
-imap <leader>O <C-O>:normal O<CR>
-nmap <Space> <Pagedown>
-nmap <C-S-U> :e!<CR>
-imap <C-S-U> <C-O>:e!<CR>
-imap <C-Q> <ESC>:wq<CR>
+inoremap jj        <ESC>
+nmap     <leader>w :up<CR>
+nmap     <leader>W :SudoWrite<CR>
+imap     <leader>w <ESC>:up<CR>
+imap     <leader>W <ESC>:SudoWrite<CR>
+nmap     <leader>x :x<CR>
+imap     <leader>x <ESC>:x<CR>
+imap     <leader>u <C-O>:normal u<CR>
+imap     <leader>o <C-O>:normal o<CR>
+imap     <leader>O <C-O>:normal O<CR>
+nmap     <Space>   <Pagedown>
+nmap     <C-S-U>   :e!<CR>
+imap     <C-S-U>   <C-O>:e!<CR>
+imap     <C-Q>     <ESC>:wq<CR>
 xnoremap <expr> p '"_d"'.v:register.'P'
 
 " 页签
@@ -799,11 +799,11 @@ nmap <C-T><C-T> :tabnew<CR>
 imap <C-T><C-T> <ESC>:tabnew<CR>
 nmap <C-T><C-W> :tabc<CR>
 imap <C-T><C-W> <ESC>:tabc<CR>
-nmap <C-Tab> :tabn<CR>
-imap <C-Tab> <ESC>:tabn<CR>
-nmap <C-S-Tab> :tabp<CR>
-imap <C-S-Tab> <ESC>:tabp<CR>
-nmap gr :tabp<CR>
+nmap <C-Tab>    :tabn<CR>
+imap <C-Tab>    <ESC>:tabn<CR>
+nmap <C-S-Tab>  :tabp<CR>
+imap <C-S-Tab>  <ESC>:tabp<CR>
+nmap gr         :tabp<CR>
 nmap <leader><leader>du :tab sp<CR>
 imap <leader><leader>du :tab sp<CR>
 
@@ -827,13 +827,13 @@ nmap <leader>vs :vsp<CR><C-W>_
 nmap <F11> :wincmd_<CR>
 
 " 跳转到下一个Split窗口并最大化之
-nmap <Tab> <C-W>j<C-W>_
+nmap     <Tab>   <C-W>j<C-W>_
 nnoremap <S-Tab> <C-W>k<C-W>_
 
 " 窗口间移动焦点
-nmap <up> <C-W>k
-nmap <down> <C-W>j
-nmap <left> <C-W>h
+nmap <up>    <C-W>k
+nmap <down>  <C-W>j
+nmap <left>  <C-W>h
 nmap <right> <C-W>l
 
 " Navigating long lines
@@ -855,7 +855,7 @@ nmap <leader>tt :TagbarToggle<CR>
 
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
-vmap <leader>dl y:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
+vmap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
 
 " Handles vimrc file
 " Edit private settings file
@@ -909,10 +909,10 @@ vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 
 " 编码转换
 nmap <leader>fenc :set fenc<CR>
-nmap <leader>gbk :set fenc=cp936<CR>
+nmap <leader>gbk  :set fenc=cp936<CR>
 nmap <leader>utf8 :set fenc=utf-8<CR>
 nmap <leader>fdos :set ff=dos<CR>
-nmap <leader>edos :e ++ff=dos<CR>
+nmap <leader>edos :e   ++ff=dos<CR>
 nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
@@ -1079,7 +1079,7 @@ command! -nargs=0 SetDOSFF call SetDOSFF()
 
 " ptag wrapper
 function! PTagIt()"{{{
-    exec "ptag ".expand("<cword>")
+    exec 'ptag '.expand('<cword>')
     let cwin = winnr()
     silent! wincmd P
     let lnr = line('.')
@@ -1093,11 +1093,11 @@ function! PTagIt()"{{{
 
     let chead = 0
     let linestr = getline(lnr-1)
-    if linestr =~ '^\s*\*/'
+    if linestr =~# '^\s*\*/'
         let ptr = lnr-2
         while ptr>0
             let linestr = getline(ptr)
-            if linestr =~ '^\s*/\*'
+            if linestr =~# '^\s*/\*'
                 let chead = ptr
                 break
             endif
@@ -1132,15 +1132,15 @@ function! CloseFugitiveBuffers()"{{{
             exe 'bw ' . b
         endif
     endfor
-    echon "Deleted " . l:tally . " buffers"
+    echon 'Deleted ' . l:tally . ' buffers'
 endfunction"}}}
 
 " 执行命令并回到原位置
 function! Preserve(command)"{{{
     " Preparation: save last search, and cursor position.
     let _s=@/
-    let l = line(".")
-    let c = col(".")
+    let l = line('.')
+    let c = col('.')
     " Do the business:
     execute a:command
     " Clean up: restore previous search history, and cursor position
@@ -1205,7 +1205,7 @@ function! FoldSpellBalloon()"{{{
         endif
     endif
     " return result
-    return join( lines, has( "balloon_multiline" ) ? "\n" : " " )
+    return join( lines, has('balloon_multiline') ? '\n' : ' ' )
 endfunction"}}}
 if has('balloon_eval')
     set balloonexpr=FoldSpellBalloon()
@@ -1214,12 +1214,12 @@ endif
 
 " Toggle quickfix and location list
 function! QFixToggle(forced)"{{{
-    if exists("g:qfix_win") && a:forced != 0
+    if exists('g:qfix_win') && a:forced != 0
         QFix
         cclose
     else
-        if exists("g:my_quickfix_win_height")
-            execute "botright copen ".g:my_quickfix_win_height
+        if exists('g:my_quickfix_win_height')
+            execute 'botright copen '.g:my_quickfix_win_height
         else
             copen
         endif
@@ -1249,14 +1249,14 @@ function! ToggleList(bufname, pfx)"{{{
             return
         endif
     endfor
-    if a:pfx == 'l' && len(getloclist(0)) == 0
+    if a:pfx ==# 'l' && len(getloclist(0)) == 0
         echohl ErrorMsg
-        echo "Location List is Empty."
+        echo 'Location List is Empty.'
         return
     endif
     " let winnr = winnr()
     let cmdMod = ''
-    if a:pfx == 'c'
+    if a:pfx ==# 'c'
         let cmdMod = 'botright '
     endif
     exec(cmdMod.a:pfx.'open')
@@ -1272,7 +1272,7 @@ set foldtext=CustomFoldText()
 fu! CustomFoldText()"{{{
     "get first non-blank line
     let fs = v:foldstart
-    while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+    while getline(fs) =~? '^\s*$' | let fs = nextnonblank(fs + 1)
     endwhile
     if fs > v:foldend
         let line = getline(v:foldstart)
@@ -1282,18 +1282,18 @@ fu! CustomFoldText()"{{{
 
     let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
     let foldSize = 1 + v:foldend - v:foldstart
-    let foldSizeStr = " " . foldSize . " lines "
-    let foldLevelStr = repeat("+--", v:foldlevel)
-    let lineCount = line("$")
-    let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
-    let expansionString = " ".repeat("-", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
+    let foldSizeStr = ' ' . foldSize . ' lines '
+    let foldLevelStr = repeat('+--', v:foldlevel)
+    let lineCount = line('$')
+    let foldPercentage = printf('[%.1f', (foldSize*1.0)/lineCount*100) . '%] '
+    let expansionString = ' '.repeat('-', w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
     return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
 endf"}}}
 
 " Show commit history of the current file under the given VCS in a new window
 function! ShowCommitHistory(vcs)"{{{
     " Check parameter
-    if a:vcs != 'svn' && a:vcs != 'git'
+    if a:vcs !=? 'svn' && a:vcs !=? 'git'
         echoerr 'Unknow VCS: '.a:vcs
         return
     endif
@@ -1302,9 +1302,9 @@ function! ShowCommitHistory(vcs)"{{{
     let fileName = expand('%')
     if !empty(fileName)
         exe 'new'
-        if a:vcs == 'svn'
+        if a:vcs ==? 'svn'
             exe 'r !svn log --diff --internal-diff '.fileName
-        elseif a:vcs == 'git'
+        elseif a:vcs ==? 'git'
             exe 'r !git log -p '.fileName
         endif
     else
@@ -1325,22 +1325,22 @@ au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickf
 
 " translate the word under cursor
 fun! SearchWord()"{{{
-    echo system('ydcv --', expand("<cword>"))
+    echo system('ydcv --', expand('<cword>'))
 endfun"}}}
 " translate selected text
 fun! SearchWord_v(type, ...)"{{{
-    let sel_save = &selection
-    let &selection = "inclusive"
-    let reg_save = @@
+    let sel_save   = &selection
+    let &selection = 'inclusive'
+    let reg_save   = @@
 
     if a:0
-        silent exe "normal! `<" . a:type . "`>y"
-    elseif a:type == 'line'
+        silent exe 'normal! `<' . a:type . '`>y'
+    elseif a:type ==? 'line'
         silent exe "normal! '[V']y"
-    elseif a:type == 'block'
-        silent exe "normal! `[\<C-V>`]y"
+    elseif a:type ==? 'block'
+        silent exe 'normal! `[\<C-V>`]y'
     else
-        silent exe "normal! `[v`]y"
+        silent exe 'normal! `[v`]y'
     endif
 
     echo system('ydcv --', @@)
@@ -1353,11 +1353,11 @@ vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<CR>
 
 " remap n/N to nzz/Nzz in a nice way
 function! s:nice_next(cmd)
-  let view = winsaveview()
-  execute "normal! " . a:cmd
-  if view.topline != winsaveview().topline
-    normal! zz
-  endif
+    let view = winsaveview()
+    execute 'normal! ' . a:cmd
+    if view.topline != winsaveview().topline
+        normal! zz
+    endif
 endfunction
 
 nnoremap <silent> n :call <SID>nice_next('n')<CR>
@@ -1368,16 +1368,16 @@ nnoremap <silent> N :call <SID>nice_next('N')<CR>
 " Javadoc comments (/** and */ pairs) and code sections (marked by {} pairs) mark the start and end of folds. All other
 " lines simply take the fold level that is going so far.
 function! MyFoldLevel( lineNumber )
-  let thisLine = getline( a:lineNumber )
-  " If the entire Javadoc comment or the {} pair is on one line, then don't create a fold for it.
-  if ( thisLine =~ '\%(\%(/\*\*\).*\%(\*/\)\)\|\%({.*}\)' )
+    let thisLine = getline( a:lineNumber )
+    " If the entire Javadoc comment or the {} pair is on one line, then don't create a fold for it.
+    if ( thisLine =~? '\%(\%(/\*\*\).*\%(\*/\)\)\|\%({.*}\)' )
+        return '='
+    elseif ( thisLine =~? '\%(^\s*/\*\*\s*$\)\|{' )
+        return 'a1'
+    elseif ( thisLine =~? '\%(^\s*\*/\s*$\)\|}' )
+        return 's1'
+    endif
     return '='
-  elseif ( thisLine =~ '\%(^\s*/\*\*\s*$\)\|{' )
-    return "a1"
-  elseif ( thisLine =~ '\%(^\s*\*/\s*$\)\|}' )
-    return "s1"
-  endif
-  return '='
 endfunction
 " setlocal foldexpr=MyFoldLevel(v:lnum)
 " setlocal foldmethod=expr
@@ -1394,7 +1394,7 @@ augroup python
     au FileType python map  <buffer> <A-CR> :python runScript()<CR>
     au filetype python nmap <buffer> <C-CR> :call   ExecutePythonScript()<CR>
     au filetype python imap <buffer> <C-CR> <ESC><C-CR>
-    au FileType python set  formatprg=PythonTidy.py
+    au FileType python set  formatprg = PythonTidy.py
     " au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
 augroup END
 
@@ -1419,7 +1419,7 @@ endfunction"}}}
 
 " Run a python script
 function! ExecutePythonScript()"{{{
-    if &filetype != 'python'
+    if &filetype !=? 'python'
         echohl WarningMsg | echo 'This is not a Python file !' | echohl None
         return
     endif
@@ -1460,13 +1460,13 @@ augroup javascript
     au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
     au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 augroup END
-let g:gofmt_command = "goimports"
+let g:gofmt_command = 'goimports'
 "}}}
 
 " ------------------------------ PHP -----------------------------{{{
 " PHP folding method
-let php_folding=2
-let php_large_file=0
+let php_folding    = 2
+let php_large_file = 0
 
 augroup php
     au!
@@ -1475,14 +1475,14 @@ augroup php
     au FileType php vnoremap <buffer> <A-F12> gq
     au BufNewFile,BufRead *.lib,*.inc set filetype=php
     au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
-    au FileType php set keywordprg="help"
-    au FileType php set iskeyword=@,48-57,_,128-167,224-235
+    au FileType php set keywordprg = "help"
+    au FileType php set iskeyword = @,48-57,_,128-167,224-235
     if IsPlatform('win')
         au FileType php set runtimepath+=$VIM\php
     else
         au FileType php set runtimepath+=~/.vim/api/php
     endif
-    au FileType php set fdl=1
+    au FileType php set fdl = 1
 augroup END
 
 " pdv
@@ -1492,7 +1492,7 @@ au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 
 " Run a PHP script
 function! ExecutePHPScript()"{{{
-    if &filetype != 'php'
+    if &filetype !=? 'php'
         echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
         return
     endif
@@ -1510,7 +1510,7 @@ au filetype php imap <buffer> <C-F5> <C-O>:call ExecutePHPScript()<CR>
 
 " Check the syntax of a PHP file
 function! CheckPHPSyntax()"{{{
-    if &filetype != 'php'
+    if &filetype !=? 'php'
         echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
         return
     endif
@@ -1542,10 +1542,10 @@ nmap <leader>sbph :call PHPSandBox()<CR>
 " 强制使用HTML的注释
 function! ForceHTMLComment(mode, type) range"{{{
     set ft=html
-    if a:mode == 'x'
+    if a:mode ==? 'x'
         execute a:firstline.','.a:lastline.'call NERDComment(\"x\", \"'.a:type.'\")'
     else
-        if a:type == 'Sexy'
+        if a:type ==? 'Sexy'
             normal ,cs
         else
             normal ,cc
@@ -1564,10 +1564,10 @@ augroup php_force_html_comment
 augroup END
 
 " phpqa
-let g:phpqa_codesniffer_autorun = 0        "  default =1 on save
+let g:phpqa_codesniffer_autorun  = 0 " default =1 on save
 let g:phpqa_messdetector_autorun = 0
-let g:phpqa_codesniffer_args = '--standard=$HOME/.phpcs_ruleset.xml'
-" let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs'
+let g:phpqa_codesniffer_args     = '--standard=$HOME/.phpcs_ruleset.xml'
 let g:phpqa_messdetector_ruleset = '~/.phpmd_ruleset.xml'
+" let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs'
 " let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
 "}}}
