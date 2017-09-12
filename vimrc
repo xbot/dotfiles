@@ -158,13 +158,13 @@ endif
 " Generic declarations
 " Platform specific declarations
 if IsPlatform('win')
-    let gbl_private_settings_file=expand($VIM.'/vimfiles/private.vim')
-    let gbl_vimrc_name = '_vimrc'
-    let gbl_vimrc_file = $VIM.'/'.gbl_vimrc_name
+    let gbl_private_settings_file = expand($VIM.'/vimfiles/private.vim')
+    let gbl_vimrc_name            = '_vimrc'
+    let gbl_vimrc_file            = $VIM.'/'.gbl_vimrc_name
 else
     let gbl_private_settings_file = expand('~/.vim/private.vim')
-    let gbl_vimrc_name = '.vimrc'
-    let gbl_vimrc_file = expand('~/'.gbl_vimrc_name)
+    let gbl_vimrc_name            = '.vimrc'
+    let gbl_vimrc_file            = expand('~/'.gbl_vimrc_name)
 endif
 
 " Use command :Man to view manpages
@@ -750,20 +750,26 @@ if IsPlatform('unix')
     au! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
 endif
 
-au FileType sql set synmaxcol=0
+augroup sql
+    au!
+    au FileType sql set synmaxcol=0
+augroup END
 
 " Quickfix and location windows
-au WinLeave * if &buftype=='quickfix' | lclose | endif
-au! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
-
-" Golang
-autocmd BufWritePre *.go :Fmt
+augroup quickfix
+    au!
+    au WinLeave * if &buftype=='quickfix' | lclose | endif
+    au! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter>
+augroup END
 
 " vim help
-au FileType vim set keywordprg = 'help'
+augroup vim_help
+    au!
+    au FileType vim set keywordprg='help'
+augroup END
 
 " vim-octopress
-autocmd BufNewFile,BufRead *.markdown,*.textile set filetype = octopress
+autocmd BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
 "}}}
 
 "------------------------------- Key mappings -------------------------------"{{{
@@ -985,17 +991,17 @@ if IsPlatform('win')
 endif
 function! MyDiff()"{{{
     let opt = '-a --binary '
-    if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-    if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+    if &diffopt =~? 'icase' | let opt = opt . '-i ' | endif
+    if &diffopt =~? 'iwhite' | let opt = opt . '-b ' | endif
     let arg1 = v:fname_in
-    if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+    if arg1 =~? ' ' | let arg1 = '"' . arg1 . '"' | endif
     let arg2 = v:fname_new
-    if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+    if arg2 =~? ' ' | let arg2 = '"' . arg2 . '"' | endif
     let arg3 = v:fname_out
-    if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+    if arg3 =~? ' ' | let arg3 = '"' . arg3 . '"' | endif
     let eq = ''
-    if $VIMRUNTIME =~ ' '
-        if &sh =~ '\<cmd'
+    if $VIMRUNTIME =~? ' '
+        if &sh =~? '\<cmd'
             let cmd = '""' . $VIMRUNTIME . '\diff"'
             let eq = '"'
         else
@@ -1386,15 +1392,15 @@ endfunction
 " ------------------------------ Python -----------------------------{{{
 augroup python
     au!
-    au filetype python map  <buffer> <F5>   :call   StartPDB()<CR>
-    au filetype python map  <buffer> <S-F5> :call   StopPDB()<CR>
+    au filetype python map  <buffer> <F5>   :call StartPDB()<CR>
+    au filetype python map  <buffer> <S-F5> :call StopPDB()<CR>
     au filetype python map  <buffer> <F6>   :Cstep<CR>
     au filetype python map  <buffer> <F7>   :Cnext<CR>
     au filetype python map  <buffer> <S-N>  :Cnext<CR>
     au FileType python map  <buffer> <A-CR> :python runScript()<CR>
-    au filetype python nmap <buffer> <C-CR> :call   ExecutePythonScript()<CR>
+    au filetype python nmap <buffer> <C-CR> :call ExecutePythonScript()<CR>
     au filetype python imap <buffer> <C-CR> <ESC><C-CR>
-    au FileType python set  formatprg = PythonTidy.py
+    au FileType python set  formatprg=PythonTidy.py
     " au FileType python autocmd BufWritePre <buffer> let s:saveview = winsaveview() | exe '%!PythonTidy.py' | call winrestview(s:saveview) | unlet s:saveview
 augroup END
 
@@ -1455,11 +1461,13 @@ endif
 "}}}
 
 " ------------------------------ Go -----------------------------{{{
-augroup javascript
+augroup golang
     au!
+    au BufWritePre *.go :Fmt
     au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
     au FileType go imap <buffer> <C-CR> <Esc><C-CR>
 augroup END
+
 let g:gofmt_command = 'goimports'
 "}}}
 
@@ -1475,18 +1483,18 @@ augroup php
     au FileType php vnoremap <buffer> <A-F12> gq
     au BufNewFile,BufRead *.lib,*.inc set filetype=php
     au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
-    au FileType php set keywordprg = "help"
-    au FileType php set iskeyword = @,48-57,_,128-167,224-235
+    au FileType php set keywordprg='help'
+    au FileType php set iskeyword=@,48-57,_,128-167,224-235
     if IsPlatform('win')
         au FileType php set runtimepath+=$VIM\php
     else
         au FileType php set runtimepath+=~/.vim/api/php
     endif
-    au FileType php set fdl = 1
+    au FileType php set fdl=1
 augroup END
 
 " pdv
-let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
+let g:pdv_template_dir=$HOME .'/.vim/plugged/pdv/templates_snip'
 au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 
@@ -1528,7 +1536,7 @@ au filetype php imap <buffer> <A-F5> <C-O>:call CheckPHPSyntax()<CR>
 
 " Open a temporary PHP file in a new window
 function! PHPSandBox()"{{{
-    let tmpfile = tempname().'.php'
+    let tmpfile=tempname().'.php'
     exe 'new '.tmpfile
     call setline('.', '<?php')
     normal o
@@ -1568,6 +1576,6 @@ let g:phpqa_codesniffer_autorun  = 0 " default =1 on save
 let g:phpqa_messdetector_autorun = 0
 let g:phpqa_codesniffer_args     = '--standard=$HOME/.phpcs_ruleset.xml'
 let g:phpqa_messdetector_ruleset = '~/.phpmd_ruleset.xml'
-" let g:phpqa_codesniffer_cmd  = '/usr/bin/phpcs'
-" let g:phpqa_messdetector_cmd = '/usr/bin/phpmd'
+" let g:phpqa_codesniffer_cmd='/usr/bin/phpcs'
+" let g:phpqa_messdetector_cmd='/usr/bin/phpmd'
 "}}}
