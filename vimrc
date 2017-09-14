@@ -675,13 +675,13 @@ nnoremap <leader>gps :Gpush<CR>
 
 "------------------------------- Auto Commands ------------------------------"{{{
 if IsPlatform('win')
-    au GUIEnter * simalt ~x
+    augroup windows
+        au!
+        au GUIEnter * simalt ~x
+        au VimEnter *.* cd %:h
+    augroup END
 else
     " au GUIEnter * call MaximizeWindow()
-endif
-
-if IsPlatform('win')
-    au VimEnter *.* cd %:h
 endif
 
 " Javascript filetype
@@ -930,7 +930,7 @@ endif
 nmap <leader>V V']
 
 " Clear highlighting of the last search
-nmap <leader>cls :nohl<CR>
+nmap <leader><leader>c :nohl<CR>
 
 " Search word
 " if has('gui_running')
