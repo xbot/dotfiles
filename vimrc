@@ -589,6 +589,7 @@ let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
 nnoremap <leader>ss :ToggleWorkspace<CR>
 let g:workspace_session_name = '.session.vim'
 let g:workspace_autosave = 0
+let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree']
 
 " denite or unite
 if has('python3')
