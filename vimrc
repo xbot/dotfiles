@@ -158,11 +158,9 @@ endif
 " Generic declarations
 " Platform specific declarations
 if IsPlatform('win')
-    let gbl_private_settings_file = expand($VIM.'/vimfiles/private.vim')
     let gbl_vimrc_name            = '_vimrc'
     let gbl_vimrc_file            = $VIM.'/'.gbl_vimrc_name
 else
-    let gbl_private_settings_file = expand('~/.vim/private.vim')
     let gbl_vimrc_name            = '.vimrc'
     let gbl_vimrc_file            = expand('~/'.gbl_vimrc_name)
 endif
@@ -182,12 +180,6 @@ endif
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
-" Load private settings
-if filereadable(gbl_private_settings_file)
-    exec 'source '.gbl_private_settings_file
-else
-    echoerr 'gbl_private_settings_file is not readable, some functions may not work.'
-endif
 "}}}
 
 " ------------------------------ Application Settings ------------------------"{{{
@@ -671,6 +663,8 @@ nnoremap <leader>gst :Gstatus<CR>
 nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>gps :Gpush<CR>
 
+" auto-pairs
+let g:AutoPairsMapCh = 0
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -774,8 +768,8 @@ autocmd BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
 
 "------------------------------- Key mappings -------------------------------"{{{
 "普通退出，全部退出，强制退出，强制全部退出
-nmap <leader>qq :q<CR>
-imap <leader>qq <ESC>:q<CR>
+nmap <leader><leader>q :q<CR>
+imap <leader><leader>q <ESC>:q<CR>
 nmap <leader>aq :qa<CR>
 imap <leader>aq <ESC>:qa<CR>
 nmap <leader>Q  :q!<CR>
@@ -784,20 +778,19 @@ nmap <leader>aQ :qa!<CR>
 imap <leader>aQ <ESC>:qa!<CR>
 
 " 编辑
-inoremap jj        <ESC>
-nmap     <leader>w :up<CR>
-nmap     <leader>W :SudoWrite<CR>
-imap     <leader>w <ESC>:up<CR>
-imap     <leader>W <ESC>:SudoWrite<CR>
-nmap     <leader>x :x<CR>
-imap     <leader>x <ESC>:x<CR>
-imap     <leader>u <C-O>:normal u<CR>
-imap     <leader>o <C-O>:normal o<CR>
-imap     <leader>O <C-O>:normal O<CR>
-nmap     <Space>   <Pagedown>
-nmap     <C-S-U>   :e!<CR>
-imap     <C-S-U>   <C-O>:e!<CR>
-imap     <C-Q>     <ESC>:wq<CR>
+nmap <leader>w :up<CR>
+nmap <leader>W :SudoWrite<CR>
+imap <leader>w <ESC>:up<CR>
+imap <leader>W <ESC>:SudoWrite<CR>
+nmap <leader>x :x<CR>
+imap <leader>x <ESC>:x<CR>
+imap <leader>u <C-O>:normal u<CR>
+imap <leader>o <C-O>:normal o<CR>
+imap <leader>O <C-O>:normal O<CR>
+nmap <Space>   <Pagedown>
+nmap <C-S-U>   :e!<CR>
+imap <C-S-U>   <C-O>:e!<CR>
+imap <C-Q>     <ESC>:wq<CR>
 xnoremap <expr> p '"_d"'.v:register.'P'
 
 " 页签
@@ -843,10 +836,18 @@ nmap <left>  <C-W>h
 nmap <right> <C-W>l
 
 " Navigating long lines
-nmap <A-j> gj
-nmap <A-k> gk
-imap <A-j> <C-O>gji
-imap <A-k> <C-O>gki
+nnoremap <C-h> <left>
+nnoremap <C-l> <right>
+nnoremap <C-j> gj
+nnoremap <C-k> gk
+inoremap <C-h> <left>
+inoremap <C-l> <right>
+inoremap <C-j> <C-o>gj
+inoremap <C-k> <C-o>gk
+vnoremap <C-h> <left>
+vnoremap <C-l> <right>
+vnoremap <C-j> <down>
+vnoremap <C-k> <up>
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tt :TagbarToggle<CR>
@@ -863,11 +864,8 @@ nmap <leader>tt :TagbarToggle<CR>
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
 vmap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
 
-" Handles vimrc file
-" Edit private settings file
-exec 'nmap <leader>pfop :new '.gbl_private_settings_file.'<CR><C-W>_'
 " Edit vimrc
-exec 'nmap <leader>rcop :new '.gbl_vimrc_file.'<CR><C-W>_'
+exec 'nmap <leader>rcop :tabnew '.gbl_vimrc_file.'<CR><C-W>_'
 " Source vimrc
 exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " Source vimrc after it is modified
