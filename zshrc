@@ -43,8 +43,8 @@ fi
 source $ZSH/oh-my-zsh.sh
 source ~/Projects/3rd-party/z/z.sh
 # load local custom scripts
-if [[ -f ~/.zshrc_work ]]; then
-    source ~/.zshrc_work
+if [[ -f ~/.zshrc_private ]]; then
+    source ~/.zshrc_private
 fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
