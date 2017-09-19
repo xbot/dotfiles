@@ -733,16 +733,26 @@ augroup fold_method
 augroup END
 
 " Plain text
-au BufNewFile,BufRead *.txt set wrap
+augroup text
+    au!
+    au BufNewFile,BufRead *.txt set wrap
+augroup END
+
 " Dokuwiki
-au BufNewFile,BufRead *.doku set ft=dokuwiki
+augroup dokuwiki
+    au!
+    au BufNewFile,BufRead *.doku set ft=dokuwiki
+augroup END
 
 " Auto handle resources
 if IsPlatform('unix')
-    au! BufWritePost,FileWritePost .xbindkeysrc silent !ps aux|grep -P '\sxbindkeys$'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
-    au! BufWritePost,FileWritePost .xbindkeys.scm silent !ps aux|grep -P '\sxbindkeys\s'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys -fg ~/.xbindkeys.scm > /dev/null 2>&1
-    au! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
-    au! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
+    augroup xbindkeys
+        au!
+        au! BufWritePost,FileWritePost .xbindkeysrc silent !ps aux|grep -P '\sxbindkeys$'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys > /dev/null 2>&1
+        au! BufWritePost,FileWritePost .xbindkeys.scm silent !ps aux|grep -P '\sxbindkeys\s'|awk '{print $2}'|xargs kill > /dev/null 2>&1 ; xbindkeys -fg ~/.xbindkeys.scm > /dev/null 2>&1
+        au! BufWritePost,FileWritePost .Xdefaults   silent !xrdb ~/.Xdefaults
+        au! BufWritePost,FileWritePost .Xresources  silent !xrdb ~/.Xresources
+    augroup END
 endif
 
 augroup sql
@@ -764,7 +774,10 @@ augroup vim_help
 augroup END
 
 " vim-octopress
-autocmd BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
+augroup octopress
+    au!
+    au! BufNewFile,BufRead *.markdown,*.textile set filetype=octopress
+augroup END
 "}}}
 
 "------------------------------- Key mappings -------------------------------"{{{
@@ -1067,7 +1080,10 @@ function! SaveNOEOF()"{{{
 endfunction"}}}
 command! -complete=file -nargs=0 SaveNOEOF :call SaveNOEOF()
 command! -complete=file -nargs=1 SaveAsNOEOF :call SaveAsNOEOF(<q-args>)
-au! BufWriteCmd */turbocrm*,version*.txt,*/CRM7_VOB/* call SaveNOEOF()
+augroup save_no_eof
+    au!
+    au! BufWriteCmd version*.txt call SaveNOEOF()
+augroup END
 
 " Set the current buffer to use utf-8 encoding and unix format
 function! SetUnixFF()"{{{
@@ -1494,7 +1510,10 @@ augroup END
 
 " pdv
 let g:pdv_template_dir=$HOME .'/.vim/plugged/pdv/templates_snip'
-au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
+augroup pdv
+    au!
+    au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
+augroup END
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
 
 " Run a PHP script
