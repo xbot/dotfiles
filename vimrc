@@ -1033,9 +1033,9 @@ function! PySandBox()"{{{
     let tmpfile = tempname().'.py'
     exe 'new '.tmpfile
     call setline('.', '#!/usr/bin/python2')
-    normal o
+    normal! o
     call setline('.', '# -*- coding: utf-8 -*-')
-    normal o
+    normal! o
     startinsert
 endfunction"}}}
 nmap <leader>sbpy :call PySandBox()<CR>
@@ -1112,7 +1112,7 @@ function! PTagIt()"{{{
     endif
 
     if foldlevel('.')>0
-        normal zo
+        normal! zo
     endif
 
     let chead = 0
@@ -1500,7 +1500,7 @@ let php_large_file = 0
 augroup php
     au!
     au FileType php set formatprg=php_beautifier\ -l\ \"ArrayNested()\"
-    au FileType php nnoremap <buffer> <A-F12> :call Preserve("normal gggqG")<CR>
+    au FileType php nnoremap <buffer> <A-F12> :call Preserve("normal! gggqG")<CR>
     au FileType php vnoremap <buffer> <A-F12> gq
     au BufNewFile,BufRead *.lib,*.inc set filetype=php
     au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
@@ -1563,10 +1563,10 @@ function! PHPSandBox()"{{{
     let tmpfile=tempname().'.php'
     exe 'new '.tmpfile
     call setline('.', '<?php')
-    normal o
-    " normal o
+    normal! o
+    " normal! o
     " call setline('.', '?>')
-    " normal k
+    " normal! k
     startinsert
 endfunction"}}}
 nmap <leader>sbph :call PHPSandBox()<CR>
@@ -1578,9 +1578,9 @@ function! ForceHTMLComment(mode, type) range"{{{
         execute a:firstline.','.a:lastline.'call NERDComment(\"x\", \"'.a:type.'\")'
     else
         if a:type ==? 'Sexy'
-            normal ,cs
+            normal! ,cs
         else
-            normal ,cc
+            normal! ,cc
         endif
     endif
     set ft=php
