@@ -718,7 +718,10 @@ map Q gq
 
 " Fix the problem that vim on linux takes C-style commentstring to comment fold markers in vim scripts
 " This problem is found only on my linux, it should be checked out that what reason causes such a problem
-au FileType vim set commentstring=\"%s
+augroup vim_comment_string
+    au!
+    au FileType vim set commentstring=\"%s
+augroup END
 
 " Fold method
 let g:sh_fold_enabled=1
@@ -1342,7 +1345,10 @@ function! OpenQuickfixInNewTab()"{{{
     exe "normal \<CR>"
     exe 'set switchbuf='.tmpSwitchbuf
 endfunction"}}}
-au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
+augroup quickfix_mapping
+    au!
+    au BufWinEnter * if &buftype=='quickfix'|noremap <buffer> <C-T> :call OpenQuickfixInNewTab()<CR>|endif
+augroup END
 
 " translate the word under cursor
 fun! SearchWord()"{{{
