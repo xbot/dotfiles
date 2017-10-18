@@ -34,6 +34,7 @@ Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
 Plug 'Konfekt/FastFold'
 Plug 'easymotion/vim-easymotion'
+Plug 'junegunn/gv.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'drmikehenry/vim-fontsize'
@@ -84,7 +85,6 @@ endif
 if has('python')
     Plug 'Shougo/unite.vim'
     Plug 'Shougo/unite-outline'
-    Plug 'chemzqm/unite-git-log'
     Plug 'hewes/unite-gtags'
     Plug 'tsukkee/unite-tag'
 elseif has('python3')
@@ -605,16 +605,14 @@ if has('python3')
                 \ '<denite:move_to_previous_line>',
                 \ 'noremap'
                 \)
-    nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
-    nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
+    " nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
+    " nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
     nnoremap <leader>jl :<C-u>Denite jump<CR>
     augroup denite
         au!
         au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
     augroup END
 else
-    nnoremap <leader>gll :Unite -default-action=tabopen -direction=dynamicbottom gitlog<CR>
-    nnoremap <leader>gla :Unite -default-action=tabopen -direction=dynamicbottom gitlog:all<CR>
     nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
     augroup unite
         au!
@@ -663,6 +661,12 @@ augroup END"}}}
 nnoremap <leader>gst :Gstatus<CR>
 nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>gps :Gpush<CR>
+
+" gv.vim
+nnoremap <leader>gll :GV --no-merges<CR>
+nnoremap <leader>glc :GV!<CR>
+nnoremap <leader>gla :GV --no-merges --author<space>
+nnoremap <leader>glg :GV --no-merges --grep<space>
 
 " auto-pairs
 let g:AutoPairsMapCh = 0
