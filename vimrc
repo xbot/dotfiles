@@ -663,10 +663,10 @@ nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>gps :Gpush<CR>
 
 " gv.vim
-nnoremap <leader>gll :GV --no-merges<CR>
-nnoremap <leader>glc :GV!<CR>
-nnoremap <leader>gla :GV --no-merges --author<space>
-nnoremap <leader>glg :GV --no-merges --grep<space>
+nnoremap <leader>gll :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
+nnoremap <leader>glc :GV! --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
+nnoremap <leader>gla :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --author<space>
+nnoremap <leader>glg :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --grep<space>
 
 " auto-pairs
 let g:AutoPairsMapCh = 0
@@ -826,6 +826,12 @@ imap <C-S-Tab>  <ESC>:tabp<CR>
 nmap gr         :tabp<CR>
 nmap <leader><leader>du :tab sp<CR>
 imap <leader><leader>du :tab sp<CR>
+
+" quickfix and location list
+nnoremap <leader><leader>cn :cnext<CR>
+nnoremap <leader><leader>cp :cprevious<CR>
+nnoremap <leader><leader>ln :lnext<CR>
+nnoremap <leader><leader>lp :lprevious<CR>
 
 " 编辑与当前文件路径相关的文件
 nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
