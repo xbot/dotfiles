@@ -66,6 +66,7 @@ Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
 Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
 Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
+Plug 'StanAngeloff/php.vim',        { 'for': 'php'      }
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
@@ -955,7 +956,7 @@ endif
 nmap <leader>V V']
 
 " Clear highlighting of the last search
-nmap <leader><leader>c :nohl<CR>
+nmap <leader><leader>cc :nohl<CR>
 
 " Search word
 " if has('gui_running')
@@ -1612,4 +1613,14 @@ let g:phpqa_codesniffer_args     = '--standard=$HOME/.phpcs_ruleset.xml'
 let g:phpqa_messdetector_ruleset = '~/.phpmd_ruleset.xml'
 " let g:phpqa_codesniffer_cmd='/usr/bin/phpcs'
 " let g:phpqa_messdetector_cmd='/usr/bin/phpmd'
+
+function! PhpSyntaxOverride()
+    hi! def link phpDocTags  phpDefine
+    hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+    autocmd!
+    autocmd FileType php call PhpSyntaxOverride()
+augroup END
 "}}}
