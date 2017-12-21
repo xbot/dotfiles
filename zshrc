@@ -297,7 +297,7 @@ alias yiic='/srv/http/yii/framework/yiic'
 # alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
 
 # Misc
-alias gotovpn="ssh root@fusang"
+alias gotovps="ssh root@fusang"
 alias ut="./run --colors=always"
 
 # fix grep complainings
