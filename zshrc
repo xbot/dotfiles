@@ -306,6 +306,8 @@ unset GREP_OPTIONS
 
 alias phpsh="php -c ~/.php.ini -a"
 
+alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
+
 # Hashes
 if [[ `uname` == 'Darwin' ]]; then
     hash -d shell="$HOME/Projects/shell"

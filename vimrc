@@ -67,6 +67,7 @@ Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
 Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
 Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
 Plug 'StanAngeloff/php.vim',        { 'for': 'php'      }
+" Plug 'natebosch/vim-lsc',           { 'for': 'php'      }
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
@@ -671,6 +672,16 @@ nnoremap <leader>glg :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m
 
 " auto-pairs
 let g:AutoPairsMapCh = 0
+
+" vim-lsc
+" let g:lsc_server_commands = {'php': 'localhost:12345'}
+" let g:lsc_auto_map = v:true " Use defaults
+" let g:lsc_auto_map = {
+    " \ 'GoToDefinition': '<C-]>',
+    " \ 'FindReferences': 'gr',
+    " \ 'ShowHover': 'K',
+    " \ 'Completion': 'completefunc',
+    " \}
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
