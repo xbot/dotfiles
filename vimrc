@@ -32,7 +32,7 @@ Plug 'godlygeek/tabular'
 Plug 'vim-syntastic/syntastic'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
-Plug 'Konfekt/FastFold'
+" Plug 'Konfekt/FastFold'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/gv.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -75,33 +75,33 @@ Plug '~/.vim/plugged/pyclewn'
 Plug '~/.vim/plugged/py2stdlib'
 
 if has('mac')
-    Plug 'rizzatti/dash.vim'
+  " Plug 'rizzatti/dash.vim'
 endif
 
 if has('python')
-    Plug 'Valloric/MatchTagAlways'
+  " Plug 'Valloric/MatchTagAlways'
 else
-    Plug 'gregsexton/MatchTag'
+  " Plug 'gregsexton/MatchTag'
 endif
 
 if has('python')
-    Plug 'Shougo/unite.vim'
-    Plug 'Shougo/unite-outline'
-    Plug 'hewes/unite-gtags'
-    Plug 'tsukkee/unite-tag'
+  " Plug 'Shougo/unite.vim'
+  " Plug 'Shougo/unite-outline'
+  " Plug 'hewes/unite-gtags'
+  " Plug 'tsukkee/unite-tag'
 elseif has('python3')
-    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'chemzqm/denite-git'
-    Plug 'chemzqm/vim-easygit'
+  " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'chemzqm/denite-git'
+  " Plug 'chemzqm/vim-easygit'
 endif
 
 if has('lua')
-    Plug 'Shougo/neocomplete.vim'
+  " Plug 'Shougo/neocomplete.vim'
 endif
 
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 endif
 
 call plug#end()
@@ -513,7 +513,7 @@ nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
 nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 
 " FastFold
-let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
+" let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 
 "easy-align
 vmap <leader>a <Plug>(EasyAlign)
