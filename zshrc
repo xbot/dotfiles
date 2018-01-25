@@ -305,6 +305,7 @@ alias grep="/usr/bin/grep -a $GREP_OPTIONS"
 unset GREP_OPTIONS
 
 alias phpsh="php -c ~/.php.ini -a"
+alias coverage='phpunitat57 --coverage-html ./report --stop-on-failure'
 
 alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
 
