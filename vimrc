@@ -658,6 +658,7 @@ augroup vim_test"{{{
     autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
     autocmd FileType php nnoremap <leader>tL :TestLast<cr>
 augroup END"}}}
+let test#strategy = 'vimproc'
 
 " Fugitive
 nnoremap <leader>gst :Gstatus<CR>
