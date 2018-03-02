@@ -231,12 +231,13 @@ if has('gui_running')
         set guifont=Source\ Code\ Pro:h11
     elseif IsPlatform('mac')
         set guifont=Monaco\ for\ Powerline:h16
-        set background=dark
-        " colorscheme solarized
-        colorscheme nova
+        " set background=dark
+        set background=light
+        colorscheme solarized
+        " colorscheme nova
     else
-        set background=dark
-        " set background=light
+        " set background=dark
+        set background=light
         " colorscheme solarized
         colorscheme nova
         " set guifont=CosmicSansNeueMono\ 15
