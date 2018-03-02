@@ -871,24 +871,26 @@ nmap     <Tab>   <C-W>j<C-W>_
 nnoremap <S-Tab> <C-W>k<C-W>_
 
 " 窗口间移动焦点
-nmap <up>    <C-W>k
-nmap <down>  <C-W>j
-nmap <left>  <C-W>h
-nmap <right> <C-W>l
+nnoremap <up>    <C-W>k
+nnoremap <down>  <C-W>j
+nnoremap <left>  <C-W>h
+nnoremap <right> <C-W>l
+nnoremap <C-h>   <C-W>h
+nnoremap <C-l>   <C-W>l
 
 " Navigating long lines
-nnoremap <C-h> <left>
-nnoremap <C-l> <right>
-nnoremap <C-j> gj
-nnoremap <C-k> gk
-inoremap <C-h> <left>
-inoremap <C-l> <right>
-inoremap <C-j> <C-o>gj
-inoremap <C-k> <C-o>gk
-vnoremap <C-h> <left>
-vnoremap <C-l> <right>
-vnoremap <C-j> <down>
-vnoremap <C-k> <up>
+nnoremap <A-h> <left>
+nnoremap <A-l> <right>
+nnoremap <A-j> gj
+nnoremap <A-k> gk
+inoremap <A-h> <left>
+inoremap <A-l> <right>
+inoremap <A-j> <C-o>gj
+inoremap <A-k> <C-o>gk
+vnoremap <A-h> <left>
+vnoremap <A-l> <right>
+vnoremap <A-j> <down>
+vnoremap <A-k> <up>
 
 "显示、隐藏ctags侧边栏
 nmap <leader>tt :TagbarToggle<CR>
