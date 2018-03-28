@@ -47,6 +47,9 @@ Plug 'adelarsq/vim-matchit'
 Plug 'vim-scripts/Align'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/vader.vim'
+Plug 'tweekmonster/startuptime.vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'solarnz/thrift.vim'
 Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
@@ -225,21 +228,18 @@ set wildignore=*.class,*.pyc
 if has('gui_running')
     " Font settings
     if IsPlatform('win')
+        set guifont=Source\ Code\ Pro:h11
         set background=dark
         " set background=light
         colorscheme freya
-        set guifont=Source\ Code\ Pro:h11
     elseif IsPlatform('mac')
         set guifont=Monaco\ for\ Powerline:h16
         " set background=dark
-        set background=light
-        colorscheme solarized
-        " colorscheme nova
-    else
-        " set background=dark
-        set background=light
+        " set background=light
         " colorscheme solarized
         colorscheme nova
+        " colorscheme nord
+    else
         " set guifont=CosmicSansNeueMono\ 15
         set guifont=FantasqueSansMono\ 15
         " set guifont=Source\ Code\ Pro\ 12
@@ -249,6 +249,11 @@ if has('gui_running')
         "set guifont=Consolas\ Bold\ 13
         "set guifont=Consolas\ 13
         set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 11
+        " set background=dark
+        " set background=light
+        " colorscheme solarized
+        " colorscheme nova
+        colorscheme nord
     endif
 
     set lines=35 columns=120
@@ -274,11 +279,12 @@ if has('gui_running')
 else
     " For CLI vim
     " set background=light
-    set background=dark
+    " set background=dark
     "colorscheme jellybeans
     " let g:solarized_termcolors=256
     " colorscheme solarized
     colorscheme nova
+    " colorscheme nord
 endif
 
 "}}}
@@ -566,8 +572,8 @@ let g:airline_powerline_fonts                            = 1
 let g:airline#extensions#tagbar#enabled                  = 1
 let g:airline#extensions#wordcount#enabled               = 1
 let g:airline#extensions#tabline#enabled                 = 1
-let g:airline#extensions#tabline#show_splits             = 1
-let g:airline#extensions#tabline#show_buffers            = 1
+let g:airline#extensions#tabline#show_splits             = 0
+let g:airline#extensions#tabline#show_buffers            = 0
 let g:airline#extensions#tabline#show_tabs               = 1
 let g:airline#extensions#tabline#show_tab_type           = 1
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
@@ -592,36 +598,36 @@ let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
 nnoremap <leader>ss :ToggleWorkspace<CR>
 let g:workspace_session_name = '.session.vim'
 let g:workspace_autosave = 0
-let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree']
+let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree', 'twitvim']
 
 " denite or unite
-if has('python3')
-    call denite#custom#map(
-                \ 'insert',
-                \ '<C-j>',
-                \ '<denite:move_to_next_line>',
-                \ 'noremap'
-                \)
-    call denite#custom#map(
-                \ 'insert',
-                \ '<C-k>',
-                \ '<denite:move_to_previous_line>',
-                \ 'noremap'
-                \)
-    " nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
-    " nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
-    nnoremap <leader>jl :<C-u>Denite jump<CR>
-    augroup denite
-        au!
-        au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
-    augroup END
-else
-    nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
-    augroup unite
-        au!
-        au FileType help,markdown map <buffer> <leader>tt :Unite outline<CR>
-    augroup END
-endif
+" if has('python3')
+    " call denite#custom#map(
+                " \ 'insert',
+                " \ '<C-j>',
+                " \ '<denite:move_to_next_line>',
+                " \ 'noremap'
+                " \)
+    " call denite#custom#map(
+                " \ 'insert',
+                " \ '<C-k>',
+                " \ '<denite:move_to_previous_line>',
+                " \ 'noremap'
+                " \)
+    " " nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
+    " " nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
+    " nnoremap <leader>jl :<C-u>Denite jump<CR>
+    " augroup denite
+        " au!
+        " au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
+    " augroup END
+" else
+    " nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
+    " augroup unite
+        " au!
+        " au FileType help,markdown map <buffer> <leader>tt :Unite outline<CR>
+    " augroup END
+" endif
 
 " choosewin
 nmap - <Plug>(choosewin)
@@ -684,6 +690,10 @@ let g:AutoPairsMapCh = 0
     " \ 'ShowHover': 'K',
     " \ 'Completion': 'completefunc',
     " \}
+
+" Nord color scheme
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
