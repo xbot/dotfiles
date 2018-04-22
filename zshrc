@@ -196,6 +196,8 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
+export PATH="/usr/local/opt/php@7.1/bin:$PATH"
 
 # wine
 export WINEARCH=win32
@@ -331,6 +333,9 @@ if [[ `uname` == 'Darwin' ]]; then
     export NVM_DIR="$HOME/.nvm"
     . "/usr/local/opt/nvm/nvm.sh"
 fi
+
+# java
+export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 
 # Setup tab and window title functions for iterm2
 # iterm behaviour: until window name is explicitly set, it'll always track tab title.

@@ -59,7 +59,6 @@ Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'joonty/vdebug',               { 'for': 'php'      }
-Plug 'joonty/vim-phpqa',            { 'for': 'php'      }
 Plug 'shawncplus/phpcomplete.vim',  { 'for': 'php'      }
 Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
 Plug 'tobyS/pdv',                   { 'for': 'php'      }
@@ -490,10 +489,12 @@ let g:syntastic_enable_highlighting = 0
 let g:syntastic_mode_map            = { 'passive_filetypes': ['scss', 'slim'] }
 let g:syntastic_python_python_exec  = '/usr/bin/python2'
 let g:syntastic_vim_checkers        = ['vint']
-augroup syntastic
-    au!
-    au FileType php let b:syntastic_skip_checks = 1
-augroup END
+let g:syntastic_php_phpcs_args      = '--standard=PSR2'
+let g:syntastic_php_phpmd_post_args = '~/.phpmd.xml'
+" augroup syntastic_php
+    " au!
+    " au FileType php let b:syntastic_skip_checks = 1
+" augroup END
 
 " pdv
 let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
@@ -1547,7 +1548,7 @@ augroup php
     else
         au FileType php set runtimepath+=~/.vim/api/php
     endif
-    au FileType php set fdl=1
+    au FileType php set fdl=10
 augroup END
 
 " pdv
@@ -1631,21 +1632,13 @@ augroup php_force_html_comment
     au FileType php vmap <buffer> <leader>fhcu :call ForceHTMLComment("x", "Uncomment")<CR>
 augroup END
 
-" phpqa
-let g:phpqa_codesniffer_autorun  = 0 " default =1 on save
-let g:phpqa_messdetector_autorun = 0
-let g:phpqa_codesniffer_args     = '--standard=$HOME/.phpcs_ruleset.xml'
-let g:phpqa_messdetector_ruleset = '~/.phpmd_ruleset.xml'
-" let g:phpqa_codesniffer_cmd='/usr/bin/phpcs'
-" let g:phpqa_messdetector_cmd='/usr/bin/phpmd'
-
 function! PhpSyntaxOverride()
     hi! def link phpDocTags  phpDefine
     hi! def link phpDocParam phpType
 endfunction
 
 augroup phpSyntaxOverride
-    autocmd!
-    autocmd FileType php call PhpSyntaxOverride()
+    au!
+    au FileType php call PhpSyntaxOverride()
 augroup END
 "}}}
