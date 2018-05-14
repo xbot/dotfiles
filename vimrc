@@ -11,7 +11,7 @@ Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/LeaderF'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'wincent/ferret'
 Plug 'sjl/gundo.vim'
 Plug 'gcmt/wildfire.vim'
@@ -35,6 +35,7 @@ Plug 'vim-scripts/SQLUtilities'
 " Plug 'Konfekt/FastFold'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/gv.vim'
+Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'drmikehenry/vim-fontsize'
@@ -47,17 +48,18 @@ Plug 'adelarsq/vim-matchit'
 Plug 'vim-scripts/Align'
 Plug 'janko-m/vim-test'
 Plug 'junegunn/vader.vim'
-Plug 'tweekmonster/startuptime.vim'
+" Plug 'tweekmonster/startuptime.vim'
 Plug 'arcticicestudio/nord-vim'
-Plug 'solarnz/thrift.vim'
+" Plug 'solarnz/thrift.vim'
+Plug 'mhinz/vim-startify'
 Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
 Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
 Plug 'lilydjwg/colorizer',          { 'for': 'css'      }
 Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
-Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
-Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
+" Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'joonty/vdebug',               { 'for': 'php'      }
 Plug 'shawncplus/phpcomplete.vim',  { 'for': 'php'      }
 Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
@@ -76,35 +78,25 @@ Plug '~/.vim/plugged/phpdoc'
 Plug '~/.vim/plugged/pyclewn'
 Plug '~/.vim/plugged/py2stdlib'
 
-if has('mac')
-  " Plug 'rizzatti/dash.vim'
-endif
-
-if has('python')
-  " Plug 'Valloric/MatchTagAlways'
-else
-  " Plug 'gregsexton/MatchTag'
-endif
-
-if has('python')
-  " Plug 'Shougo/unite.vim'
-  " Plug 'Shougo/unite-outline'
-  " Plug 'hewes/unite-gtags'
-  " Plug 'tsukkee/unite-tag'
-elseif has('python3')
-  " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'chemzqm/denite-git'
-  " Plug 'chemzqm/vim-easygit'
-endif
-
 if has('lua')
-  " Plug 'Shougo/neocomplete.vim'
+    Plug 'Shougo/neocomplete.vim'
 endif
 
-if has('nvim')
-  " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-endif
+" if has('python3')
+    " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'chemzqm/denite-git'
+    " Plug 'chemzqm/vim-easygit'
+" elseif has('python')
+    " Plug 'Shougo/unite.vim'
+    " Plug 'Shougo/unite-outline'
+    " Plug 'hewes/unite-gtags'
+    " Plug 'tsukkee/unite-tag'
+" endif
+
+" if has('nvim')
+    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" endif
 
 call plug#end()
 "}}}
@@ -480,7 +472,7 @@ augroup jsbeautify
 augroup END
 
 " syntastic
-let g:syntastic_check_on_open       = 1
+let g:syntastic_check_on_open       = 0
 let g:syntastic_error_symbol        = '✗'
 let g:syntastic_warning_symbol      = '⚠'
 let g:syntastic_auto_loc_list       = 1
@@ -491,10 +483,7 @@ let g:syntastic_python_python_exec  = '/usr/bin/python2'
 let g:syntastic_vim_checkers        = ['vint']
 let g:syntastic_php_phpcs_args      = '--standard=PSR2'
 let g:syntastic_php_phpmd_post_args = '~/.phpmd.xml'
-" augroup syntastic_php
-    " au!
-    " au FileType php let b:syntastic_skip_checks = 1
-" augroup END
+nnoremap <leader>st :SyntasticToggleMode<CR>
 
 " pdv
 let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
@@ -599,7 +588,8 @@ let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
 nnoremap <leader>ss :ToggleWorkspace<CR>
 let g:workspace_session_name = '.session.vim'
 let g:workspace_autosave = 0
-let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree', 'twitvim']
+let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree', 'twitvim', 'GV']
+let g:workspace_session_disable_on_args = 1
 
 " denite or unite
 " if has('python3')

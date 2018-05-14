@@ -191,13 +191,14 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # PATH
-if [[ $(uname) == "Darwin" ]]; then
-    export PATH="$HOME/Bin:$PATH"
-fi
+export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
-export PATH="/usr/local/opt/php@7.1/bin:$PATH"
+if [[ $(uname) == "Darwin" ]]; then
+    export PATH="$HOME/Bin:$PATH"
+    export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
+    export PATH="/usr/local/opt/php@7.1/bin:$PATH"
+fi
 
 # wine
 export WINEARCH=win32
@@ -270,16 +271,11 @@ alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci
 alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --grep"
 
 # Distribution specific aliases
-alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
-alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
 alias english='export LC_ALL=en_US.UTF-8'
 alias proxies='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias a='apack'
 alias x='aunpack'
-alias my='mysql -uroot -p5G10color'
-alias killer='nocorrect killer.sh'
-alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
 alias lsgbkzip='lsar -e gb18030'
 alias ungbkzip='unar -e gb18030'
 alias lns='ln -s'
@@ -292,15 +288,22 @@ if [[ `uname` != 'Darwin' ]]; then
     alias pbpaste='xsel --clipboard --output'
     alias toclip='xclip -sel clip <'
     alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
+    alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
+    alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
+    alias killer='nocorrect killer.sh'
+    alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
+else
+    alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+    alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
 fi
 
 # Development
-alias yiic='/srv/http/yii/framework/yiic'
 # alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
+alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
 
 # Misc
 alias gotovps="ssh root@fusang"
-alias ut="./run --colors=always"
+# alias ut="./run --colors=always"
 
 # fix grep complainings
 alias grep="/usr/bin/grep -a $GREP_OPTIONS"
@@ -308,8 +311,6 @@ unset GREP_OPTIONS
 
 alias phpsh="php -c ~/.php.ini -a"
 alias coverage='phpunitat57 --coverage-html ./report --stop-on-failure'
-
-alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
 
 # Hashes
 if [[ `uname` == 'Darwin' ]]; then
