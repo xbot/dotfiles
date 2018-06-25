@@ -52,14 +52,14 @@ Plug 'junegunn/vader.vim'
 Plug 'arcticicestudio/nord-vim'
 " Plug 'solarnz/thrift.vim'
 Plug 'mhinz/vim-startify'
-Plug 'dgryski/vim-godef',           { 'for': 'go'       }
-Plug 'fatih/vim-go',                { 'for': 'go'       }
-Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
+" Plug 'dgryski/vim-godef',           { 'for': 'go'       }
+" Plug 'fatih/vim-go',                { 'for': 'go'       }
+" Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
 Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
 Plug 'lilydjwg/colorizer',          { 'for': 'css'      }
 Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
-" Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
-" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
+Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'joonty/vdebug',               { 'for': 'php'      }
 Plug 'shawncplus/phpcomplete.vim',  { 'for': 'php'      }
 Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
@@ -377,7 +377,7 @@ vmap <leader>ak  y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
 vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
 
 " List all tasks under the current directory
-map <leader>lstd :Ack //\ TODO: --ignore PHPExcel --ignore public<CR>
+map <leader>lstd :Ack //\ (TODO\|FIXME) --ignore PHPExcel --ignore public<CR>
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -668,6 +668,9 @@ nnoremap <leader>gll :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m
 nnoremap <leader>glc :GV! --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
 nnoremap <leader>gla :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --author<space>
 nnoremap <leader>glg :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --grep<space>
+augroup gv
+    au FileType git set fdl=0
+augroup END
 
 " auto-pairs
 let g:AutoPairsMapCh = 0
@@ -1509,14 +1512,14 @@ endif
 "}}}
 
 " ------------------------------ Go -----------------------------{{{
-augroup golang
-    au!
-    au BufWritePre *.go :Fmt
-    au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
-    au FileType go imap <buffer> <C-CR> <Esc><C-CR>
-augroup END
+" augroup golang
+    " au!
+    " au BufWritePre *.go :Fmt
+    " au FileType go map <buffer> <C-CR> :silent write \| !go run %<CR>
+    " au FileType go imap <buffer> <C-CR> <Esc><C-CR>
+" augroup END
 
-let g:gofmt_command = 'goimports'
+" let g:gofmt_command = 'goimports'
 "}}}
 
 " ------------------------------ PHP -----------------------------{{{

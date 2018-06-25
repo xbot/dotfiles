@@ -35,7 +35,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ $(uname) == 'Darwin' ]]; then
-    plugins=(git python pip vi-mode urltools brew)
+    plugins=(git python pip vi-mode urltools brew vagrant)
 else
     plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
 fi
@@ -279,7 +279,6 @@ alias x='aunpack'
 alias lsgbkzip='lsar -e gb18030'
 alias ungbkzip='unar -e gb18030'
 alias lns='ln -s'
-alias rake='nocorrect rake'
 alias lssrv='netstat -tulnp'
 alias lsconn='netstat -atunp'
 alias follow='tail -f -n 100'
@@ -302,7 +301,7 @@ fi
 alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
 
 # Misc
-alias gotovps="ssh root@fusang"
+alias vps="ssh root@vps"
 # alias ut="./run --colors=always"
 
 # fix grep complainings
