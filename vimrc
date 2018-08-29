@@ -224,7 +224,7 @@ if has('gui_running')
         " set background=light
         colorscheme freya
     elseif IsPlatform('mac')
-        set guifont=Monaco\ for\ Powerline:h16
+        set guifont=Monaco\ for\ Powerline:h19
         " set background=dark
         " set background=light
         " colorscheme solarized
@@ -579,10 +579,16 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
-let g:airline#extensions#xkblayout#enabled = 1
-let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
+" nmap <leader>- <Plug>AirlineSelectPrevTab
+" nmap <leader>+ <Plug>AirlineSelectNextTab
+" let g:airline#extensions#xkblayout#enabled = 1
+" let g:XkbSwitchLib = '/usr/local/lib/libInputSourceSwitcher.dylib'
+call airline#parts#define_function('cwd', 'GetCWD')
+fun! GetCWD()"{{{
+    return fnamemodify(getcwd(), ":t")
+endfun"}}}
+" Options: ['cwd', 'mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert']
+let g:airline_section_a = airline#section#create_left(['cwd', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert'])
 
 " vim-workspace
 nnoremap <leader>ss :ToggleWorkspace<CR>
@@ -688,6 +694,12 @@ let g:AutoPairsMapCh = 0
 " Nord color scheme
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
+
+" vim-fontsize
+nmap <silent> <Leader>=  <Plug>FontsizeBegin
+nmap <silent> <Leader>+  <Plug>FontsizeInc
+nmap <silent> <Leader>-  <Plug>FontsizeDec
+nmap <silent> <Leader>0  <Plug>FontsizeDefault
 "}}}
 
 "------------------------------- Auto Commands ------------------------------"{{{
@@ -879,6 +891,8 @@ nnoremap <up>    <C-W>k
 nnoremap <down>  <C-W>j
 nnoremap <left>  <C-W>h
 nnoremap <right> <C-W>l
+nnoremap <C-k>    <C-W>k
+nnoremap <C-j>  <C-W>j
 nnoremap <C-h>   <C-W>h
 nnoremap <C-l>   <C-W>l
 
@@ -990,10 +1004,6 @@ nmap <leader>json :%!python -m json.tool<CR>
 " " Sessions
 " nmap <leader>os :OpenSession<Space>
 " nmap <leader>ss :SaveSession<Space>
-
-" Adjust font size on the fly
-map <leader>] :LargerFont<CR>
-map <leader>[ :SmallerFont<CR>
 
 " Open terminal in the current path
 if has('unix')
@@ -1567,8 +1577,8 @@ function! ExecutePHPScript()"{{{
     silent make
     clist
 endfunction"}}}
-au filetype php map <buffer> <C-F5> :call ExecutePHPScript()<CR>
-au filetype php imap <buffer> <C-F5> <C-O>:call ExecutePHPScript()<CR>
+au filetype php map <buffer> <A-F5> :call ExecutePHPScript()<CR>
+au filetype php imap <buffer> <A-F5> <C-O>:call ExecutePHPScript()<CR>
 
 " Check the syntax of a PHP file
 function! CheckPHPSyntax()"{{{
@@ -1585,8 +1595,8 @@ function! CheckPHPSyntax()"{{{
     silent make
     clist
 endfunction"}}}
-au filetype php map <buffer> <A-F5> :call CheckPHPSyntax()<CR>
-au filetype php imap <buffer> <A-F5> <C-O>:call CheckPHPSyntax()<CR>
+au filetype php map <buffer> <A-S-F5> :call CheckPHPSyntax()<CR>
+au filetype php imap <buffer> <A-S-F5> <C-O>:call CheckPHPSyntax()<CR>
 
 " Open a temporary PHP file in a new window
 function! PHPSandBox()"{{{
