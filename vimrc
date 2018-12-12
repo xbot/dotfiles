@@ -29,7 +29,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'twitvim/twitvim'
 Plug 'godlygeek/tabular'
-Plug 'vim-syntastic/syntastic'
+Plug 'w0rp/ale'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
 " Plug 'Konfekt/FastFold'
@@ -224,7 +224,7 @@ if has('gui_running')
         " set background=light
         colorscheme freya
     elseif IsPlatform('mac')
-        set guifont=Monaco\ for\ Powerline:h19
+        set guifont=Monaco\ for\ Powerline:h18
         " set background=dark
         " set background=light
         " colorscheme solarized
@@ -471,19 +471,29 @@ augroup jsbeautify
     autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
 augroup END
 
-" syntastic
-let g:syntastic_check_on_open       = 0
-let g:syntastic_error_symbol        = '✗'
-let g:syntastic_warning_symbol      = '⚠'
-let g:syntastic_auto_loc_list       = 1
-let g:syntastic_loc_list_height     = 5
-let g:syntastic_enable_highlighting = 0
-let g:syntastic_mode_map            = { 'passive_filetypes': ['scss', 'slim'] }
-let g:syntastic_python_python_exec  = '/usr/bin/python2'
-let g:syntastic_vim_checkers        = ['vint']
-let g:syntastic_php_phpcs_args      = '--standard=PSR2'
-let g:syntastic_php_phpmd_post_args = '~/.phpmd.xml'
-nnoremap <leader>st :SyntasticToggleMode<CR>
+" ALE
+let g:ale_sign_column_always = 1
+let g:ale_set_highlights = 0
+let g:airline#extensions#ale#enabled = 1
+"自定义error和warning图标
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
+" "在vim自带的状态栏中整合ale
+" let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✔ OK']
+"显示Linter名称,出错或警告等相关信息
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" PHP
+let g:ale_php_phpcs_standard = 'PSR2'
+let g:ale_php_phpmd_ruleset = '~/.phpmd.xml'
+"普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
+nmap sp <Plug>(ale_previous_wrap)
+nmap sn <Plug>(ale_next_wrap)
+"<Leader>s触发/关闭语法检查
+nmap <Leader>at :ALEToggle<CR>
+"<Leader>d查看错误或警告的详细信息
+nmap <Leader>ad :ALEDetail<CR>
 
 " pdv
 let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
@@ -527,6 +537,7 @@ let g:Lf_DefaultMode     = 'FullPath'
 let g:Lf_ShortcutF       = '<C-P>'
 let g:Lf_CommandMap      = {'<c-c>': ['<esc>', '<c-c>']}
 let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
+let g:Lf_ReverseOrder    = 1
 nmap <leader>ot :LeaderfTag<CR>
 nmap <leader>bt :LeaderfBufTag<CR>
 nmap <leader>bf :LeaderfFunction<CR>
