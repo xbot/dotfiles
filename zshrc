@@ -35,16 +35,20 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ $(uname) == 'Darwin' ]]; then
-    plugins=(git python pip vi-mode urltools brew vagrant laravel)
+    plugins=(git python pip vi-mode urltools brew vagrant laravel composer)
 else
-    plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
+    plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user composer)
 fi
 
 source $ZSH/oh-my-zsh.sh
 source ~/Projects/3rd-party/z/z.sh
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # load local custom scripts
 if [[ -f ~/.zshrc_private ]]; then
     source ~/.zshrc_private
+fi
+if [[ -f ~/.zshrc_work ]]; then
+    source ~/.zshrc_work
 fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -331,11 +335,15 @@ bindkey "^R" history-incremental-search-backward
 if [[ `uname` == 'Darwin' ]]; then
     export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
     export NVM_DIR="$HOME/.nvm"
-    . "/usr/local/opt/nvm/nvm.sh"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 fi
 
 # java
 export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+
+# PHPUnit
+# export XDEBUG_CONFIG="idekey=VSCODE profiler_enable=1"
+export XDEBUG_CONFIG="idekey=VSCODE"
 
 # Setup tab and window title functions for iterm2
 # iterm behaviour: until window name is explicitly set, it'll always track tab title.
@@ -349,3 +357,13 @@ set_iterm_name() {
 iterm_both () { set_iterm_name 0 $@; }
 iterm_tab () { set_iterm_name 1 $@; }
 iterm_window () { set_iterm_name 2 $@; }
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+### Added by Zplugin's installer
+source '/Users/donie/.zplugin/bin/zplugin.zsh'
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin installer's chunk
+
+zplugin load sticklerm3/alehouse

@@ -26,6 +26,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'brooth/far.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'zivyangll/git-blame.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'twitvim/twitvim'
 Plug 'godlygeek/tabular'
@@ -52,6 +53,7 @@ Plug 'junegunn/vader.vim'
 Plug 'arcticicestudio/nord-vim'
 " Plug 'solarnz/thrift.vim'
 Plug 'mhinz/vim-startify'
+Plug 'skywind3000/asyncrun.vim'
 " Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 " Plug 'fatih/vim-go',                { 'for': 'go'       }
 " Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
@@ -224,11 +226,11 @@ if has('gui_running')
         " set background=light
         colorscheme freya
     elseif IsPlatform('mac')
-        set guifont=Monaco\ for\ Powerline:h18
+        set guifont=Monaco\ for\ Powerline:h16
         " set background=dark
-        " set background=light
-        " colorscheme solarized
-        colorscheme nova
+        set background=light
+        colorscheme solarized
+        " colorscheme nova
         " colorscheme nord
     else
         " set guifont=CosmicSansNeueMono\ 15
@@ -247,7 +249,7 @@ if has('gui_running')
         colorscheme nord
     endif
 
-    set lines=35 columns=120
+    set lines=50 columns=160
 
     " GUI Options
     set go-=T
@@ -475,24 +477,22 @@ augroup END
 let g:ale_sign_column_always = 1
 let g:ale_set_highlights = 0
 let g:airline#extensions#ale#enabled = 1
-"自定义error和warning图标
+" 自定义error和warning图标
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
-" "在vim自带的状态栏中整合ale
-" let g:ale_statusline_format = ['✗ %d', '⚠ %d', '✔ OK']
-"显示Linter名称,出错或警告等相关信息
+" 显示Linter名称,出错或警告等相关信息
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " PHP
 let g:ale_php_phpcs_standard = 'PSR2'
 let g:ale_php_phpmd_ruleset = '~/.phpmd.xml'
-"普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
+" 普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
 nmap sp <Plug>(ale_previous_wrap)
 nmap sn <Plug>(ale_next_wrap)
-"<Leader>s触发/关闭语法检查
+" 触发/关闭语法检查
 nmap <Leader>at :ALEToggle<CR>
-"<Leader>d查看错误或警告的详细信息
+" 查看错误或警告的详细信息
 nmap <Leader>ad :ALEDetail<CR>
 
 " pdv
@@ -607,6 +607,7 @@ let g:workspace_session_name = '.session.vim'
 let g:workspace_autosave = 0
 let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree', 'twitvim', 'GV']
 let g:workspace_session_disable_on_args = 1
+set sessionoptions-=blank
 
 " denite or unite
 " if has('python3')
@@ -679,6 +680,9 @@ let test#strategy = 'vimproc'
 nnoremap <leader>gst :Gstatus<CR>
 nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>gps :Gpush<CR>
+
+" git-blame
+nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 
 " gv.vim
 nnoremap <leader>gll :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
@@ -924,14 +928,6 @@ vnoremap <A-k> <up>
 "显示、隐藏ctags侧边栏
 nmap <leader>tt :TagbarToggle<CR>
 
-" " 使用FuzzyFinder打开文件
-" nmap <leader>o  :echo 'Do nothing ...'<CR>
-" nmap <leader>oo :FufTaggedFile<CR>
-" nmap <leader>of :FufFile<CR>
-" nmap <leader>oc :FufCoverageFile<CR>
-" nmap <leader>ot :FufTag<CR>
-" nmap <leader>frc :FufRenewCache<CR>
-
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
 vmap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
@@ -958,7 +954,8 @@ nmap <leader>twre :RetweetedByMeTwitter<CR>
 " CTags
 " nmap <leader>mkt :VimProcBang gtags<CR>
 " nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*" .<CR>
-nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
+" nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
+nmap <leader>mkt :AsyncRun gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
 
 " 查看当前目录
 nmap <leader>pwd :pwd<CR>
@@ -971,10 +968,6 @@ nmap <leader>nd :NERDTree %:h<CR>
 nmap <leader>g2b <ESC>:cal G2B()<CR>
 nmap <leader>b2g <ESC>:cal B2G()<CR>
 
-" DBGP
-" let g:debuggerMapDefaultKeys = 2
-" let g:debuggerPort = 9001
-
 " 查找與替換
 nmap <leader>ff yiw/\<<C-R>"\>\C
 vmap <leader>ff y/<C-R>=XEscapeRegex(@")<CR>\C
@@ -985,7 +978,7 @@ vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 
 " 编码转换
 nmap <leader>fenc :set fenc<CR>
-nmap <leader>gbk  :set fenc=cp936<CR>
+" nmap <leader>gbk  :set fenc=cp936<CR>
 nmap <leader>utf8 :set fenc=utf-8<CR>
 nmap <leader>fdos :set ff=dos<CR>
 nmap <leader>edos :e   ++ff=dos<CR>
@@ -1012,10 +1005,6 @@ nmap <leader><leader>cc :nohl<CR>
 " Format JSON string
 nmap <leader>json :%!python -m json.tool<CR>
 
-" " Sessions
-" nmap <leader>os :OpenSession<Space>
-" nmap <leader>ss :SaveSession<Space>
-
 " Open terminal in the current path
 if has('unix')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'terminator', 'async':1})<CR>
@@ -1028,18 +1017,6 @@ nmap <leader>ue :UltiSnipsEdit<Space>
 
 " Gundo
 nmap <leader>gu :GundoToggle<CR>
-
-" " RabbitVCS
-" if IsPlatform('unix')
-    " map <leader>rbu :silent !rabbitvcs update<CR>
-    " map <leader>rbc :silent !rabbitvcs commit<CR>
-    " map <leader>rbll :silent !rabbitvcs log<CR>
-    " map <leader>rblL :silent !rabbitvcs log %<CR>
-    " map <leader>rbr :silent !rabbitvcs revert %<CR>
-" elseif IsPlatform('mac')
-    " map <leader>rbu :!svn update<CR>
-    " map <leader>rbc :silent !svnx<CR>
-" endif
 
 " incsearch.vim
 map /  <Plug>(incsearch-forward)
