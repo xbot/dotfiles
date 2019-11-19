@@ -106,11 +106,6 @@ orphans() { # Remove orphan packages in archlinux
         sudo pacman -Rns $(pacman -Qdtq)
     fi
 }
-writeblog() {
-   test $# -ne 1 && echo "Invalid title" >&2 && return 1
-   cd ~blog
-   rake new_post\["$1"\]
-}
 copy_path() {
     readlink -f "$1"|pbcopy
 }
@@ -119,13 +114,6 @@ lsf() { # List files whose names match the given pattern
     [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
     find "$UNDER_PATH" -name "$1" -print
 }
-# chpwd_octopress() {
-    # OCTOPRESS=~/dev/blog
-    # if [[ "$PWD" == "$OCTOPRESS" ]]; then
-        # source /usr/bin/virtualenvwrapper.sh
-        # workon blog_env
-    # fi
-# }
 chpwd_functions=( chpwd_octopress )
 # Check tcp and dup port
 chktcp() {
@@ -305,7 +293,6 @@ fi
 alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
 
 # Misc
-alias vps="ssh root@vps"
 # alias ut="./run --colors=always"
 
 # fix grep complainings
