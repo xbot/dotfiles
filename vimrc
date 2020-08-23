@@ -8,7 +8,7 @@ Plug 'trevordmiller/nova-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
@@ -70,18 +70,23 @@ Plug 'tobyS/vmustache',             { 'for': 'php'      }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
 Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
-Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
-Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
+" Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
+" Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
 Plug 'StanAngeloff/php.vim',        { 'for': 'php'      }
 " Plug 'natebosch/vim-lsc',           { 'for': 'php'      }
+Plug 'aklt/plantuml-syntax'
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/phpdoc'
 Plug '~/.vim/plugged/pyclewn'
 Plug '~/.vim/plugged/py2stdlib'
 
-if has('lua')
-    Plug 'Shougo/neocomplete.vim'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 " if has('python3')
@@ -228,9 +233,9 @@ if has('gui_running')
     elseif IsPlatform('mac')
         set guifont=Monaco\ for\ Powerline:h16
         " set background=dark
-        set background=light
-        colorscheme solarized
-        " colorscheme nova
+        " set background=light
+        " colorscheme solarized
+        colorscheme nova
         " colorscheme nord
     else
         " set guifont=CosmicSansNeueMono\ 15
@@ -361,7 +366,7 @@ function! CleverTab()"{{{
         if pumvisible()
             return "\<c-n>"
         else
-            return neocomplete#start_manual_complete()
+            return deoplete#manual_complete()
         endif
     endif
 endfunction"}}}
@@ -538,35 +543,15 @@ let g:Lf_ShortcutF       = '<C-P>'
 let g:Lf_CommandMap      = {'<c-c>': ['<esc>', '<c-c>']}
 let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
 let g:Lf_ReverseOrder    = 1
+" let g:Lf_WindowPosition = 'popup'
+" let g:Lf_PreviewInPopup = 1
 nmap <leader>ot :LeaderfTag<CR>
 nmap <leader>bt :LeaderfBufTag<CR>
 nmap <leader>bf :LeaderfFunction<CR>
 
-" neocomplete
-set completeopt-=preview
-let g:neocomplete#enable_at_startup                 = 1
-let g:neocomplete#enable_smart_case                 = 1
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#disable_auto_complete             = 1
-augroup neocomplete
-    au!
-    autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
-augroup END
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-" let g:neocomplete#sources#omni#input_patterns.c   = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><C-l> neocomplete#complete_common_string()
-noremap  <leader>ncl :NeoCompleteLock<CR>
-noremap  <leader>ncu :NeoCompleteUnlock<CR>
+" deoplete
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog = "/Users/donie/.pyenv/shims/python3"
 
 " airline
 let g:airline_powerline_fonts                            = 1
@@ -1316,8 +1301,8 @@ function! ToggleList(bufname, pfx)"{{{
         " wincmd p
     " endif
 endfunction"}}}
-noremap <F12> :call ToggleList("Location 列表", 'l')<CR>
-noremap <C-F12> :call ToggleList("Quickfix 列表", 'c')<CR>
+noremap <F1> :call ToggleList("Location 列表", 'l')<CR>
+noremap <C-F1> :call ToggleList("Quickfix 列表", 'c')<CR>
 
 " Fold text
 set foldtext=CustomFoldText()
@@ -1549,6 +1534,7 @@ augroup pdv
     au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 augroup END
 " nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
+nnoremap <buffer> <leader>pdv :call pdv#DocumentWithSnip()<CR>
 
 " Run a PHP script
 function! ExecutePHPScript()"{{{
