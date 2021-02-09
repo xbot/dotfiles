@@ -1,7 +1,8 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
 Plug 't9md/vim-choosewin'
 Plug 'trevordmiller/nova-vim'
@@ -13,7 +14,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'wincent/ferret'
-Plug 'sjl/gundo.vim'
 Plug 'gcmt/wildfire.vim'
 Plug 'thaerkh/vim-workspace'
 Plug 'mhinz/vim-signify'
@@ -26,17 +26,17 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'brooth/far.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'zivyangll/git-blame.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'twitvim/twitvim'
 Plug 'godlygeek/tabular'
+let g:ale_disable_lsp = 1
 Plug 'w0rp/ale'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
-" Plug 'Konfekt/FastFold'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/gv.vim'
-Plug 'gregsexton/gitv', {'on': ['Gitv']}
+" " Obsolete
+" Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'drmikehenry/vim-fontsize'
@@ -51,58 +51,57 @@ Plug 'janko-m/vim-test'
 Plug 'junegunn/vader.vim'
 " Plug 'tweekmonster/startuptime.vim'
 Plug 'arcticicestudio/nord-vim'
-" Plug 'solarnz/thrift.vim'
 Plug 'mhinz/vim-startify'
 Plug 'skywind3000/asyncrun.vim'
-" Plug 'dgryski/vim-godef',           { 'for': 'go'       }
-" Plug 'fatih/vim-go',                { 'for': 'go'       }
-" Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
+Plug 'aklt/plantuml-syntax'
+if has('nvim')
+    Plug 'caenrique/nvim-toggle-terminal'
+else
+    Plug 'pakutoma/toggle-terminal'
+endif
+Plug 'alvan/vim-php-manual'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
+Plug 'rizzatti/dash.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'liuchengxu/space-vim-theme'
+
 Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
 Plug 'lilydjwg/colorizer',          { 'for': 'css'      }
 Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
-Plug 'joonty/vdebug',               { 'for': 'php'      }
-Plug 'shawncplus/phpcomplete.vim',  { 'for': 'php'      }
+Plug 'vim-vdebug/vdebug',           { 'for': 'php'      }
 Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
 Plug 'tobyS/pdv',                   { 'for': 'php'      }
 Plug 'tobyS/vmustache',             { 'for': 'php'      }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
+" " Blacklist this syntax extension for its serious performance issues.
+" Plug 'StanAngeloff/php.vim',        { 'for': 'php'      }
 Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
-" Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
-" Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
-Plug 'StanAngeloff/php.vim',        { 'for': 'php'      }
-" Plug 'natebosch/vim-lsc',           { 'for': 'php'      }
-Plug 'aklt/plantuml-syntax'
+Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
+Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
+Plug 'dgryski/vim-godef',           { 'for': 'go'       }
+Plug 'fatih/vim-go',                { 'for': 'go'       }
+Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
+
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+let g:gutentags_plus_nomap = 1
 
 Plug '~/.vim/plugged/gtags'
-Plug '~/.vim/plugged/phpdoc'
-Plug '~/.vim/plugged/pyclewn'
-Plug '~/.vim/plugged/py2stdlib'
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+Plug '~/.vim/plugged/confluencewiki'
 
 " if has('python3')
-    " Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'chemzqm/denite-git'
-    " Plug 'chemzqm/vim-easygit'
+" Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'chemzqm/denite-git'
+" Plug 'chemzqm/vim-easygit'
 " elseif has('python')
-    " Plug 'Shougo/unite.vim'
-    " Plug 'Shougo/unite-outline'
-    " Plug 'hewes/unite-gtags'
-    " Plug 'tsukkee/unite-tag'
-" endif
-
-" if has('nvim')
-    " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" Plug 'Shougo/unite.vim'
+" Plug 'Shougo/unite-outline'
+" Plug 'hewes/unite-gtags'
+" Plug 'tsukkee/unite-tag'
 " endif
 
 call plug#end()
@@ -112,19 +111,19 @@ call plug#end()
 " Check the current platform
 function! IsPlatform(mixed)"{{{
     if type(a:mixed) == 1
-        let plist = [a:mixed]
+	let plist = [a:mixed]
     elseif type(a:mixed) == 3
-        let plist = a:mixed
+	let plist = a:mixed
     else
-        return 0
+	return 0
     endif
 
     if has('win16') || has('win32') || has('win64') || has('winnt')
-        return index(plist, 'win')>=0
+	return index(plist, 'win')>=0
     elseif has('mac')
-        return index(plist, 'mac')>=0
+	return index(plist, 'mac')>=0
     else
-        return index(plist, 'unix')>=0
+	return index(plist, 'unix')>=0
     endif
 
     return 0
@@ -161,11 +160,11 @@ endif
 " Generic declarations
 " Platform specific declarations
 if IsPlatform('win')
-    let gbl_vimrc_name            = '_vimrc'
-    let gbl_vimrc_file            = $VIM.'/'.gbl_vimrc_name
+    let gbl_vimrc_name = '_vimrc'
+    let gbl_vimrc_file = $VIM.'/'.gbl_vimrc_name
 else
-    let gbl_vimrc_name            = '.vimrc'
-    let gbl_vimrc_file            = expand('~/'.gbl_vimrc_name)
+    let gbl_vimrc_name = '.vimrc'
+    let gbl_vimrc_file = expand('~/'.gbl_vimrc_name)
 endif
 
 " Use command :Man to view manpages
@@ -182,6 +181,10 @@ if !IsPlatform('mac')
 endif
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
+
+let g:ruby_host_prog='~/.rbenv/shims/ruby'
+let g:python_host_prog='~/.pyenv/shims/python2'
+let g:python3_host_prog='~/.pyenv/shims/python3'
 
 "}}}
 
@@ -215,6 +218,8 @@ set laststatus=2
 set updatetime=10000
 set cursorline
 set cursorcolumn
+set undodir=~/.vim/undodir/
+set undofile
 if IsPlatform('win')
     set grepprg=d:/dev/tool/GnuWin32/bin/grep.exe\ -n
 else
@@ -226,126 +231,139 @@ set wildignore=*.class,*.pyc
 if has('gui_running')
     " Font settings
     if IsPlatform('win')
-        set guifont=Source\ Code\ Pro:h11
-        set background=dark
-        " set background=light
-        colorscheme freya
+	set guifont=Source\ Code\ Pro:h11
+	set background=dark
+	" set background=light
+	colorscheme freya
     elseif IsPlatform('mac')
-        set guifont=Monaco\ for\ Powerline:h16
-        " set background=dark
-        " set background=light
-        " colorscheme solarized
-        colorscheme nova
-        " colorscheme nord
+	if !has('nvim')
+	    set macligatures
+	    set macthinstrokes
+	    " set guifont=Monaco\ for\ Powerline:h16
+	    set guifont=Cascadia\ Code\ PL:h16
+	endif
+	set linespace=2
+	" set background=dark
+	set background=light
+	" colorscheme dracula
+	colorscheme solarized
+	" colorscheme nova
+	" colorscheme nord
     else
-        " set guifont=CosmicSansNeueMono\ 15
-        set guifont=FantasqueSansMono\ 15
-        " set guifont=Source\ Code\ Pro\ 12
-        "set guifont=inconsolata\ Bold\ 13
-        "set guifontwide=YaHei\ Consolas\ Hybrid\ 12
-        "set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ Bold\ 13
-        "set guifont=Consolas\ Bold\ 13
-        "set guifont=Consolas\ 13
-        set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 11
-        " set background=dark
-        " set background=light
-        " colorscheme solarized
-        " colorscheme nova
-        colorscheme nord
+	" set guifont=CosmicSansNeueMono\ 15
+	set guifont=FantasqueSansMono\ 15
+	" set guifont=Source\ Code\ Pro\ 12
+	"set guifont=inconsolata\ Bold\ 13
+	"set guifontwide=YaHei\ Consolas\ Hybrid\ 12
+	"set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ Bold\ 13
+	"set guifont=Consolas\ Bold\ 13
+	"set guifont=Consolas\ 13
+	set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 11
+	" set background=dark
+	set background=light
+	colorscheme solarized
+	" colorscheme nova
+	" colorscheme nord
     endif
 
-    set lines=50 columns=160
+    set lines=65 columns=189
 
     " GUI Options
     set go-=T
     set go-=m
     set go-=L
     if IsPlatform('win')
-        set go-=r
+	set go-=r
     endif
     set go-=r
     "set go+=b
 
     " Toggle menu bar
     if !IsPlatform('mac')
-        map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
-                    \set guioptions-=m <bar>
-                    \else <Bar>
-                    \set guioptions+=m <Bar>
-                    \endif<CR>
+	map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
+		    \set guioptions-=m <bar>
+		    \else <Bar>
+		    \set guioptions+=m <Bar>
+		    \endif<CR>
     endif
 else
     " For CLI vim
     " set background=light
     " set background=dark
-    "colorscheme jellybeans
     " let g:solarized_termcolors=256
     " colorscheme solarized
-    colorscheme nova
+    " colorscheme nova
     " colorscheme nord
+    " colorscheme dracula
+    colorscheme space_vim_theme
 endif
+
+" Auto reload file if changed outside.
+set autoread
+au FocusGained,BufEnter * checktime
 
 "}}}
 
-"------------------------------- Plugin Settings --------------------------{{{
+" ------------------------------ Plugin Settings --------------------------{{{
 " Tagbar
 let g:tagbar_compact          = 1
 let g:tagbar_usearrows        = 1
-let g:tagbar_width            = 30
+let g:tagbar_width            = 40
 let g:tagbar_autofocus        = 1
 let g:tagbar_show_visibility  = 1
 let g:tagbar_show_linenumbers = 1
+let g:tagbar_position = 'topleft vertical'
 let g:tagbar_type_php  = {
-            \ 'ctagstype' : 'php',
-            \ 'kinds'     : [
-            \ 'i:interfaces',
-            \ 'c:classes',
-            \ 'd:constant definitions',
-            \ 'f:functions',
-            \ 'j:javascript functions:1'
-            \ ]
-            \ }
+        \ 'ctagstype' : 'php',
+        \ 'kinds'     : [
+        \ 'i:interfaces',
+        \ 'c:classes',
+        \ 'd:constant definitions',
+        \ 'f:functions',
+        \ 'j:javascript functions:1'
+        \ ]
+        \ }
 let g:tagbar_type_go = {
-            \ 'ctagstype' : 'go',
-            \ 'kinds'     : [
-            \ 'p:package',
-            \ 'i:imports:1',
-            \ 'c:constants',
-            \ 'v:variables',
-            \ 't:types',
-            \ 'n:interfaces',
-            \ 'w:fields',
-            \ 'e:embedded',
-            \ 'm:methods',
-            \ 'r:constructor',
-            \ 'f:functions'
-            \ ],
-            \ 'sro' : '.',
-            \ 'kind2scope' : {
-            \ 't' : 'ctype',
-            \ 'n' : 'ntype'
-            \ },
-            \ 'scope2kind' : {
-            \ 'ctype' : 't',
-            \ 'ntype' : 'n'
-            \ },
-            \ 'ctagsbin'  : 'gotags',
-            \ 'ctagsargs' : '-sort -silent'
-            \ }
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+        \ }
 let g:tagbar_type_octopress = {
-            \ 'ctagstype': 'markdown',
-            \ 'ctagsbin' : 'markdown2ctags',
-            \ 'ctagsargs' : '-f - --sort=yes',
-            \ 'kinds' : [
-            \ 's:sections',
-            \ 'i:images'
-            \ ],
-            \ 'sro' : '|',
-            \ 'kind2scope' : {
-            \ 's' : 'section',
-            \ },
-            \ 'sort': 0,
-            \ }
+        \ 'ctagstype': 'markdown',
+        \ 'ctagsbin' : 'markdown2ctags',
+        \ 'ctagsargs' : '-f - --sort=yes',
+        \ 'kinds' : [
+        \ 's:sections',
+        \ 'i:images'
+        \ ],
+        \ 'sro' : '|',
+        \ 'kind2scope' : {
+        \ 's' : 'section',
+        \ },
+        \ 'sort': 0,
+        \ }
 
 " FencView settings
 let g:fencview_autodetect    = 0
@@ -361,13 +379,13 @@ let g:ulti_expand_or_jump_res      = 0
 function! CleverTab()"{{{
     call UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res
-        return ''
+    return ''
     else
-        if pumvisible()
-            return "\<c-n>"
-        else
-            return deoplete#manual_complete()
-        endif
+    if pumvisible()
+        return "\<c-n>"
+    else
+        return deoplete#manual_complete()
+    endif
     endif
 endfunction"}}}
 inoremap <silent> <tab> <c-r>=CleverTab()<cr>
@@ -405,7 +423,7 @@ let NERDTreeNaturalSort = 1
 
 " TwitVim
 let twitvim_enable_python = 1
-let twitvim_proxy         = '127.0.0.1:8123'
+" let twitvim_proxy         = '127.0.0.1:8123'
 let twitvim_browser_cmd   = 'open -a Safari'
 " let twitvim_browser_cmd = '/usr/bin/google-chrome-stable'
 
@@ -419,9 +437,6 @@ endif
 
 " shell.vim
 let g:shell_mappings_enabled=0
-
-" session.vim
-let g:session_autoload = 'no'
 
 " DirDiff
 let g:DirDiffExcludes = 'CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags'
@@ -439,35 +454,42 @@ map <leader>be :ToggleBufExplorer<CR>
 
 " Vdebug.vim
 let g:vdebug_options= {
-            \    'path_maps' : {
-            \        '/var/www/workspace': expand('~').'/workspace',
-            \    },
-            \    'port' : 9001,
-            \    'server' : '0.0.0.0',
-            \    'timeout' : 20,
-            \    'on_close' : 'detach',
-            \    'break_on_open' : 1,
-            \    'ide_key' : '',
-            \    'remote_path' : '',
-            \    'local_path' : '',
-            \    'debug_window_level' : 0,
-            \    'debug_file_level' : 0,
-            \    'debug_file' : '',
-            \    'marker_default' : '⬦',
-            \}
+        \    'path_maps' : {
+        \    },
+        \    'port' : 9002,
+        \    'server' : '0.0.0.0',
+        \    'timeout' : 60,
+        \    'on_close' : 'stop',
+        \    'break_on_open' : 0,
+        \    'ide_key' : '',
+        \    'remote_path' : '',
+        \    'local_path' : '',
+        \    'debug_window_level' : 0,
+        \    'debug_file_level' : 0,
+        \    'debug_file' : '',
+        \    'marker_default' : '⬦',
+        \    'watch_window_style' : 'expanded',
+        \    'marker_closed_tree' : '▸',
+        \    'marker_open_tree' : '▾',
+        \    'sign_breakpoint' : '▷',
+        \    'sign_current' : '▶',
+        \    'continuous_mode'  : 1,
+        \    'simplified_status': 1,
+        \    'layout': 'vertical',
+        \}
 let g:vdebug_keymap = {
-            \    'run' : '<F5>',
-            \    'run_to_cursor' : '<F1>',
-            \    'step_over' : '<F2>',
-            \    'step_into' : '<F3>',
-            \    'step_out' : '<F4>',
-            \    'close' : '<F6>',
-            \    'detach' : '<F7>',
-            \    'set_breakpoint' : '<F10>',
-            \    'get_context' : '<F11>',
-            \    'eval_under_cursor' : '<F12>',
-            \    'eval_visual' : '<Leader>e',
-            \}
+        \    'run' : '<F5>',
+        \    'run_to_cursor' : '<S-F5>',
+        \    'step_over' : '<F10>',
+        \    'step_into' : '<F11>',
+        \    'step_out' : '<F12>',
+        \    'close' : '<F6>',
+        \    'detach' : '<F7>',
+        \    'set_breakpoint' : '<F8>',
+        \    'get_context' : '<F9>',
+        \    'eval_under_cursor' : '<Leader>e',
+        \    'eval_visual' : '<Leader>e',
+        \}
 
 " vim-jsbeautify
 vmap <leader>jsb :'<,'>!js-beautify -i<CR>
@@ -479,7 +501,7 @@ augroup jsbeautify
 augroup END
 
 " ALE
-let g:ale_sign_column_always = 1
+let g:ale_sign_column_always = 0
 let g:ale_set_highlights = 0
 let g:airline#extensions#ale#enabled = 1
 " 自定义error和warning图标
@@ -491,7 +513,16 @@ let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " PHP
 let g:ale_php_phpcs_standard = 'PSR2'
-let g:ale_php_phpmd_ruleset = '~/.phpmd.xml'
+" let g:ale_php_phpmd_ruleset = '~/.phpmd.xml'
+let g:ale_php_phpcs_executable='./vendor/bin/phpcs'
+let g:ale_php_php_cs_fixer_executable='./vendor/bin/php-cs-fixer'
+let g:ale_fixers = {'php': ['php_cs_fixer']}
+let g:ale_fix_on_save = 0
+let g:ale_php_phpstan_executable='./vendor/bin/phpstan'
+let g:ale_php_phpstan_configuration='./phpstan.neon'
+let g:ale_php_phpstan_level=7
+let g:ale_linters = {'php': ['phpstan'], 'markdown': ['markdownlint']}
+let g:ale_lint_on_save = 1
 " 普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
 nmap sp <Plug>(ale_previous_wrap)
 nmap sn <Plug>(ale_next_wrap)
@@ -528,7 +559,7 @@ nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 " let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 
 "easy-align
-vmap <leader>a <Plug>(EasyAlign)
+vmap <leader>al <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = ['String']
 
 " instant-markdown
@@ -543,15 +574,12 @@ let g:Lf_ShortcutF       = '<C-P>'
 let g:Lf_CommandMap      = {'<c-c>': ['<esc>', '<c-c>']}
 let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
 let g:Lf_ReverseOrder    = 1
+" let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "Cascadia Code PL" }
 " let g:Lf_WindowPosition = 'popup'
 " let g:Lf_PreviewInPopup = 1
 nmap <leader>ot :LeaderfTag<CR>
 nmap <leader>bt :LeaderfBufTag<CR>
 nmap <leader>bf :LeaderfFunction<CR>
-
-" deoplete
-let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = "/Users/donie/.pyenv/shims/python3"
 
 " airline
 let g:airline_powerline_fonts                            = 1
@@ -588,26 +616,28 @@ let g:airline_section_a = airline#section#create_left(['cwd', 'crypt', 'paste', 
 
 " vim-workspace
 nnoremap <leader>ss :ToggleWorkspace<CR>
-let g:workspace_session_name = '.session.vim'
+let g:workspace_session_name = '.session.tmp'
 let g:workspace_autosave = 0
 let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree', 'twitvim', 'GV']
 let g:workspace_session_disable_on_args = 1
+let g:workspace_persist_undo_history = 0
+" let g:workspace_undodir=&undodir
 set sessionoptions-=blank
 
 " denite or unite
 " if has('python3')
     " call denite#custom#map(
-                " \ 'insert',
-                " \ '<C-j>',
-                " \ '<denite:move_to_next_line>',
-                " \ 'noremap'
-                " \)
+   	 " \ 'insert',
+   	 " \ '<C-j>',
+   	 " \ '<denite:move_to_next_line>',
+   	 " \ 'noremap'
+   	 " \)
     " call denite#custom#map(
-                " \ 'insert',
-                " \ '<C-k>',
-                " \ '<denite:move_to_previous_line>',
-                " \ 'noremap'
-                " \)
+   	 " \ 'insert',
+   	 " \ '<C-k>',
+   	 " \ '<denite:move_to_previous_line>',
+   	 " \ 'noremap'
+   	 " \)
     " " nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
     " " nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
     " nnoremap <leader>jl :<C-u>Denite jump<CR>
@@ -659,15 +689,20 @@ augroup vim_test"{{{
     autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
     autocmd FileType php nnoremap <leader>tL :TestLast<cr>
 augroup END"}}}
-let test#strategy = 'vimproc'
+" let test#strategy = 'vimproc'
+if has('nvim')
+    let test#strategy = 'neovim'
+else
+    let test#strategy = 'asyncrun'
+endif
 
 " Fugitive
 nnoremap <leader>gst :Gstatus<CR>
 nnoremap <leader>gpl :Gpull<CR>
 nnoremap <leader>gps :Gpush<CR>
-
-" git-blame
-nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
+nnoremap <leader>dgh :diffget //2<CR>
+nnoremap <leader>dgl :diffget //3<CR>
+nnoremap <Leader>gb :Git blame<CR>
 
 " gv.vim
 nnoremap <leader>gll :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
@@ -700,9 +735,46 @@ nmap <silent> <Leader>=  <Plug>FontsizeBegin
 nmap <silent> <Leader>+  <Plug>FontsizeInc
 nmap <silent> <Leader>-  <Plug>FontsizeDec
 nmap <silent> <Leader>0  <Plug>FontsizeDefault
+
+" Toggle terminal
+if has('nvim')
+    " nvim-toggle-terminal
+    if has('gui_running')
+    nnoremap <silent> <D-j> :ToggleTerminal<Enter>
+    tnoremap <silent> <D-j> <C-\><C-n>:ToggleTerminal<Enter>
+    " else
+    " nnoremap <silent> <C-z> :ToggleTerminal<Enter>
+    " tnoremap <silent> <C-z> <C-\><C-n>:ToggleTerminal<Enter>
+    endif
+else
+    " toggle-terminal
+    let g:toggle_terminal#command = 'zsh'
+    nnoremap <silent> <D-j> :ToggleTerminal<CR>
+    tnoremap <silent> <D-j> <C-w>:ToggleTerminal<CR>
+endif
+
+" startify
+let g:startify_change_to_vcs_root = 1
+
+
+"""""""""""""""""""""""""""""""""" gutentags """"""""""""""""""""""""""""""""""
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+" config project root markers.
+" let g:gutentags_project_root = ['.root']
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
+
+"""""""""""""""""""""""""""""""""" undotree """"""""""""""""""""""""""""""""""
+nnoremap <leader>ut :UndotreeToggle<CR>
+
+"""""""""""""""""""""""""""""""""" vim-php-manual """"""""""""""""""""""""""""""""""
+let g:php_manual_online_search_shortcut = '<leader>pm'
 "}}}
 
-"------------------------------- Auto Commands ------------------------------"{{{
+" ------------------------------ Auto Commands ------------------------------"{{{
 if IsPlatform('win')
     augroup windows
         au!
@@ -746,6 +818,9 @@ augroup markdown
     " au FileType markdown colorscheme zenesque
     " au FileType markdown colorscheme newspaper
 augroup END
+
+" Confluence Wiki
+autocmd BufNewFile,BufRead *.confluence set filetype=confluencewiki
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -947,6 +1022,7 @@ nmap <leader>pwd :pwd<CR>
 
 " NERDTree
 nmap <leader>nt :NERDTreeToggle<CR>
+nmap <leader>nf :NERDTreeFind<CR>
 nmap <leader>nd :NERDTree %:h<CR>
 
 " 简繁转换
@@ -1000,9 +1076,6 @@ endif
 " UltiSnips
 nmap <leader>ue :UltiSnipsEdit<Space>
 
-" Gundo
-nmap <leader>gu :GundoToggle<CR>
-
 " incsearch.vim
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -1010,6 +1083,9 @@ map g/ <Plug>(incsearch-stay)
 
 " repeat last command
 nmap <leader>!! :<up><CR>
+
+" dash
+nmap <silent> <leader>d <Plug>DashSearch
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -1517,7 +1593,7 @@ augroup php
     au FileType php vnoremap <buffer> <A-F12> gq
     au BufNewFile,BufRead *.lib,*.inc set filetype=php
     au FileType php set complete+=k,set dict=$VIMRUNTIME/api/php.dict
-    au FileType php set keywordprg='help'
+    au FileType php set keywordprg=:help
     au FileType php set iskeyword=@,48-57,_,128-167,224-235
     if IsPlatform('win')
         au FileType php set runtimepath+=$VIM\php
@@ -1618,4 +1694,160 @@ augroup phpSyntaxOverride
     au!
     au FileType php call PhpSyntaxOverride()
 augroup END
+"}}}
+
+" ------------------------------ COC -----------------------------{{{
+let g:coc_node_path='~/.nvm/versions/node/v11.9.0/bin/node'
+
+if executable('intelephense')
+  augroup LspPHPIntelephense
+    au!
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'intelephense',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
+        \ 'whitelist': ['php'],
+        \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
+        \ 'workspace_config': {
+        \   'intelephense': {
+        \     'files': {
+        \       'maxSize': 1000000,
+        \       'associations': ['*.php', '*.phtml'],
+        \       'exclude': [],
+        \     },
+        \     'completion': {
+        \       'insertUseDeclaration': v:true,
+        \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
+        \       'triggerParameterHints': v:true,
+        \       'maxItems': 100,
+        \     },
+        \     'format': {
+        \       'enable': v:true
+        \     },
+        \   },
+        \ }
+        \})
+  augroup END
+endif
+
+" " Use tab for trigger completion with characters ahead and navigate.
+" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" " other plugin before putting this into your config.
+" inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? "\<C-n>" :
+      " \ <SID>check_back_space() ? "\<TAB>" :
+      " \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gR <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" " Use <TAB> for selections ranges.
+" " NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" " coc-tsserver, coc-python are the examples of servers that support it.
+" nmap <silent> <TAB> <Plug>(coc-range-select)
+" xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings using CoCList:
+" Show all diagnostics.
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+highlight CocFloating guibg=#99cccc guifg=#336699
 "}}}
