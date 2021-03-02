@@ -21,11 +21,12 @@ Plug 'tangledhelix/vim-octopress'
 Plug 'farmergreg/vim-lastplace'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'junegunn/vim-easy-align'
-Plug 'tpope/vim-surround'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'brooth/far.vim'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-eunuch'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'twitvim/twitvim'
 Plug 'godlygeek/tabular'
@@ -941,6 +942,10 @@ nnoremap <leader><leader>lp :lprevious<CR>
 " 编辑与当前文件路径相关的文件
 nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
 nmap <leader><leader>D :e <C-R>=expand("%:p:~:h").'/'<CR>
+nmap <leader><leader>rn :Rename <C-R>=expand('%:t')<CR>
+nmap <leader><leader>mv :Move <C-R>=expand('%:.')<CR>
+nmap <leader><leader>rm :Delete
+nmap <leader><leader>cp :saveas <C-R>=expand('%:.')<CR>
 
 " Quickfix and location windows
 " let g:toggle_list_no_mappings=1
@@ -1779,8 +1784,11 @@ endfunction
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" coc-phpls does not provide rename function
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " Symbol renaming.
+" nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
