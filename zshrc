@@ -3,7 +3,9 @@ ZSH=$HOME/.oh-my-zsh
 
 # do not share history instantly among terminals
 unsetopt share_history
-zstyle ':completion:*' rehash true
+zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
+fpath=(~/.zsh $fpath)
+autoload -Uz compinit && compinit
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -35,13 +37,13 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ $(uname) == 'Darwin' ]]; then
-    plugins=(git python pip vi-mode urltools brew vagrant laravel composer)
+    plugins=(git python pip vi-mode urltools brew vagrant laravel fancy-ctrl-z)
 else
-    plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user composer)
+    plugins=(git python pip vi-mode systemd urltools archlinux svn systemd-user)
 fi
 
 source $ZSH/oh-my-zsh.sh
-source ~/Projects/3rd-party/z/z.sh
+source /usr/local/etc/profile.d/z.sh
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # load local custom scripts
 if [[ -f ~/.zshrc_private ]]; then
@@ -151,21 +153,51 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 RPROMPT='%{$fg[green]%}${VIMODE}%{$reset_color%}'
 
+# Fuzzy find git branch
+fzf-git-branch() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    git branch --color=always --all --sort=-committerdate |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+        sed "s/.* //"
+}
+fzf-git-checkout() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    local branch
+
+    branch=$(fzf-git-branch)
+    if [[ "$branch" = "" ]]; then
+        echo "No branch selected."
+        return
+    fi
+
+    # If branch name starts with 'remotes/' then it is a remote branch. By
+    # using --track and a remote branch name, it is the same as:
+    # git checkout -b branchName --track origin/branchName
+    if [[ "$branch" = 'remotes/'* ]]; then
+        git checkout --track $branch
+    else
+        git checkout $branch;
+    fi
+}
+alias fgb='fzf-git-branch'
+alias fgco='fzf-git-checkout'
+
 ##################### Functions End ##################################
 
 # Example aliases
-alias config="gvim ~/.zshrc && refresh"
-alias ohmyzsh="gvim ~/.oh-my-zsh"
+alias config="nvim ~/.zshrc && refresh"
+alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias refresh=". ~/.zshrc"
 
 # Customize to your needs...
 PAGER='less -X -M'
 export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
-export LESS=' -R '
+export LESS='-SRXF'
 export CLICOLOR=1
-if [[ "$TERM" == "xterm" ]]; then
-    export TERM='xterm-256color'
-fi
 
 # System commands aliases
 if [[ $(uname) == "Linux" ]]; then
@@ -188,9 +220,14 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 if [[ $(uname) == "Darwin" ]]; then
     export PATH="$HOME/Bin:$PATH"
-    export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
-    export PATH="/usr/local/opt/php@7.1/bin:$PATH"
+    # export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
+    # export PATH="/usr/local/opt/php@7.2/bin:$PATH"
 fi
+export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+export PATH="${HOME}/.vim/plugged/phpactor/bin:$PATH"
+
+# Golang
+export GOROOT="/usr/local/bin"
 
 # wine
 export WINEARCH=win32
@@ -198,14 +235,17 @@ export WINEARCH=win32
 # VPS
 export VPS_PORT=26681
 
+# Locale
+export LANG=en_US.UTF-8
+
 # Homebrew
 if [ -f /usr/local/bin/brew ]; then
     export HOMEBREW_GITHUB_API_TOKEN="55b40e6e6dbee769353a17567859b4ec9296d7ae"
 fi
 
 alias l='ls -CF'
-#alias ll='ls -l'
-#alias la='ls -Al'
+alias ll='ls -alFh'
+alias rll='sudo ls -alFh'
 alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
@@ -219,6 +259,8 @@ alias 700='chmod 700'
 alias 600='chmod 600'
 alias 644='chmod 644'
 alias envs="$EDITOR ~/.profile && source ~/.profile"
+alias flushdns='sudo killall -HUP mDNSResponder'
+
 
 # Platform specific aliases
 if [[ $(uname) == "Linux" ]]; then
@@ -240,9 +282,9 @@ elif [[ $(uname) == "Darwin" ]]; then
 fi
 
 # Vim aliases
-alias v='vim'
+alias v='nvim'
 alias vd='vimdiff'
-alias sv='sudo vim'
+alias sv='sudo nvim'
 if [[ $(uname) == "Darwin" ]]; then
     alias gv='mvim'
     alias gd='mvimdiff'
@@ -251,6 +293,7 @@ else
     alias gv='gvim'
     alias gd='gvimdiff'
     alias sgv='sudo gvim'
+    alias vr='vimr'
 fi
 
 # Git aliases
@@ -264,7 +307,8 @@ alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci
 
 # Distribution specific aliases
 alias english='export LC_ALL=en_US.UTF-8'
-alias proxies='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
+alias fuckgfw='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
+alias fuckme='unset http_proxy https_proxy'
 alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias a='apack'
 alias x='aunpack'
@@ -290,14 +334,15 @@ fi
 
 # Development
 # alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
-alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
+# alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
+alias flog='ls -t storage/logs/* | head -n 1 | xargs tail -f -n 100'
 
 # Misc
 # alias ut="./run --colors=always"
 
 # fix grep complainings
-alias grep="/usr/bin/grep -a $GREP_OPTIONS"
-unset GREP_OPTIONS
+# alias grep="/usr/bin/grep -a $GREP_OPTIONS"
+# unset GREP_OPTIONS
 
 alias phpsh="php -c ~/.php.ini -a"
 alias coverage='phpunitat57 --coverage-html ./report --stop-on-failure'
@@ -331,6 +376,7 @@ export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
 # PHPUnit
 # export XDEBUG_CONFIG="idekey=VSCODE profiler_enable=1"
 export XDEBUG_CONFIG="idekey=VSCODE"
+export XDEBUG_SESSION="VSCODE"
 
 # Setup tab and window title functions for iterm2
 # iterm behaviour: until window name is explicitly set, it'll always track tab title.
@@ -348,9 +394,25 @@ iterm_window () { set_iterm_name 2 $@; }
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ### Added by Zplugin's installer
-source '/Users/donie/.zplugin/bin/zplugin.zsh'
+source "$HOME/.zplugin/bin/zplugin.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 ### End of Zplugin installer's chunk
 
 zplugin load sticklerm3/alehouse
+zplugin snippet OMZ::plugins/composer/composer.plugin.zsh
+
+alias rd='~/.ssh/ssh zyb_jump'
+# alias rm='rmtrash'
+# alias rmdir='rmdirtrash'
+# alias sudo='sudo '
+
+alias fg1='fg %1'
+alias fg2='fg %2'
+alias fg3='fg %3'
+alias fg4='fg %4'
+alias fg5='fg %5'
+
+autoload -U edit-command-line
+zle -N edit-command-line 
+bindkey "^X^E" edit-command-line
