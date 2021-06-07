@@ -1,6 +1,7 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+Plug 'kamykn/spelunker.vim'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/nerdcommenter'
@@ -8,36 +9,34 @@ Plug 't9md/vim-choosewin'
 Plug 'trevordmiller/nova-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'majutsushi/tagbar'
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'wincent/ferret'
 Plug 'gcmt/wildfire.vim'
-Plug 'thaerkh/vim-workspace'
 Plug 'mhinz/vim-signify'
 Plug 'tangledhelix/vim-octopress'
 Plug 'farmergreg/vim-lastplace'
-Plug 'maksimr/vim-jsbeautify'
 Plug 'junegunn/vim-easy-align'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'brooth/far.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'idanarye/vim-merginal'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'tommcdo/vim-fugitive-blame-ext'
 Plug 'tpope/vim-eunuch'
-Plug 'jlanzarotta/bufexplorer'
+Plug 'tpope/vim-unimpaired'
 Plug 'twitvim/twitvim'
 Plug 'godlygeek/tabular'
 let g:ale_disable_lsp = 1
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/gv.vim'
-" " Obsolete
-" Plug 'gregsexton/gitv', {'on': ['Gitv']}
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'drmikehenry/vim-fontsize'
@@ -66,19 +65,61 @@ Plug 'rizzatti/dash.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'liuchengxu/space-vim-theme'
+let g:vimspector_enable_mappings = 'HUMAN'
+Plug 'puremourning/vimspector'
+Plug 'rhysd/git-messenger.vim'
+if has('nvim')
+    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+    Plug 'Shougo/defx.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+" Plug 'Lap1n/coc-projector', {'do': 'yarn install --frozen-lockfile && yarn build'}
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'Valloric/ListToggle'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-datetime'
+Plug 'kana/vim-textobj-lastpat'
+" " Also provided in targets.vim
+" Plug 'kana/vim-textobj-underscore'
+Plug 'kana/vim-textobj-diff'
+Plug 'kentaro/vim-textobj-function-php'
+Plug 'glts/vim-textobj-comment'
+Plug 'wellle/targets.vim'
+Plug 'terryma/vim-expand-region'
+Plug 'AndrewRadev/sideways.vim'
+Plug '0x84/vim-coderunner'
+Plug 'junkblocker/git-time-lapse'
+Plug 'altercation/vim-colors-solarized'
+" Plug 'ericbn/vim-solarized'
+Plug 'jacoborus/tender.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
+Plug 'rhysd/conflict-marker.vim'
+" Plug 'inkarkat/vim-ConflictDetection'
+" Plug 'kana/vim-exjumplist'
+Plug 'justinmk/vim-dirvish'
+Plug 'kristijanhusak/vim-dirvish-git'
+Plug 'sindrets/diffview.nvim'
+" Plug 'segeljakt/vim-silicon'
 
 Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
 Plug 'lilydjwg/colorizer',          { 'for': 'css'      }
 Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
-Plug 'vim-vdebug/vdebug',           { 'for': 'php'      }
-Plug 'diepm/vim-php-wrapper',       { 'for': 'php'      }
+" Plug 'vim-vdebug/vdebug',           { 'for': 'php'      }
 Plug 'tobyS/pdv',                   { 'for': 'php'      }
 Plug 'tobyS/vmustache',             { 'for': 'php'      }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
-" " Blacklist this syntax extension for its serious performance issues.
-" Plug 'StanAngeloff/php.vim',        { 'for': 'php'      }
 Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
 Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
@@ -89,7 +130,6 @@ Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
 
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
-let g:gutentags_plus_nomap = 1
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
@@ -109,22 +149,27 @@ call plug#end()
 "}}}
 
 " ------------------------------ Miscellaneous ------------------------------"{{{
+function! s:bundled(bundle)
+    let plugs = get(g:, 'plugs', {})
+    return has_key(plugs, a:bundle) ? isdirectory(plugs[a:bundle].dir) : 0
+endfunction
+
 " Check the current platform
 function! IsPlatform(mixed)"{{{
     if type(a:mixed) == 1
-	let plist = [a:mixed]
+        let plist = [a:mixed]
     elseif type(a:mixed) == 3
-	let plist = a:mixed
+        let plist = a:mixed
     else
-	return 0
+        return 0
     endif
 
     if has('win16') || has('win32') || has('win64') || has('winnt')
-	return index(plist, 'win')>=0
+        return index(plist, 'win')>=0
     elseif has('mac')
-	return index(plist, 'mac')>=0
+        return index(plist, 'mac')>=0
     else
-	return index(plist, 'unix')>=0
+        return index(plist, 'unix')>=0
     endif
 
     return 0
@@ -145,8 +190,8 @@ else
     set fileencoding=utf-8
 endif
 let &termencoding=&encoding
-"set langmenu=en_US.UTF-8
-set langmenu=zh_CN.UTF-8
+set langmenu=en_US.UTF-8
+" set langmenu=zh_CN.UTF-8
 " language message zh_CN.UTF-8
 language message en_US.UTF-8
 
@@ -170,7 +215,7 @@ endif
 
 " Use command :Man to view manpages
 if has('unix')
-    so $VIMRUNTIME/ftplugin/man.vim
+    source $VIMRUNTIME/ftplugin/man.vim
 endif
 if IsPlatform('win')
     source $VIMRUNTIME/vimrc_example.vim
@@ -178,10 +223,11 @@ endif
 if !IsPlatform('mac')
     source $VIMRUNTIME/mswin.vim
     behave mswin
-    map <c-f> <PageDown>
+    map <C-f> <PageDown>
 endif
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
+source $HOME/.vimrc_private
 
 let g:ruby_host_prog='~/.rbenv/shims/ruby'
 let g:python_host_prog='~/.pyenv/shims/python2'
@@ -203,10 +249,11 @@ set lazyredraw " Do not redraw while macros are running , this accelerates vim g
 set expandtab
 set confirm
 set viminfo+=!
-set history=100		" keep 50 lines of command line history
+set history=100        " keep 50 lines of command line history
 set hlsearch
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}[%Y]%=%l,%c%V%8P
 set ignorecase
+set smartcase
 set fdm=marker
 set splitbelow
 set noequalalways
@@ -217,10 +264,14 @@ set mouse=a
 set vb t_vb=
 set laststatus=2
 set updatetime=10000
-set cursorline
-set cursorcolumn
+set nocursorline
+set nocursorcolumn
 set undodir=~/.vim/undodir/
 set undofile
+set relativenumber
+set termguicolors
+set nrformats+=alpha
+" set spell
 if IsPlatform('win')
     set grepprg=d:/dev/tool/GnuWin32/bin/grep.exe\ -n
 else
@@ -230,62 +281,50 @@ endif
 set wildignore=*.class,*.pyc
 
 if has('gui_running')
-    " Font settings
-    if IsPlatform('win')
-	set guifont=Source\ Code\ Pro:h11
-	set background=dark
-	" set background=light
-	colorscheme freya
-    elseif IsPlatform('mac')
-	if !has('nvim')
-	    set macligatures
-	    set macthinstrokes
-	    " set guifont=Monaco\ for\ Powerline:h16
-	    set guifont=Cascadia\ Code\ PL:h16
-	endif
-	set linespace=2
-	" set background=dark
-	set background=light
-	" colorscheme dracula
-	colorscheme solarized
-	" colorscheme nova
-	" colorscheme nord
-    else
-	" set guifont=CosmicSansNeueMono\ 15
-	set guifont=FantasqueSansMono\ 15
-	" set guifont=Source\ Code\ Pro\ 12
-	"set guifont=inconsolata\ Bold\ 13
-	"set guifontwide=YaHei\ Consolas\ Hybrid\ 12
-	"set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ Bold\ 13
-	"set guifont=Consolas\ Bold\ 13
-	"set guifont=Consolas\ 13
-	set guifontwide=DeJaVu\ Sans\ Yuan\ Ti\ 11
-	" set background=dark
-	set background=light
-	colorscheme solarized
-	" colorscheme nova
-	" colorscheme nord
+    if !has('nvim')
+        set macligatures
+        set macthinstrokes
+        " set guifont=Monaco\ for\ Powerline:h16
+        set guifont=Cascadia\ Code\ PL:h16
+        " set guifont=CaskaydiaCove\ Nerd\ Font\ Mono:h16
     endif
+    set linespace=2
 
-    set lines=65 columns=189
+    " set background=dark
+    " set background=light
+    
+    " let g:solarized_diffmode="high"
+    " colorscheme solarized
+
+    colorscheme flattened_light
+    " colorscheme dracula
+    " colorscheme nova
+    " colorscheme nord
+    " colorscheme tender
+    " colorscheme onedark
+    " colorscheme gruvbox
+    " colorscheme base16-default-light
+
+    " set lines=65 columns=189
+    set lines=70 columns=300
 
     " GUI Options
     set go-=T
     set go-=m
     set go-=L
     if IsPlatform('win')
-	set go-=r
+        set go-=r
     endif
     set go-=r
     "set go+=b
 
     " Toggle menu bar
     if !IsPlatform('mac')
-	map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
-		    \set guioptions-=m <bar>
-		    \else <Bar>
-		    \set guioptions+=m <Bar>
-		    \endif<CR>
+        map <silent> <C-S-F2> :if &guioptions =~# 'm' <Bar>
+                    \set guioptions-=m <bar>
+                    \else <Bar>
+                    \set guioptions+=m <Bar>
+                    \endif<CR>
     endif
 else
     " For CLI vim
@@ -297,6 +336,7 @@ else
     " colorscheme nord
     " colorscheme dracula
     colorscheme space_vim_theme
+    " colorscheme flattened_light
 endif
 
 " Auto reload file if changed outside.
@@ -306,94 +346,42 @@ au FocusGained,BufEnter * checktime
 "}}}
 
 " ------------------------------ Plugin Settings --------------------------{{{
-" Tagbar
-let g:tagbar_compact          = 1
-let g:tagbar_usearrows        = 1
-let g:tagbar_width            = 40
-let g:tagbar_autofocus        = 1
-let g:tagbar_show_visibility  = 1
-let g:tagbar_show_linenumbers = 1
-let g:tagbar_position = 'topleft vertical'
-let g:tagbar_type_php  = {
-        \ 'ctagstype' : 'php',
-        \ 'kinds'     : [
-        \ 'i:interfaces',
-        \ 'c:classes',
-        \ 'd:constant definitions',
-        \ 'f:functions',
-        \ 'j:javascript functions:1'
-        \ ]
-        \ }
-let g:tagbar_type_go = {
-        \ 'ctagstype' : 'go',
-        \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-        \ ],
-        \ 'sro' : '.',
-        \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-        \ },
-        \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-        \ },
-        \ 'ctagsbin'  : 'gotags',
-        \ 'ctagsargs' : '-sort -silent'
-        \ }
-let g:tagbar_type_octopress = {
-        \ 'ctagstype': 'markdown',
-        \ 'ctagsbin' : 'markdown2ctags',
-        \ 'ctagsargs' : '-f - --sort=yes',
-        \ 'kinds' : [
-        \ 's:sections',
-        \ 'i:images'
-        \ ],
-        \ 'sro' : '|',
-        \ 'kind2scope' : {
-        \ 's' : 'section',
-        \ },
-        \ 'sort': 0,
-        \ }
-
 " FencView settings
 let g:fencview_autodetect    = 0
 let g:fencview_checklines    = 10
 let g:fencview_auto_patterns = '*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger       = '<c-tab>'
-let g:UltiSnipsJumpForwardTrigger  = '<c-tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+" UltiSnips settings
+let g:UltiSnipsExpandTrigger       = '<C-Tab>'
+let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 let g:UltiSnipsSnippetsDir         = '~/.vim/UltiSnips'
 let g:ulti_expand_or_jump_res      = 0
+let g:UltiSnipsEditSplit           = 'tabdo'
+" let g:UltiSnipsEnableSnipMate      = 0
+
+inoremap <silent> <TAB> <C-r>=CleverTab()<CR>
+snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
 function! CleverTab()"{{{
     call UltiSnips#ExpandSnippetOrJump()
     if g:ulti_expand_or_jump_res
-    return ''
+        return ''
     else
-    if pumvisible()
-        return "\<c-n>"
-    else
-        return deoplete#manual_complete()
-    endif
+        if pumvisible()
+            return "\<c-n>"
+        else
+            return coc#refresh()
+        endif
     endif
 endfunction"}}}
-inoremap <silent> <tab> <c-r>=CleverTab()<cr>
-snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
 
 " Ferret
-let g:FerretExecutable='ag'
+let g:FerretExecutable='rg'
+let g:FerretExecutableArguments = {
+            \   'ag': '--skip-vcs-ignores --ignore-dir=storage --vimgrep --width 4096 --follow --ignore-dir=vendor/composer --ignore-dir=storage',
+            \   'rg': '--no-ignore-vcs --vimgrep --no-heading --no-config --max-columns 4096 --ignore-case --follow -g !vendor/composer -g !storage'
+            \ }
+let g:FerretQFHandler='botright copen 20'
 
 nmap <leader>ak  <Plug>(FerretAck)
 nmap <leader>lak <Plug>(FerretLack)
@@ -403,7 +391,14 @@ vmap <leader>ak  y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
 vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
 
 " List all tasks under the current directory
-map <leader>lstd :Ack //\ (TODO\|FIXME) --ignore PHPExcel --ignore public<CR>
+map <leader><leader>tl :Ack //\s(TODO\|FIXME)\sdonie<CR>
+if has("autocmd")
+    " Highlight TODO, FIXME, NOTE, etc.
+    if v:version > 701
+        autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
+        autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
+    endif
+endif
 
 " Pydiction Settings
 if IsPlatform('win')
@@ -417,6 +412,10 @@ let g:sql_type_default = 'sqlsvr'
 
 " NERD_commenter Settings
 let NERDSpaceDelims = 1
+let NERDCreateDefaultMappings = 0
+map <leader>cc <plug>NERDCommenterComment
+map <leader>cs <plug>NERDCommenterSexy
+map <leader>cu <plug>NERDCommenterUncomment
 
 " NERD Tree
 let NERDTreeIgnore      = ['\.scc$', '\.pyc$', '\~$']
@@ -427,6 +426,14 @@ let twitvim_enable_python = 1
 " let twitvim_proxy         = '127.0.0.1:8123'
 let twitvim_browser_cmd   = 'open -a Safari'
 " let twitvim_browser_cmd = '/usr/bin/google-chrome-stable'
+let twitvim_count = 30
+nmap <leader>twit :PosttoTwitter<CR>
+nmap <leader>twmy :UserTwitter<CR>
+nmap <leader>twls :FriendsTwitter<CR>
+nmap <leader>twpb :PublicTwitter<CR>
+nmap <leader>twmt :MentionsTwitter<CR>
+nmap <leader>twdm :DMTwitter<CR>
+nmap <leader>twre :RetweetedByMeTwitter<CR>
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\plugged\binary-utils\dist\bin\curl.exe -o'
@@ -445,85 +452,76 @@ let g:DirDiffExcludes = 'CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags'
 " Colorizer
 let g:colorizer_startup = 0
 
-" Tasklist
-noremap <leader>tl :TaskList<CR>
+" " Minibufexpl
+" let g:miniBufExplSplitBelow               = 0
+" let g:bufExplorerDisableDefaultKeyMapping = 1
+" map <leader>be :ToggleBufExplorer<CR>
 
-" Minibufexpl
-let g:miniBufExplSplitBelow               = 0
-let g:bufExplorerDisableDefaultKeyMapping = 1
-map <leader>be :ToggleBufExplorer<CR>
+" " Vdebug.vim
+        " " \        '/app': '/Users/don/***REMOVED***/***REMOVED***',
+" let g:vdebug_options= {
+        " \    'path_maps' : {
+        " \    },
+        " \    'port' : 9002,
+        " \    'server' : '0.0.0.0',
+        " \    'timeout' : 60,
+        " \    'on_close' : 'stop',
+        " \    'break_on_open' : 0,
+        " \    'ide_key' : '',
+        " \    'remote_path' : '',
+        " \    'local_path' : '',
+        " \    'debug_window_level' : 0,
+        " \    'debug_file_level' : 0,
+        " \    'debug_file' : '',
+        " \    'marker_default' : '⬦',
+        " \    'watch_window_style' : 'expanded',
+        " \    'marker_closed_tree' : '▸',
+        " \    'marker_open_tree' : '▾',
+        " \    'sign_breakpoint' : '▷',
+        " \    'sign_current' : '▶',
+        " \    'continuous_mode'  : 1,
+        " \    'simplified_status': 1,
+        " \    'layout': 'vertical',
+        " \}
+" let g:vdebug_keymap = {
+        " \    'run' : '<F5>',
+        " \    'run_to_cursor' : '<S-F5>',
+        " \    'step_over' : '<F10>',
+        " \    'step_into' : '<F11>',
+        " \    'step_out' : '<F12>',
+        " \    'close' : '<F6>',
+        " \    'detach' : '<F7>',
+        " \    'set_breakpoint' : '<F8>',
+        " \    'get_context' : '<F9>',
+        " \    'eval_under_cursor' : '<Leader>e',
+        " \    'eval_visual' : '<Leader>e',
+        " \}
 
-" Vdebug.vim
-let g:vdebug_options= {
-        \    'path_maps' : {
-        \    },
-        \    'port' : 9002,
-        \    'server' : '0.0.0.0',
-        \    'timeout' : 60,
-        \    'on_close' : 'stop',
-        \    'break_on_open' : 0,
-        \    'ide_key' : '',
-        \    'remote_path' : '',
-        \    'local_path' : '',
-        \    'debug_window_level' : 0,
-        \    'debug_file_level' : 0,
-        \    'debug_file' : '',
-        \    'marker_default' : '⬦',
-        \    'watch_window_style' : 'expanded',
-        \    'marker_closed_tree' : '▸',
-        \    'marker_open_tree' : '▾',
-        \    'sign_breakpoint' : '▷',
-        \    'sign_current' : '▶',
-        \    'continuous_mode'  : 1,
-        \    'simplified_status': 1,
-        \    'layout': 'vertical',
-        \}
-let g:vdebug_keymap = {
-        \    'run' : '<F5>',
-        \    'run_to_cursor' : '<S-F5>',
-        \    'step_over' : '<F10>',
-        \    'step_into' : '<F11>',
-        \    'step_out' : '<F12>',
-        \    'close' : '<F6>',
-        \    'detach' : '<F7>',
-        \    'set_breakpoint' : '<F8>',
-        \    'get_context' : '<F9>',
-        \    'eval_under_cursor' : '<Leader>e',
-        \    'eval_visual' : '<Leader>e',
-        \}
-
-" vim-jsbeautify
-vmap <leader>jsb :'<,'>!js-beautify -i<CR>
-augroup jsbeautify
-    au!
-    autocmd FileType javascript noremap <buffer>  <leader>jsb :call JsBeautify()<CR>
-    autocmd FileType html noremap <buffer> <leader>htmlb :call HtmlBeautify()<CR>
-    autocmd FileType css noremap <buffer> <leader>cssb :call CSSBeautify()<CR>
-augroup END
-
-" ALE
+" ALE settings
 let g:ale_sign_column_always = 0
-let g:ale_set_highlights = 0
+let g:ale_set_highlights = 1
+let g:ale_set_signs = 1
+let g:ale_sign_highlight_linenrs = 1
 let g:airline#extensions#ale#enabled = 1
-" 自定义error和warning图标
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
-" 显示Linter名称,出错或警告等相关信息
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-" PHP
+
 let g:ale_php_phpcs_standard = 'PSR2'
 " let g:ale_php_phpmd_ruleset = '~/.phpmd.xml'
 let g:ale_php_phpcs_executable='./vendor/bin/phpcs'
 let g:ale_php_php_cs_fixer_executable='./vendor/bin/php-cs-fixer'
 let g:ale_fixers = {'php': ['php_cs_fixer']}
 let g:ale_fix_on_save = 0
+
+let g:ale_linters = {'php': ['phpstan'], 'markdown': ['markdownlint']}
+let g:ale_lint_on_save = 1
 let g:ale_php_phpstan_executable='./vendor/bin/phpstan'
 let g:ale_php_phpstan_configuration='./phpstan.neon'
 let g:ale_php_phpstan_level=7
-let g:ale_linters = {'php': ['phpstan'], 'markdown': ['markdownlint']}
-let g:ale_lint_on_save = 1
+
 " 普通模式下，sp前往上一个错误或警告，sn前往下一个错误或警告
 nmap sp <Plug>(ale_previous_wrap)
 nmap sn <Plug>(ale_next_wrap)
@@ -531,6 +529,7 @@ nmap sn <Plug>(ale_next_wrap)
 nmap <Leader>at :ALEToggle<CR>
 " 查看错误或警告的详细信息
 nmap <Leader>ad :ALEDetail<CR>
+nmap <Leader>af :ALEFix<CR>
 
 " pdv
 let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
@@ -553,8 +552,6 @@ augroup gtags
         au FileType php,python,c,cpp,javascript,go map <buffer> <C-S-]> :Gtags -r<CR><CR>
     endif
 augroup END
-nnoremap <leader><C-]> :execute 'Unite gtags/def:'.expand('<cword>')<CR>
-nnoremap <leader><C-[> :execute 'Unite gtags/ref:'.expand('<cword>')<CR>
 
 " FastFold
 " let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
@@ -570,21 +567,34 @@ let g:instant_markdown_autostart = 0
 let g:vim_markdown_folding_disabled = 1
 
 " leaderf
-let g:Lf_DefaultMode     = 'FullPath'
 let g:Lf_ShortcutF       = '<C-P>'
+let g:Lf_DefaultMode     = 'NameOnly'
+let g:Lf_DelimiterChar   = ";"
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PopupColorscheme = 'gruvbox_material'
+" let g:Lf_PopupColorscheme = 'powerline'
+let g:Lf_PreviewInPopup = 1
 let g:Lf_CommandMap      = {'<c-c>': ['<esc>', '<c-c>']}
-let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" -U'
+" let g:Lf_ExternalCommand = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$" --skip-vcs-ignores --follow'
+let g:Lf_ExternalCommand = 'rg --files --no-ignore --follow "%s"'
 let g:Lf_ReverseOrder    = 1
 " let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "Cascadia Code PL" }
-" let g:Lf_WindowPosition = 'popup'
-" let g:Lf_PreviewInPopup = 1
-nmap <leader>ot :LeaderfTag<CR>
+let g:Lf_ShowDevIcons = 0
+" let g:Lf_DevIconsFont = "CaskaydiaCove Nerd Font Mono"
+nmap <leader>ot :Leaderf tag<CR>
 nmap <leader>bt :LeaderfBufTag<CR>
 nmap <leader>bf :LeaderfFunction<CR>
+nmap <leader>be :LeaderfBuffer<CR>
+nmap <leader>fl :LeaderfLine<CR>
+nmap <leader>hp :LeaderfHelp<CR>
+nmap <leader>cm :LeaderfCommand<CR>
 
 " airline
-let g:airline_powerline_fonts                            = 1
-let g:airline#extensions#tagbar#enabled                  = 1
+if has('nvim')
+    let g:airline_powerline_fonts = 0
+else
+    let g:airline_powerline_fonts = 1
+endif
 let g:airline#extensions#wordcount#enabled               = 1
 let g:airline#extensions#tabline#enabled                 = 1
 let g:airline#extensions#tabline#show_splits             = 0
@@ -615,30 +625,20 @@ endfun"}}}
 " Options: ['cwd', 'mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert']
 let g:airline_section_a = airline#section#create_left(['cwd', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert'])
 
-" vim-workspace
-nnoremap <leader>ss :ToggleWorkspace<CR>
-let g:workspace_session_name = '.session.tmp'
-let g:workspace_autosave = 0
-let g:workspace_autosave_ignore = ['gitcommit', 'qf', 'nerdtree', 'twitvim', 'GV']
-let g:workspace_session_disable_on_args = 1
-let g:workspace_persist_undo_history = 0
-" let g:workspace_undodir=&undodir
-set sessionoptions-=blank
-
 " denite or unite
 " if has('python3')
     " call denite#custom#map(
-   	 " \ 'insert',
-   	 " \ '<C-j>',
-   	 " \ '<denite:move_to_next_line>',
-   	 " \ 'noremap'
-   	 " \)
+        " \ 'insert',
+        " \ '<C-j>',
+        " \ '<denite:move_to_next_line>',
+        " \ 'noremap'
+        " \)
     " call denite#custom#map(
-   	 " \ 'insert',
-   	 " \ '<C-k>',
-   	 " \ '<denite:move_to_previous_line>',
-   	 " \ 'noremap'
-   	 " \)
+        " \ 'insert',
+        " \ '<C-k>',
+        " \ '<denite:move_to_previous_line>',
+        " \ 'noremap'
+        " \)
     " " nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
     " " nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
     " nnoremap <leader>jl :<C-u>Denite jump<CR>
@@ -679,37 +679,52 @@ augroup vim_php_namespace"{{{
     " do expansions
     autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
     autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
-    " do sortings
-    autocmd FileType php inoremap <Leader>su <Esc>:call PhpSortUse()<CR>
-    autocmd FileType php noremap  <Leader>su :call PhpSortUse()<CR>
 augroup END"}}}
 
-" vim-test
+" vim-test settings
 augroup vim_test"{{{
     au!
-    autocmd FileType php nnoremap <leader>tn :TestNearest<cr>
-    autocmd FileType php nnoremap <leader>tL :TestLast<cr>
+    autocmd FileType php nnoremap <leader>tn :call MyTestRun('nearest')<CR>
+    autocmd FileType php nnoremap <leader>tL :call MyTestRun('last')<CR>
+    autocmd FileType php nnoremap <leader>tf :call MyTestRun('file')<CR>
+    autocmd FileType php nnoremap <leader>trbn :TestNearest -d rebase<CR>
+    autocmd FileType php nnoremap <leader>trbf :TestFile -d rebase<CR>
 augroup END"}}}
-" let test#strategy = 'vimproc'
+function! MyTestRun(runner)"{{{
+    if (exists('g:vimspector_is_running'))
+        let g:test#php#phpunit#executable = 'env XDEBUG_SESSION=1 ./vendor/bin/phpunit'
+    else
+        let g:test#php#phpunit#executable = './vendor/bin/phpunit'
+    endif
+
+    call test#run(a:runner, [])
+endfunction"}}}
+
 if has('nvim')
     let test#strategy = 'neovim'
 else
-    let test#strategy = 'asyncrun'
+    " let test#strategy = 'asyncrun'
+    " let test#strategy = 'dispatch'
+    let test#strategy = 'vimterminal'
+    " let test#vim#term_position = "topleft"
 endif
 
-" Fugitive
-nnoremap <leader>gst :Gstatus<CR>
-nnoremap <leader>gpl :Gpull<CR>
-nnoremap <leader>gps :Gpush<CR>
+" Git mappings, coc, fugitive
+nnoremap <leader>gg :Git<CR>
+nnoremap <leader>gl :Git pull<CR>
+nnoremap <leader>gp :Git push<CR>
 nnoremap <leader>dgh :diffget //2<CR>
 nnoremap <leader>dgl :diffget //3<CR>
 nnoremap <Leader>gb :Git blame<CR>
+nnoremap <leader>gc :<C-u>CocList branches<cr>
+nnoremap <leader>gtl :GitTimeLapse<CR>
 
 " gv.vim
-nnoremap <leader>gll :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
-nnoremap <leader>glc :GV! --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
-nnoremap <leader>gla :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --author<space>
-nnoremap <leader>glg :GV --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --grep<space>
+nnoremap <leader>gvl :GV  --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
+nnoremap <leader>gvc :GV! --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges<CR>
+nnoremap <leader>gva :GV  --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --author<space>
+nnoremap <leader>gvg :GV  --pretty=%cd\ %h%d\ %s\ (%an,\ %ci) --date=format:%Y-%m-%d --abbrev-commit --no-merges --grep<space>
+vnoremap <leader>gvc :GV!<CR>
 augroup gv
     au FileType git set fdl=0
 augroup END
@@ -741,8 +756,8 @@ nmap <silent> <Leader>0  <Plug>FontsizeDefault
 if has('nvim')
     " nvim-toggle-terminal
     if has('gui_running')
-    nnoremap <silent> <D-j> :ToggleTerminal<Enter>
-    tnoremap <silent> <D-j> <C-\><C-n>:ToggleTerminal<Enter>
+    nnoremap <silent> <D-t> :ToggleTerminal<Enter>
+    tnoremap <silent> <D-t> <C-\><C-n>:ToggleTerminal<Enter>
     " else
     " nnoremap <silent> <C-z> :ToggleTerminal<Enter>
     " tnoremap <silent> <C-z> <C-\><C-n>:ToggleTerminal<Enter>
@@ -750,15 +765,27 @@ if has('nvim')
 else
     " toggle-terminal
     let g:toggle_terminal#command = 'zsh'
-    nnoremap <silent> <D-j> :ToggleTerminal<CR>
-    tnoremap <silent> <D-j> <C-w>:ToggleTerminal<CR>
+    nnoremap <silent> <D-t> :ToggleTerminal<CR>
+    tnoremap <silent> <D-t> <C-w>:ToggleTerminal<CR>
 endif
 
-" startify
+" startify settings
+nnoremap <leader><leader>st :Startify<CR>
 let g:startify_change_to_vcs_root = 1
+let g:startify_session_dir = '~/.vim/sessions'
+let g:startify_session_sort = 1
+let g:startify_lists = [
+      \ { 'type': 'files',     'header': ['   MRU']            },
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+      \ { 'type': 'commands',  'header': ['   Commands']       },
+      \ ]
 
 
-"""""""""""""""""""""""""""""""""" gutentags """"""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""" gutentags settings """"""""""""""""""""""""""""""""""
+let g:gutentags_plus_nomap = 1
+" let g:gutentags_define_advanced_commands = 1
 " enable gtags module
 let g:gutentags_modules = ['ctags', 'gtags_cscope']
 " config project root markers.
@@ -767,12 +794,105 @@ let g:gutentags_modules = ['ctags', 'gtags_cscope']
 let g:gutentags_cache_dir = expand('~/.cache/tags')
 " change focus to quickfix window after search (optional).
 let g:gutentags_plus_switch = 1
+let g:gutentags_ctags_exclude = ['_ide_helper.php', '*.js', 'Makefile']
+let g:gutentags_ctags_extra_args = ['--PHP-kinds=+cdfint-va']
 
-"""""""""""""""""""""""""""""""""" undotree """"""""""""""""""""""""""""""""""
+" undotree
 nnoremap <leader>ut :UndotreeToggle<CR>
 
-"""""""""""""""""""""""""""""""""" vim-php-manual """"""""""""""""""""""""""""""""""
+" vim-php-manual
 let g:php_manual_online_search_shortcut = '<leader>pm'
+
+let g:merginal_splitType=''
+
+" defx settings
+call defx#custom#option('_', {
+      \ 'winwidth': 50,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 0,
+      \ 'buffer_name': '',
+      \ 'toggle': 1,
+      \ 'resume': 1
+      \ })
+
+nmap <silent> <Leader>dt :Defx<cr>
+
+autocmd FileType defx call s:defx_mappings()
+
+function! s:defx_mappings() abort
+    nnoremap <silent><buffer><expr> o     <SID>defx_toggle_tree()                " 打开或者关闭文件夹，文件
+    nnoremap <silent><buffer><expr> t     defx#do_action('open', 'tabnew')
+    nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files') " 显示隐藏文件
+    nnoremap <silent><buffer><expr> <C-r> defx#do_action('redraw')
+    nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'FILENAME')
+endfunction
+
+function! s:defx_toggle_tree() abort
+    " Open current file, or toggle directory expand/collapse
+    if defx#is_directory()
+        return defx#do_action('open_or_close_tree')
+    endif
+    return defx#do_action('multi', ['drop'])
+endfunction
+
+nnoremap <silent>sf :<C-u>Defx -listed -resume
+      \ -columns=indent:mark:icon:icons:filename:git:size
+      \ -buffer-name=tab`tabpagenr()`
+      \ `expand('%:p:h')` -search=`expand('%:p')`<CR>
+nnoremap <silent><leader>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
+
+" vim-plug
+let g:plug_window='-tabnew'
+
+" vim-clap
+let g:clap_theme = 'material_design_dark'
+" let g:clap_theme = { 'search_text': {'guifg': 'red', 'ctermfg': 'red'} }
+let g:clap_provider_grep_executable = 'rg'
+let g:clap_provider_grep_opts = '--no-ignore-vcs --vimgrep --no-heading --no-config --max-columns 4096 --ignore-case --follow'
+
+" unimpaired
+vmap <S-Up>    [egv
+vmap <S-Down>  ]egv
+vmap <S-Left>  <gv
+vmap <S-Right> >gv
+
+" dirvish settings
+if s:bundled('vim-dirvish')
+    let g:dirvish_mode = ':sort ,^\v(.*[\/])|\ze,'
+    let g:dirvish_git_show_ignored = 0
+
+    nmap <silent> <Space>- :Dirvish<CR>
+    nmap <silent> _ :execute (@% == '' ? 'Dirvish' : 'Dirvish %')<CR>
+    autocmd FileType dirvish nmap <silent><buffer> _ <Plug>(dirvish_up)
+endif
+
+" sideways settings
+nnoremap <S-Left>  :SidewaysLeft<CR>
+nnoremap <S-Right> :SidewaysRight<CR>
+
+" vim-expand-region settings
+vmap v <Plug>(expand_region_expand)
+vmap V <Plug>(expand_region_shrink)
+
+" vim-silicon settings
+if s:bundled('vim-silicon')
+    let g:silicon = {
+          \   'theme':              'Dracula',
+          \   'font':                  'Hack',
+          \   'background':         '#AAAAFF',
+          \   'shadow-color':       '#555555',
+          \   'line-pad':                   2,
+          \   'pad-horiz':                 80,
+          \   'pad-vert':                 100,
+          \   'shadow-blur-radius':         0,
+          \   'shadow-offset-x':            0,
+          \   'shadow-offset-y':            0,
+          \   'line-number':           v:true,
+          \   'round-corner':          v:true,
+          \   'window-controls':       v:false,
+          \ }
+endif
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -837,19 +957,21 @@ augroup END
 let g:sh_fold_enabled=1
 augroup fold_method
     au!
-    au FileType python     set fdm=indent
-    au FileType sql        set fdm=manual
-    au FileType sh         set fdm=syntax
-    au FileType java       set fdm=syntax
-    au FileType java       set fdl=1
-    au FileType javascript set fdl=1
+    au FileType python     setl fdm=indent
+    au FileType sql        setl fdm=manual
+    au FileType sh         setl fdm=syntax
+    au FileType java       setl fdm=syntax
+    au FileType java       setl fdl=1
+    au FileType javascript setl fdl=1
+    au FileType php        setl fdm=indent
+    au FileType git        setl fdm=syntax
 augroup END
 
-" Plain text
-augroup text
-    au!
-    au BufNewFile,BufRead *.txt set wrap
-augroup END
+" " Plain text
+" augroup text
+    " au!
+    " au BufNewFile,BufRead *.txt set wrap
+" augroup END
 
 " Dokuwiki
 augroup dokuwiki
@@ -914,30 +1036,28 @@ imap <leader>x <ESC>:x<CR>
 imap <leader>u <C-O>:normal u<CR>
 imap <leader>o <C-O>:normal o<CR>
 imap <leader>O <C-O>:normal O<CR>
-nmap <Space>   <Pagedown>
 nmap <C-S-U>   :e!<CR>
 imap <C-S-U>   <C-O>:e!<CR>
 imap <C-Q>     <ESC>:wq<CR>
 xnoremap <expr> p '"_d"'.v:register.'P'
 
-" 页签
+" Tab and window operations
 nmap <C-T><C-T> :tabnew<CR>
 imap <C-T><C-T> <ESC>:tabnew<CR>
 nmap <C-T><C-W> :tabc<CR>
 imap <C-T><C-W> <ESC>:tabc<CR>
+nmap <leader>tc :tabc<CR>
+imap <leader>tc <ESC>:tabc<CR>
 nmap <C-Tab>    :tabn<CR>
 imap <C-Tab>    <ESC>:tabn<CR>
 nmap <C-S-Tab>  :tabp<CR>
 imap <C-S-Tab>  <ESC>:tabp<CR>
 nmap gr         :tabp<CR>
-nmap <leader><leader>du :tab sp<CR>
-imap <leader><leader>du :tab sp<CR>
-
-" quickfix and location list
-nnoremap <leader><leader>cn :cnext<CR>
-nnoremap <leader><leader>cp :cprevious<CR>
-nnoremap <leader><leader>ln :lnext<CR>
-nnoremap <leader><leader>lp :lprevious<CR>
+nmap <leader><leader>dut :tab sp<CR>
+imap <leader><leader>dut :tab sp<CR>
+nnoremap <leader>oo <C-w><C-o>
+inoremap <leader>oo <ESC><C-w><C-o>a
+nnoremap <C-U> <C-I>
 
 " 编辑与当前文件路径相关的文件
 nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
@@ -945,15 +1065,13 @@ nmap <leader><leader>D :e <C-R>=expand("%:p:~:h").'/'<CR>
 nmap <leader><leader>rn :Rename <C-R>=expand('%:t')<CR>
 nmap <leader><leader>mv :Move <C-R>=expand('%:.')<CR>
 nmap <leader><leader>rm :Delete
-nmap <leader><leader>cp :saveas <C-R>=expand('%:.')<CR>
+nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
+" Copy relative path of current file.
+nmap <leader><leader>crp :<C-u>let @+=expand('%:.')<CR>:echo 'File path copied.'<CR>
 
-" Quickfix and location windows
-" let g:toggle_list_no_mappings=1
-" noremap <F12> :call ToggleLocationList()<CR>
-nmap <leader>lo :lopen<CR>
-nmap <leader>lc :lclose<CR>
-nmap <leader>co :QFix<CR>
-nmap <leader>ct :QFixToggle<CR>
+" Toggle quickfix and location list
+let g:lt_location_list_toggle_map = '<leader>lt'
+let g:lt_quickfix_list_toggle_map = '<leader>ct'
 
 " 分割窗口
 nmap <leader>hs :sp<CR><C-W>_
@@ -977,21 +1095,18 @@ nnoremap <C-h>   <C-W>h
 nnoremap <C-l>   <C-W>l
 
 " Navigating long lines
-nnoremap <A-h> <left>
-nnoremap <A-l> <right>
-nnoremap <A-j> gj
-nnoremap <A-k> gk
-inoremap <A-h> <left>
-inoremap <A-l> <right>
-inoremap <A-j> <C-o>gj
-inoremap <A-k> <C-o>gk
-vnoremap <A-h> <left>
-vnoremap <A-l> <right>
-vnoremap <A-j> <down>
-vnoremap <A-k> <up>
-
-"显示、隐藏ctags侧边栏
-nmap <leader>tt :TagbarToggle<CR>
+nnoremap <M-h> <left>
+nnoremap <M-l> <right>
+nnoremap <M-j> gj
+nnoremap <M-k> gk
+inoremap <M-h> <left>
+inoremap <M-l> <right>
+inoremap <M-j> <C-o>gj
+inoremap <M-k> <C-o>gk
+vnoremap <M-h> <left>
+vnoremap <M-l> <right>
+vnoremap <M-j> <down>
+vnoremap <M-k> <up>
 
 " 删除包含选中字符串的行
 nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
@@ -1006,21 +1121,11 @@ exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
 exec 'au! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
 
-" TwitVim
-nmap <leader>twit :PosttoTwitter<CR>
-nmap <leader>twmy :UserTwitter<CR>
-nmap <leader>twls :FriendsTwitter<CR>
-nmap <leader>twpb :PublicTwitter<CR>
-nmap <leader>twmt :MentionsTwitter<CR>
-nmap <leader>twdm :DMTwitter<CR>
-nmap <leader>twre :RetweetedByMeTwitter<CR>
-" Add support for markdown files in tagbar.
-
-" CTags
-" nmap <leader>mkt :VimProcBang gtags<CR>
-" nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*" .<CR>
-" nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
-nmap <leader>mkt :AsyncRun gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
+" " CTags
+" " nmap <leader>mkt :VimProcBang gtags<CR>
+" " nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*" .<CR>
+" " nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
+" nmap <leader>mkt :AsyncRun gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
 
 " 查看当前目录
 nmap <leader>pwd :pwd<CR>
@@ -1031,12 +1136,13 @@ nmap <leader>nf :NERDTreeFind<CR>
 nmap <leader>nd :NERDTree %:h<CR>
 
 " 简繁转换
-nmap <leader>g2b <ESC>:cal G2B()<CR>
-nmap <leader>b2g <ESC>:cal B2G()<CR>
+nmap <leader>g2b <ESC>:call G2B()<CR>
+nmap <leader>b2g <ESC>:call B2G()<CR>
 
 " 查找與替換
 nmap <leader>ff yiw/\<<C-R>"\>\C
-vmap <leader>ff y/<C-R>=XEscapeRegex(@")<CR>\C
+vmap <leader>ff y/\m<C-R>=XEscapeRegex(@")<CR>\C
+" vmap <leader>ff y/\V<C-R>=escape(@",'/\')<CR>
 nmap <leader>rr yiw:%s/\<<C-R>"\>\C//g<LEFT><LEFT>
 vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 nmap <leader>rl yiw:s/\<<C-R>"\>\C//g<LEFT><LEFT>
@@ -1069,7 +1175,7 @@ nmap <leader><leader>cc :nohl<CR>
 " endif
 
 " Format JSON string
-nmap <leader>json :%!python -m json.tool<CR>
+nmap <leader>json :%!python -m json.tool<CR>:set ft=json<CR>
 
 " Open terminal in the current path
 if has('unix')
@@ -1078,7 +1184,7 @@ elseif has('win32')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
 endif
 
-" UltiSnips
+" UltiSnips mappings
 nmap <leader>ue :UltiSnipsEdit<Space>
 
 " incsearch.vim
@@ -1091,6 +1197,35 @@ nmap <leader>!! :<up><CR>
 
 " dash
 nmap <silent> <leader>d <Plug>DashSearch
+
+" Vimspector mappings
+nmap <leader><leader><F3> :call MyVimspectorRun('reset')<CR>
+nmap <F3> :call MyVimspectorRun('stop')<CR>
+nmap <F5> :call MyVimspectorRun('continue')<CR>
+function! MyVimspectorRun(command)"{{{
+    if a:command == 'stop'
+        call vimspector#Stop()
+    elseif a:command == 'reset'
+        call vimspector#Reset()
+    elseif a:command == 'continue'
+        call vimspector#Continue()
+    else
+        echoerr 'Unsupported command!'
+        return
+    endif
+
+    if a:command == 'continue'
+        let g:vimspector_is_running = 1
+    elseif exists('g:vimspector_is_running')
+        unlet g:vimspector_is_running
+    endif
+endfunction"}}}
+
+" Open MR of the current branch in web browser
+nmap <leader>mr :AsyncRun glab mr view -w<CR>
+
+" Set filetype
+nmap <leader>ft :set filetype=
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -1265,12 +1400,12 @@ function! Preserve(command)"{{{
     let @/=_s
     call cursor(l, c)
 endfunction"}}}
-" 清除行尾空格
-nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
-" 美化缩进
-nmap _= :call Preserve("normal gg=G")<CR>
-" 替换Tab为4个空格
-nmap _<TAB> :call Preserve("%s/\\t/    /g")<CR>
+" " 清除行尾空格
+command! -nargs=0 TrimLineEnds call Preserve("%s/\\s\\+$//e")
+" " 美化缩进
+command! -nargs=0 ReIndentBuffer call Preserve("normal gg=G")
+" " 替换Tab为4个空格
+command! -nargs=0 ConvertTabToSpaces call Preserve("%s/\\t/    /g")
 
 " 转义正则表达式特殊字符，以便在正则表达式中使用
 " a:1   是否转义为vimgrep的pattern格式，1，2
@@ -1329,61 +1464,6 @@ if has('balloon_eval')
     set balloonexpr=FoldSpellBalloon()
     set ballooneval
 endif
-
-" Toggle quickfix and location list
-function! QFixToggle(forced)"{{{
-    if exists('g:qfix_win') && a:forced != 0
-        QFix
-        cclose
-    else
-        if exists('g:my_quickfix_win_height')
-            execute 'botright copen '.g:my_quickfix_win_height
-        else
-            copen
-        endif
-    endif
-endfunction"}}}
-command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-command! -bang -nargs=? QFixToggle call QFixToggle(<bang>1)
-
-" used to track the quickfix window
-augroup QFixToggle"{{{
-    au!
-    autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
-    autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
-augroup END"}}}
-function! GetBufferList()"{{{
-  redir =>buflist
-  silent! ls
-  redir END
-  return buflist
-endfunction"}}}
-function! ToggleList(bufname, pfx)"{{{
-    let buflist = GetBufferList()
-    for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-        echo bufnum
-        if bufwinnr(bufnum) != -1
-            exec(a:pfx.'close')
-            return
-        endif
-    endfor
-    if a:pfx ==# 'l' && len(getloclist(0)) == 0
-        echohl ErrorMsg
-        echo 'Location List is Empty.'
-        return
-    endif
-    " let winnr = winnr()
-    let cmdMod = ''
-    if a:pfx ==# 'c'
-        let cmdMod = 'botright '
-    endif
-    exec(cmdMod.a:pfx.'open')
-    " if winnr() != winnr
-        " wincmd p
-    " endif
-endfunction"}}}
-noremap <F1> :call ToggleList("Location 列表", 'l')<CR>
-noremap <C-F1> :call ToggleList("Quickfix 列表", 'c')<CR>
 
 " Fold text
 set foldtext=CustomFoldText()
@@ -1483,6 +1563,70 @@ endfunction
 
 nnoremap <silent> n :call <SID>nice_next('n')<CR>
 nnoremap <silent> N :call <SID>nice_next('N')<CR>
+
+" Reset environment
+function! ResetIDE()
+    " Refresh leaderf cache
+    if exists('g:Lf_py')
+        exec g:Lf_py "jumpsExplManager.refresh()"
+        exec g:Lf_py "tagExplManager.refresh()"
+        exec g:Lf_py "fileExplManager.refresh()"
+    endif
+
+    " Restart COC
+    call coc#rpc#restart()
+endfunction
+nnoremap <leader><leader>rs :call ResetIDE()<CR>
+
+" Copy full class & method name in php files
+" @see https://github.com/tyru/current-func-info.vim
+au filetype php command! CopyFullClassName let @+=GetFullPHPClassName() | echo @+ . ' copied.'
+au filetype php command! CopyFullMethodName let @+=GetFullPHPMethodName() | echo @+ . ' copied.'
+function! GetFullPHPClassName()"{{{
+    " Save some registers
+    let l:r_a = @a
+    let l:r_b = @b
+
+    " Save cursor position
+    let l:pos = getcurpos()
+
+    " Start at the top of the file
+    :0
+    " Search for the first "namespace" occurence
+    /^namespace
+    " Get the namespace string into the regsiter a
+    normal! w"ayt;
+
+    " Search for the class definition
+    /\(^\(\(abstract\|final\)\s\+\|\)\)\@<=class
+    " Get the class string into the regsiter b
+    normal! knw"bye
+
+    let l:full_class_name = @a . '\' . @b
+
+    " Restore cursor position
+    call setpos('.', l:pos)
+
+    " Restore registers
+    let @a = l:r_a
+    let @b = l:r_b
+
+    return l:full_class_name
+endfunction"}}}
+" This function should be triggered when the cursor is on the method name
+function! GetFullPHPMethodName()"{{{
+    let l:r_a = @a
+
+    normal! "ayiw
+
+    let l:full_class_name = GetFullPHPClassName()
+
+    let l:full_method_name = l:full_class_name . '::' . @a . '()'
+
+    let @a = l:r_a
+
+    return l:full_method_name
+endfunction"}}}
 "}}}
 
 " ------------------------------ Java -----------------------------{{{
@@ -1614,44 +1758,6 @@ augroup pdv
     au!
     au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 augroup END
-" nnoremap <buffer> <C-\> :call pdv#DocumentCurrentLine()<CR>
-nnoremap <buffer> <leader>pdv :call pdv#DocumentWithSnip()<CR>
-
-" Run a PHP script
-function! ExecutePHPScript()"{{{
-    if &filetype !=? 'php'
-        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
-        return
-    endif
-    setlocal makeprg=php\ -f\ %
-    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-    echohl WarningMsg | echo 'Execution output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction"}}}
-au filetype php map <buffer> <A-F5> :call ExecutePHPScript()<CR>
-au filetype php imap <buffer> <A-F5> <C-O>:call ExecutePHPScript()<CR>
-
-" Check the syntax of a PHP file
-function! CheckPHPSyntax()"{{{
-    if &filetype !=? 'php'
-        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
-        return
-    endif
-    setlocal makeprg=php\ -l\ -n\ -d\ html_errors=off\ %
-    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-    echohl WarningMsg | echo 'Syntax checking output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction"}}}
-au filetype php map <buffer> <A-S-F5> :call CheckPHPSyntax()<CR>
-au filetype php imap <buffer> <A-S-F5> <C-O>:call CheckPHPSyntax()<CR>
 
 " Open a temporary PHP file in a new window
 function! PHPSandBox()"{{{
@@ -1702,62 +1808,47 @@ augroup END
 "}}}
 
 " ------------------------------ COC -----------------------------{{{
-let g:coc_node_path='~/.nvm/versions/node/v11.9.0/bin/node'
+nnoremap <leader>cocc :CocConfig<CR>
+
+let g:coc_node_path='~/.nvm/versions/node/v14.16.1/bin/node'
 
 if executable('intelephense')
-  augroup LspPHPIntelephense
-    au!
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'intelephense',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
-        \ 'whitelist': ['php'],
-        \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
-        \ 'workspace_config': {
-        \   'intelephense': {
-        \     'files': {
-        \       'maxSize': 1000000,
-        \       'associations': ['*.php', '*.phtml'],
-        \       'exclude': [],
-        \     },
-        \     'completion': {
-        \       'insertUseDeclaration': v:true,
-        \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
-        \       'triggerParameterHints': v:true,
-        \       'maxItems': 100,
-        \     },
-        \     'format': {
-        \       'enable': v:true
-        \     },
-        \   },
-        \ }
-        \})
-  augroup END
+    augroup LspPHPIntelephense
+        au!
+        au User lsp_setup call lsp#register_server({
+            \ 'name': 'intelephense',
+            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
+            \ 'whitelist': ['php'],
+            \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
+            \ 'workspace_config': {
+            \   'intelephense': {
+            \     'files': {
+            \       'maxSize': 1000000,
+            \       'associations': ['*.php', '*.phtml'],
+            \       'exclude': [],
+            \     },
+            \     'completion': {
+            \       'insertUseDeclaration': v:true,
+            \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
+            \       'triggerParameterHints': v:true,
+            \       'maxItems': 100,
+            \     },
+            \     'format': {
+            \       'enable': v:true
+            \     },
+            \   },
+            \ }
+            \})
+    augroup END
 endif
-
-" " Use tab for trigger completion with characters ahead and navigate.
-" " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-      " \ pumvisible() ? "\<C-n>" :
-      " \ <SID>check_back_space() ? "\<TAB>" :
-      " \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" function! s:check_back_space() abort
-  " let col = col('.') - 1
-  " return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
 " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
 if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -1766,40 +1857,33 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-declaration)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gR <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+function! s:show_documentation()"{{{
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction"}}}
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" coc-phpls does not provide rename function
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " Symbol renaming.
-" nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
 
 augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder.
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
@@ -1814,9 +1898,9 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Introduce function text object
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
+" xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
+" omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
 
 " " Use <TAB> for selections ranges.
@@ -1824,15 +1908,6 @@ omap af <Plug>(coc-funcobj-a)
 " " coc-tsserver, coc-python are the examples of servers that support it.
 " nmap <silent> <TAB> <Plug>(coc-range-select)
 " xmap <silent> <TAB> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
@@ -1846,16 +1921,59 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
 nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>cocs  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
 nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent> <leader>cocp  :<C-u>CocListResume<CR>
+nnoremap <leader>sy :<C-u>CocList -A --normal yank<cr>
+nnoremap <leader>sn :<C-u>CocList -A snippets<cr>
+nnoremap <leader>op :<C-u>CocList project<cr>
+nnoremap <leader>os :<C-u>CocList sessions<cr>
+nnoremap <leader>ss :<C-u>CocCommand session.save<cr>
+nnoremap <leader>Cs :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
 
 highlight CocFloating guibg=#99cccc guifg=#336699
 "}}}
+command! DiffHistory call s:view_git_history()
+
+function! s:view_git_history() abort
+    Git difftool --name-only ! !^@
+    call s:diff_current_quickfix_entry()
+    " Bind <CR> for current quickfix window to properly set up diff split layout after selecting an item
+    " There's probably a better way to map this without changing the window
+    copen
+    nnoremap <buffer> <CR> <CR><BAR>:call <sid>diff_current_quickfix_entry()<CR>
+    wincmd p
+endfunction
+
+function s:diff_current_quickfix_entry() abort
+    " Cleanup windows
+    for window in getwininfo()
+        if window.winnr !=? winnr() && bufname(window.bufnr) =~? '^fugitive:'
+            exe 'bdelete' window.bufnr
+        endif
+    endfor
+    cc
+    call s:add_mappings()
+    let qf = getqflist({'context': 0, 'idx': 0})
+    if get(qf, 'idx') && type(get(qf, 'context')) == type({}) && type(get(qf.context, 'items')) == type([])
+        let diff = get(qf.context.items[qf.idx - 1], 'diff', [])
+        echom string(reverse(range(len(diff))))
+        for i in reverse(range(len(diff)))
+            exe (i ? 'leftabove' : 'rightbelow') 'vert diffsplit' fnameescape(diff[i].filename)
+            call s:add_mappings()
+        endfor
+    endif
+endfunction
+
+function! s:add_mappings() abort
+    nnoremap <buffer>]q :cnext <BAR> :call <sid>diff_current_quickfix_entry()<CR>
+    nnoremap <buffer>[q :cprevious <BAR> :call <sid>diff_current_quickfix_entry()<CR>
+    " Reset quickfix height. Sometimes it messes up after selecting another item
+    11copen
+    wincmd p
+endfunction
