@@ -1,6 +1,7 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'kamykn/spelunker.vim'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -99,6 +100,7 @@ Plug '0x84/vim-coderunner'
 Plug 'junkblocker/git-time-lapse'
 Plug 'altercation/vim-colors-solarized'
 " Plug 'ericbn/vim-solarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'jacoborus/tender.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
@@ -291,12 +293,13 @@ if has('gui_running')
     set linespace=2
 
     " set background=dark
-    " set background=light
+    set background=light
     
     " let g:solarized_diffmode="high"
     " colorscheme solarized
 
-    colorscheme flattened_light
+    colorscheme solarized8_flat
+    " colorscheme flattened_light
     " colorscheme dracula
     " colorscheme nova
     " colorscheme nord
@@ -893,6 +896,13 @@ if s:bundled('vim-silicon')
           \   'window-controls':       v:false,
           \ }
 endif
+
+" vim-which-key settings
+let g:mapleader = ','
+let g:maplocalleader = ','
+let g:which_key_vertical = 1
+nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey ','<CR>
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -1196,7 +1206,7 @@ map g/ <Plug>(incsearch-stay)
 nmap <leader>!! :<up><CR>
 
 " dash
-nmap <silent> <leader>d <Plug>DashSearch
+nmap <silent> <leader>ds <Plug>DashSearch
 
 " Vimspector mappings
 nmap <leader><leader><F3> :call MyVimspectorRun('reset')<CR>
@@ -1812,35 +1822,35 @@ nnoremap <leader>cocc :CocConfig<CR>
 
 let g:coc_node_path='~/.nvm/versions/node/v14.16.1/bin/node'
 
-if executable('intelephense')
-    augroup LspPHPIntelephense
-        au!
-        au User lsp_setup call lsp#register_server({
-            \ 'name': 'intelephense',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
-            \ 'whitelist': ['php'],
-            \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
-            \ 'workspace_config': {
-            \   'intelephense': {
-            \     'files': {
-            \       'maxSize': 1000000,
-            \       'associations': ['*.php', '*.phtml'],
-            \       'exclude': [],
-            \     },
-            \     'completion': {
-            \       'insertUseDeclaration': v:true,
-            \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
-            \       'triggerParameterHints': v:true,
-            \       'maxItems': 100,
-            \     },
-            \     'format': {
-            \       'enable': v:true
-            \     },
-            \   },
-            \ }
-            \})
-    augroup END
-endif
+" if executable('intelephense')
+    " augroup LspPHPIntelephense
+        " au!
+        " au User lsp_setup call lsp#register_server({
+            " \ 'name': 'intelephense',
+            " \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
+            " \ 'whitelist': ['php'],
+            " \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
+            " \ 'workspace_config': {
+            " \   'intelephense': {
+            " \     'files': {
+            " \       'maxSize': 1000000,
+            " \       'associations': ['*.php', '*.phtml'],
+            " \       'exclude': [],
+            " \     },
+            " \     'completion': {
+            " \       'insertUseDeclaration': v:true,
+            " \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
+            " \       'triggerParameterHints': v:true,
+            " \       'maxItems': 100,
+            " \     },
+            " \     'format': {
+            " \       'enable': v:true
+            " \     },
+            " \   },
+            " \ }
+            " \})
+    " augroup END
+" endif
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
@@ -1886,15 +1896,9 @@ augroup mygroup
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current line.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
+" Code actions.
+xmap <leader>ac  <Plug>(coc-codeaction-selected)
+nmap <leader>ac  <Plug>(coc-codeaction-line)
 
 " Introduce function text object
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
