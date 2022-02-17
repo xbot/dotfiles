@@ -1,0 +1,321 @@
+# Vim aliases
+which nvim &> /dev/null
+if [[ $? == 0 ]]; then
+    alias v='nvim'
+else
+    alias v='vim'
+fi
+alias nv='nvim'
+alias vd='vimdiff'
+alias sv='sudo vim'
+if [[ $(uname) == "Darwin" ]]; then
+    alias gv='mvim'
+    alias gd='mvimdiff'
+    alias sgv='sudo mvim'
+    alias vr='vimr'
+else
+    alias gv='gvim'
+    alias gd='gvimdiff'
+    alias sgv='sudo gvim'
+fi
+
+alias ae='autoenv-edit'
+alias ea='v ~/.zshrc_aliases'
+alias config="v ~/.zshrc && refresh"
+alias ohmyzsh="v ~/.oh-my-zsh"
+alias refresh=". ~/.zshrc"
+
+alias fg1='fg %1'
+alias fg2='fg %2'
+alias fg3='fg %3'
+alias fg4='fg %4'
+alias fg5='fg %5'
+
+# # System commands aliases
+# if [[ $(uname) == "Linux" ]]; then
+    # alias ls='ls --color=auto'
+    # export LS_COLORS='di=33:fi=0:ln=95:pi=5:so=5:bd=5:cd=5:or=37:mi=0:ex=31:*.rpm=90'
+# else
+    # alias ls='ls -G'
+    # export LSCOLORS=dxfxcxdxbxegedabagacad
+# fi
+
+alias ll='ls -alFh --color=never'
+alias l='ls -CF --color=never'
+alias r='rm -f'
+alias rr='rm -rf'
+alias ka='killall'
+alias k9="kill -9"
+alias cls='clear'
+alias 777='chmod 777'
+alias 755='chmod 755'
+alias 744='chmod 744'
+alias 700='chmod 700'
+alias 600='chmod 600'
+alias 644='chmod 644'
+alias duhr='du -hs * | sort -hr'
+alias envs="$EDITOR ~/.profile && source ~/.profile"
+alias bak='rsync -avzhr --delete -P'
+
+alias ala='alias | fzf'
+
+alias gettrackers='curl https://trackerslist.com/best.txt | pbcopy'
+
+# Platform specific aliases
+if [[ $(uname) == "Linux" ]]; then
+    alias mhk='gvim ~/.xbindkeysrc'
+    alias thk="xbindkeys --key"
+    alias rhk="killall xbindkeys && xbindkeys &"
+    alias shk='gvim ~/.xbindkeysrc'
+    alias pkg='nocorrect yaourt -Ss'
+    # alias fix='export LC_ALL=en_US.UTF-8 && yaourt -S --noconfirm'
+    # alias ufix='yaourt -Rc'
+    alias fix='export LC_ALL=en_US.UTF-8 && nocorrect yaourt -S --noconfirm'
+    alias ufix='nocorrect sudo pacman -Rnsc'
+    alias yaupga='yaourt -Syua --noconfirm'
+    alias yag='yaourt -G'
+    alias vsys='virsh -c qemu:///system'
+    alias vv='virt-viewer -c qemu:///system'
+elif [[ $(uname) == "Darwin" ]]; then
+    alias updatedb='sudo /usr/libexec/locate.updatedb'
+    alias mangit='v -o ~/.oh-my-zsh/plugins/git/git.plugin.zsh ~/.oh-my-zsh/custom/plugins/git/git.plugin.zsh'
+    alias speeduptm='sudo sysctl debug.lowpri_throttle_enabled=0'
+fi
+
+# Git aliases
+alias diffhead='git difftool HEAD'
+alias gdiffhead='git difftool --gui HEAD'
+alias smpull='git submodule foreach git pull origin master'
+alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
+alias gll="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges"
+alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --author"
+alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --grep"
+alias viewdiff='diffhead $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
+alias pickstan='cstan $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
+alias mr='glab mr view -w'
+
+# Distribution specific aliases
+alias english='export LC_ALL=en_US.UTF-8'
+alias fuckgfw='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
+alias fuckme='unset http_proxy https_proxy'
+alias lsp='nocorrect ps aux|grep -v grep|grep'
+alias a='apack'
+alias x='aunpack'
+alias lsgbkzip='lsar -e gb18030'
+alias ungbkzip='unar -e gb18030'
+alias lns='ln -s'
+alias lssrv='netstat -tulnp'
+alias lsconn='netstat -atunp'
+alias follow='tail -f -n 100'
+if [[ `uname` != 'Darwin' ]]; then
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+    alias toclip='xclip -sel clip <'
+    alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
+    alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
+    alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
+    alias killer='nocorrect killer.sh'
+    alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
+else
+    alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+    alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+fi
+
+## 需要调试
+# if [[ `uname` == 'Darwin' ]]; then
+    # if [[ `/System/Library/PrivateFrameworks/Apple80211.framework/Resources/airport -I | awk -F: '/ SSID/{print $2}'` == 'rio_5G' ]]; then
+        # alias flushredis='redis-cli -h10.0.0.10 flushall'
+    # fi
+# fi
+
+# Development
+# alias syncxidi='sudo rsync -avz --delete --password-file=/etc/rsyncd/rsyncd.pass $HOME/workspace monster@172.16.20.111::xidi'
+# alias flog="find storage/logs -name '*.log'|xargs ls -lt|awk '{print \$9}'|head -n 1|xargs tail -fn 100"
+alias flog='ls -t storage/logs/* | head -n 1 | xargs tail -f -n 100'
+
+# Misc
+# alias ut="./run --colors=always"
+
+# fix grep complainings
+# alias grep="/usr/bin/grep -a $GREP_OPTIONS"
+# unset GREP_OPTIONS
+
+alias phpsh="php -c ~/.php.ini -a"
+alias coverage='phpunitat57 --coverage-html ./report --stop-on-failure'
+
+if [[ $(uname) == 'Darwin' ]]; then
+    alias flushdns='sudo killall -HUP mDNSResponder'
+fi
+
+alias cstan="vendor/bin/phpstan analyse --memory-limit 2G --ansi"
+alias pu="./vendor/bin/phpunit"
+alias puf="./vendor/bin/phpunit --filter"
+alias pud="./vendor/bin/phpunit -d rebase"
+alias dbgon='export XDEBUG_SESSION=1'
+alias dbgoff='unset XDEBUG_SESSION'
+
+# Setup tab and window title functions for iterm2
+# iterm behaviour: until window name is explicitly set, it'll always track tab title.
+# So, to have different window and tab titles, iterm_window() must be called
+# first. iterm_both() resets this behaviour and has window track tab title again).
+# Source: http://superuser.com/a/344397
+set_iterm_name() {
+    mode=$1; shift
+    echo -ne "\033]$mode;$@\007"
+}
+iterm_both () { set_iterm_name 0 $@; }
+iterm_tab () { set_iterm_name 1 $@; }
+iterm_window () { set_iterm_name 2 $@; }
+
+if [[ "$DEVICE" == 'MBP' || "$DEVICE" == 'iMac' ]]; then
+    alias j="ssh donie@arch"
+    alias nas="ssh root@nas"
+    alias pve="ssh root@pve"
+fi
+# home
+if [[ "$DEVICE" == 'MBP' || "$DEVICE" == 'Arch' ]]; then
+    alias workbench="tmuxinator start workbench"
+
+    if [[ "$DEVICE" == 'Arch' ]]; then
+        alias flushredis='redis-cli -h 10.0.0.10 flushall'
+        alias flushcache='flushredis && sc-restart php-fpm.service'
+    fi
+
+# office
+elif [[ "$DEVICE" == 'iMac' ]]; then
+    alias workbench="tmuxinator start workbench-office"
+    alias flushredis='redis-cli flushall'
+    alias flushcache='flushredis && brestart php'
+fi
+
+# Fuzzy find git branch
+fzf-git-branch() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    git branch --color=always --all --sort=-committerdate |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+        sed "s/.* //"
+}
+fzf-git-checkout() {
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    local branch
+
+    branch=$(fzf-git-branch)
+    if [[ "$branch" = "" ]]; then
+        echo "No branch selected."
+        return
+    fi
+
+    # If branch name starts with 'remotes/' then it is a remote branch. By
+    # using --track and a remote branch name, it is the same as:
+    # git checkout -b branchName --track origin/branchName
+    if [[ "$branch" = 'remotes/'* ]]; then
+        git checkout --track $branch
+    else
+        git checkout $branch;
+    fi
+}
+alias fgb='fzf-git-branch'
+alias fgco='fzf-git-checkout'
+
+wcp() { # Count processes
+    if [ $# -eq 0 ]; then
+        echo 'Which process to count ?' >&2
+        return 1
+    fi
+    while [ $# -gt 0 ]; do
+        cnt=`ps aux|grep -v grep|grep $1|wc -l`
+        echo -e $1":\t\t"$cnt
+        shift
+    done
+}
+mvgo() { # Move and go
+    if [ -d "$2" ];then
+        mv $1 $2 && cd $2
+    else
+        mv $1 $2
+    fi
+}
+clock() { # CLI clock
+    while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
+}
+# ptyless () { # Colorful less
+    # zmodload zsh/zpty
+    # zpty ptyless ${1+"$@"}            # ptyless 是这个 pty 的名字
+    # zpty -r ptyless > /tmp/ptyless.$$ # 读取数据到临时文件。不知为什么直接输出到管道不行
+    # less /tmp/ptyless.$$
+    # rm -f /tmp/ptyless.$$
+    # zpty -d ptyless                   # 删除已完成的 pty
+# }
+ptyrun () {
+    local ptyname=pty-$$
+    zmodload zsh/zpty
+    zpty $ptyname ${1+"$@"}
+    if [[ ! -t 1 ]]; then
+        setopt local_traps
+        trap '' INT
+    fi
+    zpty -r $ptyname
+    zpty -d $ptyname
+}
+ptyless () {
+    ptyrun $@ | less
+}
+orphans() { # Remove orphan packages in archlinux
+    if [[ ! -n $(pacman -Qdt) ]]; then
+        echo no orphans to remove
+    else
+        sudo pacman -Rns $(pacman -Qdtq)
+    fi
+}
+copy_path() {
+    readlink -f "$1"|pbcopy
+}
+lsf() { # List files whose names match the given pattern
+    ! [ $# -eq 1 -o $# -eq 2 ] && echo "lsf FILENAME PATH" >&2 && return 1
+    [ $# -eq 1 ] && UNDER_PATH="." || UNDER_PATH="$2"
+    find "$UNDER_PATH" -name "$1" -print
+}
+chpwd_functions=( chpwd_octopress )
+# Check tcp and dup port
+chktcp() {
+    eval "lsof -i tcp:$1"
+}
+chkudp() {
+    eval "lsof -i udp:$1"
+}
+# Use ssh to access a given host
+# eg. goto 3 <=> ssh root@192.168.1.3
+goto() {
+    test $# -eq 0 && echo "Which host do you want to access ?" >&2 && return 1
+    ipseg=`[ -z "$DONIE_IP_SEG" ] && echo "192.168.1" || echo "$DONIE_IP_SEG"`
+    account=`[ $# -ge 2 ] && echo "$2" || echo "root"`
+    ssh "$account@$ipseg.$1"
+}
+# Use screen to access a ttyUSBx device
+# eg. serial 0 <=> sudo screen /dev/ttyUSB0 115200
+serial() {
+    test $# -eq 0 && echo "Which ttyUSB device do you want to access ?" >&2 && return 1
+    if [[ $(uname) == 'Linux' ]]; then
+        sudo screen "/dev/ttyUSB$1" 115200
+    else if [[ $(uname) == 'Darwin' ]]
+        sudo screen "/dev/tty.usbserial" 115200
+    fi
+}
+
+# Hashes
+if [[ `uname` == 'Darwin' ]]; then
+    hash -d shell="$HOME/Projects/shell"
+    hash -d blog="$HOME/Projects/blog"
+    hash -d post="$HOME/Projects/blog/source/_posts"
+    hash -d www="$HOME/Sites"
+else
+    hash -d shell="$HOME/dev/shell"
+    hash -d blog="$HOME/dev/blog"
+    hash -d post="$HOME/dev/blog/source/_posts"
+    hash -d www="/srv/http/"
+fi
+
