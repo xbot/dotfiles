@@ -3,6 +3,7 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+Plug 'christoomey/vim-sort-motion'
 Plug 'andrejlevkovitch/vim-lua-format'
 Plug 'liuchengxu/vista.vim'
 " Plug 'alvan/vim-php-manual'
@@ -10,6 +11,7 @@ Plug 'gcmt/taboo.vim'
 Plug 'ojroques/vim-oscyank'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'mhinz/vim-startify'
 Plug 'lifepillar/vim-solarized8'
@@ -123,7 +125,7 @@ Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 " Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'tobyS/pdv',                   { 'for': 'php'      }
 Plug 'tobyS/vmustache',             { 'for': 'php'      }
-Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
+" Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
 Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
 Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
@@ -146,6 +148,8 @@ if has('nvim')
     Plug 'github/copilot.vim'
     Plug 'caenrique/nvim-toggle-terminal'
     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'kristijanhusak/defx-git'
+    Plug 'kristijanhusak/defx-icons'
 
     " diffview.nvim
     Plug 'kyazdani42/nvim-web-devicons'
@@ -501,28 +505,30 @@ let g:fencview_checklines    = 10
 let g:fencview_auto_patterns = '*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
 " UltiSnips settings
-let g:UltiSnipsExpandTrigger       = '<C-Tab>'
-let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-let g:UltiSnipsSnippetsDir         = '~/.vim/UltiSnips'
-let g:ulti_expand_or_jump_res      = 0
-let g:UltiSnipsEditSplit           = 'tabdo'
-" let g:UltiSnipsEnableSnipMate      = 0
+if s:plugged('ultisnips')
+    let g:UltiSnipsExpandTrigger                           = '<C-Tab>'
+    let g:UltiSnipsJumpForwardTrigger                      = '<C-j>'
+    let g:UltiSnipsJumpBackwardTrigger                     = '<C-k>'
+    let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = '~/.vim/UltiSnips'
+    let g:ulti_expand_or_jump_res                          = 0
+    let g:UltiSnipsEditSplit                               = 'tabdo'
+    let g:UltiSnipsEnableSnipMate                          = 0
 
-inoremap <silent> <TAB> <C-r>=CleverTab()<CR>
-snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
-function! CleverTab()"{{{
-    call UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res
-        return ''
-    else
-        if pumvisible()
-            return "\<c-n>"
+    inoremap <silent> <TAB> <C-r>=CleverTab()<CR>
+    snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<CR>
+    function! CleverTab()"{{{
+        call UltiSnips#ExpandSnippetOrJump()
+        if g:ulti_expand_or_jump_res
+            return ''
         else
-            return coc#refresh()
+            if pumvisible()
+                return "\<c-n>"
+            else
+                return coc#refresh()
+            endif
         endif
-    endif
-endfunction"}}}
+    endfunction"}}}
+endif
 
 " Ferret settings
 if s:plugged('ferret')
@@ -583,19 +589,21 @@ if s:plugged('nerdtree')
     let NERDTreeNaturalSort = 1
 endif
 
-" TwitVim
-let twitvim_enable_python = 1
-" let twitvim_proxy         = '127.0.0.1:8123'
-let twitvim_browser_cmd   = 'open -a Safari'
-" let twitvim_browser_cmd = '/usr/bin/google-chrome-stable'
-let twitvim_count = 30
-nmap <leader>twit :PosttoTwitter<CR>
-nmap <leader>twmy :UserTwitter<CR>
-nmap <leader>twls :FriendsTwitter<CR>
-nmap <leader>twpb :PublicTwitter<CR>
-nmap <leader>twmt :MentionsTwitter<CR>
-nmap <leader>twdm :DMTwitter<CR>
-nmap <leader>twre :RetweetedByMeTwitter<CR>
+" TwitVim settings
+if s:plugged('twitvim')
+    let twitvim_enable_python = 1
+    " let twitvim_proxy         = '127.0.0.1:8123'
+    let twitvim_browser_cmd   = 'open -a Safari'
+    " let twitvim_browser_cmd = '/usr/bin/google-chrome-stable'
+    let twitvim_count = 30
+    nmap <leader>twit :PosttoTwitter<CR>
+    nmap <leader>twmy :UserTwitter<CR>
+    nmap <leader>twls :FriendsTwitter<CR>
+    nmap <leader>twpb :PublicTwitter<CR>
+    nmap <leader>twmt :MentionsTwitter<CR>
+    nmap <leader>twdm :DMTwitter<CR>
+    nmap <leader>twre :RetweetedByMeTwitter<CR>
+endif
 
 if IsPlatform('win')
     let g:netrw_http_cmd = $VIM.'\plugged\binary-utils\dist\bin\curl.exe -o'
@@ -773,35 +781,6 @@ require('bufferline').setup {}
 EOF
 endif
 
-" denite or unite
-" if has('python3')
-    " call denite#custom#map(
-        " \ 'insert',
-        " \ '<C-j>',
-        " \ '<denite:move_to_next_line>',
-        " \ 'noremap'
-        " \)
-    " call denite#custom#map(
-        " \ 'insert',
-        " \ '<C-k>',
-        " \ '<denite:move_to_previous_line>',
-        " \ 'noremap'
-        " \)
-    " " nnoremap <leader>gll :Denite -default-action=tabopen gitlog<CR>
-    " " nnoremap <leader>gla :Denite -default-action=tabopen gitlog:all<CR>
-    " nnoremap <leader>jl :<C-u>Denite jump<CR>
-    " augroup denite
-        " au!
-        " au FileType help,markdown map <buffer> <leader>tt :Denite unite:outline<CR>
-    " augroup END
-" else
-    " nnoremap <leader>jl :<C-u>Unite -direction=dynamicbottom jump<CR>
-    " augroup unite
-        " au!
-        " au FileType help,markdown map <buffer> <leader>tt :Unite outline<CR>
-    " augroup END
-" endif
-
 " choosewin
 nmap - <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
@@ -809,25 +788,27 @@ let g:choosewin_overlay_enable = 1
 " wildfire
 nmap <leader>vv <Plug>(wildfire-quick-select)
 
-" vim-php-namespace
-let g:php_namespace_sort_after_insert = 1
-function! IPhpInsertUse()"{{{
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction"}}}
-function! IPhpExpandClass()"{{{
-    call PhpExpandClass()
-    call feedkeys('a', 'n')
-endfunction"}}}
-augroup vim_php_namespace"{{{
-    au!
-    " do imports
-    autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
-    autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
-    " do expansions
-    autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
-    autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
-augroup END"}}}
+" vim-php-namespace settings
+if s:plugged('vim-php-namespace')
+    let g:php_namespace_sort_after_insert = 1
+    function! IPhpInsertUse()"{{{
+        call PhpInsertUse()
+        call feedkeys('a',  'n')
+    endfunction"}}}
+    function! IPhpExpandClass()"{{{
+        call PhpExpandClass()
+        call feedkeys('a', 'n')
+    endfunction"}}}
+    augroup vim_php_namespace"{{{
+        au!
+        " do imports
+        autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
+        autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
+        " do expansions
+        autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
+        autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
+    augroup END"}}}
+endif
 
 " vim-test settings
 let g:test#runner_commands = ['PHPUnit']
@@ -875,7 +856,7 @@ if s:plugged('vim-fugitive')
     nnoremap <leader>dgh <Cmd>diffget //2<CR>
     nnoremap <leader>dgl <Cmd>diffget //3<CR>
     nnoremap <Leader>gb  <Cmd>Git blame<CR>
-    nnoremap <leader>dv  :Gdiffsplit :1 \| Gvdiffsplit!<CR>
+    nnoremap <leader>mv  :Gdiffsplit :1 \| Gvdiffsplit!<CR>
 endif
 if s:plugged('coc.nvim')
     nnoremap <leader>gc  <Cmd>CocList branches<CR>
@@ -1012,16 +993,29 @@ let g:merginal_splitType=''
 " defx settings
 if s:plugged('defx.nvim')
     call defx#custom#option('_', {
-          \ 'winwidth': 50,
-          \ 'split': 'vertical',
-          \ 'direction': 'topleft',
-          \ 'show_ignored_files': 0,
-          \ 'buffer_name': '',
-          \ 'toggle': 1,
-          \ 'resume': 1
-          \ })
+                \ 'winwidth': 50,
+                \ 'split': 'vertical',
+                \ 'direction': 'topleft',
+                \ 'show_ignored_files': 0,
+                \ 'buffer_name': 'tabfx',
+                \ 'columns': 'icon:icons:indent:filename:git:size',
+                \ 'toggle': 1,
+                \ 'resume': 1,
+                \ 'listed': 1
+                \ })
 
-    nmap <silent> <Leader>dt :Defx<cr>
+    call defx#custom#column('icon', {
+                \ 'directory_icon': '▸',
+                \ 'opened_icon': '▾',
+                \ 'root_icon': '+',
+                \ })
+
+    call defx#custom#column('mark', {
+                \ 'readonly_icon': '✗',
+                \ 'selected_icon': '✓',
+                \ })
+
+    nmap <silent> <Leader>dt :<C-U>Defx<CR>
 
     autocmd FileType defx call s:defx_mappings()
 
@@ -1032,6 +1026,7 @@ if s:plugged('defx.nvim')
         nnoremap <silent><buffer><expr> <C-r> defx#do_action('redraw')
         nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'FILENAME')
         nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
+        nnoremap <silent><buffer><expr> D     defx#do_action('new_directory')
     endfunction
 
     function! s:defx_toggle_tree() abort
@@ -1042,10 +1037,7 @@ if s:plugged('defx.nvim')
         return defx#do_action('multi', ['drop'])
     endfunction
 
-    nnoremap <silent>sf :<C-u>Defx -listed -resume
-          \ -columns=indent:mark:icon:icons:filename:git:size
-          \ -buffer-name=tab`tabpagenr()`
-          \ `expand('%:p:h')` -search=`expand('%:p')`<CR>
+    nnoremap <silent>sf :<C-u>Defx -listed -resume -buffer-name=tab`tabpagenr()` `expand('%:p:h')` -search=`expand('%:p')`<CR>
     nnoremap <silent><leader>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
 endif
 
@@ -1160,6 +1152,7 @@ if s:plugged('nvim-colorizer')
 endif
 
 if s:plugged('diffview.nvim')
+    nnoremap <leader>dv :DiffviewOpen<CR>
     lua << EOF
     local cb = require'diffview.config'.diffview_callback
 
@@ -1220,7 +1213,7 @@ if s:plugged('diffview.nvim')
                 ["<down>"]        = cb("next_entry"),
                 ["k"]             = cb("prev_entry"),           -- Bring the cursor to the previous file entry.
                 ["<up>"]          = cb("prev_entry"),
-                ["<cr>"]          = cb("select_entry"),         -- Open the diff for the selected entry.
+                ["<CR>"]          = cb("select_entry"),         -- Open the diff for the selected entry.
                 ["o"]             = cb("select_entry"),
                 ["<2-LeftMouse>"] = cb("select_entry"),
                 ["-"]             = cb("toggle_stage_entry"),   -- Stage / unstage the selected entry.
@@ -1248,7 +1241,7 @@ if s:plugged('diffview.nvim')
                 ["<down>"]        = cb("next_entry"),
                 ["k"]             = cb("prev_entry"),
                 ["<up>"]          = cb("prev_entry"),
-                ["<cr>"]          = cb("select_entry"),
+                ["<CR>"]          = cb("select_entry"),
                 ["o"]             = cb("select_entry"),
                 ["<2-LeftMouse>"] = cb("select_entry"),
                 ["<tab>"]         = cb("select_next_entry"),
@@ -1262,6 +1255,36 @@ if s:plugged('diffview.nvim')
             option_panel = {
                 ["<tab>"] = cb("select"),
                 ["q"]     = cb("close"),
+            },
+            hooks = {
+                diff_buf_read = function(bufnr)
+                    -- Change local options in diff buffers
+                    vim.opt_local.wrap = false
+                    vim.opt_local.list = false
+                    vim.opt_local.colorcolumn = { 80 }
+                    -- vim.opt_local.number = true
+                    -- vim.opt_local.relativenumber = true
+                    vim.defer_fn(function()
+                        vim.opt_local.number = false
+                        vim.opt_local.relativenumber = false
+                        print(
+                            ("A new %s was opened on tab page %d!")
+                            :format(view:class():name(), view.tabpage)
+                        )
+                    end, 5000)
+                end,
+                view_opened = function(view)
+                    -- vim.opt_local.number = true
+                    -- vim.opt_local.relativenumber = true
+                    vim.defer_fn(function()
+                        vim.opt_local.number = false
+                        vim.opt_local.relativenumber = false
+                        print(
+                            ("A new %s was opened on tab page %d!")
+                            :format(view:class():name(), view.tabpage)
+                        )
+                    end, 5000)
+                end,
             },
         },
     }
@@ -1324,13 +1347,15 @@ require('telescope').setup{
         -- Default configuration for telescope goes here:
         -- config_key = value,
         mappings = {
-        i = {
-            ["<esc>"] = require('telescope.actions').close,
-            -- map actions.which_key to <C-h> (default: <C-/>)
-            -- actions.which_key shows the mappings for your picker,
-            -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-            ["<C-h>"] = "which_key"
-        }
+            i = {
+                ["<esc>"] = require('telescope.actions').close,
+                -- map actions.which_key to <C-h> (default: <C-/>)
+                -- actions.which_key shows the mappings for your picker,
+                -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+                ["<C-h>"] = "which_key",
+                ["<C-j>"] = require('telescope.actions').move_selection_next,
+                ["<C-k>"] = require('telescope.actions').move_selection_previous
+            }
         }
     },
     pickers = {
@@ -1361,7 +1386,7 @@ endif
 " vim-lua-format settings
 if s:plugged('vim-lua-format')
     " TODO: Choose a proper key binding "
-    " autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<cr>
+    " autocmd FileType lua nnoremap <buffer> <c-k> :call LuaFormat()<CR>
     " autocmd BufWrite *.lua call LuaFormat()
 endif
 
@@ -1532,8 +1557,6 @@ imap <leader>tc <ESC>:tabc<CR>
 nmap <leader>to :tabo<CR>
 nmap gr         :tabp<CR>
 nmap <leader><leader>dut :tab sp<CR>
-imap <leader><leader>dut :tab sp<CR>
-nnoremap <leader>T <C-w>T
 nnoremap <leader>oo <C-w><C-o>
 inoremap <leader>oo <ESC><C-w><C-o>a
 if s:plugged('vim-maximizer')
@@ -1541,6 +1564,10 @@ if s:plugged('vim-maximizer')
     vnoremap <leader>mm :MaximizerToggle<CR>gv
     inoremap <leader>mm <C-o>:MaximizerToggle<CR>
 endif
+" Move window around
+" :h window-moving
+" <C-W> H, J, K, L
+nnoremap <leader>T <C-w>T
 
 " 编辑与当前文件路径相关的文件
 nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
@@ -2314,7 +2341,7 @@ augroup phpSyntaxOverride
 augroup END
 "}}}
 
-" ------------------------------ COC -----------------------------{{{
+" ------------------------------ COC settings -----------------------------{{{
 if s:plugged('coc.nvim')
     nnoremap <leader>cocc :CocConfig<CR>
 
@@ -2350,13 +2377,13 @@ if s:plugged('coc.nvim')
         " augroup END
     " endif
 
-    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+    " Use <CR> to confirm completion, `<C-g>u` means break undo chain at current
     " position. Coc only does snippet and additional edit on confirm.
-    " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+    " <CR> could be remapped by other vim plugin, try `:verbose imap <CR>`.
     if exists('*complete_info')
-        inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+        inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
     else
-        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
     endif
 
     " Use `[g` and `]g` to navigate diagnostics
@@ -2384,8 +2411,8 @@ if s:plugged('coc.nvim')
     " Highlight the symbol and its references when holding the cursor.
     autocmd CursorHold * silent call CocActionAsync('highlight')
 
-    " Symbol renaming.
-    nmap <leader>rn <Plug>(coc-rename)
+    " " Symbol renaming.
+    " nmap <leader>rn <Plug>(coc-rename)
 
     augroup mygroup
         autocmd!
@@ -2419,24 +2446,24 @@ if s:plugged('coc.nvim')
 
     " Mappings using CoCList:
     " Show all diagnostics.
-    nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+    nnoremap <silent> <space>a  :<C-u>CocList diagnostics<CR>
     " Manage extensions.
-    nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+    nnoremap <silent> <space>e  :<C-u>CocList extensions<CR>
     " Show commands.
-    nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+    nnoremap <silent> <space>c  :<C-u>CocList commands<CR>
     " Search workspace symbols.
-    nnoremap <silent> <leader>cocs  :<C-u>CocList -I symbols<cr>
+    nnoremap <silent> <leader>cocs  :<C-u>CocList -I symbols<CR>
     " Do default action for next item.
     nnoremap <silent> <space>j  :<C-u>CocNext<CR>
     " Do default action for previous item.
     nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
     " Resume latest coc list.
     nnoremap <silent> <leader>cocp  :<C-u>CocListResume<CR>
-    nnoremap <leader>sy :<C-u>CocList -A --normal yank<cr>
-    nnoremap <leader>sn :<C-u>CocList -A snippets<cr>
-    nnoremap <leader>op :<C-u>CocList project<cr>
-    nnoremap <leader>os :<C-u>CocList sessions<cr>
-    nnoremap <leader>ss :<C-u>CocCommand session.save<cr>
+    nnoremap <leader>sy :<C-u>CocList -A --normal yank<CR>
+    nnoremap <leader>sn :<C-u>CocList -A snippets<CR>
+    nnoremap <leader>op :<C-u>CocList project<CR>
+    nnoremap <leader>os :<C-u>CocList sessions<CR>
+    nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
     nnoremap <leader>Cs :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
 
     highlight CocFloating guibg=#99cccc guifg=#336699
