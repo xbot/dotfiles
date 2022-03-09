@@ -6,7 +6,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'christoomey/vim-sort-motion'
 Plug 'andrejlevkovitch/vim-lua-format'
 Plug 'liuchengxu/vista.vim'
-" Plug 'alvan/vim-php-manual'
 Plug 'gcmt/taboo.vim'
 Plug 'ojroques/vim-oscyank'
 Plug 'ryanoasis/vim-devicons'
@@ -28,10 +27,6 @@ Plug 'honza/vim-snippets'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-" Plug 'kyazdani42/nvim-web-devicons' " Recommended (for coloured icons)
-" " Plug 'ryanoasis/vim-devicons' Icons without colours
-" Plug 'akinsho/bufferline.nvim'
 
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'wincent/ferret'
@@ -125,7 +120,6 @@ Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 " Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 Plug 'tobyS/pdv',                   { 'for': 'php'      }
 Plug 'tobyS/vmustache',             { 'for': 'php'      }
-" Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
 Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
 Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
@@ -147,11 +141,14 @@ if has('nvim')
     Plug 'f-person/git-blame.nvim'
     Plug 'github/copilot.vim'
     Plug 'caenrique/nvim-toggle-terminal'
+    Plug 'nvim-telescope/telescope.nvim'
+
+    " defx group
     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'kristijanhusak/defx-git'
     Plug 'kristijanhusak/defx-icons'
 
-    " diffview.nvim
+    " diffview.nvim group
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'sindrets/diffview.nvim'
@@ -161,11 +158,11 @@ if has('nvim')
     if !has('gui_running')
         " Will complain errors in GUI 
         Plug 'rmagatti/auto-session'
+        Plug 'rmagatti/session-lens'
     endif
 
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
     " Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-telescope/telescope.nvim'
 else
     Plug 'pakutoma/toggle-terminal'
     Plug 'rhysd/vim-healthcheck'
@@ -504,6 +501,13 @@ let g:fencview_autodetect    = 0
 let g:fencview_checklines    = 10
 let g:fencview_auto_patterns = '*.txt,*.htm{l\=},*.php,*.lib,*.inc,*.sql'
 
+" incsearch settings
+if s:plugged('incsearch.vim')
+    map /  <Plug>(incsearch-forward)
+    map ?  <Plug>(incsearch-backward)
+    map g/ <Plug>(incsearch-stay)
+endif
+
 " UltiSnips settings
 if s:plugged('ultisnips')
     let g:UltiSnipsExpandTrigger                           = '<C-Tab>'
@@ -513,6 +517,8 @@ if s:plugged('ultisnips')
     let g:ulti_expand_or_jump_res                          = 0
     let g:UltiSnipsEditSplit                               = 'tabdo'
     let g:UltiSnipsEnableSnipMate                          = 0
+
+    nmap <leader>ue :UltiSnipsEdit<Space>
 
     inoremap <silent> <TAB> <C-r>=CleverTab()<CR>
     snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<CR>
@@ -539,45 +545,52 @@ if s:plugged('ferret')
                 \ }
     let g:FerretQFHandler='botright copen 20'
     let g:FerretLLHandler='botright lopen 20'
-endif
-" ListToggle settings
-if s:plugged('ListToggle')
-    let g:lt_height = 20
-endif
 
-nmap <leader>ak  <Plug>(FerretAck)
-nmap <leader>lak <Plug>(FerretLack)
-nmap <leader>aw  <Plug>(FerretAckWord)
-nmap <leader>as  <Plug>(FerretAcks)
-vmap <leader>ak  y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
-vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
+    nmap <leader>ak  <Plug>(FerretAck)
+    nmap <leader>lak <Plug>(FerretLack)
+    nmap <leader>aw  <Plug>(FerretAckWord)
+    nmap <leader>as  <Plug>(FerretAcks)
+    vmap <leader>ak  y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
+    vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
 
-" List all tasks under the current directory
-map <leader><leader>tl :Ack //\s(TODO\|FIXME)\s(lidong\|donie)<CR>
-if has("autocmd")
-    " Highlight TODO, FIXME, NOTE, etc.
-    if v:version > 701
-        autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
-        autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
+    " List all tasks under the current directory
+    map <leader><leader>tl :Ack //\s(TODO\|FIXME)\s(lidong\|donie)<CR>
+    if has("autocmd")
+        " Highlight TODO, FIXME, NOTE, etc.
+        if v:version > 701
+            autocmd Syntax * call matchadd('Todo',  '\W\zs\(TODO\|FIXME\|CHANGED\|BUG\|HACK\)')
+            autocmd Syntax * call matchadd('Debug', '\W\zs\(NOTE\|INFO\|IDEA\)')
+        endif
     endif
 endif
 
+" ListToggle settings
+if s:plugged('ListToggle')
+    let g:lt_location_list_toggle_map = '<leader>lt'
+    let g:lt_quickfix_list_toggle_map = '<leader>ct'
+    let g:lt_height = 20
+endif
+
 " Pydiction Settings
-if IsPlatform('win')
-    let g:pydiction_location = 'D:/Program Files/vim/vimfiles/plugged/Pydiction/complete-dict'
-else
-    let g:pydiction_location = '~/.vim/plugged/Pydiction/complete-dict'
+if s:plugged('Pydiction')
+    if IsPlatform('win')
+        let g:pydiction_location = 'D:/Program Files/vim/vimfiles/plugged/Pydiction/complete-dict'
+    else
+        let g:pydiction_location = '~/.vim/plugged/Pydiction/complete-dict'
+    endif
 endif
 
 " SQL Type Default
 let g:sql_type_default = 'sqlsvr'
 
 " NERD_commenter Settings
-let NERDSpaceDelims = 1
-let NERDCreateDefaultMappings = 0
-map <leader>cc <plug>NERDCommenterComment
-map <leader>cs <plug>NERDCommenterSexy
-map <leader>cu <plug>NERDCommenterUncomment
+if s:plugged('nerdcommenter')
+    let NERDSpaceDelims = 1
+    let NERDCreateDefaultMappings = 0
+    map <leader>cc <plug>NERDCommenterComment
+    map <leader>cs <plug>NERDCommenterSexy
+    map <leader>cu <plug>NERDCommenterUncomment
+endif
 
 " NERD Tree
 if s:plugged('nerdtree')
@@ -620,11 +633,6 @@ let g:shell_mappings_enabled=0
 if s:plugged('vim-dirdiff')
     let g:DirDiffExcludes = 'CVS,*.class,*.exe,.*.swp,.svn,.git,assets,tags'
 endif
-
-" " Minibufexpl
-" let g:miniBufExplSplitBelow               = 0
-" let g:bufExplorerDisableDefaultKeyMapping = 1
-" map <leader>be :ToggleBufExplorer<CR>
 
 " ALE settings
 if s:plugged('ale')
@@ -788,28 +796,6 @@ let g:choosewin_overlay_enable = 1
 " wildfire
 nmap <leader>vv <Plug>(wildfire-quick-select)
 
-" vim-php-namespace settings
-if s:plugged('vim-php-namespace')
-    let g:php_namespace_sort_after_insert = 1
-    function! IPhpInsertUse()"{{{
-        call PhpInsertUse()
-        call feedkeys('a',  'n')
-    endfunction"}}}
-    function! IPhpExpandClass()"{{{
-        call PhpExpandClass()
-        call feedkeys('a', 'n')
-    endfunction"}}}
-    augroup vim_php_namespace"{{{
-        au!
-        " do imports
-        autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
-        autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
-        " do expansions
-        autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
-        autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
-    augroup END"}}}
-endif
-
 " vim-test settings
 let g:test#runner_commands = ['PHPUnit']
 augroup vim_test"{{{
@@ -920,16 +906,6 @@ endif
 " auto-pairs
 let g:AutoPairsMapCh = 0
 
-" vim-lsc
-" let g:lsc_server_commands = {'php': 'localhost:12345'}
-" let g:lsc_auto_map = v:true " Use defaults
-" let g:lsc_auto_map = {
-    " \ 'GoToDefinition': '<C-]>',
-    " \ 'FindReferences': 'gr',
-    " \ 'ShowHover': 'K',
-    " \ 'Completion': 'completefunc',
-    " \}
-
 " Nord color scheme
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
@@ -955,40 +931,50 @@ else
 endif
 
 " startify settings
-nnoremap <leader><leader>st :Startify<CR>
-let g:startify_change_to_vcs_root = 1
-let g:startify_session_dir = '~/.vim/sessions'
-let g:startify_session_sort = 1
-let g:startify_lists = [
-      \ { 'type': 'files',     'header': ['   MRU']            },
-      \ { 'type': 'sessions',  'header': ['   Sessions']       },
-      \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-      \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-      \ { 'type': 'commands',  'header': ['   Commands']       },
-      \ ]
+if s:plugged('vim-startify')
+    nnoremap <leader><leader>st :Startify<CR>
 
+    let g:startify_change_to_vcs_root = 1
+    let g:startify_session_dir = '~/.vim/sessions'
+    let g:startify_session_sort = 1
+    let g:startify_lists = [
+                \ { 'type': 'files',     'header': ['   MRU']            },
+                \ { 'type': 'sessions',  'header': ['   Sessions']       },
+                \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+                \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+                \ { 'type': 'commands',  'header': ['   Commands']       },
+                \ ]
+endif
 
-"""""""""""""""""""""""""""""""""" gutentags settings """"""""""""""""""""""""""""""""""
-let g:gutentags_plus_nomap = 1
-" let g:gutentags_define_advanced_commands = 1
-" enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
-" config project root markers.
-" let g:gutentags_project_root = ['.root']
-" generate datebases in my cache directory, prevent gtags files polluting my project
-let g:gutentags_cache_dir = expand('~/.cache/tags')
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
-let g:gutentags_ctags_exclude = ['_ide_helper.php', '*.js', 'Makefile']
-let g:gutentags_ctags_extra_args = ['--PHP-kinds=+cdfint-va']
+" Gutentags settings
+if s:plugged('vim-gutentags') && s:plugged('gutentags_plus')
+    let g:gutentags_plus_nomap = 1
+    " let g:gutentags_define_advanced_commands = 1
+    " enable gtags module
+    let g:gutentags_modules = ['ctags', 'gtags_cscope']
+    " config project root markers.
+    " let g:gutentags_project_root = ['.root']
+    " generate datebases in my cache directory, prevent gtags files polluting my project
+    if has('nvim')
+        let g:gutentags_cache_dir = expand('~/.cache/tags')
+    else
+        let g:gutentags_cache_dir = expand('~/.cache/vim_tags')
+    endif
+    " change focus to quickfix window after search (optional).
+    let g:gutentags_plus_switch = 1
+    let g:gutentags_ctags_exclude = ['_ide_helper.php', '*.js', 'Makefile']
+    let g:gutentags_ctags_extra_args = ['--PHP-kinds=+cdfint-va']
+endif
 
 " undotree
-nnoremap <leader>ut :UndotreeToggle<CR>
+if s:plugged('undotree')
+    nnoremap <leader>ut :UndotreeToggle<CR>
+endif
 
-" vim-php-manual
-let g:php_manual_online_search_shortcut = '<leader>pm'
-
-let g:merginal_splitType=''
+" merginal settings
+if s:plugged('merginal')
+    let g:merginal_splitType=''
+endif
 
 " defx settings
 if s:plugged('defx.nvim')
@@ -1041,7 +1027,7 @@ if s:plugged('defx.nvim')
     nnoremap <silent><leader>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
 endif
 
-" vim-plug
+" vim-plug settings
 let g:plug_window='-tabnew'
 
 " vim-clap
@@ -1071,12 +1057,16 @@ if s:plugged('vim-dirvish')
 endif
 
 " sideways settings
-nnoremap <S-Left>  :SidewaysLeft<CR>
-nnoremap <S-Right> :SidewaysRight<CR>
+if s:plugged('sideways.vim')
+    nnoremap <S-Left>  :SidewaysLeft<CR>
+    nnoremap <S-Right> :SidewaysRight<CR>
+endif
 
 " vim-expand-region settings
-vmap v <Plug>(expand_region_expand)
-vmap V <Plug>(expand_region_shrink)
+if s:plugged('vim-expand-region')
+    vmap v <Plug>(expand_region_expand)
+    vmap V <Plug>(expand_region_shrink)
+endif
 
 " vim-silicon settings
 if s:plugged('vim-silicon')
@@ -1098,16 +1088,20 @@ if s:plugged('vim-silicon')
 endif
 
 " vim-which-key settings
-let g:mapleader = ','
-let g:maplocalleader = ','
-let g:which_key_vertical = 1
-nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey ','<CR>
+if s:plugged('vim-which-key')
+    let g:mapleader = ','
+    let g:maplocalleader = ','
+    let g:which_key_vertical = 1
+    nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
+    nnoremap <silent> <localleader> :<c-u>WhichKey ','<CR>
+endif
 
 " vim-fold-cycle settings
-let g:fold_cycle_default_mapping = 0 "disable default mappings
-nmap <Right> <Plug>(fold-cycle-open)
-nmap <Left> <Plug>(fold-cycle-close)
+if s:plugged('vim-fold-cycle')
+    let g:fold_cycle_default_mapping = 0 "disable default mappings
+    nmap <Right> <Plug>(fold-cycle-open)
+    nmap <Left> <Plug>(fold-cycle-close)
+endif
 
 " vira settings
 if s:plugged('vira')
@@ -1151,6 +1145,8 @@ if s:plugged('nvim-colorizer')
     }
 endif
 
+" diffview settings
+" :DiffviewFileHistory
 if s:plugged('diffview.nvim')
     nnoremap <leader>dv :DiffviewOpen<CR>
     lua << EOF
@@ -1339,7 +1335,7 @@ if s:plugged('vista.vim')
 endif
 
 if s:plugged('telescope.nvim')
-    nnoremap <leader>lg <cmd>Telescope live_grep<CR>
+    nnoremap <leader>tslg <cmd>Telescope live_grep<CR>
 
 lua << EOF
 require('telescope').setup{
@@ -1395,6 +1391,71 @@ if s:plugged('gist-vim')
     nnoremap <leader><leader>gl :Gist -l<CR>
     nnoremap <leader><leader>gb :Gist -b<CR>
 endif
+
+" Vimspector settings
+if s:plugged('vimspector')
+    " let g:vimspector_bottombar_height = 0
+
+    let g:vimspector_sign_priority = {
+                \    'vimspectorBP':         999,
+                \    'vimspectorBPCond':     999,
+                \    'vimspectorBPLog':      999,
+                \    'vimspectorBPDisabled': 999,
+                \    'vimspectorPC':         999,
+                \ }
+
+    au FileType php nmap <leader><leader><F3> :call MyVimspectorRun('reset')<CR>
+    au FileType php nmap <F3> :call MyVimspectorRun('stop')<CR>
+    au FileType php nmap <F5> :call MyVimspectorRun('continue')<CR>
+    au FileType php nmap <leader>di <Plug>VimspectorBalloonEval
+    au FileType php xmap <leader>di <Plug>VimspectorBalloonEval
+
+    function! MyVimspectorRun(command)"{{{
+        if a:command == 'continue'
+            let g:vimspector_is_running = 1
+        elseif exists('g:vimspector_is_running')
+            unlet g:vimspector_is_running
+        endif
+
+        if a:command == 'stop'
+            call vimspector#Stop()
+        elseif a:command == 'reset'
+            call vimspector#Reset()
+        elseif a:command == 'continue'
+            call vimspector#Continue()
+        else
+            echoerr 'Unsupported command!'
+            return
+        endif
+    endfunction"}}}
+
+    function! s:CustomiseUI()"{{{
+        call win_gotoid( g:vimspector_session_windows.variables )
+        exe "normal \<C-W>_"
+
+        " " Close the trace window
+        " call win_gotoid( g:vimspector_session_windows.stack_trace )
+        " hide
+
+        " Close the output window
+        call win_gotoid( g:vimspector_session_windows.output )
+        hide
+    endfunction"}}}
+
+    function s:SetUpTerminal()"{{{
+        " Customise the terminal window size/position
+        " For some reasons terminal buffers in Neovim have line numbers
+        call win_gotoid( g:vimspector_session_windows.terminal )
+        set norelativenumber nonumber
+    endfunction"}}}
+
+    augroup MyVimspectorUICustomistaion
+        autocmd!
+        autocmd User VimspectorUICreated call s:CustomiseUI()
+        autocmd User VimspectorTerminalOpened call s:SetUpTerminal()
+    augroup END
+endif
+
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -1579,10 +1640,6 @@ nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
 " Copy relative path of current file.
 nmap <leader><leader>crp :<C-u>let @+=expand('%:.')<CR>:echo 'File path copied.'<CR>
 
-" Toggle quickfix and location list
-let g:lt_location_list_toggle_map = '<leader>lt'
-let g:lt_quickfix_list_toggle_map = '<leader>ct'
-
 " 分割窗口
 nmap <leader>hs :sp<CR><C-W>_
 nmap <leader>vs :vsp<CR><C-W>_
@@ -1618,8 +1675,11 @@ vnoremap <M-j> <down>
 vnoremap <M-k> <up>
 
 " 删除包含选中字符串的行
-nmap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
-vmap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
+nnoremap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
+vnoremap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
+
+" Set TODO comments done.
+nnoremap <leader>dn :s/\(^\s*\/\/\s\)\@<=TODO\s\(lidong\\|donie\):\s//<CR>
 
 " Edit vimrc
 exec 'nmap <leader>rcop :tabnew '.gbl_vimrc_file.'<CR><C-W>_'
@@ -1629,12 +1689,6 @@ exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " exec 'au! bufwritepost '.gbl_vimrc_name.' so '.gbl_vimrc_file
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
 exec 'au! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
-
-" " CTags
-" " nmap <leader>mkt :VimProcBang gtags<CR>
-" " nmap <leader>mkt :VimProcBang ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*" .<CR>
-" " nmap <leader>mkt :VimProcBang gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
-" nmap <leader>mkt :AsyncRun gtags && ctags -R --php-kinds=cidfj -h .php.inc.lib.py.java --langmap=php:.php.inc.lib --exclude="*.js" --exclude=".undodir/*".<CR>
 
 " 查看当前目录
 nmap <leader>pwd :pwd<CR>
@@ -1689,85 +1743,11 @@ elseif has('win32')
     nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
 endif
 
-" UltiSnips mappings
-nmap <leader>ue :UltiSnipsEdit<Space>
-
-" incsearch.vim
-if s:plugged('incsearch.vim')
-    map /  <Plug>(incsearch-forward)
-    map ?  <Plug>(incsearch-backward)
-    map g/ <Plug>(incsearch-stay)
-endif
-
 " repeat last command
 nmap <leader>!! :<up><CR>
 
 " dash
 nmap <silent> <leader>ds <Plug>DashSearch
-
-" Vimspector settings
-if s:plugged('vimspector')
-    " let g:vimspector_bottombar_height = 0
-
-    let g:vimspector_sign_priority = {
-                \    'vimspectorBP':         999,
-                \    'vimspectorBPCond':     999,
-                \    'vimspectorBPLog':      999,
-                \    'vimspectorBPDisabled': 999,
-                \    'vimspectorPC':         999,
-                \ }
-
-    au FileType php nmap <leader><leader><F3> :call MyVimspectorRun('reset')<CR>
-    au FileType php nmap <F3> :call MyVimspectorRun('stop')<CR>
-    au FileType php nmap <F5> :call MyVimspectorRun('continue')<CR>
-    au FileType php nmap <leader>di <Plug>VimspectorBalloonEval
-    au FileType php xmap <leader>di <Plug>VimspectorBalloonEval
-
-    function! MyVimspectorRun(command)"{{{
-        if a:command == 'continue'
-            let g:vimspector_is_running = 1
-        elseif exists('g:vimspector_is_running')
-            unlet g:vimspector_is_running
-        endif
-
-        if a:command == 'stop'
-            call vimspector#Stop()
-        elseif a:command == 'reset'
-            call vimspector#Reset()
-        elseif a:command == 'continue'
-            call vimspector#Continue()
-        else
-            echoerr 'Unsupported command!'
-            return
-        endif
-    endfunction"}}}
-
-    function! s:CustomiseUI()"{{{
-        call win_gotoid( g:vimspector_session_windows.variables )
-        exe "normal \<C-W>_"
-
-        " " Close the trace window
-        " call win_gotoid( g:vimspector_session_windows.stack_trace )
-        " hide
-
-        " Close the output window
-        call win_gotoid( g:vimspector_session_windows.output )
-        hide
-    endfunction"}}}
-
-    function s:SetUpTerminal()"{{{
-        " Customise the terminal window size/position
-        " For some reasons terminal buffers in Neovim have line numbers
-        call win_gotoid( g:vimspector_session_windows.terminal )
-        set norelativenumber nonumber
-    endfunction"}}}
-
-    augroup MyVimspectorUICustomistaion
-        autocmd!
-        autocmd User VimspectorUICreated call s:CustomiseUI()
-        autocmd User VimspectorTerminalOpened call s:SetUpTerminal()
-    augroup END
-endif
 
 " Open MR of the current branch in web browser
 nmap <leader>mr :AsyncRun glab mr view -w<CR>
@@ -2464,7 +2444,7 @@ if s:plugged('coc.nvim')
     nnoremap <leader>op :<C-u>CocList project<CR>
     nnoremap <leader>os :<C-u>CocList sessions<CR>
     nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
-    nnoremap <leader>Cs :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
+    nnoremap <leader>sC :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
 
     highlight CocFloating guibg=#99cccc guifg=#336699
 
