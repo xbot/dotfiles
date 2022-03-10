@@ -1586,7 +1586,7 @@ endif
 "}}}
 
 " ------------------------------ Key mappings -------------------------------"{{{
-"普通退出，全部退出，强制退出，强制全部退出
+" Quit mappings
 nmap <leader><leader>q :q<CR>
 imap <leader><leader>q <ESC>:q<CR>
 nmap <leader>aq :qa<CR>
@@ -1596,7 +1596,7 @@ imap <leader>Q  <ESC>:q!<CR>
 nmap <leader>aQ :qa!<CR>
 imap <leader>aQ <ESC>:qa!<CR>
 
-" 编辑
+" Edit mappings
 nmap <leader>w :up<CR>
 nmap <leader>W :SudoWrite<CR>
 imap <leader>w <ESC>:up<CR>
@@ -1608,7 +1608,7 @@ imap <leader>o <C-O>:normal o<CR>
 imap <leader>O <C-O>:normal O<CR>
 xnoremap <expr> p '"_d"'.v:register.'P'
 
-" Tab and window operations
+" Tab and window mappings
 nmap <C-T><C-T> :tabnew<CR>
 imap <C-T><C-T> <ESC>:tabnew<CR>
 nmap <C-T><C-W> :tabc<CR>
@@ -1620,33 +1620,13 @@ nmap gr         :tabp<CR>
 nmap <leader><leader>dut :tab sp<CR>
 nnoremap <leader>oo <C-w><C-o>
 inoremap <leader>oo <ESC><C-w><C-o>a
+nmap <leader>hs :sp<CR><C-W>_
+nmap <leader>vs :vsp<CR><C-W>_
 if s:plugged('vim-maximizer')
     nnoremap <leader>mm :MaximizerToggle<CR>
     vnoremap <leader>mm :MaximizerToggle<CR>gv
     inoremap <leader>mm <C-o>:MaximizerToggle<CR>
 endif
-" Move window around
-" :h window-moving
-" <C-W> H, J, K, L
-nnoremap <leader>T <C-w>T
-
-" 编辑与当前文件路径相关的文件
-nmap <leader><leader>O :e <C-R>=expand("%:p:~")<CR>
-nmap <leader><leader>D :e <C-R>=expand("%:p:~:h").'/'<CR>
-nmap <leader><leader>rn :Rename <C-R>=expand('%:t')<CR>
-nmap <leader><leader>mv :Move <C-R>=expand('%:.')<CR>
-nmap <leader><leader>rm :Delete
-nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
-" Copy relative path of current file.
-nmap <leader><leader>crp :<C-u>let @+=expand('%:.')<CR>:echo 'File path copied.'<CR>
-
-" 分割窗口
-nmap <leader>hs :sp<CR><C-W>_
-nmap <leader>vs :vsp<CR><C-W>_
-
-" 最大化当前Split窗口
-nmap <F11> :wincmd_<CR>
-
 " " Jump to next window and maximize it.
 " " Notice that <TAB> is equivalent to <C-I> in some conditions,
 " " so remap <C-I> along with uncommenting these rows.
@@ -1654,11 +1634,33 @@ nmap     <Tab>   <C-W>j<C-W>_
 nnoremap <S-Tab> <C-W>k<C-W>_
 " nnoremap <C-U> <C-I>
 
-" 窗口间移动焦点
+" Move window around
+" :h window-moving
+" <C-W> H, J, K, L
+nnoremap <leader>T <C-w>T
+
+" Motion remappings
+nnoremap gH H
+nnoremap gM M
+nnoremap gL L
+nnoremap H  :tabp<CR>
+nnoremap L  :tabn<CR>
+
+" Move focus among windows
 nnoremap <C-k> <C-W>k
 nnoremap <C-j> <C-W>j
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
+
+" Current file or path related mappings
+nmap <leader><leader>O   :e <C-R>=expand("%:p:~")<CR>
+nmap <leader><leader>D   :e <C-R>=expand("%:p:~:h").'/'<CR>
+nmap <leader><leader>rn  :Rename <C-R>=expand('%:t')<CR>
+nmap <leader><leader>mv  :Move <C-R>=expand('%:.')<CR>
+nmap <leader><leader>rm  :Delete
+nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
+" Copy relative path of current file.
+nmap <leader><leader>crp :<C-u>let @+=expand('%:.')<CR>:echo 'File path copied.'<CR>
 
 " Navigating long lines
 nnoremap <M-h> <left>
@@ -1674,7 +1676,7 @@ vnoremap <M-l> <right>
 vnoremap <M-j> <down>
 vnoremap <M-k> <up>
 
-" 删除包含选中字符串的行
+" Delete lines which contain the current word or selected text.
 nnoremap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
 vnoremap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
 
@@ -1690,14 +1692,14 @@ exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
 exec 'au! bufreadpre '.gbl_vimrc_name.' setl fdm=marker'
 
-" 查看当前目录
+" Show PWD
 nmap <leader>pwd :pwd<CR>
 
-" 简繁转换
+" Convert between traditional and simplified chinese characters.
 nmap <leader>g2b <ESC>:call G2B()<CR>
 nmap <leader>b2g <ESC>:call B2G()<CR>
 
-" 查找與替換
+" Find and replace
 nmap <leader>ff yiw/\<<C-R>"\>\C
 vmap <leader>ff y/\m<C-R>=XEscapeRegex(@")<CR>\C
 " vmap <leader>ff y/\V<C-R>=escape(@",'/\')<CR>
@@ -1706,7 +1708,7 @@ vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 nmap <leader>rl yiw:s/\<<C-R>"\>\C//g<LEFT><LEFT>
 vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 
-" 编码转换
+" Convert between encodings.
 nmap <leader>fenc :set fenc<CR>
 " nmap <leader>gbk  :set fenc=cp936<CR>
 nmap <leader>utf8 :set fenc=utf-8<CR>
