@@ -136,6 +136,10 @@ Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
 if has('nvim')
+    " Fine-cmdline group
+    Plug 'MunifTanjim/nui.nvim'
+    Plug 'VonHeikemen/fine-cmdline.nvim'
+
     Plug 'elihunter173/dirbuf.nvim'
     " " Has performance problem
     " Plug 'tveskag/nvim-blame-line'
@@ -336,6 +340,7 @@ else
 endif
 set wildignore=*.class,*.pyc
 set fillchars+=diff:\ 
+set cedit=\<C-E>
 
 if has('nvim')
     let g:backupdir=expand(stdpath('data') . '/backup')
@@ -492,7 +497,7 @@ endif
 
 " Auto reload file if changed outside.
 set autoread
-au FocusGained,BufEnter * checktime
+au FocusGained,BufEnter * if mode() == 'n' && getcmdwintype() == '' | checktime | endif
 
 "}}}
 
@@ -1472,6 +1477,11 @@ if s:plugged('far.vim')
     nnoremap <silent> <leader>fr :Farr<CR>
     vnoremap <silent> <leader>fr :Farr<CR>
 endif
+
+" Fine-cmdline settings
+if s:plugged('fine-cmdline.nvim')
+    nnoremap <leader>fc <cmd>FineCmdline<CR>
+endif
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -1959,7 +1969,7 @@ command! -nargs=0 ConvertTabToSpaces call Preserve("%s/\\t/    /g")
 " a:2   是否用shellescape()转义，1是转义，2是转义并去掉两侧单引号
 function! EscapeRegex(str, ...)"{{{
     let pattern = a:str
-    let pattern = escape(pattern, '/\.*$^~[]"')
+    let pattern = escape(pattern, '^$.*[]~"/\')
 
     if a:0 && a:1
         let pattern = escape(pattern, '()+?{}|')
