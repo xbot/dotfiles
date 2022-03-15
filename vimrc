@@ -37,7 +37,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'godlygeek/tabular'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'haya14busa/incsearch.vim'
-Plug 'brooth/far.vim'
+" Buggy
+" Plug 'brooth/far.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'idanarye/vim-merginal'
@@ -550,8 +551,8 @@ if s:plugged('ferret')
     nmap <leader>lak <Plug>(FerretLack)
     nmap <leader>aw  <Plug>(FerretAckWord)
     nmap <leader>as  <Plug>(FerretAcks)
-    vmap <leader>ak  y:Ack <C-R>=XEscapeRegex(@", 1)<CR>
-    vmap <leader>lak y:Lack <C-R>=XEscapeRegex(@", 1)<CR>
+    vmap <leader>ak  y:Ack <C-R>=EscapeRegex(@", 1)<CR>
+    vmap <leader>lak y:Lack <C-R>=EscapeRegex(@", 1)<CR>
 
     " List all tasks under the current directory
     map <leader><leader>tl :Ack //\s(TODO\|FIXME)\s(lidong\|donie)<CR>
@@ -635,7 +636,7 @@ if s:plugged('vim-dirdiff')
 endif
 
 " ALE settings
-if s:plugged('ale')
+if s:plugged('ale')"{{{
     let g:ale_sign_column_always = 0
     let g:ale_set_highlights = 0
     let g:ale_set_signs = 0
@@ -669,19 +670,19 @@ if s:plugged('ale')
     nmap <Leader>af :ALEFix<CR>
 
     " au FileType php let b:ale_disable_lsp = 1
-endif
+endif"}}}
 
-" pdv
+" pdv settings
 let g:pdv_template_dir = $HOME .'/.vim/plugged/pdv/templates_snip'
 augroup pdv
     au!
     au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 augroup END
 
-" ag
+" ag settings
 let g:ag_lhandler='lopen'
 
-" gtags
+" gtags settings
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update       = 1
 let g:cscope_silent         = 1
@@ -696,15 +697,17 @@ augroup END
 " FastFold
 " let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 
-"easy-align
-vmap <leader>al <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = ['String']
+" easy-align settings
+if s:plugged('vim-easy-align')
+    vmap <leader>al <Plug>(EasyAlign)
+    let g:easy_align_ignore_groups = ['String']
+endif
 
 " vim-markdown
 let g:markdown_fenced_languages = ['html', 'python', 'ruby', 'vim', 'php', 'bash=sh']
 
 " leaderf settings
-if s:plugged('LeaderF')
+if s:plugged('LeaderF')"{{{
     let g:Lf_ShortcutF       = '<C-P>'
     let g:Lf_DefaultMode     = 'NameOnly'
     let g:Lf_DelimiterChar   = ";"
@@ -725,15 +728,16 @@ if s:plugged('LeaderF')
 
     " autocmd FileType leaderf setlocal signcolumn=no
 
-    nmap <leader>ot :call <SID>flexible_leaderf_tag()<CR>
-    nmap <leader>bt :LeaderfBufTag<CR>
-    nmap <leader>bf :LeaderfFunction<CR>
-    nmap <leader>be :LeaderfBuffer<CR>
-    nmap <leader>fl :LeaderfLine<CR>
-    nmap <leader>fh :LeaderfHistoryCmd<CR>
-    nmap <leader>hp :LeaderfHelp<CR>
-    nmap <leader>cm :LeaderfCommand<CR>
-    nmap <leader>cl :LeaderfColorscheme<CR>
+    nmap <leader>be  :LeaderfBuffer<CR>
+    nmap <leader>bf  :LeaderfFunction<CR>
+    nmap <leader>bt  :LeaderfBufTag<CR>
+    nmap <leader>cl  :LeaderfColorscheme<CR>
+    nmap <leader>cm  :LeaderfCommand<CR>
+    nmap <leader>fh  :LeaderfHistoryCmd<CR>
+    nmap <leader>fl  :LeaderfLine<CR>
+    nmap <leader>hp  :LeaderfHelp<CR>
+    nmap <leader>mru :LeaderfMru<CR>
+    nmap <leader>ot  :call <SID>flexible_leaderf_tag()<CR>
 
     function! s:flexible_leaderf_tag()
         let l:cmd = "Leaderf tag"
@@ -745,7 +749,7 @@ if s:plugged('LeaderF')
 
         exec l:cmd
     endfunction
-endif
+endif"}}}
 
 " airline settings
 if s:plugged('vim-airline')
@@ -919,12 +923,10 @@ if s:plugged('vim-fontsize')
 endif
 
 " Toggle terminal
-if has('nvim')
-    " nvim-toggle-terminal
+if has('nvim') && s:plugged('nvim-toggle-terminal')
     nnoremap <silent> <leader>jj :ToggleTerminal<Enter>
     tnoremap <silent> <leader>jj <C-\><C-n>:ToggleTerminal<Enter>
-else
-    " toggle-terminal
+elseif s:plugged('toggle-terminal')
     let g:toggle_terminal#command = 'zsh'
     nnoremap <silent> <leader>jj :ToggleTerminal<CR>
     tnoremap <silent> <leader>jj <C-w>:ToggleTerminal<CR>
@@ -1107,15 +1109,16 @@ endif
 if s:plugged('vira')
     " let g:vira_async_timer = 30000
     " let g:vira_async_timer_init = 30000
-    nnoremap <silent> <leader>vb   :ViraBrowse<CR>
-    nnoremap <silent> <leader>vc   :ViraComment<CR>
-    nnoremap <silent> <leader>vi   :ViraIssues<CR>
-    nnoremap <silent> <leader>vr   :ViraReport<CR>
-    nnoremap <silent> <leader>ved  :ViraEditDescription<CR>
-    nnoremap <silent> <leader>vfe  :ViraFilterEdit<CR>
-    nnoremap <silent> <leader>vfrs :ViraFilterReset<CR>
-    nnoremap <silent> <leader>vfrp :ViraFilterReporter<CR>
-    nnoremap <silent> <leader>vsa  :ViraSetAssignee<CR>
+    nnoremap <silent> <leader>vb  :ViraBrowse<CR>
+    nnoremap <silent> <leader>vc  :ViraComment<CR>
+    nnoremap <silent> <leader>ved :ViraEditDescription<CR>
+    nnoremap <silent> <leader>vfR :ViraFilterReset<CR>
+    nnoremap <silent> <leader>vfa :ViraFilterReporter<CR>
+    nnoremap <silent> <leader>vfe :ViraFilterEdit<CR>
+    nnoremap <silent> <leader>vfr :ViraFilterReporter<CR>
+    nnoremap <silent> <leader>vi  :ViraIssues<CR>
+    nnoremap <silent> <leader>vr  :ViraReport<CR>
+    nnoremap <silent> <leader>vsa :ViraSetAssignee<CR>
 endif
 
 " textobj settings
@@ -1456,6 +1459,19 @@ if s:plugged('vimspector')
     augroup END
 endif
 
+" Far.vim settings
+if s:plugged('far.vim')
+    set lazyredraw            " improve scrolling performance when navigating through large results
+    set regexpengine=1        " use old regexp engine
+    set ignorecase smartcase  " ignore case only when the pattern contains no capital letters
+
+    let g:far#source = 'rg'
+
+    nnoremap <silent> <leader>ff :Farf<CR>
+    vnoremap <silent> <leader>ff :Farf<CR>
+    nnoremap <silent> <leader>fr :Farr<CR>
+    vnoremap <silent> <leader>fr :Farr<CR>
+endif
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -1677,16 +1693,15 @@ vnoremap <M-j> <down>
 vnoremap <M-k> <up>
 
 " Delete lines which contain the current word or selected text.
-nnoremap <leader>dl yiw:call Preserve("g/".XEscapeRegex(@")."/d")<CR>
-vnoremap <leader>dl y:call   Preserve("g/".XEscapeRegex(@")."/d")<CR>
+nnoremap <leader>dl yiw:call Preserve("g/".EscapeRegex(@")."/d")<CR>
+vnoremap <leader>dl y:call   Preserve("g/".EscapeRegex(@")."/d")<CR>
 
 " Set TODO comments done.
 nnoremap <leader>dn :s/\(^\s*\/\/\s\)\@<=TODO\s\(lidong\\|donie\):\s//<CR>
 
-" Edit vimrc
-exec 'nmap <leader>rcop :tabnew '.gbl_vimrc_file.'<CR><C-W>_'
-" Source vimrc
-exec 'nmap <leader>rcso :so '.gbl_vimrc_file.'<CR>'
+" Edit & source vimrc
+exec 'nmap <leader><leader>, :tabnew '.gbl_vimrc_file.'<CR><C-W>_'
+exec 'nmap <leader><leader>. :so '.gbl_vimrc_file.'<CR>'
 " Source vimrc after it is modified
 " exec 'au! bufwritepost '.gbl_vimrc_name.' so '.gbl_vimrc_file
 " To fix the problem that the folding method remains to be 'syntax' when open the vimrc file in a php file
@@ -1700,13 +1715,13 @@ nmap <leader>g2b <ESC>:call G2B()<CR>
 nmap <leader>b2g <ESC>:call B2G()<CR>
 
 " Find and replace
-nmap <leader>ff yiw/\<<C-R>"\>\C
-vmap <leader>ff y/\m<C-R>=XEscapeRegex(@")<CR>\C
-" vmap <leader>ff y/\V<C-R>=escape(@",'/\')<CR>
+nmap <leader>// yiw/\<<C-R>"\>\C
+vmap <leader>// y/\m<C-R>=EscapeRegex(@")<CR>\C
+" vmap <leader>// y/\V<C-R>=escape(@",'/\')<CR>
 nmap <leader>rr yiw:%s/\<<C-R>"\>\C//g<LEFT><LEFT>
-vmap <leader>rr y:%s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
+vmap <leader>rr y:%s/<C-R>=EscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 nmap <leader>rl yiw:s/\<<C-R>"\>\C//g<LEFT><LEFT>
-vmap <leader>rl y:s/<C-R>=XEscapeRegex(@")<CR>\C//g<LEFT><LEFT>
+vmap <leader>rl y:s/<C-R>=EscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 
 " Convert between encodings.
 nmap <leader>fenc :set fenc<CR>
@@ -1736,26 +1751,26 @@ nmap <leader><leader>cc :nohl<CR>
 " endif
 
 " Format JSON string
-nmap <leader>json :%!python -m json.tool<CR>:set ft=json<CR>
-
-" Open terminal in the current path
-if has('unix')
-    nmap <leader>sh :call xolox#misc#os#exec({'command':'terminator', 'async':1})<CR>
-elseif has('win32')
-    nmap <leader>sh :call xolox#misc#os#exec({'command':'cmd.exe', 'async':1})<CR>
-endif
+nmap <leader><leader>json :%!python -m json.tool<CR>:set ft=json<CR>
 
 " repeat last command
 nmap <leader>!! :<up><CR>
 
 " dash
-nmap <silent> <leader>ds <Plug>DashSearch
+nmap <silent> <leader><leader>ds <Plug>DashSearch
 
 " Open MR of the current branch in web browser
-nmap <leader>mr :AsyncRun glab mr view -w<CR>
+nmap <leader><leader>mr :AsyncRun glab mr view -w<CR>
 
 " Set filetype
-nmap <leader>ft :set filetype=
+nmap <leader><leader>ft :set filetype=
+
+" Open the link under cursor
+if IsPlatform('mac')
+    nnoremap gx <Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>
+elseif IsPlatform('unix')
+    nnoremap gx <Cmd>call jobstart(["xdg-open", expand("<cfile>")], {"detach": v:true})<CR>
+endif
 "}}}
 
 " ------------------------------ Functions -----------------------------{{{
@@ -1799,6 +1814,7 @@ function! PySandBox()"{{{
 endfunction"}}}
 nmap <leader>sbpy :call PySandBox()<CR>
 
+" @see https://vim.fandom.com/wiki/Different_syntax_highlighting_within_regions_of_a_file
 function! TextEnableCodeSnip(filetype, start, end, textSnipHl) abort"{{{
     let ft=toupper(a:filetype)
     let group='textGroup'.ft
@@ -1861,6 +1877,7 @@ endfunction"}}}
 command! -nargs=0 SetDOSFF call SetDOSFF()
 
 " ptag wrapper
+" @see http://0x3f.org/posts/humanize-preview-window-in-vim/
 function! PTagIt()"{{{
     exec 'ptag '.expand('<cword>')
     let cwin = winnr()
@@ -1940,12 +1957,13 @@ command! -nargs=0 ConvertTabToSpaces call Preserve("%s/\\t/    /g")
 " 转义正则表达式特殊字符，以便在正则表达式中使用
 " a:1   是否转义为vimgrep的pattern格式，1，2
 " a:2   是否用shellescape()转义，1是转义，2是转义并去掉两侧单引号
-function! XEscapeRegex(str, ...)"{{{
+function! EscapeRegex(str, ...)"{{{
     let pattern = a:str
     let pattern = escape(pattern, '/\.*$^~[]"')
 
     if a:0 && a:1
-        let pattern = escape(pattern, '()+?')
+        let pattern = escape(pattern, '()+?{}|')
+        let pattern = substitute(pattern, '\\/', '/', 'g')
         if a:1 == 2
             let pattern = escape(pattern, '\')
         endif
