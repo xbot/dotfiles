@@ -543,6 +543,7 @@ if s:plugged('ultisnips')
 endif
 
 " Ferret settings
+" @see https://0x3f.org/posts/the-best-practice-of-searching-in-vim/
 if s:plugged('ferret')
     let g:FerretExecutable='rg'
     let g:FerretExecutableArguments = {
@@ -558,6 +559,19 @@ if s:plugged('ferret')
     nmap <leader>as  <Plug>(FerretAcks)
     vmap <leader>ak  y:Ack <C-R>=EscapeRegex(@", 1)<CR>
     vmap <leader>lak y:Lack <C-R>=EscapeRegex(@", 1)<CR>
+
+    " The patterns passed to the :Ack command may be not compatible with the
+    " :Acks command, so we need to escape some characters in them additionally
+    " in the command-line window.
+    augroup escape_ferret_pattern_in_the_current_line_in_commandline_window
+        au!
+        au BufEnter * if mode() == 'n' && getcmdwintype() == '' | nnoremap <leader>ss :call EscapeFerretPatternInCurrentLine()<CR> | endif
+    augroup END
+
+    function! EscapeFerretPatternInCurrentLine()
+        exec 's/>/\\>/g'
+        exec 's/&/\\&/g'
+    endfunction
 
     " List all tasks under the current directory
     map <leader><leader>tl :Ack //\s(TODO\|FIXME)\s(lidong\|donie)<CR>
@@ -1008,18 +1022,21 @@ if s:plugged('defx.nvim')
                 \ 'selected_icon': '✓',
                 \ })
 
-    nmap <silent> <Leader>dt :<C-U>Defx<CR>
+    nnoremap <silent> <Leader>dt :<C-U>Defx<CR>
+    nnoremap <silent>sf :<C-u>Defx -listed -resume -buffer-name=tab`tabpagenr()` `expand('%:p:h')` -search=`expand('%:p')`<CR>
+    nnoremap <silent><leader>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
 
     autocmd FileType defx call s:defx_mappings()
 
     function! s:defx_mappings() abort
+        nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files') " 显示隐藏文件
+        nnoremap <silent><buffer><expr> <BS>  defx#do_action('cd', ['..'])
+        nnoremap <silent><buffer><expr> <C-r> defx#do_action('redraw')
+        nnoremap <silent><buffer><expr> D     defx#do_action('new_directory')
+        nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
+        nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'FILENAME')
         nnoremap <silent><buffer><expr> o     <SID>defx_toggle_tree()                " 打开或者关闭文件夹，文件
         nnoremap <silent><buffer><expr> t     defx#do_action('open', 'tabnew')
-        nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files') " 显示隐藏文件
-        nnoremap <silent><buffer><expr> <C-r> defx#do_action('redraw')
-        nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'FILENAME')
-        nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
-        nnoremap <silent><buffer><expr> D     defx#do_action('new_directory')
     endfunction
 
     function! s:defx_toggle_tree() abort
@@ -1029,9 +1046,6 @@ if s:plugged('defx.nvim')
         endif
         return defx#do_action('multi', ['drop'])
     endfunction
-
-    nnoremap <silent>sf :<C-u>Defx -listed -resume -buffer-name=tab`tabpagenr()` `expand('%:p:h')` -search=`expand('%:p')`<CR>
-    nnoremap <silent><leader>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
 endif
 
 " vim-plug settings
