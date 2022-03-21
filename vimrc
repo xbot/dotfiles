@@ -40,10 +40,14 @@ Plug 'haya14busa/incsearch.vim'
 " Buggy
 " Plug 'brooth/far.vim'
 Plug 'tpope/vim-surround'
+
+" fugitive group
 Plug 'tpope/vim-fugitive'
 Plug 'idanarye/vim-merginal'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'tommcdo/vim-fugitive-blame-ext'
+Plug 'tpope/vim-rhubarb'
+
 " Plug 'rbong/vim-flog'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
