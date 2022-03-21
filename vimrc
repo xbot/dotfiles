@@ -135,12 +135,19 @@ Plug 'skywind3000/gutentags_plus'
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
+" " Conflict with dirbuf
+" Plug 'justinmk/vim-dirvish'
+" " Plug 'kristijanhusak/vim-dirvish-git'
+" Plug 'roginfarrer/vim-dirvish-dovish', {'branch': 'main'}
+
 if has('nvim')
     " Fine-cmdline group
     Plug 'MunifTanjim/nui.nvim'
     Plug 'VonHeikemen/fine-cmdline.nvim'
 
+    " Conflict with dirvish
     Plug 'elihunter173/dirbuf.nvim'
+
     " " Has performance problem
     " Plug 'tveskag/nvim-blame-line'
     Plug 'f-person/git-blame.nvim'
@@ -177,9 +184,6 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
 
     Plug 'chrisbra/Colorizer'
-
-    Plug 'justinmk/vim-dirvish'
-    Plug 'kristijanhusak/vim-dirvish-git'
 endif
 
 if has('gui_running')
@@ -1029,13 +1033,13 @@ if s:plugged('defx.nvim')
     autocmd FileType defx call s:defx_mappings()
 
     function! s:defx_mappings() abort
-        nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files') " 显示隐藏文件
+        nnoremap <silent><buffer><expr> .     defx#do_action('toggle_ignored_files')
         nnoremap <silent><buffer><expr> <BS>  defx#do_action('cd', ['..'])
         nnoremap <silent><buffer><expr> <C-r> defx#do_action('redraw')
         nnoremap <silent><buffer><expr> D     defx#do_action('new_directory')
         nnoremap <silent><buffer><expr> N     defx#do_action('new_file')
         nnoremap <silent><buffer><expr> S     defx#do_action('toggle_sort', 'FILENAME')
-        nnoremap <silent><buffer><expr> o     <SID>defx_toggle_tree()                " 打开或者关闭文件夹，文件
+        nnoremap <silent><buffer><expr> o     <SID>defx_toggle_tree()
         nnoremap <silent><buffer><expr> t     defx#do_action('open', 'tabnew')
     endfunction
 
@@ -1067,6 +1071,20 @@ if s:plugged('vim-unimpaired')
     vmap <S-Right> >gv
 endif
 
+" dirbuf.nvim settings
+if s:plugged('dirbuf.nvim')
+    nmap _ <Plug>(dirbuf_up)
+
+lua << EOF
+require("dirbuf").setup {
+    hash_padding = 2,
+    show_hidden  = true,
+    sort_order   = "directories_first",
+    hash_first   = true,
+}
+EOF
+endif
+
 " dirvish settings
 if s:plugged('vim-dirvish')
     let g:dirvish_mode = ':sort ,^\v(.*[\/])|\ze,'
@@ -1075,6 +1093,24 @@ if s:plugged('vim-dirvish')
     nmap <silent> <Space>- :Dirvish<CR>
     nmap <silent> _ :execute (@% == '' ? 'Dirvish' : 'Dirvish %')<CR>
     autocmd FileType dirvish nmap <silent><buffer> _ <Plug>(dirvish_up)
+
+    " --- dirvish-dovish settings ---{{{
+    " unmap all default mappings
+    let g:dirvish_dovish_map_keys = 0
+
+    augroup dirvish_dovish_map_keys
+        au!
+        au FileType dirvish unmap <buffer> p
+        au FileType dirvish nmap <silent><buffer> i  <Plug>(dovish_create_file)
+        au FileType dirvish nmap <silent><buffer> I  <Plug>(dovish_create_directory)
+        au FileType dirvish nmap <silent><buffer> dd <Plug>(dovish_delete)
+        au FileType dirvish nmap <silent><buffer> r  <Plug>(dovish_rename)
+        au FileType dirvish nmap <silent><buffer> yy <Plug>(dovish_yank)
+        au FileType dirvish xmap <silent><buffer> yy <Plug>(dovish_yank)
+        au FileType dirvish nmap <silent><buffer> p  <Plug>(dovish_copy)
+        au FileType dirvish nmap <silent><buffer> P  <Plug>(dovish_move)
+    augroup END
+    " --- END ---}}}
 endif
 
 " sideways settings
