@@ -2410,6 +2410,24 @@ if s:plugged('coc.nvim')
     nnoremap <leader>cocc :CocConfig<CR>
 
     let g:coc_node_path='~/.nvm/versions/node/v14.16.1/bin/node'
+    let g:coc_global_extensions = [
+        \'@yaegassy/coc-intelephense',
+        \'@yaegassy/coc-nginx',
+        \'@yaegassy/coc-phpstan',
+        \'coc-diagnostic',
+        \'coc-git',
+        \'coc-json', 
+        \'coc-lists',
+        \'coc-markdownlint',
+        \'coc-php-cs-fixer',
+        \'coc-prettier',
+        \'coc-project',
+        \'coc-snippets',
+        \'coc-spell-checker',
+        \'coc-ultisnips',
+        \'coc-yaml', 
+        \'coc-yank',
+        \]
 
     " if executable('intelephense')
         " augroup LspPHPIntelephense
@@ -2529,6 +2547,9 @@ if s:plugged('coc.nvim')
     nnoremap <leader>os :<C-u>CocList sessions<CR>
     nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
     nnoremap <leader>sC :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
+
+    " vim-test is more convinient to run tests.
+    " nmap <silent> gl <Plug>(coc-codelens-action)
 
     highlight CocFloating guibg=#99cccc guifg=#336699
 
