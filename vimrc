@@ -3,6 +3,10 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+" EnhancedJumps group
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-EnhancedJumps'
+
 Plug 'christoomey/vim-sort-motion'
 Plug 'andrejlevkovitch/vim-lua-format'
 Plug 'liuchengxu/vista.vim'
@@ -1707,12 +1711,12 @@ if s:plugged('vim-maximizer')
     vnoremap <leader>mm :MaximizerToggle<CR>gv
     inoremap <leader>mm <C-o>:MaximizerToggle<CR>
 endif
-" " Jump to next window and maximize it.
-" " Notice that <TAB> is equivalent to <C-I> in some conditions,
-" " so remap <C-I> along with uncommenting these rows.
+" Jump to next window and maximize it.
+" Notice that <TAB> is equivalent to <C-I> in some conditions,
+" so remap <C-I> as an opposite of <C-O>.
 nmap     <Tab>   <C-W>j<C-W>_
 nnoremap <S-Tab> <C-W>k<C-W>_
-" nnoremap <C-U> <C-I>
+nnoremap <C-U>   <C-I>
 
 " Move window around
 " :h window-moving
