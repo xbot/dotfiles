@@ -1088,7 +1088,6 @@ require("dirbuf").setup {
     hash_padding = 2,
     show_hidden  = true,
     sort_order   = "directories_first",
-    hash_first   = true,
 }
 EOF
 endif
@@ -1172,6 +1171,7 @@ endif
 if s:plugged('vira')
     " let g:vira_async_timer = 30000
     " let g:vira_async_timer_init = 30000
+    nnoremap <leader>va  :ViraSetActiveTicket<space>
     nnoremap <silent> <leader>vb  :ViraBrowse<CR>
     nnoremap <silent> <leader>vc  :ViraComment<CR>
     nnoremap <silent> <leader>ved :ViraEditDescription<CR>
@@ -1180,8 +1180,16 @@ if s:plugged('vira')
     nnoremap <silent> <leader>vfe :ViraFilterEdit<CR>
     nnoremap <silent> <leader>vfr :ViraFilterReporter<CR>
     nnoremap <silent> <leader>vi  :ViraIssues<CR>
+    nnoremap <silent> <leader>vq  :ViraQuit<CR>
     nnoremap <silent> <leader>vr  :ViraReport<CR>
     nnoremap <silent> <leader>vsa :ViraSetAssignee<CR>
+
+    command! -nargs=1 ViraSetActiveTicket :call s:set_active_ticket_for_vira(<q-args>)
+    function! s:set_active_ticket_for_vira(ticket_number)
+        let g:vira_active_issue = 'DEV-' .. a:ticket_number
+        echo 'The active ticket is now: ' .. ViraGetActiveIssue()
+        exec 'ViraReport'
+    endfunction
 endif
 
 " textobj settings
