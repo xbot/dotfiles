@@ -1838,9 +1838,6 @@ nmap <silent> <leader><leader>ds <Plug>DashSearch
 " Open MR of the current branch in web browser
 nmap <leader><leader>mr :AsyncRun glab mr view -w<CR>
 
-" Set filetype
-nmap <leader><leader>ft :set filetype=
-
 " Open the link under cursor
 if IsPlatform('mac')
     nnoremap gx <Cmd>call jobstart(["open", expand("<cfile>")], {"detach": v:true})<CR>
