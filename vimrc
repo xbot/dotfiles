@@ -129,7 +129,7 @@ Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
 Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
 " Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
-Plug 'tobyS/pdv',                   { 'for': 'php'      }
+Plug 'xbot/pdv',                    { 'for': 'php'      }
 Plug 'tobyS/vmustache',             { 'for': 'php'      }
 Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
