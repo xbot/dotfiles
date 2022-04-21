@@ -1467,6 +1467,12 @@ endif
 " auto-session settings
 if s:plugged('auto-session')
     let g:auto_session_pre_save_cmds = ["tabdo Vista!"]
+lua << EOF
+require('auto-session').setup {
+    log_level = 'error',
+    auto_session_use_git_branch = true
+}
+EOF
 endif
 
 " vim-lua-format settings
@@ -1599,6 +1605,12 @@ endif
 if s:plugged('vim-grepper')
     nmap <leader>gs <plug>(GrepperOperator)
     xmap <leader>gs <plug>(GrepperOperator)
+endif
+
+" copilot.vim settings
+if s:plugged('copilot.vim')
+    imap <M-,> <Plug>(copilot-previous)
+    imap <M-.> <Plug>(copilot-next)
 endif
 "}}}
 
