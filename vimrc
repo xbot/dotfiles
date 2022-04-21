@@ -3,6 +3,8 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+Plug 'mhinz/vim-grepper'
+
 " EnhancedJumps group
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-EnhancedJumps'
@@ -1547,6 +1549,12 @@ endif
 " Fine-cmdline settings
 if s:plugged('fine-cmdline.nvim')
     nnoremap <leader>fc <cmd>FineCmdline<CR>
+endif
+
+" vim-grepper settings
+if s:plugged('vim-grepper')
+    nmap <leader>gs <plug>(GrepperOperator)
+    xmap <leader>gs <plug>(GrepperOperator)
 endif
 "}}}
 
