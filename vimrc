@@ -151,6 +151,12 @@ Plug '~/.vim/plugged/confluencewiki'
 " Plug 'roginfarrer/vim-dirvish-dovish', {'branch': 'main'}
 
 if has('nvim')
+    " " one-small-step-for-vimkind requires vim has no output on startup, 
+    " " which is too strict to be satisfied since there is always some output,
+    " " e.x. when restoring sessions
+    " Plug 'jbyuki/one-small-step-for-vimkind'
+    " Plug 'mfussenegger/nvim-dap'
+
     " Fine-cmdline group
     Plug 'MunifTanjim/nui.nvim'
     Plug 'VonHeikemen/fine-cmdline.nvim'
@@ -1549,6 +1555,36 @@ endif
 " Fine-cmdline settings
 if s:plugged('fine-cmdline.nvim')
     nnoremap <leader>fc <cmd>FineCmdline<CR>
+endif
+
+" nvim-dap settings
+if s:plugged('nvim-dap')
+lua << END
+local dap = require"dap"
+dap.configurations.lua = { 
+  { 
+    type = 'nlua', 
+    request = 'attach',
+    name = "Attach to running Neovim instance",
+    host = function()
+      local value = vim.fn.input('Host [127.0.0.1]: ')
+      if value ~= "" then
+        return value
+      end
+      return '127.0.0.1'
+    end,
+    port = function()
+      local val = tonumber(vim.fn.input('Port: '))
+      assert(val, "Please provide a port number")
+      return val
+    end,
+  }
+}
+
+dap.adapters.nlua = function(callback, config)
+  callback({ type = 'server', host = config.host, port = config.port })
+end
+END
 endif
 
 " vim-grepper settings
