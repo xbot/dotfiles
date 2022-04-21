@@ -832,9 +832,11 @@ require('bufferline').setup {}
 EOF
 endif
 
-" choosewin
-nmap - <Plug>(choosewin)
-let g:choosewin_overlay_enable = 1
+" vim-choosewin
+if s:plugged('vim-choosewin')
+    nmap - <Plug>(choosewin)
+    let g:choosewin_overlay_enable = 0
+endif
 
 " wildfire
 nmap <leader>vv <Plug>(wildfire-quick-select)
@@ -946,8 +948,10 @@ if s:plugged('gv.vim')
     augroup END
 endif
 
-" auto-pairs
-let g:AutoPairsMapCh = 0
+" auto-pairs settings
+if s:plugged('auto-pairs')
+    let g:AutoPairsMapCh = 0
+endif
 
 " Nord color scheme
 let g:nord_italic = 1
