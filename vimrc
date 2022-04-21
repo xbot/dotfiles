@@ -579,7 +579,7 @@ if s:plugged('ferret')
     " in the command-line window.
     augroup escape_ferret_pattern_in_the_current_line_in_commandline_window
         au!
-        au BufEnter * if mode() == 'n' && getcmdwintype() == '' | nnoremap <leader>ss :call EscapeFerretPatternInCurrentLine()<CR> | endif
+        au BufEnter * if mode() == 'n' && getcmdwintype() == '' | nnoremap <leader>ee :call EscapeFerretPatternInCurrentLine()<CR> | endif
     augroup END
 
     function! EscapeFerretPatternInCurrentLine()
