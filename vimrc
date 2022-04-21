@@ -1763,6 +1763,7 @@ imap <leader>u <C-O>:normal u<CR>
 imap <leader>o <C-O>:normal o<CR>
 imap <leader>O <C-O>:normal O<CR>
 xnoremap <expr> p '"_d"'.v:register.'P'
+imap <C-e> <ESC>A
 
 " Tab and window mappings
 nmap <C-T><C-T> :tabnew<CR>
@@ -1817,6 +1818,7 @@ nmap <leader><leader>rm  :Delete
 nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
 " Copy relative path of current file.
 nmap <leader><leader>crp :<C-u>let @+=expand('%:.')<CR>:echo 'File path copied.'<CR>
+nmap <leader><leader>cap :<C-u>let @+=expand('%:p')<CR>:echo 'File path copied.'<CR>
 
 " Navigating long lines
 nnoremap <M-h> <left>
