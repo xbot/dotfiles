@@ -47,7 +47,7 @@ DISABLE_AUTO_TITLE="true"
 if [[ $(uname) == 'Darwin' ]]; then
     plugins=(git python pip vi-mode urltools brew vagrant laravel fancy-ctrl-z z zsh-docker-aliases)
 else
-    plugins=(git python pip vi-mode systemd urltools archlinux svn z)
+    plugins=(git python pip vi-mode systemd urltools archlinux svn z zsh-docker-aliases)
 fi
 
 source $ZSH/oh-my-zsh.sh

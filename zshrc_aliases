@@ -76,6 +76,7 @@ if [[ $(uname) == "Linux" ]]; then
     alias yag='yaourt -G'
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
+    alias ggrep='grep'
 elif [[ $(uname) == "Darwin" ]]; then
     alias updatedb='sudo /usr/libexec/locate.updatedb'
     alias mangit='v -o ~/.oh-my-zsh/plugins/git/git.plugin.zsh ~/.oh-my-zsh/custom/plugins/git/git.plugin.zsh'
@@ -90,8 +91,8 @@ alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
 alias gll="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges"
 alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --author"
 alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --grep"
-alias viewdiff='diffhead $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
-alias pickstan='cstan $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
+alias diffpick='diffhead $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
+alias stanpick='cstan $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
 alias mr='glab mr view -w'
 
 # Distribution specific aliases
@@ -151,6 +152,9 @@ alias cstan="vendor/bin/phpstan analyse --memory-limit 2G --ansi"
 alias pu="./vendor/bin/phpunit"
 alias puf="./vendor/bin/phpunit --filter"
 alias pud="./vendor/bin/phpunit -d rebase"
+alias puse="./vendor/bin/phpunit --stop-on-error"
+alias pusf="./vendor/bin/phpunit --stop-on-failure"
+alias puss="./vendor/bin/phpunit --stop-on-failure --stop-on-error"
 alias dbgon='export XDEBUG_SESSION=1'
 alias dbgoff='unset XDEBUG_SESSION'
 
