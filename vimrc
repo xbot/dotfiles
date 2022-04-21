@@ -765,6 +765,10 @@ if s:plugged('LeaderF')"{{{
     " Bring left border of the popup window into alignment.
     let g:Lf_PopupShowFoldcolumn = 0
 
+    " " Looks not so good.
+    " let g:Lf_PopupShowBorder = 1
+    " let g:Lf_PopupBorders = ["─","│","─","│","╭","╮","╯","╰"]
+
     " autocmd FileType leaderf setlocal signcolumn=no
 
     nmap <leader>be  :LeaderfBuffer<CR>
