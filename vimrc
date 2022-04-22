@@ -53,15 +53,15 @@ Plug 'idanarye/vim-merginal'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'tommcdo/vim-fugitive-blame-ext'
 Plug 'tpope/vim-rhubarb'
+Plug 'junegunn/gv.vim'
+Plug 'rbong/vim-flog'
 
-" Plug 'rbong/vim-flog'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
 Plug 'twitvim/twitvim'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'vim-scripts/SQLUtilities'
 Plug 'easymotion/vim-easymotion'
-Plug 'junegunn/gv.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/fencview'
 Plug 'mattn/webapi-vim'
@@ -200,6 +200,9 @@ else
     Plug 'roxma/vim-hug-neovim-rpc'
 
     Plug 'chrisbra/Colorizer'
+
+    " To enhance vim-flog
+    Plug 'vim-scripts/AnsiEsc.vim'
 endif
 
 if has('gui_running')
@@ -952,6 +955,15 @@ if s:plugged('gv.vim')
     augroup END
 endif
 
+" vim-flog settings
+if s:plugged('vim-flog')
+    nnoremap <leader>gvv :Flog -all<CR>
+
+    if s:plugged('AnsiEsc.vim')
+        let g:flog_use_ansi_esc = 1
+    endif
+endif
+
 " auto-pairs settings
 if s:plugged('auto-pairs')
     let g:AutoPairsMapCh = 0
@@ -1380,9 +1392,15 @@ if s:plugged('diffview.nvim')
     end
 EOF
 
-    au! FileType GV nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursor()<CR>
-    function! s:DiffviewCommitUnderCursor()
+    au! FileType GV nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInGv()<CR>
+    function! s:DiffviewCommitUnderCursorInGv()
         normal! ^2f w
+        call v:lua.diff_view_commit(expand('<cword>'))
+    endfunction
+
+    au! FileType floggraph nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInFlog()<CR>
+    function! s:DiffviewCommitUnderCursorInFlog()
+        normal! ^f[w
         call v:lua.diff_view_commit(expand('<cword>'))
     endfunction
 endif
