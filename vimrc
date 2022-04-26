@@ -3,6 +3,8 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+Plug 'tpope/vim-capslock'
+Plug 'AndrewRadev/tagalong.vim'
 Plug 'mhinz/vim-grepper'
 
 " EnhancedJumps group
