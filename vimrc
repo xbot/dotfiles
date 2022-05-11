@@ -3,6 +3,7 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
+Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-capslock'
 Plug 'AndrewRadev/tagalong.vim'
 
