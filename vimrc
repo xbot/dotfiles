@@ -60,6 +60,7 @@ Plug 'tommcdo/vim-fugitive-blame-ext'
 Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
 Plug 'rbong/vim-flog'
+Plug 'sodapopcan/vim-twiggy'
 
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-unimpaired'
@@ -907,6 +908,14 @@ if s:plugged('coc.nvim')
 endif
 if s:plugged('git-time-lapse')
     nnoremap <leader>gtl <Cmd>GitTimeLapse<CR>
+endif
+if s:plugged('vim-twiggy')
+    nnoremap <leader>lb :Twiggy<CR>
+
+    let g:twiggy_group_locals_by_slash = 0
+    let g:twiggy_local_branch_sort     = 'mru'
+    let g:twiggy_remote_branch_sort    = 'date'
+    let g:twiggy_num_columns           = 50
 endif
 
 command! DiffHistory call s:view_git_history()
