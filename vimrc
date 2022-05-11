@@ -2276,8 +2276,8 @@ nnoremap <leader><leader>rs :call ResetIDE()<CR>
 
 " Copy full class & method name in php files
 " @see https://github.com/tyru/current-func-info.vim
-au filetype php command! CopyFullClassName let @+=GetFullPHPClassName() | echo @+ . ' copied.'
-au filetype php command! CopyFullMethodName let @+=GetFullPHPMethodName() | echo @+ . ' copied.'
+au filetype php command! CopyFullClassName let @"=GetFullPHPClassName() | execute 'OSCYankReg +' | echo @+ . ' copied.'
+au filetype php command! CopyFullMethodName let @"=GetFullPHPMethodName() | execute 'OSCYankReg +' | echo @+ . ' copied.'
 function! GetFullPHPClassName()"{{{
     " Save some registers
     let l:r_a = @a
