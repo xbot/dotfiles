@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-capslock'
 Plug 'AndrewRadev/tagalong.vim'
-Plug 'mhinz/vim-grepper'
 
 " EnhancedJumps group
 Plug 'inkarkat/vim-ingo-library'
@@ -37,7 +36,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'wincent/ferret'
 Plug 'gcmt/wildfire.vim'
 Plug 'mhinz/vim-signify'
 Plug 'farmergreg/vim-lastplace'
@@ -48,6 +46,10 @@ Plug 'haya14busa/incsearch.vim'
 " Buggy
 " Plug 'brooth/far.vim'
 Plug 'tpope/vim-surround'
+
+" Search plugins
+Plug 'mhinz/vim-grepper'
+Plug 'wincent/ferret'
 
 " fugitive group
 Plug 'tpope/vim-fugitive'
