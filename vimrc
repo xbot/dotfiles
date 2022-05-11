@@ -2533,6 +2533,7 @@ if s:plugged('coc.nvim')
         \'coc-snippets',
         \'coc-spell-checker',
         \'coc-ultisnips',
+        \'coc-vimlsp',
         \'coc-yaml', 
         \'coc-yank',
         \]
