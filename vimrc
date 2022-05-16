@@ -94,7 +94,6 @@ Plug 'mhinz/vim-grepper'
 Plug 'wincent/ferret'
 
 " Zoom plugins
-" Plug 'nyngwang/NeoZoom.lua', { 'branch': 'neo-zoom-original' }
 Plug 'nyngwang/NeoZoom.lua'
 Plug 'dhruvasagar/vim-zoom'
 
@@ -1680,6 +1679,13 @@ if s:plugged('vim-php-namespace')
         autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
         autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
     augroup END"}}}
+endif
+
+" NeoZoom settings
+if s:plugged('NeoZoom.lua')
+lua << EOF
+require('neo-zoom').setup {}
+EOF
 endif
 "}}}
 
