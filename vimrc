@@ -52,6 +52,11 @@ Plug 'tpope/vim-surround'
 Plug 'mhinz/vim-grepper'
 Plug 'wincent/ferret'
 
+" Zoom plugins
+" Plug 'nyngwang/NeoZoom.lua', { 'branch': 'neo-zoom-original' }
+Plug 'nyngwang/NeoZoom.lua'
+Plug 'dhruvasagar/vim-zoom'
+
 " fugitive group
 Plug 'tpope/vim-fugitive'
 Plug 'idanarye/vim-merginal'
