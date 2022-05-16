@@ -177,7 +177,10 @@ if has('nvim')
     Plug 'f-person/git-blame.nvim'
     Plug 'github/copilot.vim'
     Plug 'caenrique/nvim-toggle-terminal'
+
+    " Telescope group
     Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-symbols.nvim'
 
     " defx group
     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -1458,6 +1461,7 @@ if s:plugged('vista.vim')
     let g:vista_stay_on_open = 0
 endif
 
+" Telescope settings
 if s:plugged('telescope.nvim')
     nnoremap <leader>tslg <cmd>Telescope live_grep<CR>
 
