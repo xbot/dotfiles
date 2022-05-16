@@ -1877,8 +1877,8 @@ nmap <leader><leader>mv  :Move <C-R>=expand('%:.')<CR>
 nmap <leader><leader>rm  :Delete
 nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
 " Copy relative path of current file.
-nmap <leader><leader>crp :<C-u>let @+=expand('%:.')<CR>:echo 'File path copied.'<CR>
-nmap <leader><leader>cap :<C-u>let @+=expand('%:p')<CR>:echo 'File path copied.'<CR>
+nmap <leader><leader>crp :<C-u>let @"=expand('%:.')<CR>:execute 'OSCYankReg +'<CR>:echo 'File path copied.'<CR>
+nmap <leader><leader>cap :<C-u>let @"=expand('%:p')<CR>:execute 'OSCYankReg +'<CR>:echo 'File path copied.'<CR>
 
 " Navigating long lines
 nnoremap <M-h> <left>
