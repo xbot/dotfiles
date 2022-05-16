@@ -3,139 +3,76 @@
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
-Plug 'junegunn/vim-plug'
-Plug 'tpope/vim-capslock'
+Plug '0x84/vim-coderunner'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/tagalong.vim'
-
-" EnhancedJumps group
-Plug 'inkarkat/vim-ingo-library'
-Plug 'inkarkat/vim-EnhancedJumps'
-
-Plug 'christoomey/vim-sort-motion'
+Plug 'RRethy/vim-illuminate'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Valloric/ListToggle'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'adelarsq/vim-matchit'
+Plug 'aklt/plantuml-syntax'
+Plug 'altercation/vim-colors-solarized'
 Plug 'andrejlevkovitch/vim-lua-format'
-Plug 'liuchengxu/vista.vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'arecarn/vim-fold-cycle'
+Plug 'brookhong/cscope.vim'
+Plug 'chrisbra/SudoEdit.vim'
+Plug 'chriskempson/base16-vim'
+Plug 'christoomey/vim-sort-motion'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'easymotion/vim-easymotion'
+Plug 'farmergreg/vim-lastplace'
 Plug 'gcmt/taboo.vim'
+Plug 'gcmt/wildfire.vim'
+Plug 'godlygeek/tabular'
+Plug 'haya14busa/incsearch.vim'
+Plug 'jacoborus/tender.vim'
+Plug 'janko-m/vim-test'
+Plug 'jiangmiao/auto-pairs'
+Plug 'jiazhoulvke/jianfan'
+Plug 'joshdick/onedark.vim'
+Plug 'jreybert/vim-largefile'
+Plug 'junegunn/vader.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-plug'
+Plug 'junkblocker/git-time-lapse'
+Plug 'lifepillar/vim-solarized8'
+Plug 'liuchengxu/space-vim-theme'
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'liuchengxu/vista.vim'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+Plug 'mbbill/fencview'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
+Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-startify'
+Plug 'morhetz/gruvbox'
+Plug 'n0v1c3/vira', { 'do': './install.sh' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ojroques/vim-oscyank'
+Plug 'rhysd/conflict-marker.vim'
+Plug 'rhysd/git-messenger.vim'
+Plug 'rizzatti/dash.vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'
-Plug 'tpope/vim-commentary'
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-Plug 'mhinz/vim-startify'
-Plug 'lifepillar/vim-solarized8'
-
-Plug 'RRethy/vim-illuminate'
+Plug 'segeljakt/vim-silicon'
+Plug 'skywind3000/asyncrun.vim'
 Plug 'szw/vim-maximizer'
-Plug 'arecarn/vim-fold-cycle'
-
-Plug 'n0v1c3/vira', { 'do': './install.sh' }
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 't9md/vim-choosewin'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'gcmt/wildfire.vim'
-Plug 'mhinz/vim-signify'
-Plug 'farmergreg/vim-lastplace'
-Plug 'junegunn/vim-easy-align'
-Plug 'godlygeek/tabular'
-Plug 'AndrewRadev/splitjoin.vim'
-Plug 'haya14busa/incsearch.vim'
-" Buggy
-" Plug 'brooth/far.vim'
-Plug 'tpope/vim-surround'
-
-" Search plugins
-Plug 'mhinz/vim-grepper'
-Plug 'wincent/ferret'
-
-" Zoom plugins
-" Plug 'nyngwang/NeoZoom.lua', { 'branch': 'neo-zoom-original' }
-Plug 'nyngwang/NeoZoom.lua'
-Plug 'dhruvasagar/vim-zoom'
-
-" fugitive group
-Plug 'tpope/vim-fugitive'
-Plug 'idanarye/vim-merginal'
-Plug 'shumphrey/fugitive-gitlab.vim'
-Plug 'tommcdo/vim-fugitive-blame-ext'
-Plug 'tpope/vim-rhubarb'
-Plug 'junegunn/gv.vim'
-Plug 'rbong/vim-flog'
-Plug 'sodapopcan/vim-twiggy'
-
+Plug 'terryma/vim-expand-region'
+Plug 'tpope/vim-capslock'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'twitvim/twitvim'
-Plug 'chrisbra/SudoEdit.vim'
-Plug 'vim-scripts/SQLUtilities'
-Plug 'easymotion/vim-easymotion'
-Plug 'jiangmiao/auto-pairs'
-Plug 'mbbill/fencview'
-Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim'
-Plug 'jreybert/vim-largefile'
-Plug 'brookhong/cscope.vim'
-Plug 'jiazhoulvke/jianfan'
-Plug 'adelarsq/vim-matchit'
-Plug 'vim-scripts/Align'
-Plug 'janko-m/vim-test'
-Plug 'junegunn/vader.vim'
-Plug 'arcticicestudio/nord-vim'
-Plug 'skywind3000/asyncrun.vim'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
-Plug 'rizzatti/dash.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'liuchengxu/space-vim-theme'
-let g:vimspector_enable_mappings = 'HUMAN'
-Plug 'puremourning/vimspector'
-Plug 'rhysd/git-messenger.vim'
-Plug 'aklt/plantuml-syntax'
-Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'tyru/open-browser.vim'
-
-" " Anti-humanity: icons do not indent with filenames, display in the same
-" " column for all levels
-" Plug 'kristijanhusak/defx-icons'
-
-" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-Plug 'Valloric/ListToggle'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-function'
-Plug 'kana/vim-textobj-line'
-Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-fold'
-Plug 'kana/vim-textobj-entire'
-Plug 'kana/vim-textobj-syntax'
-Plug 'kana/vim-textobj-datetime'
-let g:textobj_lastpat_no_default_key_mappings=1
-Plug 'kana/vim-textobj-lastpat'
-" " Also provided in targets.vim
-" Plug 'kana/vim-textobj-underscore'
-Plug 'kana/vim-textobj-diff'
-Plug 'kentaro/vim-textobj-function-php'
-Plug 'glts/vim-textobj-comment'
-Plug 'Julian/vim-textobj-variable-segment'
+Plug 'vim-scripts/Align'
+Plug 'vim-scripts/SQLUtilities'
+Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'wellle/targets.vim'
-Plug 'terryma/vim-expand-region'
-Plug 'AndrewRadev/sideways.vim'
-Plug '0x84/vim-coderunner'
-Plug 'junkblocker/git-time-lapse'
-Plug 'altercation/vim-colors-solarized'
-Plug 'jacoborus/tender.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
-Plug 'chriskempson/base16-vim'
-Plug 'rhysd/conflict-marker.vim'
-Plug 'segeljakt/vim-silicon'
-
-" Color schemes
-Plug 'ldelossa/vimdark'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
 Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
@@ -152,16 +89,69 @@ Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
 
+" Search plugins
+Plug 'mhinz/vim-grepper'
+Plug 'wincent/ferret'
+
+" Zoom plugins
+" Plug 'nyngwang/NeoZoom.lua', { 'branch': 'neo-zoom-original' }
+Plug 'nyngwang/NeoZoom.lua'
+Plug 'dhruvasagar/vim-zoom'
+
+" vimspector group
+let g:vimspector_enable_mappings = 'HUMAN'
+Plug 'puremourning/vimspector'
+
+" fugitive group
+Plug 'tpope/vim-fugitive'
+Plug 'idanarye/vim-merginal'
+Plug 'shumphrey/fugitive-gitlab.vim'
+Plug 'tommcdo/vim-fugitive-blame-ext'
+Plug 'tpope/vim-rhubarb'
+Plug 'junegunn/gv.vim'
+Plug 'rbong/vim-flog'
+Plug 'sodapopcan/vim-twiggy'
+
+" EnhancedJumps group
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-EnhancedJumps'
+
+" ultisnips group
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" airline group
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" textobj group
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-datetime'
+let g:textobj_lastpat_no_default_key_mappings=1
+Plug 'kana/vim-textobj-lastpat'
+" " Also provided in targets.vim
+" Plug 'kana/vim-textobj-underscore'
+Plug 'kana/vim-textobj-diff'
+Plug 'kentaro/vim-textobj-function-php'
+Plug 'glts/vim-textobj-comment'
+Plug 'Julian/vim-textobj-variable-segment'
+
+" Color schemes
+Plug 'ldelossa/vimdark'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+
+" ctags group
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
-
-" " Conflict with dirbuf
-" Plug 'justinmk/vim-dirvish'
-" " Plug 'kristijanhusak/vim-dirvish-git'
-" Plug 'roginfarrer/vim-dirvish-dovish', {'branch': 'main'}
 
 if has('nvim')
     " " one-small-step-for-vimkind requires vim has no output on startup, 
@@ -188,6 +178,7 @@ if has('nvim')
     Plug 'nvim-telescope/telescope-symbols.nvim'
 
     " defx group
+    " This plugin has been stopped developing, see ddu.vim and ddu-ui-filer
     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'kristijanhusak/defx-git'
     Plug 'kristijanhusak/defx-icons'
@@ -210,12 +201,13 @@ if has('nvim')
 else
     Plug 'pakutoma/toggle-terminal'
     Plug 'rhysd/vim-healthcheck'
+    Plug 'chrisbra/Colorizer'
 
+    " defx group
+    " This plugin has been stopped developing, see ddu.vim and ddu-ui-filer
     Plug 'Shougo/defx.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
-
-    Plug 'chrisbra/Colorizer'
 
     " To enhance vim-flog
     Plug 'vim-scripts/AnsiEsc.vim'
@@ -230,7 +222,17 @@ endif
 " Plug 'joeytwiddle/sexy_scroller.vim'
 " Plug 'dense-analysis/ale'
 " Plug 'tweekmonster/startuptime.vim'
+" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 
+" " Conflict with dirbuf
+" Plug 'justinmk/vim-dirvish'
+" " Plug 'kristijanhusak/vim-dirvish-git'
+" Plug 'roginfarrer/vim-dirvish-dovish', {'branch': 'main'}
+
+" Buggy
+" Plug 'brooth/far.vim'
+
+" " nerdtree group
 " Plug 'preservim/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
