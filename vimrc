@@ -142,6 +142,7 @@ Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
 Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
 Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
 Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
+Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
 Plug 'dgryski/vim-godef',           { 'for': 'go'       }
 Plug 'fatih/vim-go',                { 'for': 'go'       }
 Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
@@ -1644,6 +1645,28 @@ endif
 if s:plugged('copilot.vim')
     imap <M-,> <Plug>(copilot-previous)
     imap <M-.> <Plug>(copilot-next)
+endif
+
+" vim-php-namespace settings
+if s:plugged('vim-php-namespace')
+    let g:php_namespace_sort_after_insert = 1
+    function! IPhpInsertUse()"{{{
+        call PhpInsertUse()
+        call feedkeys('a',  'n')
+    endfunction"}}}
+    function! IPhpExpandClass()"{{{
+        call PhpExpandClass()
+        call feedkeys('a', 'n')
+    endfunction"}}}
+    augroup vim_php_namespace"{{{
+        au!
+        " do imports
+        autocmd FileType php inoremap <Leader>iu <Esc>:call IPhpInsertUse()<CR>
+        autocmd FileType php noremap  <Leader>iu :call PhpInsertUse()<CR>
+        " do expansions
+        autocmd FileType php inoremap <Leader>ec <Esc>:call IPhpExpandClass()<CR>
+        autocmd FileType php noremap  <Leader>ec :call PhpExpandClass()<CR>
+    augroup END"}}}
 endif
 "}}}
 
