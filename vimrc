@@ -1658,7 +1658,9 @@ endif
 
 " vim-php-namespace settings
 if s:plugged('vim-php-namespace')
-    let g:php_namespace_sort_after_insert = 1
+    let g:php_namespace_sort_after_insert  = 1
+    let g:php_namespace_expand_to_absolute = 1
+
     function! IPhpInsertUse()"{{{
         call PhpInsertUse()
         call feedkeys('a',  'n')
