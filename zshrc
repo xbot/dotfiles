@@ -45,9 +45,9 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ $(uname) == 'Darwin' ]]; then
-    plugins=(git python pip vi-mode urltools brew vagrant laravel fancy-ctrl-z z zsh-docker-aliases)
+    plugins=(git python pip vi-mode urltools brew vagrant laravel fancy-ctrl-z zsh-docker-aliases)
 else
-    plugins=(git python pip vi-mode systemd urltools archlinux svn z zsh-docker-aliases)
+    plugins=(git python pip vi-mode systemd urltools archlinux svn zsh-docker-aliases)
 fi
 
 source $ZSH/oh-my-zsh.sh
@@ -92,21 +92,15 @@ bindkey "^X^E" edit-command-line
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# [[ -r "/usr/local/etc/profile.d/z.sh" ]] && source /usr/local/etc/profile.d/z.sh
-# [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
-
 [[ -f ~/.zshrc_aliases ]] && source ~/.zshrc_aliases
 
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
+# fasd
+eval "$(fasd --init auto)"
 
-source "$HOME/.zinit/bin/zinit.zsh"
+### Added by Zinit's installer
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+source "${ZINIT_HOME}/zinit.zsh"
+
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
@@ -125,3 +119,4 @@ zplugin snippet OMZ::plugins/composer/composer.plugin.zsh
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-autosuggestions
 zinit light Tarrasch/zsh-autoenv
+zinit light wookayin/fzf-fasd
