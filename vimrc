@@ -1509,13 +1509,24 @@ endif
 
 " auto-session settings
 if s:plugged('auto-session')
-    let g:auto_session_pre_save_cmds = ["tabdo Vista!"]
+    let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()"]
+
 lua << EOF
 require('auto-session').setup {
     log_level = 'error',
     auto_session_use_git_branch = true
 }
 EOF
+
+    function! CleanupBeforeSaveSession()
+        let l:ft = &ft
+
+        if l:ft == 'GV'
+            execute ':tabclose'
+        elseif l:ft == 'DiffviewFiles' || l:ft == 'DiffviewFileHistory'
+            execute ':tabclose'
+        endif
+    endfunction
 endif
 
 " vim-lua-format settings
