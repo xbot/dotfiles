@@ -911,7 +911,6 @@ if s:plugged('vim-fugitive')
     nnoremap <leader>dgh <Cmd>diffget //2<CR>
     nnoremap <leader>dgl <Cmd>diffget //3<CR>
     nnoremap <Leader>gb  <Cmd>Git blame<CR>
-    nnoremap <leader>mv  :Gdiffsplit :1 \| Gvdiffsplit!<CR>
 endif
 if s:plugged('coc.nvim')
     nnoremap <leader>gc  <Cmd>CocList branches<CR>
