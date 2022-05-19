@@ -51,7 +51,6 @@ Plug 'mhinz/vim-startify'
 Plug 'morhetz/gruvbox'
 Plug 'n0v1c3/vira', { 'do': './install.sh' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'ojroques/vim-oscyank'
 Plug 'rhysd/conflict-marker.vim'
 Plug 'rhysd/git-messenger.vim'
 Plug 'rizzatti/dash.vim'
@@ -153,7 +152,7 @@ Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
 if has('nvim')
-    " " one-small-step-for-vimkind requires vim has no output on startup, 
+    " " one-small-step-for-vimkind requires vim has no output on startup,
     " " which is too strict to be satisfied since there is always some output,
     " " e.x. when restoring sessions
     " Plug 'jbyuki/one-small-step-for-vimkind'
@@ -190,7 +189,7 @@ if has('nvim')
     Plug 'norcalli/nvim-colorizer.lua'
 
     if !has('gui_running')
-        " Will complain errors in GUI 
+        " Will complain errors in GUI
         Plug 'rmagatti/auto-session'
         Plug 'rmagatti/session-lens'
     endif
@@ -217,11 +216,12 @@ if has('gui_running')
 endif
 
 " Plug 'NTBBloodbath/rest.nvim'
-" Plug 'psliwka/vim-smoothie'
-" Plug 'joeytwiddle/sexy_scroller.vim'
 " Plug 'dense-analysis/ale'
-" Plug 'tweekmonster/startuptime.vim'
+" Plug 'joeytwiddle/sexy_scroller.vim'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+" Plug 'ojroques/vim-oscyank'
+" Plug 'psliwka/vim-smoothie'
+" Plug 'tweekmonster/startuptime.vim'
 
 " " Conflict with dirbuf
 " Plug 'justinmk/vim-dirvish'
@@ -354,7 +354,7 @@ set fdm=marker
 set splitbelow
 set noequalalways
 set winminheight=1
-"set winheight=9999
+" set winheight=9999
 set clipboard+=unnamed
 set mouse=a
 set vb t_vb=
@@ -379,7 +379,7 @@ else
     set grepprg=ag\ --nogroup\ --column\ -U\ --ignore\ tags
 endif
 set wildignore=*.class,*.pyc
-set fillchars+=diff:\ 
+set fillchars+=diff:\
 set cedit=\<C-E>
 
 if has('nvim')
@@ -403,7 +403,7 @@ if has('gui_running')
 
     " set background=dark
     set background=light
-    
+
     " let g:solarized_diffmode="high"
     " colorscheme solarized
 
@@ -415,7 +415,7 @@ if has('gui_running')
     " colorscheme onedark
     " colorscheme gruvbox
     " colorscheme base16-default-light
-    
+
     " set lines=65 columns=189
     " set lines=70 columns=300
     set lines=70 columns=189
@@ -1252,19 +1252,23 @@ if s:plugged('vim-textobj-lastpat')
     omap aN <Plug>(textobj-lastpat-N)
 endif
 
+" rest.nvim settings
 if s:plugged('rest.nvim')
     au FileType http nmap <leader>sr <Plug>RestNvim
 endif
 
+" vim-devicons settings
 if s:plugged('vim-devicons')
     let g:webdevicons_enable_airline_tabline = 1
     let g:webdevicons_enable_airline_statusline = 1
 endif
 
+" vim-oscyank settings
 if s:plugged('vim-oscyank') && !exists('g:neovide')
     autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg +' | endif
 endif
 
+" nvim-colorizer settings
 if s:plugged('nvim-colorizer')
     lua require'colorizer'.setup {
         '*';
@@ -1629,9 +1633,9 @@ endif
 if s:plugged('nvim-dap')
 lua << END
 local dap = require"dap"
-dap.configurations.lua = { 
-  { 
-    type = 'nlua', 
+dap.configurations.lua = {
+  {
+    type = 'nlua',
     request = 'attach',
     name = "Attach to running Neovim instance",
     host = function()
@@ -1901,9 +1905,6 @@ nmap <leader><leader>rn  :Rename <C-R>=expand('%:t')<CR>
 nmap <leader><leader>mv  :Move <C-R>=expand('%:.')<CR>
 nmap <leader><leader>rm  :Delete
 nmap <leader><leader>duf :saveas <C-R>=expand('%:.')<CR>
-" Copy relative path of current file.
-nmap <leader><leader>crp :<C-u>let @"=expand('%:.')<CR>:execute 'OSCYankReg +'<CR>:echo 'File path copied.'<CR>
-nmap <leader><leader>cap :<C-u>let @"=expand('%:p')<CR>:execute 'OSCYankReg +'<CR>:echo 'File path copied.'<CR>
 
 " Navigating long lines
 nnoremap <M-h> <left>
@@ -1960,7 +1961,7 @@ nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
 if has('unix') && executable('xbindkeys')
-    nmap <leader>key :let @"=system('xbindkeys -k\|tail -n 1')<CR>
+    nmap <leader>key :let @+=system('xbindkeys -k\|tail -n 1')<CR>
 endif
 
 " Select the last pasted area
@@ -2326,10 +2327,14 @@ function! ResetIDE()
 endfunction
 nnoremap <leader><leader>rs :call ResetIDE()<CR>
 
+" Copy relative path of current file.
+command! CopyRelativeFilePath let @+=expand('%:.') | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo 'File path copied.'
+command! CopyAbsoluteFilePath let @+=expand('%:p') | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo 'File path copied.'
+
 " Copy full class & method name in php files
 " @see https://github.com/tyru/current-func-info.vim
-au filetype php command! CopyFullClassName let @"=GetFullPHPClassName() | execute 'OSCYankReg +' | echo @+ . ' copied.'
-au filetype php command! CopyFullMethodName let @"=GetFullPHPMethodName() | execute 'OSCYankReg +' | echo @+ . ' copied.'
+au filetype php command! CopyFullClassName let @+=GetFullPHPClassName() | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
+au filetype php command! CopyFullMethodName let @+=GetFullPHPMethodName() | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
 function! GetFullPHPClassName()"{{{
     " Save some registers
     let l:r_a = @a
@@ -2576,7 +2581,7 @@ if s:plugged('coc.nvim')
         \'@yaegassy/coc-phpstan',
         \'coc-diagnostic',
         \'coc-git',
-        \'coc-json', 
+        \'coc-json',
         \'coc-lists',
         \'coc-markdownlint',
         \'coc-php-cs-fixer',
@@ -2586,7 +2591,7 @@ if s:plugged('coc.nvim')
         \'coc-spell-checker',
         \'coc-ultisnips',
         \'coc-vimlsp',
-        \'coc-yaml', 
+        \'coc-yaml',
         \'coc-yank',
         \]
 
