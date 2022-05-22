@@ -21,6 +21,7 @@ Plug 'brookhong/cscope.vim'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'christoomey/vim-sort-motion'
+Plug 'christoomey/vim-titlecase'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'easymotion/vim-easymotion'
 Plug 'farmergreg/vim-lastplace'
