@@ -124,23 +124,24 @@ Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" textobj group
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-function'
-Plug 'kana/vim-textobj-line'
-Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-fold'
-Plug 'kana/vim-textobj-entire'
-Plug 'kana/vim-textobj-syntax'
-Plug 'kana/vim-textobj-datetime'
+" textobj-user group
 let g:textobj_lastpat_no_default_key_mappings=1
-Plug 'kana/vim-textobj-lastpat'
-" " Also provided in targets.vim
-" Plug 'kana/vim-textobj-underscore'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-datetime'
 Plug 'kana/vim-textobj-diff'
-Plug 'kentaro/vim-textobj-function-php'
+Plug 'kana/vim-textobj-entire'
+Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-lastpat'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-syntax'
 Plug 'glts/vim-textobj-comment'
 Plug 'Julian/vim-textobj-variable-segment'
+" " Too old and 'if' works not as exptected in PHP syntax.
+" Plug 'kentaro/vim-textobj-function-php'
+" " Also provided in targets.vim
+" Plug 'kana/vim-textobj-underscore'
 
 " Color schemes
 Plug 'ldelossa/vimdark'
@@ -2687,10 +2688,11 @@ if s:plugged('coc.nvim')
 
     " Introduce function text object
     " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-    " xmap if <Plug>(coc-funcobj-i)
     xmap af <Plug>(coc-funcobj-a)
-    " omap if <Plug>(coc-funcobj-i)
     omap af <Plug>(coc-funcobj-a)
+    " " 'if' works not as expected in PHP syntax.
+    " xmap if <Plug>(coc-funcobj-i)
+    " omap if <Plug>(coc-funcobj-i)
 
     " " Use <TAB> for selections ranges.
     " " NOTE: Requires 'textDocument/selectionRange' support from the language server.
