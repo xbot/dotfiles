@@ -36,6 +36,7 @@ Plug 'jiazhoulvke/jianfan'
 Plug 'joshdick/onedark.vim'
 Plug 'jreybert/vim-largefile'
 Plug 'junegunn/vader.vim'
+Plug 'junegunn/vim-after-object'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-plug'
 Plug 'junkblocker/git-time-lapse'
@@ -1832,6 +1833,11 @@ if s:plugged('taboo.vim')
         au!
         au FileType GV TabooRename Commits
     augroup END
+endif
+
+" vim-after-object settings
+if s:plugged('vim-after-object')
+    autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 endif
 "}}}
 
