@@ -155,6 +155,8 @@ Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
 if has('nvim')
+    Plug 'mrjones2014/smart-splits.nvim'
+
     " " one-small-step-for-vimkind requires vim has no output on startup,
     " " which is too strict to be satisfied since there is always some output,
     " " e.x. when restoring sessions
@@ -348,7 +350,6 @@ set expandtab
 set confirm
 set viminfo+=!
 set history=100        " keep 50 lines of command line history
-
 set hlsearch
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}[%Y]%=%l,%c%V%8P
 set ignorecase
@@ -1708,6 +1709,18 @@ lua << EOF
 require('neo-zoom').setup {}
 EOF
 endif
+
+" smart-splits.nvim settings
+if s:plugged('smart-splits.nvim')
+    nmap <A-Left>  :SmartResizeLeft<CR>
+    nmap <A-Right> :SmartResizeRight<CR>
+    nmap <A-Up>    :SmartResizeUp<CR>
+    nmap <A-Down>  :SmartResizeDown<CR>
+    nmap <C-h>     :SmartCursorMoveLeft<CR>
+    nmap <C-l>     :SmartCursorMoveRight<CR>
+    nmap <C-j>     :SmartCursorMoveDown<CR>
+    nmap <C-k>     :SmartCursorMoveUp<CR>
+endif
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -1905,10 +1918,13 @@ nnoremap H  :tabp<CR>
 nnoremap L  :tabn<CR>
 
 " Move focus among windows
-nnoremap <C-k> <C-W>k
-nnoremap <C-j> <C-W>j
-nnoremap <C-h> <C-W>h
-nnoremap <C-l> <C-W>l
+" Use smart-splits.nvim in neovim
+if !has('nvim')
+    nnoremap <C-k> <C-W>k
+    nnoremap <C-j> <C-W>j
+    nnoremap <C-h> <C-W>h
+    nnoremap <C-l> <C-W>l
+endif
 
 " Current file or path related mappings
 nmap <leader><leader>O   :e <C-R>=expand("%:p:~")<CR>
