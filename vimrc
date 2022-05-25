@@ -1979,13 +1979,12 @@ vmap <leader>rr y:%s/<C-R>=EscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 nmap <leader>rl yiw:s/\<<C-R>"\>\C//g<LEFT><LEFT>
 vmap <leader>rl y:s/<C-R>=EscapeRegex(@")<CR>\C//g<LEFT><LEFT>
 
-" Convert between encodings.
-nmap <leader>fenc :set fenc<CR>
+" " Convert between encodings.
 " nmap <leader>gbk  :set fenc=cp936<CR>
-nmap <leader>utf8 :set fenc=utf-8<CR>
-nmap <leader>fdos :set ff=dos<CR>
-nmap <leader>edos :e   ++ff=dos<CR>
-nmap <leader>unix :set ff=unix<CR>
+" nmap <leader>utf8 :set fenc=utf-8<CR>
+" nmap <leader>fdos :set ff=dos<CR>
+" nmap <leader>edos :e   ++ff=dos<CR>
+" nmap <leader>unix :set ff=unix<CR>
 
 " 为xbindkeys捕获热键
 if has('unix') && executable('xbindkeys')
