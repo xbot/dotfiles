@@ -2395,15 +2395,35 @@ function! GetFullPHPClassName()"{{{
 endfunction"}}}
 " This function should be triggered when the cursor is on the method name
 function! GetFullPHPMethodName()"{{{
-    let l:r_a = @a
-
-    normal! "ayiw
-
     let l:full_class_name = GetFullPHPClassName()
 
-    let l:full_method_name = l:full_class_name . '::' . @a . '()'
+    if s:plugged('vista.vim')
+        let l:is_vista_initially_openned = vista#sidebar#IsOpen()
 
-    let @a = l:r_a
+        if !l:is_vista_initially_openned
+            exec 'Vista!!'
+        endif
+
+        while !vista#sidebar#IsOpen()
+            sleep 100m
+        endw
+
+        let l:current_tag = vista#util#BinarySearch(g:vista.functions, line('.'), 'lnum', 'text')
+
+        if !l:is_vista_initially_openned
+            exec 'Vista!'
+        endif
+    else
+        let l:r_a = @a
+
+        normal! "ayiw
+
+        let l:current_tag = @a
+
+        let @a = l:r_a
+    endif
+
+    let l:full_method_name = l:full_class_name . '::' . l:current_tag . '()'
 
     return l:full_method_name
 endfunction"}}}
