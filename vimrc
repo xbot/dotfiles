@@ -364,8 +364,8 @@ set mouse=a
 set vb t_vb=
 set laststatus=2
 set updatetime=10000
-set nocursorline
-set nocursorcolumn
+set cursorline
+set cursorcolumn
 if has('nvim')
     set undodir=~/.vim/undodir/nvim/
 else
