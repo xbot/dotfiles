@@ -1177,6 +1177,7 @@ if s:plugged('vim-dirvish')
 endif
 
 " sideways settings
+" Move items/parameters/arguments left or right.
 if s:plugged('sideways.vim')
     nnoremap <S-Left>  :SidewaysLeft<CR>
     nnoremap <S-Right> :SidewaysRight<CR>
@@ -2360,7 +2361,7 @@ command! CopyAbsoluteFilePath let @+=expand('%:p') | if s:plugged('vim-oscyank')
 
 " Copy full class & method name in php files
 " @see https://github.com/tyru/current-func-info.vim
-au filetype php command! CopyFullClassName let @+=GetFullPHPClassName() | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
+au filetype php command! CopyFullClassName  let @+=GetFullPHPClassName()  | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
 au filetype php command! CopyFullMethodName let @+=GetFullPHPMethodName() | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
 function! GetFullPHPClassName()"{{{
     " Save some registers
