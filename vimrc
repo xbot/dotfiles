@@ -75,20 +75,19 @@ Plug 'vim-scripts/SQLUtilities'
 Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'wellle/targets.vim'
 
-Plug 'peterhoeg/vim-qml',           { 'for': 'qml'      }
-Plug 'vim-scripts/Pydiction',       { 'for': 'python'   }
-Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown' }
-" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
-Plug 'xbot/pdv',                    { 'for': 'php'      }
-Plug 'tobyS/vmustache',             { 'for': 'php'      }
-Plug 'tpope/vim-dispatch',          { 'for': 'php'      }
-Plug 'tpope/vim-projectionist',     { 'for': 'php'      }
-Plug 'noahfrederick/vim-composer',  { 'for': 'php'      }
-Plug 'noahfrederick/vim-laravel',   { 'for': 'php'      }
-Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php'      }
-Plug 'dgryski/vim-godef',           { 'for': 'go'       }
-Plug 'fatih/vim-go',                { 'for': 'go'       }
-Plug 'Blackrush/vim-gocode',        { 'for': 'go'       }
+Plug 'peterhoeg/vim-qml',            { 'for': 'qml'       }
+Plug 'vim-scripts/Pydiction',        { 'for': 'python'    }
+Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app && yarn install' }
+Plug 'xbot/pdv',                     { 'for': 'php'       }
+Plug 'tobyS/vmustache',              { 'for': 'php'       }
+Plug 'tpope/vim-dispatch',           { 'for': 'php'       }
+Plug 'tpope/vim-projectionist',      { 'for': 'php'       }
+Plug 'noahfrederick/vim-composer',   { 'for': 'php'       }
+Plug 'noahfrederick/vim-laravel',    { 'for': 'php'       }
+Plug 'arnaud-lb/vim-php-namespace',  { 'for': 'php'       }
+Plug 'dgryski/vim-godef',            { 'for': 'go'        }
+Plug 'fatih/vim-go',                 { 'for': 'go'        }
+Plug 'Blackrush/vim-gocode',         { 'for': 'go'        }
 
 " Search plugins
 Plug 'mhinz/vim-grepper'
@@ -220,6 +219,7 @@ if has('gui_running')
     Plug 'drmikehenry/vim-fontsize'
 endif
 
+" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 " Plug 'NTBBloodbath/rest.nvim'
 " Plug 'dense-analysis/ale'
 " Plug 'joeytwiddle/sexy_scroller.vim'
