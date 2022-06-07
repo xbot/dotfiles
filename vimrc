@@ -1522,7 +1522,7 @@ endif
 
 " auto-session settings
 if s:plugged('auto-session')
-    let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()"]
+    let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()", "tabdo Defx -close"]
 
 lua << EOF
 require('auto-session').setup {
