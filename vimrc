@@ -1318,12 +1318,21 @@ if s:plugged('diffview.nvim')
                 height = 16,
             },
             log_options = {
-                max_count = 256,      -- Limit the number of commits
-                follow = false,       -- Follow renames (only for single file)
-                all = false,          -- Include all refs under 'refs/' including HEAD
-                merges = false,       -- List only merge commits
-                no_merges = false,    -- List no merge commits
-                reverse = false,      -- List commits in reverse order
+                single_file = {
+                    max_count = 256,      -- Limit the number of commits
+                    follow = false,       -- Follow renames (only for single file)
+                    all = false,          -- Include all refs under 'refs/' including HEAD
+                    merges = false,       -- List only merge commits
+                    no_merges = false,    -- List no merge commits
+                    reverse = false,      -- List commits in reverse order
+                },
+                multi_file = {
+                    max_count = 256,      -- Limit the number of commits
+                    all = false,          -- Include all refs under 'refs/' including HEAD
+                    merges = false,       -- List only merge commits
+                    no_merges = false,    -- List no merge commits
+                    reverse = false,      -- List commits in reverse order
+                }
             },
         },
         default_args = {    -- Default args prepended to the arg-list for the listed commands
@@ -2359,11 +2368,11 @@ nnoremap <leader><leader>rs :call ResetIDE()<CR>
 command! CopyRelativeFilePath let @+=expand('%:.') | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo 'File path copied.'
 command! CopyAbsoluteFilePath let @+=expand('%:p') | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo 'File path copied.'
 
-" Copy full class & method name in php files
+" Copy fully qualified class & method name in php files
 " @see https://github.com/tyru/current-func-info.vim
-au filetype php command! CopyFullClassName  let @+=GetFullPHPClassName()  | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
-au filetype php command! CopyFullMethodName let @+=GetFullPHPMethodName() | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
-function! GetFullPHPClassName()"{{{
+au filetype php command! CopyFQCN let @+=GetFullyQualifiedClassNameForPhp()  | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
+au filetype php command! CopyFQMN let @+=GetFullyQualifiedMethodNameForPhp() | if s:plugged('vim-oscyank') | execute 'OSCYankReg +' | endif | echo @+ . ' copied.'
+function! GetFullyQualifiedClassNameForPhp()"{{{
     " Save some registers
     let l:r_a = @a
     let l:r_b = @b
@@ -2395,8 +2404,8 @@ function! GetFullPHPClassName()"{{{
     return l:full_class_name
 endfunction"}}}
 " This function should be triggered when the cursor is on the method name
-function! GetFullPHPMethodName()"{{{
-    let l:full_class_name = GetFullPHPClassName()
+function! GetFullyQualifiedMethodNameForPhp()"{{{
+    let l:full_class_name = GetFullyQualifiedClassNameForPhp()
 
     if s:plugged('vista.vim')
         let l:is_vista_initially_openned = vista#sidebar#IsOpen()
@@ -2415,6 +2424,8 @@ function! GetFullPHPMethodName()"{{{
             exec 'Vista!'
         endif
     else
+        " Fallback solution, should place the cursor on the method name.
+
         let l:r_a = @a
 
         normal! "ayiw
