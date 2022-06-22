@@ -94,7 +94,9 @@ Plug 'mhinz/vim-grepper'
 Plug 'wincent/ferret'
 
 " Zoom plugins
-Plug 'nyngwang/NeoZoom.lua'
+if has('nvim')
+    Plug 'nyngwang/NeoZoom.lua'
+endif
 Plug 'dhruvasagar/vim-zoom'
 
 " vimspector group
@@ -1438,7 +1440,17 @@ if s:plugged('diffview.nvim')
     end
 EOF
 
-    au! FileType GV nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInGv()<CR>
+    au! FileType GV call <SID>MapKeyBindingsForGv()
+    function! s:MapKeyBindingsForGv()
+        exec 'nnoremap ri <Esc>:call <SID>RebaseInteractivelySinceCommitUnderCursorInGv()<CR>'
+        exec 'nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInGv()<CR>'
+    endfunction
+
+    function! s:RebaseInteractivelySinceCommitUnderCursorInGv()
+        normal! ^2f w
+        exec 'Git rebase --interactive ' . expand('<cword>') . '~1'
+    endfunction
+
     function! s:DiffviewCommitUnderCursorInGv()
         normal! ^2f w
         call v:lua.diff_view_commit(expand('<cword>'))
