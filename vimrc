@@ -1589,9 +1589,10 @@ if s:plugged('vimspector')
                 \    'vimspectorPC':         999,
                 \ }
 
-    au FileType php nmap <leader><leader><F3> :call MyVimspectorRun('reset')<CR>
     au FileType php nmap <F3> :call MyVimspectorRun('stop')<CR>
     au FileType php nmap <F5> :call MyVimspectorRun('continue')<CR>
+    au FileType php nmap <Leader>bp <Plug>VimspectorBreakpoints
+    au FileType php nmap <leader><leader><F3> :call MyVimspectorRun('reset')<CR>
     au FileType php nmap <leader>di <Plug>VimspectorBalloonEval
     au FileType php xmap <leader>di <Plug>VimspectorBalloonEval
 
