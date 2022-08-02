@@ -182,11 +182,11 @@ if has('nvim')
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-symbols.nvim'
 
-    " defx group
-    " This plugin has been stopped developing, see ddu.vim and ddu-ui-filer
-    Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'kristijanhusak/defx-git'
-    Plug 'kristijanhusak/defx-icons'
+    " " defx group
+    " " This plugin has been stopped developing, see ddu.vim and ddu-ui-filer
+    " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+    " Plug 'kristijanhusak/defx-git'
+    " Plug 'kristijanhusak/defx-icons'
 
     " diffview.nvim group
     Plug 'kyazdani42/nvim-web-devicons'
@@ -203,6 +203,10 @@ if has('nvim')
 
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
     " Plug 'nvim-lua/plenary.nvim'
+
+    " nvim-tree group
+    Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
+    Plug 'kyazdani42/nvim-tree.lua'
 else
     Plug 'pakutoma/toggle-terminal'
     Plug 'rhysd/vim-healthcheck'
@@ -873,29 +877,31 @@ endif
 nmap <leader>vv <Plug>(wildfire-quick-select)
 
 " vim-test settings
-let g:test#runner_commands = ['PHPUnit']
-augroup vim_test"{{{
-    au!
-    autocmd FileType php nnoremap <leader>tt :call MyTestRun('nothing')<CR>:PHPUnit <C-R>=expand('%:.')<CR> --filter '::test'<Left>
-    autocmd FileType php nnoremap <leader>tn :call MyTestRun('nearest')<CR>
-    autocmd FileType php nnoremap <leader>tL :call MyTestRun('last')<CR>
-    autocmd FileType php nnoremap <leader>tf :call MyTestRun('file')<CR>
-    autocmd FileType php nnoremap <leader>trbn :TestNearest -d rebase<CR>
-    autocmd FileType php nnoremap <leader>trbf :TestFile -d rebase<CR>
-augroup END"}}}
-function! MyTestRun(runner)"{{{
-    if (exists('g:vimspector_is_running'))
-        let g:test#php#phpunit#executable = 'env XDEBUG_SESSION=1 ./vendor/bin/phpunit'
-    else
-        let g:test#php#phpunit#executable = './vendor/bin/phpunit'
-    endif
+if s:plugged('vim-test')
+    let g:test#runner_commands = ['PHPUnit']
+    augroup vim_test"{{{
+        au!
+        autocmd FileType php nnoremap <leader>tT :call MyTestRun('nothing')<CR>:PHPUnit <C-R>=expand('%:.')<CR> --filter '::test'<Left>
+        autocmd FileType php nnoremap <leader>tn :call MyTestRun('nearest')<CR>
+        autocmd FileType php nnoremap <leader>tL :call MyTestRun('last')<CR>
+        autocmd FileType php nnoremap <leader>tF :call MyTestRun('file')<CR>
+        autocmd FileType php nnoremap <leader>trbn :TestNearest -d rebase<CR>
+        autocmd FileType php nnoremap <leader>trbf :TestFile -d rebase<CR>
+    augroup END"}}}
+    function! MyTestRun(runner)"{{{
+        if (exists('g:vimspector_is_running'))
+            let g:test#php#phpunit#executable = 'env XDEBUG_SESSION=1 ./vendor/bin/phpunit'
+        else
+            let g:test#php#phpunit#executable = './vendor/bin/phpunit'
+        endif
 
-    if a:runner == "nothing"
-        return ""
-    endif
+        if a:runner == "nothing"
+            return ""
+        endif
 
-    call test#run(a:runner, [])
-endfunction"}}}
+        call test#run(a:runner, [])
+    endfunction"}}}
+endif
 
 if has('nvim')
     " let test#strategy = 'asyncrun'
@@ -1177,6 +1183,44 @@ if s:plugged('vim-dirvish')
         au FileType dirvish nmap <silent><buffer> P  <Plug>(dovish_move)
     augroup END
     " --- END ---}}}
+endif
+
+" nvim-tree.lua settings
+if s:plugged('nvim-tree.lua')
+    nnoremap <silent> <leader>tf :NvimTreeFindFileToggle<CR>
+    nnoremap <silent> <leader>tt :NvimTreeToggle<CR>
+
+lua << EOF
+require("nvim-tree").setup {
+    view = {
+        adaptive_size = true,
+        centralize_selection = false,
+        width = 50,
+        height = 50,
+        hide_root_folder = false,
+        side = "left",
+        preserve_window_proportions = false,
+        number = false,
+        relativenumber = false,
+        signcolumn = "yes",
+        mappings = {
+            custom_only = false,
+            list = {
+                -- user mappings go here
+            },
+        },
+    },
+    git = {
+        enable = true,
+        ignore = false,
+        show_on_dirs = true,
+        timeout = 400,
+    },
+    filters = {
+        dotfiles = true,
+    },
+}
+EOF
 endif
 
 " sideways settings
@@ -1544,7 +1588,7 @@ endif
 
 " auto-session settings
 if s:plugged('auto-session')
-    let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()", "tabdo Defx -close"]
+    let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()", "tabdo NvimTreeClose"]
 
 lua << EOF
 require('auto-session').setup {
