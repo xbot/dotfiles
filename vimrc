@@ -204,6 +204,8 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
     " Plug 'nvim-lua/plenary.nvim'
 
+    Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
+
     " nvim-tree group
     Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
     Plug 'kyazdani42/nvim-tree.lua'
@@ -1789,6 +1791,24 @@ if s:plugged('smart-splits.nvim')
     nmap <C-j>     :SmartCursorMoveDown<CR>
     nmap <C-k>     :SmartCursorMoveUp<CR>
 endif
+
+" lsp_lines.nvim settings
+if s:plugged('lsp_lines.nvim')
+lua << EOF
+require("lsp_lines").setup()
+-- Disable virtual_text since it's redundant due to lsp_lines.
+vim.diagnostic.config({
+  virtual_text = false,
+})
+vim.keymap.set(
+  "",
+  "<Leader>tl",
+  require("lsp_lines").toggle,
+  { desc = "Toggle lsp_lines" }
+)
+EOF
+endif
+
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
