@@ -1277,14 +1277,16 @@ endif
 if s:plugged('vira')
     " let g:vira_async_timer = 30000
     " let g:vira_async_timer_init = 30000
-    nnoremap <leader>va  :ViraSetActiveTicket<space>
+    let g:vira_menu_height = 50
+
+    nnoremap <silent> <leader>va  :ViraSetActiveTicket<space>
     nnoremap <silent> <leader>vb  :ViraBrowse<CR>
     nnoremap <silent> <leader>vc  :ViraComment<CR>
     nnoremap <silent> <leader>ved :ViraEditDescription<CR>
     nnoremap <silent> <leader>vfR :ViraFilterReset<CR>
-    nnoremap <silent> <leader>vfa :ViraFilterReporter<CR>
     nnoremap <silent> <leader>vfe :ViraFilterEdit<CR>
     nnoremap <silent> <leader>vfr :ViraFilterReporter<CR>
+    nnoremap <silent> <leader>vfs :ViraFilterStatuses<CR>
     nnoremap <silent> <leader>vi  :ViraIssues<CR>
     nnoremap <silent> <leader>vq  :ViraQuit<CR>
     nnoremap <silent> <leader>vr  :ViraReport<CR>
