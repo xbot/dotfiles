@@ -1747,6 +1747,8 @@ endif
 
 " copilot.vim settings
 if s:plugged('copilot.vim')
+    let g:copilot_node_command = "~/.nvm/versions/node/v16.15.0/bin/node"
+
     imap <M-,> <Plug>(copilot-previous)
     imap <M-.> <Plug>(copilot-next)
 endif
