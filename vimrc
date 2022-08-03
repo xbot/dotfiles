@@ -1813,6 +1813,20 @@ vim.keymap.set(
 EOF
 endif
 
+" Goyo settings
+if s:plugged('goyo.vim')
+    function! s:goyo_enter()
+        set nocursorcolumn
+    endfunction
+
+    function! s:goyo_leave()
+        set cursorcolumn
+    endfunction
+
+    autocmd! User GoyoEnter nested call <SID>goyo_enter()
+    autocmd! User GoyoLeave nested call <SID>goyo_leave()
+endif
+
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
