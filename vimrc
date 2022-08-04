@@ -10,7 +10,6 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'RRethy/vim-illuminate'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Valloric/ListToggle'
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'adelarsq/vim-matchit'
 Plug 'aklt/plantuml-syntax'
 Plug 'altercation/vim-colors-solarized'
@@ -89,6 +88,10 @@ Plug 'arnaud-lb/vim-php-namespace',  { 'for': 'php'       }
 Plug 'dgryski/vim-godef',            { 'for': 'go'        }
 Plug 'fatih/vim-go',                 { 'for': 'go'        }
 Plug 'Blackrush/vim-gocode',         { 'for': 'go'        }
+
+" LeaderF group
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'xbot/LeaderF-folder'
 
 " Search plugins
 Plug 'mhinz/vim-grepper'
