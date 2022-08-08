@@ -583,20 +583,26 @@ if s:plugged('ultisnips')
 
     nmap <leader>ue :UltiSnipsEdit<Space>
 
-    inoremap <silent> <TAB> <C-r>=CleverTab()<CR>
-    snoremap <silent> <tab> <esc>:call UltiSnips#ExpandSnippetOrJump()<CR>
-    function! CleverTab()"{{{
-        call UltiSnips#ExpandSnippetOrJump()
-        if g:ulti_expand_or_jump_res
-            return ''
-        else
-            if pumvisible()
-                return "\<c-n>"
-            else
-                return coc#refresh()
-            endif
-        endif
-    endfunction"}}}
+    " inoremap <silent> <TAB> <C-r>=CleverTab()<CR>
+    " snoremap <silent> <TAB> <ESC>:call UltiSnips#ExpandSnippetOrJump()<CR>
+    " function! CleverTab()"{{{
+        " call UltiSnips#ExpandSnippetOrJump()
+        " if g:ulti_expand_or_jump_res
+            " return ''
+        " else
+            " if s:plugged('coc.nvim')
+                " if coc#pum#visible()
+                    " return coc#_select_confirm()
+                " else
+                    " return coc#refresh()
+                " endif
+            " else
+                " if pumvisible()
+                    " return "\<c-n>"
+                " endif
+            " endif
+        " endif
+    " endfunction"}}}
 endif
 
 " Ferret settings
@@ -2760,14 +2766,27 @@ if s:plugged('coc.nvim')
         " augroup END
     " endif
 
-    " Use <CR> to confirm completion, `<C-g>u` means break undo chain at current
-    " position. Coc only does snippet and additional edit on confirm.
-    " <CR> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-    if exists('*complete_info')
-        inoremap <expr> <CR> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-    else
-        inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    endif
+    inoremap <silent><expr> <C-n>  coc#pum#visible() ? coc#pum#next(1)       : "\<C-n>"
+    inoremap <silent><expr> <C-p>  coc#pum#visible() ? coc#pum#prev(1)       : "\<C-p>"
+    inoremap <silent><expr> <down> coc#pum#visible() ? coc#pum#next(0)       : "\<down>"
+    inoremap <silent><expr> <up>   coc#pum#visible() ? coc#pum#prev(0)       : "\<up>"
+    inoremap <expr>         <cr>   coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+
+    " --- The COC implementation of <TAB> behavior ---
+    inoremap <silent><expr> <TAB>
+                \ coc#pum#visible() ? coc#_select_confirm() :
+                \ coc#expandableOrJumpable() ?
+                \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    let g:coc_snippet_next = '<tab>'
+    " --- The COC implementation of <TAB> behavior END ---
 
     " Use `[g` and `]g` to navigate diagnostics
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
