@@ -207,7 +207,8 @@ if has('nvim')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
     " Plug 'nvim-lua/plenary.nvim'
 
-    Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
+    " Experience needs to be improved.
+    " Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
     " nvim-tree group
     Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
