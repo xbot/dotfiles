@@ -1289,7 +1289,9 @@ endif
 if s:plugged('vira')
     " let g:vira_async_timer = 30000
     " let g:vira_async_timer_init = 30000
-    let g:vira_menu_height = 50
+    let g:vira_config_file_servers  = $HOME . '/.config/vira/vira_servers.yaml'
+    let g:vira_config_file_projects = $HOME . '/.config/vira/vira_projects.yaml'
+    let g:vira_menu_height          = 50
 
     nnoremap <silent> <leader>va  :ViraSetActiveTicket<space>
     nnoremap <silent> <leader>vb  :ViraBrowse<CR>
