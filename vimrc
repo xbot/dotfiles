@@ -92,6 +92,8 @@ Plug 'Blackrush/vim-gocode',         { 'for': 'go'        }
 " LeaderF group
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'xbot/LeaderF-folder'
+" Does not work with the settings given by the document
+" Plug 'HaomingJu/LeaderF-gitlab'
 
 " Search plugins
 Plug 'mhinz/vim-grepper'
