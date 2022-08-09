@@ -1582,6 +1582,8 @@ endif
 
 " auto-session settings
 if s:plugged('auto-session')
+    set sessionoptions+=winpos,terminal,folds
+
     let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()", "tabdo NvimTreeClose"]
 
 lua << EOF
@@ -1591,7 +1593,7 @@ require('auto-session').setup {
 }
 EOF
 
-    function! CleanupBeforeSaveSession()
+    function! CleanupBeforeSaveSession()"{{{
         let l:ft = &ft
 
         if l:ft == 'GV'
@@ -1599,7 +1601,7 @@ EOF
         elseif l:ft == 'DiffviewFiles' || l:ft == 'DiffviewFileHistory'
             execute ':tabclose'
         endif
-    endfunction
+    endfunction"}}}
 endif
 
 " vim-lua-format settings
