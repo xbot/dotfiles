@@ -1306,12 +1306,18 @@ if s:plugged('vira')
     nnoremap <silent> <leader>vr  :ViraReport<CR>
     nnoremap <silent> <leader>vsa :ViraSetAssignee<CR>
 
-    command! -nargs=1 ViraSetActiveTicket :call s:set_active_ticket_for_vira(<q-args>)
-    function! s:set_active_ticket_for_vira(ticket_number)
+    command! -nargs=1 ViraSetActiveIssue :call s:Vira_SetActiveIssue(<q-args>)
+    function! s:Vira_SetActiveIssue(ticket_number)"{{{
         let g:vira_active_issue = 'DEV-' .. a:ticket_number
-        echo 'The active ticket is now: ' .. ViraGetActiveIssue()
-        exec 'ViraReport'
-    endfunction
+        ViraReport
+    endfunction"}}}
+
+    command! -nargs=0 ViraInitActiveIssue :call s:Vira_SetActiveIssueGivenCurrentGitBranch()
+    function! s:Vira_SetActiveIssueGivenCurrentGitBranch()"{{{
+        let l:current_branch_name = system("git branch --show-current")
+        let g:vira_active_issue = matchstr(l:current_branch_name, 'DEV-\d\+')
+    endfunction"}}}
+    call s:Vira_SetActiveIssueGivenCurrentGitBranch()
 endif
 
 " textobj settings
