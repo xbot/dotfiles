@@ -1529,7 +1529,7 @@ if s:plugged('vista.vim')
     nnoremap <silent> <leader>tb :Vista!!<CR>
 
     let g:vista_ignore_kinds = ['Variable', 'Function']
-    let g:vista_sidebar_position = 'vertical topleft'
+    let g:vista_sidebar_position = 'vertical botright'
     let g:vista_sidebar_width = 50
     let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
     let g:vista_default_executive = 'coc'
