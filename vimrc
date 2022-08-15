@@ -182,6 +182,7 @@ if has('nvim')
     Plug 'f-person/git-blame.nvim'
     Plug 'github/copilot.vim'
     Plug 'caenrique/nvim-toggle-terminal'
+    Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
 
     " Telescope group
     Plug 'nvim-telescope/telescope.nvim'
@@ -1033,13 +1034,29 @@ if s:plugged('vim-fontsize')
 endif
 
 " Toggle terminal
-if has('nvim') && s:plugged('nvim-toggle-terminal')
-    nnoremap <silent> <leader>jj :ToggleTerminal<Enter>
-    tnoremap <silent> <leader>jj <C-\><C-n>:ToggleTerminal<Enter>
+if has('nvim') && s:plugged('toggleterm.nvim')
+lua << EOF
+require("toggleterm").setup{
+    open_mapping    = [[<c-\>]],
+    direction       = 'vertical',
+    insert_mappings = true,
+    shade_terminals = false, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+    size = function(term)
+        if term.direction == "horizontal" then
+            return 15
+        elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+        end
+    end,
+}
+EOF
+elseif has('nvim') && s:plugged('nvim-toggle-terminal')
+    nnoremap <silent> <C-\> :ToggleTerminal<Enter>
+    tnoremap <silent> <C-\> <C-\><C-n>:ToggleTerminal<Enter>
 elseif s:plugged('toggle-terminal')
     let g:toggle_terminal#command = 'zsh'
-    nnoremap <silent> <leader>jj :ToggleTerminal<CR>
-    tnoremap <silent> <leader>jj <C-w>:ToggleTerminal<CR>
+    nnoremap <silent> <C-\> :ToggleTerminal<CR>
+    tnoremap <silent> <C-\> <C-w>:ToggleTerminal<CR>
 endif
 
 " startify settings
