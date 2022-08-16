@@ -24,7 +24,6 @@ Plug 'christoomey/vim-titlecase'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'easymotion/vim-easymotion'
 Plug 'farmergreg/vim-lastplace'
-Plug 'gcmt/taboo.vim'
 Plug 'gcmt/wildfire.vim'
 Plug 'godlygeek/tabular'
 Plug 'haya14busa/incsearch.vim'
@@ -127,9 +126,15 @@ Plug 'inkarkat/vim-EnhancedJumps'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-" airline group
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+if has('nvim')
+    Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+    Plug 'nvim-lualine/lualine.nvim'
+else
+    " airline group
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+endif
 
 " textobj-user group
 let g:textobj_lastpat_no_default_key_mappings=1
@@ -229,6 +234,9 @@ else
 
     " To enhance vim-flog
     Plug 'vim-scripts/AnsiEsc.vim'
+
+    " Conflict with bufferline.nvim
+    Plug 'gcmt/taboo.vim'
 endif
 
 if has('gui_running')
@@ -840,6 +848,130 @@ if s:plugged('LeaderF')"{{{
     endfunction"}}}
 endif"}}}
 
+" bufferline.nvim settings
+if s:plugged('bufferline.nvim')
+    nnoremap L :BufferLineCycleNext<CR>
+    nnoremap H :BufferLineCyclePrev<CR>
+
+    nnoremap <silent><A-L> :BufferLineMoveNext<CR>
+    nnoremap <silent><A-H> :BufferLineMovePrev<CR>
+
+    nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
+    nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>
+    nnoremap <silent><leader>3 <Cmd>BufferLineGoToBuffer 3<CR>
+    nnoremap <silent><leader>4 <Cmd>BufferLineGoToBuffer 4<CR>
+    nnoremap <silent><leader>5 <Cmd>BufferLineGoToBuffer 5<CR>
+    nnoremap <silent><leader>6 <Cmd>BufferLineGoToBuffer 6<CR>
+    nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
+    nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
+    nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
+    nnoremap <silent><leader>0 <Cmd>BufferLineGoToBuffer -1<CR>
+
+lua << EOF
+require("bufferline").setup({
+    options = {
+        mode = "buffers",
+        separator_style = "slant",
+        numbers = "ordinal",
+        close_command = "bdelete! %d",
+        right_mouse_command = nil,
+        left_mouse_command = "buffer %d",
+        middle_mouse_command = nil,
+        indicator_icon = "▎",
+        buffer_close_icon = "",
+        modified_icon = "●",
+        close_icon = "",
+        left_trunc_marker = "",
+        right_trunc_marker = "",
+        max_name_length = 18,
+        max_prefix_length = 15,
+        tab_size = 10,
+        diagnostics = 'coc',
+        diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            local s = ""
+            for e, n in pairs(diagnostics_dict) do
+                local sym = e == "error" and " " or (e == "warning" and " " or "")
+                s = s .. sym
+            end
+            return s
+        end,
+        custom_filter = function(bufnr)
+            -- if the result is false, this buffer will be shown, otherwise, this
+            -- buffer will be hidden.
+
+            -- filter out filetypes you don't want to see
+            local exclude_ft = { "qf", "fugitive", "git" }
+            local cur_ft = vim.bo[bufnr].filetype
+            local should_filter = vim.tbl_contains(exclude_ft, cur_ft)
+
+            if should_filter then
+                return false
+            end
+
+            return true
+        end,
+        show_buffer_icons = false,
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        show_tab_indicators = true,
+        persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
+        enforce_regular_tabs = false,
+        always_show_bufferline = true,
+        sort_by = "id",
+    },
+})
+EOF
+endif
+
+" lualine settings
+if s:plugged('lualine.nvim')
+lua << END
+require('lualine').setup{
+    options = {
+        icons_enabled = true,
+        theme = 'auto',
+        section_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
+        disabled_filetypes = {}
+    },
+    sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch' },
+        lualine_c = {
+            {
+                'filename',
+                file_status = true, -- displays file status (readonly status, modified status)
+                path = 0 -- 0 = just filename, 1 = relative path, 2 = absolute path
+            }
+        },
+        lualine_x = {
+            { 'diagnostics', sources = { "coc" }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } },
+            'encoding',
+            'filetype'
+        },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+            {
+                'filename',
+                file_status = true, -- displays file status (readonly status, modified status)
+                path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+            }
+        },
+        lualine_x = { 'location' },
+        lualine_y = {},
+        lualine_z = {}
+    },
+    tabline = {},
+    extensions = {'fugitive', 'nvim-tree', 'quickfix', 'toggleterm'},
+}
+END
+endif
+
 " airline settings
 if s:plugged('vim-airline')
     let g:airline_powerline_fonts = 1
@@ -872,14 +1004,6 @@ if s:plugged('vim-airline')
     endfun"}}}
     " Options: ['cwd', 'mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert']
     let g:airline_section_a = airline#section#create_left(['cwd', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert'])
-endif
-
-if s:plugged('bufferline.nvim')
-" In your init.lua or init.vim
-set termguicolors
-lua << EOF
-require('bufferline').setup {}
-EOF
 endif
 
 " vim-choosewin
@@ -1363,9 +1487,11 @@ endif
 
 " nvim-colorizer settings
 if s:plugged('nvim-colorizer')
-    lua require'colorizer'.setup {
-        '*';
-    }
+lua << EOF
+require'colorizer'.setup {
+    '*';
+}
+EOF
 endif
 
 " diffview settings
@@ -2039,10 +2165,21 @@ imap <C-e> <ESC>A
 " Tab and window mappings
 nmap <C-T><C-T> :tabnew<CR>
 imap <C-T><C-T> <ESC>:tabnew<CR>
-nmap <C-T><C-W> :tabc<CR>
-imap <C-T><C-W> <ESC>:tabc<CR>
-nmap <leader>tc :tabc<CR>
-imap <leader>tc <ESC>:tabc<CR>
+
+if s:plugged('bufferline.nvim')
+    nmap <C-T><C-W> :bdelete<CR>
+    imap <C-T><C-W> <ESC>:bdelete<CR>
+
+    nmap <leader>tc :bdelete<CR>
+    imap <leader>tc <ESC>:bdelete<CR>
+else
+    nmap <C-T><C-W> :tabc<CR>
+    imap <C-T><C-W> <ESC>:tabc<CR>
+
+    nmap <leader>tc :tabc<CR>
+    imap <leader>tc <ESC>:tabc<CR>
+endif
+
 nmap <leader>to :tabo<CR>
 nmap gr         :tabp<CR>
 nmap <leader><leader>dut :tab sp<CR>
@@ -2071,8 +2208,10 @@ nnoremap <leader>T <C-w>T
 nnoremap gH H
 nnoremap gM M
 nnoremap gL L
-nnoremap H  :tabp<CR>
-nnoremap L  :tabn<CR>
+if ! s:plugged('bufferline.nvim')
+    nnoremap H  :tabp<CR>
+    nnoremap L  :tabn<CR>
+endif
 
 " Move focus among windows
 " Use smart-splits.nvim in neovim
