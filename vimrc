@@ -1735,10 +1735,16 @@ if s:plugged('auto-session')
 
     let g:auto_session_pre_save_cmds = ["tabdo Vista!", "tabdo windo call CleanupBeforeSaveSession()", "tabdo NvimTreeClose"]
 
+    nnoremap <leader>os :<C-u>SearchSession<CR>
+    nnoremap <leader>ss :<C-u>SaveSession<CR>
+
 lua << EOF
 require('auto-session').setup {
     log_level = 'error',
-    auto_session_use_git_branch = true
+    auto_session_use_git_branch = true,
+    auto_session_enabled = true,
+    auto_session_create_enabled = false,
+    auto_save_enabled = false,
 }
 EOF
 
@@ -1751,6 +1757,16 @@ EOF
             execute ':tabclose'
         endif
     endfunction"}}}
+endif
+
+" session-lens settings
+if s:plugged('session-lens')
+lua << EOF
+require('session-lens').setup {
+    path_display = {'shorten'},
+    -- previewer = true
+}
+EOF
 endif
 
 " vim-lua-format settings
@@ -3069,8 +3085,8 @@ if s:plugged('coc.nvim')
     nnoremap <leader>sy :<C-u>CocList -A --normal yank<CR>
     nnoremap <leader>sn :<C-u>CocList -A snippets<CR>
     nnoremap <leader>op :<C-u>CocList project<CR>
-    nnoremap <leader>os :<C-u>CocList sessions<CR>
-    nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
+    " nnoremap <leader>os :<C-u>CocList sessions<CR>
+    " nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
     nnoremap <leader>sC :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
 
     " vim-test is more convinient to run tests.
