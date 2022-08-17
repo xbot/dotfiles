@@ -1013,7 +1013,9 @@ if s:plugged('vim-choosewin')
 endif
 
 " wildfire
-nmap <leader>vv <Plug>(wildfire-quick-select)
+if s:plugged('wildfire.vim')
+    nmap <leader>vv <Plug>(wildfire-quick-select)
+endif
 
 " vim-test settings
 if s:plugged('vim-test')
@@ -1162,7 +1164,7 @@ if has('nvim') && s:plugged('toggleterm.nvim')
 lua << EOF
 require("toggleterm").setup{
     open_mapping    = [[<c-\>]],
-    direction       = 'vertical',
+    direction       = 'float',
     insert_mappings = true,
     shade_terminals = false, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
     size = function(term)
@@ -1959,14 +1961,9 @@ lua << EOF
 require("lsp_lines").setup()
 -- Disable virtual_text since it's redundant due to lsp_lines.
 vim.diagnostic.config({
-  virtual_text = false,
+    virtual_text = false,
 })
-vim.keymap.set(
-  "",
-  "<Leader>tl",
-  require("lsp_lines").toggle,
-  { desc = "Toggle lsp_lines" }
-)
+vim.keymap.set("", "<Leader>tl", require("lsp_lines").toggle, { desc = "Toggle lsp_lines" })
 EOF
 endif
 
@@ -2199,7 +2196,6 @@ else
 endif
 
 nmap <leader>to :tabo<CR>
-nmap gr         :tabp<CR>
 nmap <leader><leader>dut :tab sp<CR>
 nnoremap <leader>oo <C-w><C-o>
 inoremap <leader>oo <ESC><C-w><C-o>a
@@ -2306,8 +2302,8 @@ if has('unix') && executable('xbindkeys')
 endif
 
 " Select the last pasted area
-nnoremap gp `[v`]
-nnoremap gP V']
+nnoremap vp `[v`]
+nnoremap vP V']
 
 " Clear highlighting of the last search
 nmap <leader><leader>cc :nohl<CR>
@@ -2944,6 +2940,7 @@ if s:plugged('coc.nvim')
         \'@yaegassy/coc-phpstan',
         \'coc-diagnostic',
         \'coc-git',
+        \'coc-grammarly',
         \'coc-json',
         \'coc-lists',
         \'coc-markdownlint',
