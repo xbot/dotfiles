@@ -22,7 +22,6 @@ Plug 'chrisbra/SudoEdit.vim'
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-titlecase'
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'easymotion/vim-easymotion'
 Plug 'farmergreg/vim-lastplace'
 Plug 'gcmt/wildfire.vim'
 Plug 'godlygeek/tabular'
@@ -46,17 +45,16 @@ Plug 'liuchengxu/vista.vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/fencview'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 Plug 'morhetz/gruvbox'
 Plug 'n0v1c3/vira', { 'do': './install.sh' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdcommenter'
 Plug 'rhysd/conflict-marker.vim'
 Plug 'rhysd/git-messenger.vim'
 Plug 'rizzatti/dash.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdcommenter'
 Plug 'segeljakt/vim-silicon'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'szw/vim-maximizer'
@@ -126,6 +124,7 @@ Plug 'inkarkat/vim-EnhancedJumps'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+" tabline and statusline group
 if has('nvim')
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
@@ -166,6 +165,7 @@ Plug 'skywind3000/gutentags_plus'
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
+" neovim plugins
 if has('nvim')
     Plug 'mrjones2014/smart-splits.nvim'
 
@@ -221,9 +221,24 @@ if has('nvim')
     " nvim-tree group
     Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
     Plug 'kyazdani42/nvim-tree.lua'
+
+    " Replacement for EasyMotion
+    Plug 'phaazon/hop.nvim'
+
+    Plug 'rcarriga/nvim-notify'
+
+    Plug 'kevinhwang91/nvim-hlslens'
+
+    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
+    Plug 'sbdchd/neoformat'
+
+    Plug 'simnalamburt/vim-mundo'
 else
     Plug 'pakutoma/toggle-terminal'
+
     Plug 'rhysd/vim-healthcheck'
+
     Plug 'chrisbra/Colorizer'
 
     " defx group
@@ -237,6 +252,10 @@ else
 
     " Conflict with bufferline.nvim
     Plug 'gcmt/taboo.vim'
+
+    Plug 'easymotion/vim-easymotion'
+
+    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
 endif
 
 if has('gui_running')
@@ -772,9 +791,6 @@ augroup pdv
     au FileType php nnoremap <buffer> <leader>\\ :call pdv#DocumentWithSnip()<CR>
 augroup END
 
-" ag settings
-let g:ag_lhandler='lopen'
-
 " gtags settings
 let Gtags_Close_When_Single = 1
 let Gtags_Auto_Update       = 1
@@ -786,9 +802,6 @@ augroup gtags
         au FileType php,python,c,cpp,javascript,go map <buffer> <C-S-]> :Gtags -r<CR><CR>
     endif
 augroup END
-
-" FastFold
-" let g:fastfold_fold_command_suffixes =  ['x','X','a','A']
 
 " easy-align settings
 if s:plugged('vim-easy-align')
@@ -2019,6 +2032,62 @@ require'nvim-treesitter.configs'.setup {
 EOF
 endif
 
+" hop.nvim settings
+if s:plugged('hop.nvim')
+lua << EOF
+require'hop'.setup()
+
+-- Line-wise motions
+vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
+vim.api.nvim_set_keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>", {})
+vim.api.nvim_set_keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>", {})
+
+-- Context-wise motions
+vim.api.nvim_set_keymap('', '<leader><leader>f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = false })<cr>", {})
+vim.api.nvim_set_keymap('', '<leader><leader>F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = false })<cr>", {})
+vim.api.nvim_set_keymap('', '<leader><leader>t', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = false, hint_offset = -1 })<cr>", {})
+vim.api.nvim_set_keymap('', '<leader><leader>T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = false, hint_offset = 1 })<cr>", {})
+EOF
+endif
+
+" nvim-hlslens settings
+if s:plugged('nvim-hlslens')
+lua << EOF
+local kopts = {noremap = true, silent = true}
+
+vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+EOF
+endif
+
+" wilder settings
+if s:plugged('wilder.nvim')
+    call wilder#setup({
+                \ 'modes': [':', '/', '?'],
+                \ 'next_key': '<Tab>',
+                \ 'previous_key': '<S-Tab>',
+                \ 'accept_key': '<Down>',
+                \ 'reject_key': '<Up>',
+                \ 'enable_cmdline_enter': 0,
+                \ })
+endif
+
+" neoformat settings
+if s:plugged('neoformat')
+    let g:neoformat_php_phpcsfixer = {
+            \ 'exe': './vendor/bin/php-cs-fixer',
+            \ 'args': ['fix', '--ansi'],
+            \ 'replace': 1,
+            \ }
+
+    let g:neoformat_enabled_php = ['phpcsfixer']
+endif
+
 "}}}
 
 " ------------------------------ Auto Commands ------------------------------"{{{
@@ -2945,7 +3014,6 @@ if s:plugged('coc.nvim')
         \'coc-lists',
         \'coc-markdownlint',
         \'coc-php-cs-fixer',
-        \'coc-prettier',
         \'coc-project',
         \'coc-snippets',
         \'coc-spell-checker',
@@ -3017,7 +3085,7 @@ if s:plugged('coc.nvim')
     nmap <silent> gy <Plug>(coc-type-definition)
     nmap <silent> gi <Plug>(coc-implementation)
     " nmap <silent> gR <Plug>(coc-references)
-    nmap <silent> gR <Plug>(coc-references-used)
+    nmap <silent> gr <Plug>(coc-references-used)
 
     " Use K to show documentation in preview window.
     nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -3038,7 +3106,7 @@ if s:plugged('coc.nvim')
     augroup mygroup
         autocmd!
         " Setup formatexpr specified filetype(s).
-        autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+        autocmd FileType typescript,json,php setl formatexpr=CocAction('formatSelected')
         " Update signature help on jump placeholder.
         autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
     augroup end
@@ -3093,7 +3161,9 @@ if s:plugged('coc.nvim')
 
     highlight CocFloating guibg=#99cccc guifg=#336699
 
-    " coc-prettier
-    command! -nargs=0 Prettier :CocCommand prettier.formatFile
+    " " coc-prettier
+    " command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+    command! -nargs=0 CocFormat :call CocAction('format')<CR>
 endif
 "}}}
