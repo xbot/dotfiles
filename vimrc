@@ -19,6 +19,7 @@ Plug 'brookhong/cscope.vim'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-titlecase'
+Plug 'dstein64/vim-startuptime'
 Plug 'farmergreg/vim-lastplace'
 Plug 'gcmt/wildfire.vim'
 Plug 'godlygeek/tabular'
@@ -40,7 +41,7 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/fencview'
 Plug 'mhinz/vim-startify'
-Plug 'n0v1c3/vira', { 'do': './install.sh' }
+Plug 'n0v1c3/vira', { 'do': './install.sh', 'on': ['ViraIssues', 'ViraReport'] }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdcommenter'
 Plug 'rhysd/conflict-marker.vim'
