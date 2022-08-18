@@ -14,14 +14,11 @@ Plug 'adelarsq/vim-matchit'
 Plug 'aklt/plantuml-syntax'
 Plug 'altercation/vim-colors-solarized'
 Plug 'andrejlevkovitch/vim-lua-format'
-Plug 'arcticicestudio/nord-vim'
 Plug 'arecarn/vim-fold-cycle'
-Plug 'base16-project/base16-vim'
 Plug 'brookhong/cscope.vim'
 Plug 'chrisbra/SudoEdit.vim'
 Plug 'christoomey/vim-sort-motion'
 Plug 'christoomey/vim-titlecase'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'farmergreg/vim-lastplace'
 Plug 'gcmt/wildfire.vim'
 Plug 'godlygeek/tabular'
@@ -30,7 +27,6 @@ Plug 'jacoborus/tender.vim'
 Plug 'janko-m/vim-test'
 Plug 'jiangmiao/auto-pairs'
 Plug 'jiazhoulvke/jianfan'
-Plug 'joshdick/onedark.vim'
 Plug 'jreybert/vim-largefile'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vader.vim'
@@ -38,8 +34,6 @@ Plug 'junegunn/vim-after-object'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-plug'
 Plug 'junkblocker/git-time-lapse'
-Plug 'lifepillar/vim-solarized8'
-Plug 'liuchengxu/space-vim-theme'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'liuchengxu/vista.vim'
 Plug 'mattn/gist-vim'
@@ -47,7 +41,6 @@ Plug 'mattn/webapi-vim'
 Plug 'mbbill/fencview'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
-Plug 'morhetz/gruvbox'
 Plug 'n0v1c3/vira', { 'do': './install.sh' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdcommenter'
@@ -86,11 +79,21 @@ Plug 'dgryski/vim-godef',            { 'for': 'go'        }
 Plug 'fatih/vim-go',                 { 'for': 'go'        }
 Plug 'Blackrush/vim-gocode',         { 'for': 'go'        }
 
+" colorschemes
+Plug 'arcticicestudio/nord-vim'
+Plug 'base16-project/base16-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'joshdick/onedark.vim'
+Plug 'ldelossa/vimdark'
+Plug 'lifepillar/vim-solarized8'
+Plug 'liuchengxu/space-vim-theme'
+Plug 'morhetz/gruvbox'
+
 " LeaderF group
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'xbot/LeaderF-folder'
-" Does not work with the settings given by the document
-" Plug 'HaomingJu/LeaderF-gitlab'
+" Plug 'HaomingJu/LeaderF-gitlab' " Does not work with the settings given by the document
 
 " Search plugins
 Plug 'mhinz/vim-grepper'
@@ -149,25 +152,66 @@ Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-syntax'
 Plug 'glts/vim-textobj-comment'
 Plug 'Julian/vim-textobj-variable-segment'
-" " Too old and 'if' works not as exptected in PHP syntax.
-" Plug 'kentaro/vim-textobj-function-php'
-" " Also provided in targets.vim
-" Plug 'kana/vim-textobj-underscore'
-
-" Color schemes
-Plug 'ldelossa/vimdark'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+" Plug 'kana/vim-textobj-underscore' " Also provided in targets.vim
+" Plug 'kentaro/vim-textobj-function-php' " Too old and 'if' works not as exptected in PHP syntax.
 
 " ctags group
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 
+" offline plugins
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
 " neovim plugins
 if has('nvim')
+    Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+    Plug 'elihunter173/dirbuf.nvim' " Conflict with dirvish
+    Plug 'f-person/git-blame.nvim'
+    Plug 'github/copilot.vim'
+    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+    Plug 'kevinhwang91/nvim-hlslens'
     Plug 'mrjones2014/smart-splits.nvim'
+    Plug 'norcalli/nvim-colorizer.lua'
+    Plug 'phaazon/hop.nvim'
+    Plug 'rcarriga/nvim-notify'
+    Plug 'simnalamburt/vim-mundo'
+
+    " fine-cmdline group
+    Plug 'MunifTanjim/nui.nvim'
+    Plug 'VonHeikemen/fine-cmdline.nvim'
+
+    " telescope group
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-symbols.nvim'
+
+    " diffview group
+    Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'sindrets/diffview.nvim'
+
+    " auto-session group
+    " Will complain errors under GUI
+    if !has('gui_running')
+        Plug 'rmagatti/auto-session'
+        Plug 'rmagatti/session-lens'
+    endif
+
+    " treesitter group
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+    " nvim-tree group
+    Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
+    Plug 'kyazdani42/nvim-tree.lua'
+
+    " Experimental replacements of coc.nvim
+    Plug 'sbdchd/neoformat'
+    " Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
+    " Experience needs to be improved.
+    " Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
+
+    " Plug 'caenrique/nvim-toggle-terminal'
+    " Plug 'tveskag/nvim-blame-line' " Has performance problem
 
     " " one-small-step-for-vimkind requires vim has no output on startup,
     " " which is too strict to be satisfied since there is always some output,
@@ -175,87 +219,25 @@ if has('nvim')
     " Plug 'jbyuki/one-small-step-for-vimkind'
     " Plug 'mfussenegger/nvim-dap'
 
-    " Fine-cmdline group
-    Plug 'MunifTanjim/nui.nvim'
-    Plug 'VonHeikemen/fine-cmdline.nvim'
-
-    " Conflict with dirvish
-    Plug 'elihunter173/dirbuf.nvim'
-
-    " " Has performance problem
-    " Plug 'tveskag/nvim-blame-line'
-    Plug 'f-person/git-blame.nvim'
-    Plug 'github/copilot.vim'
-    Plug 'caenrique/nvim-toggle-terminal'
-    Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
-
-    " Telescope group
-    Plug 'nvim-telescope/telescope.nvim'
-    Plug 'nvim-telescope/telescope-symbols.nvim'
-
     " " defx group
     " " This plugin has been stopped developing, see ddu.vim and ddu-ui-filer
     " Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
     " Plug 'kristijanhusak/defx-git'
     " Plug 'kristijanhusak/defx-icons'
-
-    " diffview.nvim group
-    Plug 'kyazdani42/nvim-web-devicons'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'sindrets/diffview.nvim'
-
-    Plug 'norcalli/nvim-colorizer.lua'
-
-    if !has('gui_running')
-        " Will complain errors in GUI
-        Plug 'rmagatti/auto-session'
-        Plug 'rmagatti/session-lens'
-    endif
-
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-    " Plug 'nvim-lua/plenary.nvim'
-
-    " Experience needs to be improved.
-    " Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
-
-    " nvim-tree group
-    Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
-    Plug 'kyazdani42/nvim-tree.lua'
-
-    " Replacement for EasyMotion
-    Plug 'phaazon/hop.nvim'
-
-    Plug 'rcarriga/nvim-notify'
-
-    Plug 'kevinhwang91/nvim-hlslens'
-
-    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-
-    Plug 'sbdchd/neoformat'
-
-    Plug 'simnalamburt/vim-mundo'
 else
-    Plug 'pakutoma/toggle-terminal'
-
-    Plug 'rhysd/vim-healthcheck'
-
     Plug 'chrisbra/Colorizer'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'gcmt/taboo.vim' " Conflict with bufferline.nvim
+    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
+    Plug 'pakutoma/toggle-terminal'
+    Plug 'rhysd/vim-healthcheck'
+    Plug 'vim-scripts/AnsiEsc.vim' " To enhance vim-flog
 
     " defx group
     " This plugin has been stopped developing, see ddu.vim and ddu-ui-filer
     Plug 'Shougo/defx.nvim'
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
-
-    " To enhance vim-flog
-    Plug 'vim-scripts/AnsiEsc.vim'
-
-    " Conflict with bufferline.nvim
-    Plug 'gcmt/taboo.vim'
-
-    Plug 'easymotion/vim-easymotion'
-
-    Plug 'mbbill/undotree', { 'on': 'UndotreeToggle'   }
 endif
 
 if has('gui_running')
