@@ -2944,8 +2944,6 @@ augroup END
 
 " ------------------------------ COC settings -----------------------------{{{
 if s:plugged('coc.nvim')
-    nnoremap <leader>cocc :CocConfig<CR>
-
     let g:coc_node_path='~/.nvm/versions/node/v14.16.1/bin/node'
     let g:coc_global_extensions = [
         \'@yaegassy/coc-intelephense',
@@ -2967,35 +2965,12 @@ if s:plugged('coc.nvim')
         \'coc-yank',
         \]
 
-    " if executable('intelephense')
-        " augroup LspPHPIntelephense
-            " au!
-            " au User lsp_setup call lsp#register_server({
-                " \ 'name': 'intelephense',
-                " \ 'cmd': {server_info->[&shell, &shellcmdflag, 'intelephense --stdio']},
-                " \ 'whitelist': ['php'],
-                " \ 'initialization_options': {'storagePath': '/tmp/intelephense'},
-                " \ 'workspace_config': {
-                " \   'intelephense': {
-                " \     'files': {
-                " \       'maxSize': 1000000,
-                " \       'associations': ['*.php', '*.phtml'],
-                " \       'exclude': [],
-                " \     },
-                " \     'completion': {
-                " \       'insertUseDeclaration': v:true,
-                " \       'fullyQualifyGlobalConstantsAndFunctions': v:false,
-                " \       'triggerParameterHints': v:true,
-                " \       'maxItems': 100,
-                " \     },
-                " \     'format': {
-                " \       'enable': v:true
-                " \     },
-                " \   },
-                " \ }
-                " \})
-        " augroup END
-    " endif
+    " Add (Neo)Vim's native statusline support.
+    " NOTE: Please see `:h coc-status` for integrations with external plugins that
+    " provide custom statusline: lightline.vim, vim-airline.
+    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+    nnoremap <leader>cocc :CocConfig<CR>
 
     inoremap <silent><expr> <C-n>  coc#pum#visible() ? coc#pum#next(1)       : "\<C-n>"
     inoremap <silent><expr> <C-p>  coc#pum#visible() ? coc#pum#prev(1)       : "\<C-p>"
@@ -3011,10 +2986,10 @@ if s:plugged('coc.nvim')
                 \ <SID>check_back_space() ? "\<TAB>" :
                 \ coc#refresh()
 
-    function! s:check_back_space() abort
+    function! s:check_back_space() abort"{{{
         let col = col('.') - 1
         return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+    endfunction"}}}
 
     let g:coc_snippet_next = '<tab>'
     " --- The COC implementation of <TAB> behavior END ---
@@ -3041,19 +3016,8 @@ if s:plugged('coc.nvim')
         endif
     endfunction"}}}
 
-    " Highlight the symbol and its references when holding the cursor.
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-
     " Symbol renaming.
     nmap <leader>rn <Plug>(coc-rename)
-
-    augroup mygroup
-        autocmd!
-        " Setup formatexpr specified filetype(s).
-        autocmd FileType typescript,json,php setl formatexpr=CocAction('formatSelected')
-        " Update signature help on jump placeholder.
-        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-    augroup end
 
     " Code actions.
     xmap <leader>ac  <Plug>(coc-codeaction-selected)
@@ -3073,11 +3037,6 @@ if s:plugged('coc.nvim')
     " nmap <silent> <TAB> <Plug>(coc-range-select)
     " xmap <silent> <TAB> <Plug>(coc-range-select)
 
-    " Add (Neo)Vim's native statusline support.
-    " NOTE: Please see `:h coc-status` for integrations with external plugins that
-    " provide custom statusline: lightline.vim, vim-airline.
-    set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
     " Mappings using CoCList:
     " Show all diagnostics.
     nnoremap <silent> <space>a  :<C-u>CocList diagnostics<CR>
@@ -3094,11 +3053,13 @@ if s:plugged('coc.nvim')
     " Resume latest coc list.
     nnoremap <silent> <leader>cocp  :<C-u>CocListResume<CR>
     nnoremap <leader>sy :<C-u>CocList -A --normal yank<CR>
-    nnoremap <leader>sn :<C-u>CocList -A snippets<CR>
     nnoremap <leader>op :<C-u>CocList project<CR>
+    nnoremap <leader>sC :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
+    nnoremap <leader>sl :<C-u>CocList -A snippets<CR>
+    xnoremap <leader>cs <Plug>(coc-convert-snippet)
+
     " nnoremap <leader>os :<C-u>CocList sessions<CR>
     " nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
-    nnoremap <leader>sC :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
 
     " vim-test is more convinient to run tests.
     " nmap <silent> gl <Plug>(coc-codelens-action)
@@ -3109,5 +3070,15 @@ if s:plugged('coc.nvim')
     " command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
     command! -nargs=0 CocFormat :call CocAction('format')<CR>
+
+    augroup mygroup
+        autocmd!
+        " Setup formatexpr specified filetype(s).
+        autocmd FileType typescript,json,php setl formatexpr=CocAction('formatSelected')
+        " Update signature help on jump placeholder.
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+        " Highlight the symbol and its references when holding the cursor.
+        autocmd CursorHold * silent call CocActionAsync('highlight')
+    augroup end
 endif
 "}}}
