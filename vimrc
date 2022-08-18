@@ -164,11 +164,13 @@ Plug '~/.vim/plugged/confluencewiki'
 
 " neovim plugins
 if has('nvim')
+
     Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
     Plug 'elihunter173/dirbuf.nvim' " Conflict with dirvish
     Plug 'f-person/git-blame.nvim'
     Plug 'github/copilot.vim'
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+    Plug 'kevinhwang91/nvim-bqf', { 'for': 'qf' } | Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'kevinhwang91/nvim-hlslens'
     Plug 'mrjones2014/smart-splits.nvim'
     Plug 'norcalli/nvim-colorizer.lua'
