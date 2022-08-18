@@ -39,7 +39,6 @@ Plug 'liuchengxu/vista.vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/fencview'
-Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 Plug 'n0v1c3/vira', { 'do': './install.sh' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -244,12 +243,13 @@ if has('gui_running')
     Plug 'drmikehenry/vim-fontsize'
 endif
 
-" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 " Plug 'NTBBloodbath/rest.nvim'
 " Plug 'dense-analysis/ale'
 " Plug 'joeytwiddle/sexy_scroller.vim'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+" Plug 'mhinz/vim-signify'
 " Plug 'ojroques/vim-oscyank'
+" Plug 'plasticboy/vim-markdown',     { 'for': 'markdown' }
 " Plug 'psliwka/vim-smoothie'
 " Plug 'tweekmonster/startuptime.vim'
 
@@ -3057,6 +3057,22 @@ if s:plugged('coc.nvim')
     nnoremap <leader>sC :<C-u>let v:this_session=''<CR>:echo 'Session closed.'<CR>
     nnoremap <leader>sl :<C-u>CocList -A snippets<CR>
     xnoremap <leader>cs <Plug>(coc-convert-snippet)
+
+    " navigate chunks of current buffer
+    nmap [g <Plug>(coc-git-prevchunk)
+    nmap ]g <Plug>(coc-git-nextchunk)
+    " " navigate conflicts of current buffer
+    " nmap [c <Plug>(coc-git-prevconflict)
+    " nmap ]c <Plug>(coc-git-nextconflict)
+    " show chunk diff at current position
+    nmap <leader>gi <Plug>(coc-git-chunkinfo)
+    " show commit contains current position
+    nmap <leader>oc <Plug>(coc-git-commit)
+    " create text object for git chunks
+    omap ig <Plug>(coc-git-chunk-inner)
+    xmap ig <Plug>(coc-git-chunk-inner)
+    omap ag <Plug>(coc-git-chunk-outer)
+    xmap ag <Plug>(coc-git-chunk-outer)
 
     " nnoremap <leader>os :<C-u>CocList sessions<CR>
     " nnoremap <leader>ss :<C-u>CocCommand session.save<CR>
