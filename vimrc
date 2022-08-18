@@ -1103,8 +1103,10 @@ if s:plugged('auto-pairs')
 endif
 
 " Nord color scheme
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
+if s:plugged('nord-vim')
+    let g:nord_italic = 1
+    let g:nord_italic_comments = 1
+endif
 
 " vim-fontsize
 if s:plugged('vim-fontsize')
