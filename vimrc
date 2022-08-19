@@ -2207,6 +2207,8 @@ nmap <C-B><C-W> :bdelete<CR>
 imap <C-B><C-W> <ESC>:bdelete<CR>
 nmap <leader>bc :bdelete<CR>
 imap <leader>bc <ESC>:bdelete<CR>
+nmap <leader>bo :BufferLineCloseLeft<CR>:BufferLineCloseRight<CR>
+imap <leader>bo <ESC>:BufferLineCloseLeft<CR><ESC>:BufferLineCloseRight<CR>a
 
 nnoremap <leader>oo <C-w><C-o>
 inoremap <leader>oo <ESC><C-w><C-o>a
