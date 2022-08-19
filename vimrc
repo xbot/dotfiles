@@ -2193,26 +2193,21 @@ imap <leader>O <C-O>:normal O<CR>
 xnoremap <expr> p '"_d"'.v:register.'P'
 imap <C-e> <ESC>A
 
-" Tab and window mappings
+" Tab, buffer and window mappings
 nmap <C-T><C-T> :tabnew<CR>
 imap <C-T><C-T> <ESC>:tabnew<CR>
-
-if s:plugged('bufferline.nvim')
-    nmap <C-T><C-W> :bdelete<CR>
-    imap <C-T><C-W> <ESC>:bdelete<CR>
-
-    nmap <leader>tc :bdelete<CR>
-    imap <leader>tc <ESC>:bdelete<CR>
-else
-    nmap <C-T><C-W> :tabc<CR>
-    imap <C-T><C-W> <ESC>:tabc<CR>
-
-    nmap <leader>tc :tabc<CR>
-    imap <leader>tc <ESC>:tabc<CR>
-endif
-
+nmap <C-T><C-W> :tabc<CR>
+imap <C-T><C-W> <ESC>:tabc<CR>
+nmap <leader>tc :tabc<CR>
+imap <leader>tc <ESC>:tabc<CR>
 nmap <leader>to :tabo<CR>
 nmap <leader><leader>dut :tab sp<CR>
+
+nmap <C-B><C-W> :bdelete<CR>
+imap <C-B><C-W> <ESC>:bdelete<CR>
+nmap <leader>bc :bdelete<CR>
+imap <leader>bc <ESC>:bdelete<CR>
+
 nnoremap <leader>oo <C-w><C-o>
 inoremap <leader>oo <ESC><C-w><C-o>a
 nmap <leader>hs :sp<CR><C-W>_
@@ -2998,8 +2993,8 @@ if s:plugged('coc.nvim')
     " --- The COC implementation of <TAB> behavior END ---
 
     " Use `[g` and `]g` to navigate diagnostics
-    nmap <silent> [g <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    nmap <silent> [d <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
     " GoTo code navigation.
     nmap <silent> gd <Plug>(coc-definition)
