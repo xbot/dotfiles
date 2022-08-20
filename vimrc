@@ -12,7 +12,6 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Valloric/ListToggle'
 Plug 'adelarsq/vim-matchit'
 Plug 'aklt/plantuml-syntax'
-Plug 'altercation/vim-colors-solarized'
 Plug 'andrejlevkovitch/vim-lua-format'
 Plug 'arecarn/vim-fold-cycle'
 Plug 'brookhong/cscope.vim'
@@ -87,6 +86,7 @@ Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'joshdick/onedark.vim'
 Plug 'ldelossa/vimdark'
 Plug 'lifepillar/vim-solarized8'
+Plug 'altercation/vim-colors-solarized'
 Plug 'liuchengxu/space-vim-theme'
 Plug 'morhetz/gruvbox'
 
@@ -130,7 +130,7 @@ Plug 'honza/vim-snippets'
 " tabline and statusline group
 if has('nvim')
     Plug 'kyazdani42/nvim-web-devicons'
-    Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+    Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.6.0' }
     Plug 'nvim-lualine/lualine.nvim'
 else
     " airline group
@@ -492,12 +492,18 @@ else
     " colorscheme base16-oned
 
     if has('nvim')
+        set background=light
+        " set background=dark
         let g:tokyonight_style = 'day' " available: night, storm, day
         let g:tokyonight_italic_functions = 1
+        " let g:tokyonight_transparent = 1
+        " let g:tokyonight_transparent_sidebar = 1
+        " let g:tokyonight_dark_sidebar = 1
+        " let g:tokyonight_dark_float = 1
         " Change the "hint" color to the "orange" color, and make the "error" color bright red
         let g:tokyonight_colors = {
                     \ 'hint': 'orange',
-                    \ 'error': '#ff0000'
+                    \ 'error': '#ff0000',
                     \ }
         colorscheme tokyonight
     else
@@ -868,12 +874,12 @@ if s:plugged('bufferline.nvim')
 lua << EOF
 require("bufferline").setup({
     options = {
-        mode = "buffers",
+        mode = "tabs",
         separator_style = "slant",
         numbers = "ordinal",
         close_command = "bdelete! %d",
         right_mouse_command = nil,
-        left_mouse_command = "buffer %d",
+        left_mouse_command = nil,
         middle_mouse_command = nil,
         indicator_icon = "▎",
         buffer_close_icon = "",
@@ -908,10 +914,10 @@ require("bufferline").setup({
 
             return true
         end,
-        show_buffer_icons = false,
-        show_buffer_close_icons = true,
-        show_close_icon = true,
-        show_tab_indicators = true,
+        show_buffer_icons = true,
+        show_buffer_close_icons = false,
+        show_close_icon = false,
+        show_tab_indicators = false,
         persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
         enforce_regular_tabs = false,
         always_show_bufferline = true,
@@ -1459,138 +1465,147 @@ endif
 " diffview settings
 " :DiffviewFileHistory
 if s:plugged('diffview.nvim')
-    nnoremap <leader>dv :DiffviewOpen<CR>
-    lua << EOF
-    local actions = require("diffview.actions")
+"{{{
+lua << EOF
+local actions = require("diffview.actions")
 
-    require'diffview'.setup {
-        diff_binaries = false,    -- Show diffs for binaries
-        enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
-        use_icons = true,         -- Requires nvim-web-devicons
-        icons = {                 -- Only applies when use_icons is true.
-        folder_closed = "",
-        folder_open = "",
+require'diffview'.setup {
+    diff_binaries = false,    -- Show diffs for binaries
+    enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
+    use_icons = true,         -- Requires nvim-web-devicons
+    icons = {                 -- Only applies when use_icons is true.
+    folder_closed = "",
+    folder_open = "",
+    },
+    signs = {
+        fold_closed = "",
+        fold_open = "",
+    },
+    file_panel = {
+        win_config = {
+            position = "left",            -- One of 'left', 'right', 'top', 'bottom'
+            width = 35,                   -- Only applies when position is 'left' or 'right'
+            height = 10,                  -- Only applies when position is 'top' or 'bottom'
         },
-        signs = {
-            fold_closed = "",
-            fold_open = "",
+        listing_style = "tree",       -- One of 'list' or 'tree'
+        tree_options = {              -- Only applies when listing_style is 'tree'
+            flatten_dirs = true,
+            folder_statuses = "always"  -- One of 'never', 'only_folded' or 'always'.
+        }
+    },
+    file_history_panel = {
+        win_config = {
+            position = "bottom",
+            width = 35,
+            height = 16,
         },
-        file_panel = {
-            win_config = {
-                position = "left",            -- One of 'left', 'right', 'top', 'bottom'
-                width = 35,                   -- Only applies when position is 'left' or 'right'
-                height = 10,                  -- Only applies when position is 'top' or 'bottom'
+        log_options = {
+            single_file = {
+                max_count = 256,      -- Limit the number of commits
+                follow = false,       -- Follow renames (only for single file)
+                all = false,          -- Include all refs under 'refs/' including HEAD
+                merges = false,       -- List only merge commits
+                no_merges = false,    -- List no merge commits
+                reverse = false,      -- List commits in reverse order
             },
-            listing_style = "tree",       -- One of 'list' or 'tree'
-            tree_options = {              -- Only applies when listing_style is 'tree'
-                flatten_dirs = true,
-                folder_statuses = "always"  -- One of 'never', 'only_folded' or 'always'.
+            multi_file = {
+                max_count = 256,      -- Limit the number of commits
+                all = false,          -- Include all refs under 'refs/' including HEAD
+                merges = false,       -- List only merge commits
+                no_merges = false,    -- List no merge commits
+                reverse = false,      -- List commits in reverse order
             }
         },
+    },
+    default_args = {    -- Default args prepended to the arg-list for the listed commands
+        DiffviewOpen = {},
+        DiffviewFileHistory = {},
+    },
+    keymaps = {
+        disable_defaults = true, -- Disable the default keymaps
+        view = {
+            -- The `view` bindings are active in the diff buffers, only when the current
+            -- tabpage is a Diffview.
+            ["<tab>"]      = actions.select_next_entry, -- Open the diff for the next file
+            ["<s-tab>"]    = actions.select_prev_entry, -- Open the diff for the previous file
+            ["gf"]         = actions.goto_file_tab,         -- Open the file in a new split in previous tabpage
+            ["<C-w><C-f>"] = actions.goto_file_split,   -- Open the file in a new split
+            ["<C-w>gf"]    = actions.goto_file,     -- Open the file in a new tabpage
+            ["<leader>e"]  = actions.focus_files,       -- Bring focus to the files panel
+            ["<leader>b"]  = actions.toggle_files,      -- Toggle the files panel.
+        },
+        file_panel = {
+            ["j"]             = actions.next_entry,         -- Bring the cursor to the next file entry
+            ["<down>"]        = actions.next_entry,
+            ["k"]             = actions.prev_entry,         -- Bring the cursor to the previous file entry.
+            ["<up>"]          = actions.prev_entry,
+            ["<cr>"]          = actions.select_entry,       -- Open the diff for the selected entry.
+            ["o"]             = actions.select_entry,
+            ["<2-LeftMouse>"] = actions.select_entry,
+            ["-"]             = actions.toggle_stage_entry, -- Stage / unstage the selected entry.
+            ["S"]             = actions.stage_all,          -- Stage all entries.
+            ["U"]             = actions.unstage_all,        -- Unstage all entries.
+            ["X"]             = actions.restore_entry,      -- Restore entry to the state on the left side.
+            ["R"]             = actions.refresh_files,      -- Update stats and entries in the file list.
+            ["I"]             = actions.open_commit_log,    -- Open the commit log panel.
+            ["<c-b>"]         = actions.scroll_view(-0.25), -- Scroll the view up
+            ["<c-f>"]         = actions.scroll_view(0.25),  -- Scroll the view down
+            ["<tab>"]         = actions.select_next_entry,
+            ["<s-tab>"]       = actions.select_prev_entry,
+            ["gf"]            = actions.goto_file_tab,
+            ["<C-w><C-f>"]    = actions.goto_file_split,
+            ["<C-w>gf"]       = actions.goto_file,
+            ["i"]             = actions.listing_style,        -- Toggle between 'list' and 'tree' views
+            ["f"]             = actions.toggle_flatten_dirs,  -- Flatten empty subdirectories in tree listing style.
+            ["<leader>e"]     = actions.focus_files,
+            ["<leader>b"]     = actions.toggle_files,
+        },
         file_history_panel = {
-            win_config = {
-                position = "bottom",
-                width = 35,
-                height = 16,
-            },
-            log_options = {
-                single_file = {
-                    max_count = 256,      -- Limit the number of commits
-                    follow = false,       -- Follow renames (only for single file)
-                    all = false,          -- Include all refs under 'refs/' including HEAD
-                    merges = false,       -- List only merge commits
-                    no_merges = false,    -- List no merge commits
-                    reverse = false,      -- List commits in reverse order
-                },
-                multi_file = {
-                    max_count = 256,      -- Limit the number of commits
-                    all = false,          -- Include all refs under 'refs/' including HEAD
-                    merges = false,       -- List only merge commits
-                    no_merges = false,    -- List no merge commits
-                    reverse = false,      -- List commits in reverse order
-                }
-            },
+            ["g!"]            = actions.options,          -- Open the option panel
+            ["O"]             = actions.open_in_diffview, -- Open the entry under the cursor in a diffview
+            ["y"]             = actions.copy_hash,        -- Copy the commit hash of the entry under the cursor
+            ["I"]             = actions.open_commit_log,
+            ["zR"]            = actions.open_all_folds,
+            ["zM"]            = actions.close_all_folds,
+            ["j"]             = actions.next_entry,
+            ["<down>"]        = actions.next_entry,
+            ["k"]             = actions.prev_entry,
+            ["<up>"]          = actions.prev_entry,
+            ["<cr>"]          = actions.select_entry,
+            ["o"]             = actions.select_entry,
+            ["<2-LeftMouse>"] = actions.select_entry,
+            ["<c-b>"]         = actions.scroll_view(-0.25),
+            ["<c-f>"]         = actions.scroll_view(0.25),
+            ["<tab>"]         = actions.select_next_entry,
+            ["<s-tab>"]       = actions.select_prev_entry,
+            ["gf"]            = actions.goto_file_tab,
+            ["<C-w><C-f>"]    = actions.goto_file_split,
+            ["<C-w>gf"]       = actions.goto_file,
+            ["<leader>e"]     = actions.focus_files,
+            ["<leader>b"]     = actions.toggle_files,
         },
-        default_args = {    -- Default args prepended to the arg-list for the listed commands
-            DiffviewOpen = {},
-            DiffviewFileHistory = {},
+        option_panel = {
+            ["<tab>"] = actions.select_entry,
+            ["q"]     = actions.close,
         },
-        keymaps = {
-            disable_defaults = true, -- Disable the default keymaps
-            view = {
-                -- The `view` bindings are active in the diff buffers, only when the current
-                -- tabpage is a Diffview.
-                ["<tab>"]      = actions.select_next_entry, -- Open the diff for the next file
-                ["<s-tab>"]    = actions.select_prev_entry, -- Open the diff for the previous file
-                ["gf"]         = actions.goto_file_tab,         -- Open the file in a new split in previous tabpage
-                ["<C-w><C-f>"] = actions.goto_file_split,   -- Open the file in a new split
-                ["<C-w>gf"]    = actions.goto_file,     -- Open the file in a new tabpage
-                ["<leader>e"]  = actions.focus_files,       -- Bring focus to the files panel
-                ["<leader>b"]  = actions.toggle_files,      -- Toggle the files panel.
-            },
-            file_panel = {
-                ["j"]             = actions.next_entry,         -- Bring the cursor to the next file entry
-                ["<down>"]        = actions.next_entry,
-                ["k"]             = actions.prev_entry,         -- Bring the cursor to the previous file entry.
-                ["<up>"]          = actions.prev_entry,
-                ["<cr>"]          = actions.select_entry,       -- Open the diff for the selected entry.
-                ["o"]             = actions.select_entry,
-                ["<2-LeftMouse>"] = actions.select_entry,
-                ["-"]             = actions.toggle_stage_entry, -- Stage / unstage the selected entry.
-                ["S"]             = actions.stage_all,          -- Stage all entries.
-                ["U"]             = actions.unstage_all,        -- Unstage all entries.
-                ["X"]             = actions.restore_entry,      -- Restore entry to the state on the left side.
-                ["R"]             = actions.refresh_files,      -- Update stats and entries in the file list.
-                -- ["L"]             = actions.open_commit_log,    -- Open the commit log panel.
-                ["<c-b>"]         = actions.scroll_view(-0.25), -- Scroll the view up
-                ["<c-f>"]         = actions.scroll_view(0.25),  -- Scroll the view down
-                ["<tab>"]         = actions.select_next_entry,
-                ["<s-tab>"]       = actions.select_prev_entry,
-                ["gf"]            = actions.goto_file_tab,
-                ["<C-w><C-f>"]    = actions.goto_file_split,
-                ["<C-w>gf"]       = actions.goto_file,
-                ["i"]             = actions.listing_style,        -- Toggle between 'list' and 'tree' views
-                ["f"]             = actions.toggle_flatten_dirs,  -- Flatten empty subdirectories in tree listing style.
-                ["<leader>e"]     = actions.focus_files,
-                ["<leader>b"]     = actions.toggle_files,
-            },
-            file_history_panel = {
-                ["g!"]            = actions.options,          -- Open the option panel
-                ["<C-A-d>"]       = actions.open_in_diffview, -- Open the entry under the cursor in a diffview
-                ["y"]             = actions.copy_hash,        -- Copy the commit hash of the entry under the cursor
-                -- ["L"]             = actions.open_commit_log,
-                ["zR"]            = actions.open_all_folds,
-                ["zM"]            = actions.close_all_folds,
-                ["j"]             = actions.next_entry,
-                ["<down>"]        = actions.next_entry,
-                ["k"]             = actions.prev_entry,
-                ["<up>"]          = actions.prev_entry,
-                ["<cr>"]          = actions.select_entry,
-                ["o"]             = actions.select_entry,
-                ["<2-LeftMouse>"] = actions.select_entry,
-                ["<c-b>"]         = actions.scroll_view(-0.25),
-                ["<c-f>"]         = actions.scroll_view(0.25),
-                ["<tab>"]         = actions.select_next_entry,
-                ["<s-tab>"]       = actions.select_prev_entry,
-                ["gf"]            = actions.goto_file_tab,
-                ["<C-w><C-f>"]    = actions.goto_file_split,
-                ["<C-w>gf"]       = actions.goto_file,
-                ["<leader>e"]     = actions.focus_files,
-                ["<leader>b"]     = actions.toggle_files,
-            },
-            option_panel = {
-                ["<tab>"] = actions.select_entry,
-                ["q"]     = actions.close,
-            },
+        commit_log_panel = {
+            ["q"]     = actions.close,
         },
-    }
+    },
+}
 
-    function _G.diff_view_commit(commit_hash)
-        require'diffview'.open(commit_hash .. '~1..' .. commit_hash)
-    end
+function _G.diff_view_commit(commit_hash)
+    require'diffview'.open(commit_hash .. '~1..' .. commit_hash)
+end
 EOF
+"}}}
 
-    au! FileType GV call <SID>MapKeyBindingsForGv()
+    nnoremap <leader>dv :DiffviewOpen<CR>
+    nnoremap <leader>df :DiffviewFileHistory %<CR>
+
+    au! FileType GV        call <SID>MapKeyBindingsForGv()
+    au! FileType floggraph nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInFlog()<CR>
+
     function! s:MapKeyBindingsForGv()
         exec 'nnoremap ri <Esc>:call <SID>RebaseInteractivelySinceCommitUnderCursorInGv()<CR>'
         exec 'nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInGv()<CR>'
@@ -1606,7 +1621,6 @@ EOF
         call v:lua.diff_view_commit(expand('<cword>'))
     endfunction
 
-    au! FileType floggraph nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInFlog()<CR>
     function! s:DiffviewCommitUnderCursorInFlog()
         normal! ^f[w
         call v:lua.diff_view_commit(expand('<cword>'))
@@ -2196,15 +2210,11 @@ imap <C-e> <ESC>A
 " Tab, buffer and window mappings
 nmap <C-T><C-T> :tabnew<CR>
 imap <C-T><C-T> <ESC>:tabnew<CR>
-nmap <C-T><C-W> :tabc<CR>
-imap <C-T><C-W> <ESC>:tabc<CR>
 nmap <leader>tc :tabc<CR>
 imap <leader>tc <ESC>:tabc<CR>
 nmap <leader>to :tabo<CR>
 nmap <leader><leader>dut :tab sp<CR>
 
-nmap <C-B><C-W> :bdelete<CR>
-imap <C-B><C-W> <ESC>:bdelete<CR>
 nmap <leader>bc :bdelete<CR>
 imap <leader>bc <ESC>:bdelete<CR>
 nmap <leader>bo :BufferLineCloseLeft<CR>:BufferLineCloseRight<CR>
@@ -2648,8 +2658,8 @@ fun! SearchWord_v(type, ...)"{{{
     let &selection = sel_save
     let @@ = reg_save
 endfun"}}}
-nnoremap <Leader>df :call SearchWord()<CR>
-vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<CR>
+" nnoremap <Leader>df :call SearchWord()<CR>
+" vnoremap <Leader>df :<C-U>call SearchWord_v(visualmode(), 1)<CR>
 
 " remap n/N to nzz/Nzz in a nice way
 function! s:nice_next(cmd)
