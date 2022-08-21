@@ -1,5 +1,10 @@
 " cSpell: disable
 
+function! s:plugged(bundle)
+    let plugs = get(g:, 'plugs', {})
+    return has_key(plugs, a:bundle) ? isdirectory(plugs[a:bundle].dir) : 0
+endfunction
+
 " ------------------------------ Plugins ------------------------------"{{{
 call plug#begin('~/.vim/plugged')
 
@@ -41,7 +46,6 @@ Plug 'mattn/webapi-vim'
 Plug 'mbbill/fencview'
 Plug 'mhinz/vim-startify'
 Plug 'n0v1c3/vira', { 'do': './install.sh', 'on': ['ViraIssues', 'ViraReport', 'ViraLoadProject', 'ViraSetActiveTicket', 'ViraFilterEdit'] }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdcommenter'
 Plug 'rhysd/conflict-marker.vim'
 Plug 'rhysd/git-messenger.vim'
@@ -163,6 +167,27 @@ Plug 'skywind3000/gutentags_plus'
 Plug '~/.vim/plugged/gtags'
 Plug '~/.vim/plugged/confluencewiki'
 
+" LSP group
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+if has('nvim') && !s:plugged('coc.nvim')
+    " Experimental replacements of coc.nvim
+    Plug 'williamboman/mason.nvim'
+    Plug 'williamboman/mason-lspconfig.nvim'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
+    Plug 'onsails/lspkind.nvim'
+    Plug 'sbdchd/neoformat'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-copilot'
+    Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'lewis6991/gitsigns.nvim'
+    Plug 'airblade/vim-rooter'
+    " Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
+    " Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' " Experience needs to be improved.
+endif
+
 " neovim plugins
 if has('nvim')
 
@@ -205,12 +230,6 @@ if has('nvim')
     " nvim-tree group
     Plug 'kyazdani42/nvim-web-devicons' " optional, for file icons
     Plug 'kyazdani42/nvim-tree.lua'
-
-    " Experimental replacements of coc.nvim
-    Plug 'sbdchd/neoformat'
-    " Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
-    " Experience needs to be improved.
-    " Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
     " Plug 'caenrique/nvim-toggle-terminal'
     " Plug 'tveskag/nvim-blame-line' " Has performance problem
@@ -272,11 +291,6 @@ call plug#end()
 "}}}
 
 " ------------------------------ Miscellaneous ------------------------------"{{{
-function! s:plugged(bundle)
-    let plugs = get(g:, 'plugs', {})
-    return has_key(plugs, a:bundle) ? isdirectory(plugs[a:bundle].dir) : 0
-endfunction
-
 " Check the current platform
 function! IsPlatform(mixed)"{{{
     if type(a:mixed) == 1
@@ -920,7 +934,7 @@ require("bufferline").setup({
         show_tab_indicators = false,
         persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
         enforce_regular_tabs = false,
-        always_show_bufferline = true,
+        always_show_bufferline = false,
         sort_by = "id",
     },
 })
@@ -1008,6 +1022,238 @@ if s:plugged('vim-airline')
     endfun"}}}
     " Options: ['cwd', 'mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert']
     let g:airline_section_a = airline#section#create_left(['cwd', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert'])
+endif
+
+" mason.nvim settings
+if s:plugged('mason.nvim')
+lua << EOF
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = { 'sumneko_lua', 'intelephense', 'bashls', 'grammarly', 'jsonls', 'vimls', 'yamlls' }
+})
+EOF
+endif
+
+" lspconfig settings
+if s:plugged('nvim-lspconfig')
+lua << EOF
+local lsp_defaults = {
+    flags = {
+        debounce_text_changes = 150,
+    },
+    capabilities = require('cmp_nvim_lsp').update_capabilities(
+        vim.lsp.protocol.make_client_capabilities()
+    ),
+    on_attach = function(client, bufnr)
+        vim.api.nvim_exec_autocmds('User', {pattern = 'LspAttached'})
+    end
+}
+
+local lspconfig = require('lspconfig')
+
+lspconfig.util.default_config = vim.tbl_deep_extend(
+    'force',
+    lspconfig.util.default_config,
+    lsp_defaults
+)
+
+lspconfig['intelephense'].setup{
+    cmd = { "intelephense", "--stdio" },
+    filetypes = { "php" },
+    settings = {
+        intelephense = {
+            files = {
+                maxSize = 3000000;
+            },
+            environment = {
+                phpVersion = "8.1.0",
+            }
+        }
+    }
+}
+lspconfig['bashls'].setup{}
+lspconfig['grammarly'].setup{}
+lspconfig['jsonls'].setup{}
+lspconfig['vimls'].setup{}
+lspconfig['yamlls'].setup{}
+lspconfig['sumneko_lua'].setup {
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'},
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = {
+                    vim.api.nvim_get_runtime_file("", true),
+                    string.format('%s/.hammerspoon/Spoons/EmmyLua.spoon/annotations', os.getenv('HOME')),
+                },
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+}
+-- lspconfig['phpactor'].setup{
+--     on_attach = on_attach,
+--     init_options = {
+--         ["language_server_phpstan.enabled"] = true,
+--     }
+-- }
+
+EOF
+endif
+
+" lspkind settings
+if s:plugged('lspkind.nvim')
+lua << EOF
+require('lspkind').init({
+    -- DEPRECATED (use mode instead): enables text annotations
+    --
+    -- default: true
+    -- with_text = true,
+
+    -- defines how annotations are shown
+    -- default: symbol
+    -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+    mode = 'symbol_text',
+
+    -- default symbol map
+    -- can be either 'default' (requires nerd-fonts font) or
+    -- 'codicons' for codicon preset (requires vscode-codicons font)
+    --
+    -- default: 'default'
+    preset = 'codicons',
+
+    -- override preset symbols
+    --
+    -- default: {}
+    symbol_map = {
+      Text = "",
+      Method = "",
+      Function = "",
+      Constructor = "",
+      Field = "ﰠ",
+      Variable = "",
+      Class = "ﴯ",
+      Interface = "",
+      Module = "",
+      Property = "ﰠ",
+      Unit = "塞",
+      Value = "",
+      Enum = "",
+      Keyword = "",
+      Snippet = "",
+      Color = "",
+      File = "",
+      Reference = "",
+      Folder = "",
+      EnumMember = "",
+      Constant = "",
+      Struct = "פּ",
+      Event = "",
+      Operator = "",
+      TypeParameter = ""
+    },
+})
+EOF
+endif
+
+" nvim-cmp settings
+if s:plugged('nvim-cmp')
+lua << EOF
+local cmp = require('cmp')
+local ultisnips_mappings = require('cmp_nvim_ultisnips.mappings')
+local lspkind = require('lspkind')
+
+cmp.setup({
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'ultisnips' },
+        { name = 'buffer' },
+        { name = 'copilot' },
+    },
+    formatting = {
+        format = lspkind.cmp_format({with_text = false, maxwidth = 50}),
+    },
+    experimental = {
+        ghost_text = true
+    },
+    mapping = {
+        ['<Tab>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                else
+                    ultisnips_mappings.expand_or_jump_forwards(fallback)
+                end
+            end,
+            {'i', 's'}
+        ),
+        ['<S-Tab>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                else
+                    ultisnips_mappings.jump_backwards(fallback)
+                end
+            end,
+            {'i', 's'}
+        ),
+        ['<CR>'] = function(fallback)
+            if cmp.visible() then
+                cmp.confirm()
+            else
+                fallback() -- If you use vim-endwise, this fallback will behave the same as vim-endwise.
+            end
+        end,
+    }
+})
+EOF
+endif
+
+" lspsaga settings.
+if s:plugged('lspsaga.nvim')
+lua << EOF
+local opts = { noremap = true, silent = true }
+vim.keymap.set('n', '<A-K>',      '<Cmd>Lspsaga      hover_doc<CR>',            opts)
+vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga      code_action<CR>",          opts)
+vim.keymap.set("v", "<leader>ca", "<cmd><C-U>Lspsaga range_code_action<CR>",    opts)
+vim.keymap.set("n", "<leader>sh", "<Cmd>Lspsaga      signature_help<CR>",       opts)
+vim.keymap.set("n", "<leader>pd", "<cmd>Lspsaga      preview_definition<CR>",   opts)
+vim.keymap.set("n", "]E",         "<cmd>Lspsaga      diagnostic_jump_next<CR>", opts)
+vim.keymap.set("n", "[E",         "<cmd>Lspsaga      diagnostic_jump_prev<CR>", opts)
+vim.keymap.set('n', '<Space>gr',  '<Cmd>Lspsaga      lsp_finder<CR>',           opts)
+-- vim.keymap.set('n', 'gr', '<Cmd>Lspsaga rename<CR>', opts)
+
+require('lspsaga').init_lsp_saga({
+    --the range of 0 for fully opaque window (disabled) to 100 for fully
+    --transparent background. Values between 0-30 are typically most useful.
+    saga_winblend = 0,
+    show_diagnostic_source = true,
+})
+EOF
+endif
+
+" gitsigns.nvim settings
+if s:plugged('gitsigns.nvim')
+lua << EOF
+require('gitsigns').setup()
+EOF
+endif
+
+" spellsitter.nvim settings
+if s:plugged('spellsitter.nvim')
+lua << EOF
+require('spellsitter').setup()
+EOF
 endif
 
 " vim-choosewin
@@ -2980,7 +3226,7 @@ if s:plugged('coc.nvim')
     " provide custom statusline: lightline.vim, vim-airline.
     set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-    nnoremap <leader>cocc :CocConfig<CR>
+    nnoremap <leader>cocc :tabnew<CR>:CocConfig<CR>
 
     inoremap <silent><expr> <C-n>  coc#pum#visible() ? coc#pum#next(1)       : "\<C-n>"
     inoremap <silent><expr> <C-p>  coc#pum#visible() ? coc#pum#prev(1)       : "\<C-p>"
