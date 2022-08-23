@@ -41,10 +41,7 @@
 .vimspector.json
 .wget-hsts
 .yarnrc
-.zprofile
 .zshenv
-.zshrc
-.zshrc_aliases
 Library/
 ***REMOVED***/
 svn/README.txt

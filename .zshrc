@@ -120,3 +120,4 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-autosuggestions
 zinit light Tarrasch/zsh-autoenv
 zinit light wookayin/fzf-fasd
+zinit light Aloxaf/fzf-tab
