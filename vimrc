@@ -146,6 +146,23 @@ else
     Plug 'vim-airline/vim-airline-themes'
 endif
 
+" wilder
+if has('nvim')
+    function! UpdateRemotePlugins(...)
+        " Needed to refresh runtime files
+        let &rtp=&rtp
+        UpdateRemotePlugins
+    endfunction
+
+    Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+else
+    Plug 'gelguy/wilder.nvim'
+
+    " To use Python remote plugin features in Vim, can be skipped
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
 " textobj-user group
 let g:textobj_lastpat_no_default_key_mappings=1
 Plug 'kana/vim-textobj-user'
@@ -431,7 +448,7 @@ else
 endif
 set wildignore=*.class,*.pyc
 set fillchars+=diff:\
-set cedit=\<C-E>
+set cedit=\<C-Y>
 
 if has('nvim')
     let g:backupdir=expand(stdpath('data') . '/backup')
@@ -2285,6 +2302,10 @@ if s:plugged('wilder.nvim')
                 \ 'reject_key': '<Up>',
                 \ 'enable_cmdline_enter': 0,
                 \ })
+    " 'highlighter' : applies highlighting to the candidates
+    call wilder#set_option('renderer', wilder#popupmenu_renderer({
+                \ 'highlighter': wilder#basic_highlighter(),
+                \ }))
 endif
 
 " neoformat settings
