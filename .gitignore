@@ -35,7 +35,6 @@
 .proxychains/
 .ssh/
 .subversion/
-.tmux.conf
 .vim/
 .vimperator/
 .vimrc_private
