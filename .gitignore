@@ -23,7 +23,6 @@
 .hgignore_global
 .httpie/
 .ideavimrc
-.iredisrc
 .keepassx/
 .npmrc
 .oh-my-zsh/
