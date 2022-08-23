@@ -3,7 +3,15 @@
 .aws/
 .bashrc
 .composer/
-.config/
+.config/clash/
+.config/exercism/
+.config/git/
+.config/htop/
+.config/karabiner/
+.config/sqls/
+.config/tmuxinator/
+.config/vira/
+.config/wireshark/
 .curlrc
 .docker/
 .fasd
