@@ -85,7 +85,6 @@ Plug 'Blackrush/vim-gocode',         { 'for': 'go'        }
 " colorschemes
 Plug 'arcticicestudio/nord-vim'
 Plug 'base16-project/base16-vim'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'joshdick/onedark.vim'
 Plug 'ldelossa/vimdark'
@@ -93,6 +92,11 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'altercation/vim-colors-solarized'
 Plug 'liuchengxu/space-vim-theme'
 Plug 'morhetz/gruvbox'
+if has('nvim')
+    Plug 'Mofiqul/dracula.nvim'
+else
+    Plug 'dracula/vim', { 'as': 'dracula' }
+endif
 
 " LeaderF group
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
@@ -184,6 +188,7 @@ if has('nvim') && !s:plugged('coc.nvim')
     Plug 'hrsh7th/nvim-cmp'
     Plug 'lewis6991/gitsigns.nvim'
     Plug 'airblade/vim-rooter'
+    Plug 'lewis6991/spellsitter.nvim'
     " Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
     " Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' " Experience needs to be improved.
 endif
@@ -1720,8 +1725,8 @@ require'diffview'.setup {
     enhanced_diff_hl = false, -- See ':h diffview-config-enhanced_diff_hl'
     use_icons = true,         -- Requires nvim-web-devicons
     icons = {                 -- Only applies when use_icons is true.
-    folder_closed = "",
-    folder_open = "",
+        folder_closed = "",
+        folder_open = "",
     },
     signs = {
         fold_closed = "",
@@ -1834,9 +1839,6 @@ require'diffview'.setup {
             ["<tab>"] = actions.select_entry,
             ["q"]     = actions.close,
         },
-        commit_log_panel = {
-            ["q"]     = actions.close,
-        },
     },
 }
 
@@ -1851,6 +1853,7 @@ EOF
 
     au! FileType GV        call <SID>MapKeyBindingsForGv()
     au! FileType floggraph nnoremap vv <Esc>:call <SID>DiffviewCommitUnderCursorInFlog()<CR>
+    au BufWinEnter diffview://*/log/*/commit_log nnoremap <buffer> q <Cmd>q<CR>
 
     function! s:MapKeyBindingsForGv()
         exec 'nnoremap ri <Esc>:call <SID>RebaseInteractivelySinceCommitUnderCursorInGv()<CR>'
@@ -2293,6 +2296,63 @@ if s:plugged('neoformat')
             \ }
 
     let g:neoformat_enabled_php = ['phpcsfixer']
+endif
+
+" firenvim settings
+if s:plugged('firenvim')
+    let g:firenvim_config = { 
+        \ 'globalSettings': {
+            \ 'alt': 'all',
+        \  },
+        \ 'localSettings': {
+            \ '.*': {
+                \ 'cmdline': 'neovim',
+                \ 'content': 'text',
+                \ 'priority': 0,
+                \ 'selector': 'textarea',
+                \ 'takeover': 'never',
+            \ },
+        \ }
+    \ }
+endif
+
+" dracula.nvim settings
+if s:plugged('dracula.nvim')
+        " show the '~' characters after the end of buffers
+        let g:dracula_show_end_of_buffer = 1
+        " use transparent background
+        let g:dracula_transparent_bg = v:true
+        " set custom lualine background color
+        let g:dracula_lualine_bg_color = "#44475a"
+        " set italic comment
+        let g:dracula_italic_comment = 1
+" customize dracula color palette
+lua << EOF
+vim.g.dracula_colors = {
+    bg = "#282A36",
+    fg = "#F8F8F2",
+    selection = "#44475A",
+    comment = "#6272A4",
+    red = "#FF5555",
+    orange = "#FFB86C",
+    yellow = "#F1FA8C",
+    green = "#50fa7b",
+    purple = "#BD93F9",
+    cyan = "#8BE9FD",
+    pink = "#FF79C6",
+    bright_red = "#FF6E6E",
+    bright_green = "#69FF94",
+    bright_yellow = "#FFFFA5",
+    bright_blue = "#D6ACFF",
+    bright_magenta = "#FF92DF",
+    bright_cyan = "#A4FFFF",
+    bright_white = "#FFFFFF",
+    menu = "#21222C",
+    visual = "#3E4452",
+    gutter_fg = "#4B5263",
+    nontext = "#3B4048",
+}
+EOF
 endif
 
 "}}}
@@ -3210,6 +3270,7 @@ if s:plugged('coc.nvim')
         \'coc-grammarly',
         \'coc-json',
         \'coc-lists',
+        \'coc-lua',
         \'coc-markdownlint',
         \'coc-php-cs-fixer',
         \'coc-project',
