@@ -12,6 +12,7 @@ ZSH=$HOME/.oh-my-zsh
 unsetopt share_history
 zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
 fpath=(~/.zsh $fpath)
+[ ! -f ~/.zsh/_hugo ] && hugo version > /dev/null 2>&1 && hugo completion zsh > ~/.zsh/_hugo
 autoload -Uz compinit && compinit
 
 # Set name of the theme to load.
