@@ -40,8 +40,10 @@ alias fg5='fg %5'
     # export LSCOLORS=dxfxcxdxbxegedabagacad
 # fi
 
-alias ll='ls -alFh --color=never'
-alias l='ls -CF --color=never'
+# alias ll='ls -alFh --color=never'
+# alias l='ls -CF --color=never'
+alias ll='ls -alFh'
+alias l='ls -CF'
 alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'

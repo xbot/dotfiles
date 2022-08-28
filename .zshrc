@@ -84,10 +84,15 @@ bindkey "^X^E" edit-command-line
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
 [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
-# if [[ $TERM_PROGRAM == 'vscode' ]]; then
-    local theme_file="$HOME/Projects/3rd-party/base16-fzf/bash/base16-tokyonight-light.config"
-    [[ -f $theme_file ]] && source $theme_file
-# fi
+
+# # base16 themes
+# # local theme_name="tokyonight-light"
+# local theme_name="horizon-dark"
+# local theme_file="$HOME/Projects/3rd-party/base16-fzf/bash/base16-$theme_name.config"
+# [[ -f $theme_file ]] && source $theme_file
+
+# # Dracula theme
+# export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
