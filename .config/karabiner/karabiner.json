@@ -1,8 +1,8 @@
 {
   "global" : {
     "show_profile_name_in_menu_bar" : false,
-    "check_for_updates_on_startup" : true,
-    "show_in_menu_bar" : true
+    "show_in_menu_bar" : true,
+    "check_for_updates_on_startup" : true
   },
   "profiles" : [
     {
@@ -154,8 +154,8 @@
         }
       ],
       "virtual_hid_keyboard" : {
-        "country_code" : 0,
         "keyboard_type" : "ansi",
+        "country_code" : 0,
         "indicate_sticky_modifier_keys_state" : true,
         "caps_lock_delay_milliseconds" : 0,
         "mouse_key_xy_scale" : 100
@@ -213,23 +213,22 @@
         "parameters" : {
           "basic.to_delayed_action_delay_milliseconds" : 500,
           "basic.to_if_alone_timeout_milliseconds" : 1000,
-          "mouse_motion_to_scroll.speed" : 100,
+          "basic.simultaneous_threshold_milliseconds" : 50,
           "basic.to_if_held_down_threshold_milliseconds" : 500,
-          "basic.simultaneous_threshold_milliseconds" : 50
+          "mouse_motion_to_scroll.speed" : 100
         }
       },
-      "name" : "Default profile",
       "devices" : [
         {
           "identifiers" : {
             "product_id" : 1553,
-            "vendor_id" : 3897,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 3897
           },
-          "manipulate_caps_lock_led" : false,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : false,
           "simple_modifications" : [
             {
               "to" : [
@@ -408,13 +407,13 @@
         {
           "identifiers" : {
             "product_id" : 657,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -425,13 +424,13 @@
         {
           "identifiers" : {
             "product_id" : 544,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
             {
               "to" : [
@@ -570,13 +569,13 @@
         {
           "identifiers" : {
             "product_id" : 631,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -587,13 +586,13 @@
         {
           "identifiers" : {
             "product_id" : 100,
-            "vendor_id" : 7847,
+            "is_pointing_device" : true,
             "is_keyboard" : false,
-            "is_pointing_device" : true
+            "vendor_id" : 7847
           },
-          "manipulate_caps_lock_led" : false,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : true,
+          "manipulate_caps_lock_led" : false,
           "simple_modifications" : [
 
           ],
@@ -604,13 +603,13 @@
         {
           "identifiers" : {
             "product_id" : 6168,
-            "vendor_id" : 1241,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1241
           },
-          "manipulate_caps_lock_led" : false,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : false,
           "simple_modifications" : [
             {
               "to" : [
@@ -789,13 +788,13 @@
         {
           "identifiers" : {
             "product_id" : 32773,
-            "vendor_id" : 3141,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 3141
           },
-          "manipulate_caps_lock_led" : false,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : false,
           "simple_modifications" : [
             {
               "to" : [
@@ -815,13 +814,13 @@
         {
           "identifiers" : {
             "product_id" : 34050,
-            "vendor_id" : 2652,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 2652
           },
-          "manipulate_caps_lock_led" : false,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : false,
           "simple_modifications" : [
             {
               "to" : [
@@ -1000,13 +999,13 @@
         {
           "identifiers" : {
             "product_id" : 50475,
-            "vendor_id" : 1133,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1133
           },
-          "manipulate_caps_lock_led" : false,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : false,
           "simple_modifications" : [
 
           ],
@@ -1017,13 +1016,13 @@
         {
           "identifiers" : {
             "product_id" : 615,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -1153,13 +1152,13 @@
         {
           "identifiers" : {
             "product_id" : 615,
-            "vendor_id" : 76,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 76
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -1289,13 +1288,13 @@
         {
           "identifiers" : {
             "product_id" : 34304,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -1306,13 +1305,13 @@
         {
           "identifiers" : {
             "product_id" : 591,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -1442,13 +1441,13 @@
         {
           "identifiers" : {
             "product_id" : 641,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -1575,7 +1574,8 @@
             }
           ]
         }
-      ]
+      ],
+      "name" : "Default profile"
     },
     {
       "parameters" : {
@@ -1726,8 +1726,8 @@
         }
       ],
       "virtual_hid_keyboard" : {
-        "country_code" : 0,
         "mouse_key_xy_scale" : 100,
+        "country_code" : 0,
         "indicate_sticky_modifier_keys_state" : true
       },
       "selected" : true,
@@ -1783,23 +1783,22 @@
         "parameters" : {
           "basic.to_delayed_action_delay_milliseconds" : 500,
           "basic.to_if_alone_timeout_milliseconds" : 1000,
-          "mouse_motion_to_scroll.speed" : 100,
+          "basic.simultaneous_threshold_milliseconds" : 50,
           "basic.to_if_held_down_threshold_milliseconds" : 500,
-          "basic.simultaneous_threshold_milliseconds" : 50
+          "mouse_motion_to_scroll.speed" : 100
         }
       },
-      "name" : "Magic Keyboard",
       "devices" : [
         {
           "identifiers" : {
             "product_id" : 34050,
-            "vendor_id" : 2652,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 2652
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
             {
               "to" : [
@@ -1859,13 +1858,13 @@
         {
           "identifiers" : {
             "product_id" : 615,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -1995,13 +1994,13 @@
         {
           "identifiers" : {
             "product_id" : 615,
-            "vendor_id" : 76,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 76
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -2012,13 +2011,13 @@
         {
           "identifiers" : {
             "product_id" : 6168,
-            "vendor_id" : 1241,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1241
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
             {
               "to" : [
@@ -2078,13 +2077,13 @@
         {
           "identifiers" : {
             "product_id" : 591,
-            "vendor_id" : 1452,
+            "is_pointing_device" : false,
             "is_keyboard" : true,
-            "is_pointing_device" : false
+            "vendor_id" : 1452
           },
-          "manipulate_caps_lock_led" : true,
           "disable_built_in_keyboard_if_exists" : false,
           "ignore" : false,
+          "manipulate_caps_lock_led" : true,
           "simple_modifications" : [
 
           ],
@@ -2092,7 +2091,8 @@
 
           ]
         }
-      ]
+      ],
+      "name" : "Magic Keyboard"
     }
   ]
 }

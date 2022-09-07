@@ -46,7 +46,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 if [[ $(uname) == 'Darwin' ]]; then
-    plugins=(git python pip vi-mode urltools brew vagrant laravel fancy-ctrl-z zsh-docker-aliases)
+    plugins=(git python pip vi-mode urltools brew vagrant laravel fancy-ctrl-z zsh-docker-aliases gpg-agent)
 else
     plugins=(git python pip vi-mode systemd urltools archlinux svn zsh-docker-aliases)
 fi
