@@ -326,3 +326,13 @@ else
     hash -d www="/srv/http/"
 fi
 
+if [[ `hostname` == 'Tower' ]]; then
+    alias pkgi='installpkg'
+    alias pkgr='removepkg'
+    alias ugs='un-get search'
+    alias ugi='un-get install'
+    alias ugr='un-get remove'
+    alias ugu='un-get update'
+    alias ugug='un-get upgrade'
+    alias ugc='un-get cleanup'
+fi
