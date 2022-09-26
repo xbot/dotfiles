@@ -93,9 +93,32 @@ alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
 alias gll="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges"
 alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --author"
 alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --grep"
-alias diffpick='diffhead $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
-alias stanpick='cstan $(gst|ggrep -oP "(?<=^\smodified:\s).+(?=$)"|fzf)'
 alias mr='glab mr view -w'
+alias dp='diffpick'
+alias sp='stanpick'
+
+diffpick() { # Pick a file to diff.{{{
+    keyword=''
+    if [[ $# > 0 ]]; then
+        keyword=$1
+    fi
+
+    target=$(git status | ggrep -oP "(?<=^\smodified:\s).+(?=$)" | fzf -0 -1 -q "$keyword")
+    if [[ $target != '' ]]; then
+        git difftool --gui HEAD ${target##*( )}
+    fi
+}# }}}
+stanpick() { # Pick a file with which to run phpstan against.{{{
+    keyword=''
+    if [[ $# > 0 ]]; then
+        keyword=$1
+    fi
+
+    target=$(git status | ggrep -oP "(?<=^\smodified:\s).+(?=$)" | fzf -0 -1 -q "$keyword")
+    if [[ $target != '' ]]; then
+        ./vendor/bin/phpstan analyse --memory-limit 2G --ansi ${target##*( )}
+    fi
+}# }}}
 
 # Distribution specific aliases
 alias english='export LC_ALL=en_US.UTF-8'
@@ -150,7 +173,7 @@ if [[ $(uname) == 'Darwin' ]]; then
     alias flushdns='sudo killall -HUP mDNSResponder'
 fi
 
-alias cstan="vendor/bin/phpstan analyse --memory-limit 2G --ansi"
+alias cstan="./vendor/bin/phpstan analyse --memory-limit 2G --ansi"
 alias pu="./vendor/bin/phpunit"
 alias puf="./vendor/bin/phpunit --filter"
 alias pud="./vendor/bin/phpunit -d rebase"
