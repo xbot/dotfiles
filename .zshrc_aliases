@@ -107,7 +107,8 @@ diffpick() { # Pick a file to diff.{{{
     if [[ $target != '' ]]; then
         git difftool --gui HEAD ${target##*( )}
     fi
-}# }}}
+}
+# }}}
 stanpick() { # Pick a file with which to run phpstan against.{{{
     keyword=''
     if [[ $# > 0 ]]; then
@@ -118,7 +119,8 @@ stanpick() { # Pick a file with which to run phpstan against.{{{
     if [[ $target != '' ]]; then
         ./vendor/bin/phpstan analyse --memory-limit 2G --ansi ${target##*( )}
     fi
-}# }}}
+}
+# }}}
 
 # Distribution specific aliases
 alias english='export LC_ALL=en_US.UTF-8'
