@@ -43,3 +43,4 @@ Library/
 svn/README.txt
 svn/auth
 svn/servers
+.kube
