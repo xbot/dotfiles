@@ -104,7 +104,7 @@ bindkey "^X^E" edit-command-line
 eval "$(fasd --init auto)"
 
 # init lua environment variables
-which luarocks > /dev/null 2>&1 && $(luarocks path)
+which luarocks > /dev/null 2>&1 && eval $(luarocks path)
 
 ### Added by Zinit's installer
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
