@@ -124,7 +124,8 @@ zinit light-mode for \
 ### End of Zinit's installer chunk
 
 zinit ice if'[[ $(uname) == "Darwin" ]]'; zinit load sticklerm3/alehouse
-zplugin snippet OMZ::plugins/composer/composer.plugin.zsh
+zplugin snippet OMZP::composer
+zplugin snippet $ZSH/custom/plugins/composer/composer.plugin.zsh
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-autosuggestions
 zinit light Tarrasch/zsh-autoenv

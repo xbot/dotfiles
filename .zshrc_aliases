@@ -19,29 +19,29 @@ else
     alias sgv='sudo gvim'
 fi
 
+# Common aliases
 alias ae='autoenv-edit'
 alias ea='v ~/.zshrc_aliases'
 alias config="v ~/.zshrc && refresh"
 alias ohmyzsh="v ~/.oh-my-zsh"
 alias refresh=". ~/.zshrc"
-
+alias english='export LC_ALL=en_US.UTF-8'
+alias fuckgfw='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
+alias fuckme='unset http_proxy https_proxy'
+alias lsp='nocorrect ps aux|grep -v grep|grep'
+alias a='apack'
+alias x='aunpack'
+alias lsgbkzip='lsar -e gb18030'
+alias ungbkzip='unar -e gb18030'
+alias lns='ln -s'
+alias lssrv='netstat -tulnp'
+alias lsconn='netstat -atunp'
+alias follow='tail -f -n 100'
 alias fg1='fg %1'
 alias fg2='fg %2'
 alias fg3='fg %3'
 alias fg4='fg %4'
 alias fg5='fg %5'
-
-# # System commands aliases
-# if [[ $(uname) == "Linux" ]]; then
-    # alias ls='ls --color=auto'
-    # export LS_COLORS='di=33:fi=0:ln=95:pi=5:so=5:bd=5:cd=5:or=37:mi=0:ex=31:*.rpm=90'
-# else
-    # alias ls='ls -G'
-    # export LSCOLORS=dxfxcxdxbxegedabagacad
-# fi
-
-# alias ll='ls -alFh --color=never'
-# alias l='ls -CF --color=never'
 alias ll='ls -alFh'
 alias l='ls -CF'
 alias r='rm -f'
@@ -56,12 +56,21 @@ alias 700='chmod 700'
 alias 600='chmod 600'
 alias 644='chmod 644'
 alias duhr='du -hs * | sort -hr'
+alias duhs='du -hs'
 alias envs="$EDITOR ~/.profile && source ~/.profile"
 alias bak='rsync -avzhr --delete -P'
-
 alias ala='alias | fzf'
-
 alias gettrackers='curl https://trackerslist.com/best.txt | pbcopy'
+# # System commands aliases
+# if [[ $(uname) == "Linux" ]]; then
+    # alias ls='ls --color=auto'
+    # export LS_COLORS='di=33:fi=0:ln=95:pi=5:so=5:bd=5:cd=5:or=37:mi=0:ex=31:*.rpm=90'
+# else
+    # alias ls='ls -G'
+    # export LSCOLORS=dxfxcxdxbxegedabagacad
+# fi
+# alias ll='ls -alFh --color=never'
+# alias l='ls -CF --color=never'
 
 # Platform specific aliases
 if [[ $(uname) == "Linux" ]]; then
@@ -79,10 +88,21 @@ if [[ $(uname) == "Linux" ]]; then
     alias vsys='virsh -c qemu:///system'
     alias vv='virt-viewer -c qemu:///system'
     alias ggrep='grep'
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+    alias toclip='xclip -sel clip <'
+    alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
+    alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
+    alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
+    alias killer='nocorrect killer.sh'
+    alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
 elif [[ $(uname) == "Darwin" ]]; then
     alias updatedb='sudo /usr/libexec/locate.updatedb'
     alias mangit='v -o ~/.oh-my-zsh/plugins/git/git.plugin.zsh ~/.oh-my-zsh/custom/plugins/git/git.plugin.zsh'
     alias speeduptm='sudo sysctl debug.lowpri_throttle_enabled=0'
+    alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+    alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+    alias o.='open .'
 fi
 
 # Git aliases
@@ -121,33 +141,6 @@ stanpick() { # Pick a file with which to run phpstan against.{{{
     fi
 }
 # }}}
-
-# Distribution specific aliases
-alias english='export LC_ALL=en_US.UTF-8'
-alias fuckgfw='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
-alias fuckme='unset http_proxy https_proxy'
-alias lsp='nocorrect ps aux|grep -v grep|grep'
-alias a='apack'
-alias x='aunpack'
-alias lsgbkzip='lsar -e gb18030'
-alias ungbkzip='unar -e gb18030'
-alias lns='ln -s'
-alias lssrv='netstat -tulnp'
-alias lsconn='netstat -atunp'
-alias follow='tail -f -n 100'
-if [[ `uname` != 'Darwin' ]]; then
-    alias pbcopy='xsel --clipboard --input'
-    alias pbpaste='xsel --clipboard --output'
-    alias toclip='xclip -sel clip <'
-    alias synctime='sudo ntpdate -u ntp.ubuntu.com && sudo hwclock -w'
-    alias convid='java -jar /opt/id3iconv-0.2.1.jar -e GBK *.mp3'
-    alias split_ape='cue2tracks -c flac -f gb18030 -o "/home/lenin/music/%P-%A/%N-%t"'
-    alias killer='nocorrect killer.sh'
-    alias unlockpacman='sudo rm -r /var/lib/pacman/db.lck'
-else
-    alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
-    alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
-fi
 
 ## 需要调试
 # if [[ `uname` == 'Darwin' ]]; then
