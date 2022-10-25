@@ -24,6 +24,8 @@
 .httpie/
 .ideavimrc
 .keepassx/
+.kube
+.logseq/
 .npmrc
 .oh-my-zsh/
 .p10k.zsh
@@ -43,4 +45,3 @@ Library/
 svn/README.txt
 svn/auth
 svn/servers
-.kube
