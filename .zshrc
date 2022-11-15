@@ -20,6 +20,14 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
+if [[ $(uname) == 'Darwin' ]]; then
+    zinit load sticklerm3/alehouse
+    zplugin snippet OMZP::brew
+elif [[ $(hostname) == 'archer' ]]; then
+    zplugin snippet OMZP::systemd
+    zplugin snippet OMZP::archlinux
+fi
+
 zi snippet $ZSH/custom/plugins/brew/brew.plugin.zsh
 zi snippet $ZSH/custom/plugins/composer/composer.plugin.zsh
 zi snippet $ZSH/custom/plugins/git/git.plugin.zsh
@@ -36,12 +44,14 @@ zi snippet OMZP::vi-mode
 
 zi ice depth=1; zinit light romkatv/powerlevel10k
 zi light Tarrasch/zsh-autoenv
-zi light agkozak/zsh-z
 zi light akarzim/zsh-docker-aliases
 # zi light marlonrichert/zsh-autocomplete
 zi light wookayin/fzf-fasd
 zi light zsh-users/zsh-autosuggestions
 zi light zsh-users/zsh-syntax-highlighting
+
+zi light agkozak/zsh-z
+ZSHZ_CASE=smart
 
 zi light Aloxaf/fzf-tab
 # set descriptions format to enable group support
@@ -56,14 +66,6 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ":fzf-tab:*" fzf-flags \
 --color "fg:#3760bf,bg:#e1e2e7,hl:#b15c00,fg+:#3760bf,bg+:#e1e2e7,hl+:#b15c00" \
 --color "info:#2e7de9,prompt:#2e7de9,pointer:#c64343,marker:#587539,spinner:#587539,header:#587539"
-
-if [[ $(uname) == 'Darwin' ]]; then
-    zinit load sticklerm3/alehouse
-    zplugin snippet OMZP::brew
-elif [[ $(hostname) == 'archer' ]]; then
-    zplugin snippet OMZP::systemd
-    zplugin snippet OMZP::archlinux
-fi
 
 # }}}
 
