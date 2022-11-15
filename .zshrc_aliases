@@ -123,7 +123,7 @@ diffpick() { # Pick a file to diff.{{{
         keyword=$1
     fi
 
-    target=$(git status | ggrep -oP "(?<=^\smodified:\s).+(?=$)" | fzf -0 -1 -q "$keyword")
+    target=$(git ls-files -m --exclude-standard | fzf -0 -1 -q "$keyword")
     if [[ $target != '' ]]; then
         git difftool --gui HEAD ${target##*( )}
     fi
@@ -135,10 +135,19 @@ stanpick() { # Pick a file with which to run phpstan against.{{{
         keyword=$1
     fi
 
-    target=$(git status | ggrep -oP "(?<=^\smodified:\s).+(?=$)" | fzf -0 -1 -q "$keyword")
+    target=$(git ls-files -m --exclude-standard | fzf -0 -1 -q "$keyword")
     if [[ $target != '' ]]; then
         ./vendor/bin/phpstan analyse --memory-limit 2G --ansi ${target##*( )}
     fi
+}
+# }}}
+addpick() { # Pick a file to add.{{{
+    keyword=''
+    if [[ $# > 0 ]]; then
+        keyword=$1
+    fi
+
+    git ls-files -m -o --exclude-standard | fzf -0 -1 -m --print0 -q "$keyword"
 }
 # }}}
 
@@ -214,7 +223,7 @@ elif [[ "$DEVICE" == 'iMac' ]]; then
 fi
 
 # Fuzzy find git branch
-fzf-git-branch() {
+fzf-git-branch() {# {{{
     git rev-parse HEAD > /dev/null 2>&1 || return
 
     git branch --color=always --all --sort=-committerdate |
@@ -222,8 +231,8 @@ fzf-git-branch() {
         fzf --height 50% --ansi --no-multi --preview-window right:65% \
             --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
         sed "s/.* //"
-}
-fzf-git-checkout() {
+}# }}}
+fzf-git-checkout() {# {{{
     git rev-parse HEAD > /dev/null 2>&1 || return
 
     local branch
@@ -242,7 +251,8 @@ fzf-git-checkout() {
     else
         git checkout $branch;
     fi
-}
+}# }}}
+alias fga='git ls-files -m -o --exclude-standard | fzf -m --print0 | xargs -0 -o -t git add'
 alias fgb='fzf-git-branch'
 alias fgco='fzf-git-checkout'
 
