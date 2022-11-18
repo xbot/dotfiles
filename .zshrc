@@ -1,6 +1,8 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+source $ZSH/oh-my-zsh.sh
+
 # ------ zinit section ------{{{
 
 ### Added by Zinit's installer
