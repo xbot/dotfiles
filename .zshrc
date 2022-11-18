@@ -1,5 +1,10 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
+if [[ $(hostname) == 'Tower' ]]; then
+    ZSH_CUSTOM=/mnt/user/dropbox/Dropbox/Mackup/.oh-my-zsh/custom
+else
+    ZSH_CUSTOM=${HOME}/Dropbox/Mackup/.oh-my-zsh/custom
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -30,10 +35,6 @@ elif [[ $(hostname) == 'archer' ]]; then
     zplugin snippet OMZP::archlinux
 fi
 
-zi snippet $ZSH/custom/plugins/brew/brew.plugin.zsh
-zi snippet $ZSH/custom/plugins/composer/composer.plugin.zsh
-zi snippet $ZSH/custom/plugins/git/git.plugin.zsh
-zi snippet $ZSH/custom/plugins/laravel/laravel.plugin.zsh
 zi snippet OMZP::composer
 zi snippet OMZP::fancy-ctrl-z
 zi snippet OMZP::git
@@ -43,6 +44,11 @@ zi snippet OMZP::pip
 zi snippet OMZP::python
 zi snippet OMZP::urltools
 zi snippet OMZP::vi-mode
+
+zi snippet $ZSH_CUSTOM/plugins/brew/brew.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/composer/composer.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/git/git.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/laravel/laravel.plugin.zsh
 
 zi ice depth=1; zinit light romkatv/powerlevel10k
 zi light Tarrasch/zsh-autoenv
