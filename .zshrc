@@ -45,11 +45,6 @@ zi snippet OMZP::python
 zi snippet OMZP::urltools
 zi snippet OMZP::vi-mode
 
-zi snippet $ZSH_CUSTOM/plugins/brew/brew.plugin.zsh
-zi snippet $ZSH_CUSTOM/plugins/composer/composer.plugin.zsh
-zi snippet $ZSH_CUSTOM/plugins/git/git.plugin.zsh
-zi snippet $ZSH_CUSTOM/plugins/laravel/laravel.plugin.zsh
-
 zi ice depth=1; zinit light romkatv/powerlevel10k
 zi light Tarrasch/zsh-autoenv
 zi light akarzim/zsh-docker-aliases
@@ -74,6 +69,12 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ":fzf-tab:*" fzf-flags \
 --color "fg:#3760bf,bg:#e1e2e7,hl:#b15c00,fg+:#3760bf,bg+:#e1e2e7,hl+:#b15c00" \
 --color "info:#2e7de9,prompt:#2e7de9,pointer:#c64343,marker:#587539,spinner:#587539,header:#587539"
+
+zi snippet $ZSH_CUSTOM/plugins/brew/brew.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/composer/composer.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/docker/docker.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/git/git.plugin.zsh
+zi snippet $ZSH_CUSTOM/plugins/laravel/laravel.plugin.zsh
 
 # }}}
 
