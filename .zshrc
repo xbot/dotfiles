@@ -8,6 +8,8 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
+[[ -f ~/.zshrc_aliases ]] && source ~/.zshrc_aliases
+
 # ------ zinit section ------{{{
 
 ### Added by Zinit's installer
@@ -45,10 +47,10 @@ zi snippet OMZP::python
 zi snippet OMZP::urltools
 zi snippet OMZP::vi-mode
 
+# zi light marlonrichert/zsh-autocomplete
 zi ice depth=1; zinit light romkatv/powerlevel10k
 zi light Tarrasch/zsh-autoenv
 zi light akarzim/zsh-docker-aliases
-# zi light marlonrichert/zsh-autocomplete
 zi light wookayin/fzf-fasd
 zi light zsh-users/zsh-autosuggestions
 zi light zsh-users/zsh-syntax-highlighting
@@ -93,8 +95,6 @@ fi
 
 # # An alternative to p10k
 # eval "$(starship init zsh)"
-
-[[ -f ~/.zshrc_aliases ]] && source ~/.zshrc_aliases
 
 # do not share history instantly among terminals
 unsetopt share_history

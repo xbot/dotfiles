@@ -43,6 +43,7 @@ alias fg3='fg %3'
 alias fg4='fg %4'
 alias fg5='fg %5'
 alias ll='ls -alFh'
+alias lt='ls -alFht'
 alias l='ls -CF'
 alias r='rm -f'
 alias rr='rm -rf'
@@ -105,51 +106,9 @@ elif [[ $(uname) == "Darwin" ]]; then
     alias o.='open .'
 fi
 
-# Git aliases
-alias diffhead='git difftool HEAD'
-alias gdiffhead='git difftool --gui HEAD'
-alias smpull='git submodule foreach git pull origin master'
 alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
-alias gll="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges"
-alias glla="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --author"
-alias gllg="git log --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges --grep"
+
 alias mr='glab mr view -w'
-alias dp='diffpick'
-alias sp='stanpick'
-
-diffpick() { # Pick a file to diff.{{{
-    keyword=''
-    if [[ $# > 0 ]]; then
-        keyword=$1
-    fi
-
-    target=$(git ls-files -m --exclude-standard | fzf -0 -1 -q "$keyword")
-    if [[ $target != '' ]]; then
-        git difftool --gui HEAD ${target##*( )}
-    fi
-}
-# }}}
-stanpick() { # Pick a file with which to run phpstan against.{{{
-    keyword=''
-    if [[ $# > 0 ]]; then
-        keyword=$1
-    fi
-
-    target=$(git ls-files -m --exclude-standard | fzf -0 -1 -q "$keyword")
-    if [[ $target != '' ]]; then
-        ./vendor/bin/phpstan analyse --memory-limit 2G --ansi ${target##*( )}
-    fi
-}
-# }}}
-addpick() { # Pick a file to add.{{{
-    keyword=''
-    if [[ $# > 0 ]]; then
-        keyword=$1
-    fi
-
-    git ls-files -m -o --exclude-standard | fzf -0 -1 -m --print0 -q "$keyword"
-}
-# }}}
 
 ## 需要调试
 # if [[ `uname` == 'Darwin' ]]; then
