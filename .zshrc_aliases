@@ -6,8 +6,8 @@ else
     alias v='vim'
 fi
 alias nv='nvim'
-alias vd='vimdiff'
-alias sv='sudo vim'
+alias vd='nvim -d'
+alias sv='sudo nvim'
 if [[ $(uname) == "Darwin" ]]; then
     alias gv='mvim'
     alias gd='mvimdiff'
@@ -45,6 +45,7 @@ alias fg5='fg %5'
 alias ll='ls -alFh'
 alias lt='ls -alFht'
 alias l='ls -CF'
+alias llgr='ls -alFh | grep'
 alias r='rm -f'
 alias rr='rm -rf'
 alias ka='killall'
