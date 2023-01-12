@@ -63,6 +63,7 @@ alias envs="$EDITOR ~/.profile && source ~/.profile"
 alias bak='rsync -avzhr --delete -P'
 alias ala='alias | fzf'
 alias gettrackers='curl https://trackerslist.com/best.txt | pbcopy'
+alias kd='kitty +kitten diff'
 # # System commands aliases
 # if [[ $(uname) == "Linux" ]]; then
     # alias ls='ls --color=auto'
@@ -105,6 +106,13 @@ elif [[ $(uname) == "Darwin" ]]; then
     alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
     alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
     alias o.='open .'
+    restorelink() {
+        if [[ $(arch) == 'arm64' ]]; then
+            /opt/homebrew/bin/gcp --remove-destination $(greadlink "$1") "$1"
+        else
+            /usr/local/bin/gcp --remove-destination $(greadlink "$1") "$1"
+        fi
+    }
 fi
 
 alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
@@ -191,7 +199,8 @@ fzf-git-branch() {# {{{
         fzf --height 50% --ansi --no-multi --preview-window right:65% \
             --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
         sed "s/.* //"
-}# }}}
+}
+# }}}
 fzf-git-checkout() {# {{{
     git rev-parse HEAD > /dev/null 2>&1 || return
 
@@ -211,7 +220,8 @@ fzf-git-checkout() {# {{{
     else
         git checkout $branch;
     fi
-}# }}}
+}
+# }}}
 alias fga='git ls-files -m -o --exclude-standard | fzf -m --print0 | xargs -0 -o -t git add'
 alias fgb='fzf-git-branch'
 alias fgco='fzf-git-checkout'
