@@ -47,17 +47,6 @@ zi snippet OMZP::python
 zi snippet OMZP::urltools
 zi snippet OMZP::vi-mode
 
-# zi light marlonrichert/zsh-autocomplete
-zi ice depth=1; zinit light romkatv/powerlevel10k
-zi light Tarrasch/zsh-autoenv
-zi light akarzim/zsh-docker-aliases
-zi light wookayin/fzf-fasd
-zi light zsh-users/zsh-autosuggestions
-zi light zsh-users/zsh-syntax-highlighting
-
-zi light agkozak/zsh-z
-ZSHZ_CASE=smart
-
 zi light Aloxaf/fzf-tab
 # set descriptions format to enable group support
 zstyle ':completion:*:descriptions' format '[%d]'
@@ -71,6 +60,17 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ":fzf-tab:*" fzf-flags \
 --color "fg:#3760bf,bg:#e1e2e7,hl:#b15c00,fg+:#3760bf,bg+:#e1e2e7,hl+:#b15c00" \
 --color "info:#2e7de9,prompt:#2e7de9,pointer:#c64343,marker:#587539,spinner:#587539,header:#587539"
+
+# zi light marlonrichert/zsh-autocomplete
+zi ice depth=1; zinit light romkatv/powerlevel10k
+zi light Tarrasch/zsh-autoenv
+zi light akarzim/zsh-docker-aliases
+zi light zsh-users/zsh-autosuggestions
+zi light zsh-users/zsh-syntax-highlighting
+
+zi light skywind3000/z.lua
+zi light changyuheng/fz
+FZ_HISTORY_CD_CMD="_zlua"
 
 zi snippet $ZSH_CUSTOM/plugins/brew/brew.plugin.zsh
 zi snippet $ZSH_CUSTOM/plugins/composer/composer.plugin.zsh
@@ -137,9 +137,6 @@ bindkey "^X^E" edit-command-line
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
 [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
-
-# # fasd
-# eval "$(fasd --init auto)"
 
 # init lua environment variables
 which luarocks > /dev/null 2>&1 && eval $(luarocks path)
