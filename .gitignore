@@ -41,7 +41,7 @@
 .yarnrc
 .zshenv
 Library/
-***REMOVED***/
+rc/
 svn/README.txt
 svn/auth
 svn/servers
