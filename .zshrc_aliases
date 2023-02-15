@@ -20,50 +20,52 @@ else
 fi
 
 # Common aliases
-alias ae='autoenv-edit'
-alias ea='v ~/.zshrc_aliases'
-alias config="v ~/.zshrc && refresh"
-alias ohmyzsh="v ~/.oh-my-zsh"
-alias refresh=". ~/.zshrc"
-alias english='export LC_ALL=en_US.UTF-8'
-alias fuckgfw='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
-alias fuckme='unset http_proxy https_proxy'
-alias lsp='nocorrect ps aux|grep -v grep|grep'
+alias 600='chmod 600'
+alias 644='chmod 644'
+alias 700='chmod 700'
+alias 744='chmod 744'
+alias 755='chmod 755'
+alias 777='chmod 777'
 alias a='apack'
-alias x='aunpack'
-alias lsgbkzip='lsar -e gb18030'
-alias ungbkzip='unar -e gb18030'
-alias lns='ln -s'
-alias lssrv='netstat -tulnp'
-alias lsconn='netstat -atunp'
-alias follow='tail -f -n 100'
+alias ae='autoenv-edit'
+alias ala='alias | fzf'
+alias bak='rsync -avzhr --delete -P'
+alias cls='clear'
+alias config="v ~/.zshrc && refresh"
+alias duhr='du -hs * | sort -hr'
+alias duhs='du -hs'
+alias ea='v ~/.zshrc_aliases'
+alias english='export LC_ALL=en_US.UTF-8'
+alias envs="$EDITOR ~/.profile && source ~/.profile"
 alias fg1='fg %1'
 alias fg2='fg %2'
 alias fg3='fg %3'
 alias fg4='fg %4'
 alias fg5='fg %5'
-alias ll='ls -alFh'
-alias lt='ls -alFht'
-alias l='ls -CF'
-alias llgr='ls -alFh | grep'
-alias r='rm -f'
-alias rr='rm -rf'
-alias ka='killall'
-alias k9="kill -9"
-alias cls='clear'
-alias 777='chmod 777'
-alias 755='chmod 755'
-alias 744='chmod 744'
-alias 700='chmod 700'
-alias 600='chmod 600'
-alias 644='chmod 644'
-alias duhr='du -hs * | sort -hr'
-alias duhs='du -hs'
-alias envs="$EDITOR ~/.profile && source ~/.profile"
-alias bak='rsync -avzhr --delete -P'
-alias ala='alias | fzf'
+alias follow='tail -f -n 100'
+alias fuckgfw='export http_proxy=http://127.0.0.1:1087;export https_proxy=http://127.0.0.1:1087;'
+alias fuckme='unset http_proxy https_proxy'
 alias gettrackers='curl https://trackerslist.com/best.txt | pbcopy'
+alias jj='cd -'
+alias k9="kill -9"
+alias ka='killall'
 alias kd='kitty +kitten diff'
+alias l='ls -CF'
+alias ll='ls -alFh'
+alias llgr='ls -alFh | grep'
+alias lns='ln -s'
+alias lsconn='netstat -atunp'
+alias lsgbkzip='lsar -e gb18030'
+alias lsp='nocorrect ps aux|grep -v grep|grep'
+alias lssrv='netstat -tulnp'
+alias lt='ls -alFht'
+alias ohmyzsh="v ~/.oh-my-zsh"
+alias r='rm -f'
+alias refresh=". ~/.zshrc"
+alias rr='rm -rf'
+alias ungbkzip='unar -e gb18030'
+alias x='aunpack'
+
 # # System commands aliases
 # if [[ $(uname) == "Linux" ]]; then
     # alias ls='ls --color=auto'
