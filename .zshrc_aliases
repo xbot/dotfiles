@@ -65,6 +65,7 @@ alias refresh=". ~/.zshrc"
 alias rr='rm -rf'
 alias ungbkzip='unar -e gb18030'
 alias x='aunpack'
+alias zzz='if tmux has-session 2>/dev/null; then tmux attach; else tmux new-session; fi'
 
 # # System commands aliases
 # if [[ $(uname) == "Linux" ]]; then
@@ -117,7 +118,8 @@ elif [[ $(uname) == "Darwin" ]]; then
     }
 fi
 
-alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
+# alias gensshkey='ssh-keygen -t rsa -C "donie.leigh@gmail.com"'
+alias gensshkey='ssh-keygen -t ed25519 -C "donie.leigh@gmail.com"'
 
 alias mr='glab mr view -w'
 
