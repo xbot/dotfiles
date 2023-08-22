@@ -66,6 +66,7 @@ alias rr='rm -rf'
 alias ungbkzip='unar -e gb18030'
 alias x='aunpack'
 alias zzz='if tmux has-session 2>/dev/null; then tmux attach; else tmux new-session; fi'
+alias ygb='you-get -c ~/Downloads/bilibili.com_cookies.txt'
 
 # # System commands aliases
 # if [[ $(uname) == "Linux" ]]; then
