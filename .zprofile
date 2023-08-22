@@ -4,4 +4,6 @@ which pyenv &> /dev/null && eval "$(pyenv init --path)"
 [[ -x /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Added by OrbStack: command-line tools and integration
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+if [[ $(uname) == 'Darwin' ]]; then
+    source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+fi
