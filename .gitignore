@@ -45,3 +45,5 @@ rc/
 svn/README.txt
 svn/auth
 svn/servers
+.config/karabiner/automatic_backups/
+.config/kitty/colorscheme/base16-kitty
