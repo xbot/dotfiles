@@ -135,21 +135,22 @@ bindkey "^X^E" edit-command-line
 
 ### fzf settings ###{{{
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
 [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
 
-# # tokyonight-day
-# export FZF_DEFAULT_OPTS='--color=fg:#3760bf,bg:#e1e2e7,hl:#b15c00 --color=fg+:#3760bf,bg+:#e1e2e7,hl+:#b15c00 --color=info:#2e7de9,prompt:#2e7de9,pointer:#c64343 --color=marker:#587539,spinner:#587539,header:#587539'
+# tokyonight-day
+export FZF_DEFAULT_OPTS='--color=fg:#3760bf,bg:#e1e2e7,hl:#b15c00 --color=fg+:#3760bf,bg+:#e1e2e7,hl+:#b15c00 --color=info:#2e7de9,prompt:#2e7de9,pointer:#c64343 --color=marker:#587539,spinner:#587539,header:#587539'
 
 # # dracula
 # export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
-# onedark
-source ~/Projects/3rd-party/base16-fzf/bash/base16-onedark.config
+# # onedark
+# source ~/Projects/3rd-party/base16-fzf/bash/base16-onedark.config
 
 # }}}
 
 # init lua environment variables
 which luarocks > /dev/null 2>&1 && eval $(luarocks path)
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
