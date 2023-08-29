@@ -60,6 +60,7 @@ alias lsp='nocorrect ps aux|grep -v grep|grep'
 alias lssrv='netstat -tulnp'
 alias lt='ls -alFht'
 alias ohmyzsh="v ~/.oh-my-zsh"
+which trash &> /dev/null && alias rm='trash'
 alias r='rm -f'
 alias refresh=". ~/.zshrc"
 alias rr='rm -rf'
