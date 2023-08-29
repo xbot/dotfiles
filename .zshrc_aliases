@@ -231,6 +231,9 @@ alias fga='git ls-files -m -o --exclude-standard | fzf -m --print0 | xargs -0 -o
 alias fgb='fzf-git-branch'
 alias fgco='fzf-git-checkout'
 
+# thefuck
+which thefuck &> /dev/null && eval $(thefuck --alias)
+
 wcp() { # Count processes
     if [ $# -eq 0 ]; then
         echo 'Which process to count ?' >&2
