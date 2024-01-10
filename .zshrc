@@ -61,12 +61,14 @@ zstyle ":fzf-tab:*" fzf-flags \
 --color "fg:#3760bf,bg:#e1e2e7,hl:#b15c00,fg+:#3760bf,bg+:#e1e2e7,hl+:#b15c00" \
 --color "info:#2e7de9,prompt:#2e7de9,pointer:#c64343,marker:#587539,spinner:#587539,header:#587539"
 
-zi light marlonrichert/zsh-autocomplete
+if [[ -z "$TMUX" ]]; then
+   zi light marlonrichert/zsh-autocomplete
+   zi light zsh-users/zsh-autosuggestions
+   zi light zsh-users/zsh-syntax-highlighting
+fi
 zi ice depth=1; zinit light romkatv/powerlevel10k
 zi light Tarrasch/zsh-autoenv
 zi light akarzim/zsh-docker-aliases
-zi light zsh-users/zsh-autosuggestions
-zi light zsh-users/zsh-syntax-highlighting
 
 zi light skywind3000/z.lua
 zi light changyuheng/fz
