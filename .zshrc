@@ -154,5 +154,20 @@ export FZF_DEFAULT_OPTS='--color=fg:#3760bf,bg:#e1e2e7,hl:#b15c00 --color=fg+:#3
 # init lua environment variables
 which luarocks > /dev/null 2>&1 && eval $(luarocks path)
 
+# Unlock all ssh keys with keychain.
+eval $(/usr/bin/ssh-agent -s) > /dev/null
+if [[ $(uname) == 'Darwin' ]]; then
+    /usr/bin/ssh-add --apple-load-keychain > /dev/null 2>&1
+fi
+
+# # Start ssh-agent after login
+# if [[ $(hostname) == 'archer' ]]; then
+#     if ! pgrep ssh-agent > /dev/null; then
+#         eval `ssh-agent -s` > /dev/null
+#     fi
+#     # if [ -x /usr/bin/keychain ]; then
+#     #     eval $(keychain --eval --quiet "$HOME/.ssh/rightcapital")
+#     # fi
+# fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
