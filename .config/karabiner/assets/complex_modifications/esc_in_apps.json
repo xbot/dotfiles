@@ -1,0 +1,38 @@
+{
+    "title": "Map Esc to Cmd-w in the given Apps",
+    "rules": [
+        {
+            "description": "Map Esc to Cmd-w in the given Apps",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "escape",
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "w",
+                            "modifiers": [
+                                "left_command"
+                            ]
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": [
+                                "^maccatalyst\\.com\\.atebits\\.Tweetie2$",
+                                "^com\\.tencent\\.xinWeChat$"
+                            ]
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
+        }
+    ]
+}
