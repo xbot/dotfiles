@@ -47,3 +47,4 @@ svn/auth
 svn/servers
 .config/karabiner/automatic_backups/
 .config/kitty/colorscheme/base16-kitty
+.config/kitty/kitty.conf.bak
