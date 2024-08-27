@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-if [[ $(hostname) == 'Tower' ]]; then
+if [[ $(hostname) == 'nas' ]]; then
     ZSH_CUSTOM=/mnt/user/dropbox/Dropbox/Mackup/.oh-my-zsh/custom
 else
     ZSH_CUSTOM=${HOME}/Dropbox/Mackup/.oh-my-zsh/custom

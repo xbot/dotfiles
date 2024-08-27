@@ -333,7 +333,7 @@ else
     hash -d www="/srv/http/"
 fi
 
-if [[ `hostname` == 'Tower' ]]; then
+if [[ `hostname` == 'nas' ]]; then
     alias pkgi='installpkg'
     alias pkgr='removepkg'
     alias ugs='un-get search'
