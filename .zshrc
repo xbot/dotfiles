@@ -171,3 +171,6 @@ fi
 # fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Added by Windsurf
+export PATH="/Users/donie/.codeium/windsurf/bin:$PATH"
