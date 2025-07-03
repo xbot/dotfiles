@@ -63,6 +63,47 @@ mapkey('<Meta-k>', '点击新聊天按钮', function() {
     }
 }, { domain: /x\.com/ });
 
+mapkey(',db', 'Delete current book and go home', function() {
+    const urlHash = window.location.hash; // Get the URL fragment (e.g., #book_id=781...)
+
+    // Regular expression to extract book_id from the hash
+    const bookIdMatch = urlHash.match(/book_id=(\d+)/);
+
+    if (bookIdMatch && bookIdMatch[1]) {
+        const bookId = bookIdMatch[1];
+        const confirmDelete = confirm(`Are you sure you want to delete book ID ${bookId}? This action cannot be undone.`);
+
+        if (confirmDelete) {
+            const baseUrl = window.location.origin;
+            const deleteUrl = `${baseUrl}/cdb/delete-books/${bookId}/books`; // Your specific delete endpoint
+
+            fetch(deleteUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(`Book ID ${bookId} deleted successfully!`);
+                    window.location.href = baseUrl; // Go to homepage
+                } else {
+                    response.text().then(errorText => {
+                        alert(`Failed to delete book ID ${bookId}. Server said: ${response.status} - ${errorText}`);
+                        console.error('Deletion failed:', response.status, errorText);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Network or other error during deletion:', error);
+                alert('An error occurred while trying to delete the book. Check console for details.');
+            });
+        }
+    } else {
+        alert('Cmd+Backspace: Could not find book ID in URL. Please navigate to a book details or reading page.');
+    }
+});
+
 function openChatGPTBox() {
 	tabOpenLink("chrome-extension://eobbhoofkanlmddnplfhnmkfbnlhpbbo/IndependentPanel.html");
 }

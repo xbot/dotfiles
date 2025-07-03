@@ -8,6 +8,8 @@ fi
 alias nv='nvim'
 alias vd='nvim -d'
 alias sv='sudo nvim'
+alias vimpick='v $(fzf)'
+alias vp=vimpick
 if [[ $(uname) == "Darwin" ]]; then
     alias gv='mvim'
     alias gd='mvimdiff'
