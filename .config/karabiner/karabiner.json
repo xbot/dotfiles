@@ -4,6 +4,73 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Remaps the keyboard shortcut for input source switching, swapping Ctrl+Shift with Ctrl+Space for easier language switching.",
+                        "enabled": false,
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "left_shift",
+                                    "modifiers": { "mandatory": ["left_control"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": ["control"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "R_SHIFT to switch input methods (Conditional Method)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "input_sources": [{ "input_source_id": "com.apple.keylayout.US" }],
+                                        "type": "input_source_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_shift",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "im.rime.inputmethod.Squirrel.Hans",
+                                            "input_source_id": "im.rime.inputmethod.Squirrel.Hans",
+                                            "language": "zh-Hans"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "input_sources": [{ "input_source_id": "im.rime.inputmethod.Squirrel.Hans" }],
+                                        "type": "input_source_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_shift",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "select_input_source": {
+                                            "input_source_id": "com.apple.keylayout.US",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Command+Shift+s to Print Screen",
                         "manipulators": [
                             {
@@ -597,10 +664,6 @@
                 {
                     "from": { "key_code": "application" },
                     "to": [{ "key_code": "launchpad" }]
-                },
-                {
-                    "from": { "key_code": "right_shift" },
-                    "to": [{ "key_code": "f19" }]
                 }
             ],
             "virtual_hid_keyboard": {

@@ -85,7 +85,6 @@ mapkey(',db', 'Delete current book and go home', function() {
             })
             .then(response => {
                 if (response.ok) {
-                    alert(`Book ID ${bookId} deleted successfully!`);
                     window.location.href = baseUrl; // Go to homepage
                 } else {
                     response.text().then(errorText => {
